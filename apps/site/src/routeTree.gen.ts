@@ -9,38 +9,219 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as YogaRouteImport } from './routes/yoga'
+import { Route as VerhuurRouteImport } from './routes/verhuur'
+import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WelzijnIndexRouteImport } from './routes/welzijn/index'
+import { Route as TuinIndexRouteImport } from './routes/tuin/index'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as WelzijnVeerkrachtRouteImport } from './routes/welzijn/veerkracht'
+import { Route as WelzijnPaardencoachingRouteImport } from './routes/welzijn/paardencoaching'
+import { Route as WelzijnLimfedrainageRouteImport } from './routes/welzijn/limfedrainage'
+import { Route as WelzijnKcrRouteImport } from './routes/welzijn/kcr'
+import { Route as WelzijnFasciatherapieRouteImport } from './routes/welzijn/fasciatherapie'
+import { Route as TuinSamentuinRouteImport } from './routes/tuin/samentuin'
 
+const YogaRoute = YogaRouteImport.update({
+  id: '/yoga',
+  path: '/yoga',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerhuurRoute = VerhuurRouteImport.update({
+  id: '/verhuur',
+  path: '/verhuur',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgendaRoute = AgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WelzijnIndexRoute = WelzijnIndexRouteImport.update({
+  id: '/welzijn/',
+  path: '/welzijn/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TuinIndexRoute = TuinIndexRouteImport.update({
+  id: '/tuin/',
+  path: '/tuin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelzijnVeerkrachtRoute = WelzijnVeerkrachtRouteImport.update({
+  id: '/welzijn/veerkracht',
+  path: '/welzijn/veerkracht',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelzijnPaardencoachingRoute = WelzijnPaardencoachingRouteImport.update({
+  id: '/welzijn/paardencoaching',
+  path: '/welzijn/paardencoaching',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelzijnLimfedrainageRoute = WelzijnLimfedrainageRouteImport.update({
+  id: '/welzijn/limfedrainage',
+  path: '/welzijn/limfedrainage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelzijnKcrRoute = WelzijnKcrRouteImport.update({
+  id: '/welzijn/kcr',
+  path: '/welzijn/kcr',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelzijnFasciatherapieRoute = WelzijnFasciatherapieRouteImport.update({
+  id: '/welzijn/fasciatherapie',
+  path: '/welzijn/fasciatherapie',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TuinSamentuinRoute = TuinSamentuinRouteImport.update({
+  id: '/tuin/samentuin',
+  path: '/tuin/samentuin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
+  '/verhuur': typeof VerhuurRoute
+  '/yoga': typeof YogaRoute
+  '/tuin/samentuin': typeof TuinSamentuinRoute
+  '/welzijn/fasciatherapie': typeof WelzijnFasciatherapieRoute
+  '/welzijn/kcr': typeof WelzijnKcrRoute
+  '/welzijn/limfedrainage': typeof WelzijnLimfedrainageRoute
+  '/welzijn/paardencoaching': typeof WelzijnPaardencoachingRoute
+  '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
+  '/blog/': typeof BlogIndexRoute
+  '/tuin/': typeof TuinIndexRoute
+  '/welzijn/': typeof WelzijnIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
+  '/verhuur': typeof VerhuurRoute
+  '/yoga': typeof YogaRoute
+  '/tuin/samentuin': typeof TuinSamentuinRoute
+  '/welzijn/fasciatherapie': typeof WelzijnFasciatherapieRoute
+  '/welzijn/kcr': typeof WelzijnKcrRoute
+  '/welzijn/limfedrainage': typeof WelzijnLimfedrainageRoute
+  '/welzijn/paardencoaching': typeof WelzijnPaardencoachingRoute
+  '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
+  '/blog': typeof BlogIndexRoute
+  '/tuin': typeof TuinIndexRoute
+  '/welzijn': typeof WelzijnIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
+  '/verhuur': typeof VerhuurRoute
+  '/yoga': typeof YogaRoute
+  '/tuin/samentuin': typeof TuinSamentuinRoute
+  '/welzijn/fasciatherapie': typeof WelzijnFasciatherapieRoute
+  '/welzijn/kcr': typeof WelzijnKcrRoute
+  '/welzijn/limfedrainage': typeof WelzijnLimfedrainageRoute
+  '/welzijn/paardencoaching': typeof WelzijnPaardencoachingRoute
+  '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
+  '/blog/': typeof BlogIndexRoute
+  '/tuin/': typeof TuinIndexRoute
+  '/welzijn/': typeof WelzijnIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/agenda'
+    | '/verhuur'
+    | '/yoga'
+    | '/tuin/samentuin'
+    | '/welzijn/fasciatherapie'
+    | '/welzijn/kcr'
+    | '/welzijn/limfedrainage'
+    | '/welzijn/paardencoaching'
+    | '/welzijn/veerkracht'
+    | '/blog/'
+    | '/tuin/'
+    | '/welzijn/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/agenda'
+    | '/verhuur'
+    | '/yoga'
+    | '/tuin/samentuin'
+    | '/welzijn/fasciatherapie'
+    | '/welzijn/kcr'
+    | '/welzijn/limfedrainage'
+    | '/welzijn/paardencoaching'
+    | '/welzijn/veerkracht'
+    | '/blog'
+    | '/tuin'
+    | '/welzijn'
+  id:
+    | '__root__'
+    | '/'
+    | '/agenda'
+    | '/verhuur'
+    | '/yoga'
+    | '/tuin/samentuin'
+    | '/welzijn/fasciatherapie'
+    | '/welzijn/kcr'
+    | '/welzijn/limfedrainage'
+    | '/welzijn/paardencoaching'
+    | '/welzijn/veerkracht'
+    | '/blog/'
+    | '/tuin/'
+    | '/welzijn/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgendaRoute: typeof AgendaRoute
+  VerhuurRoute: typeof VerhuurRoute
+  YogaRoute: typeof YogaRoute
+  TuinSamentuinRoute: typeof TuinSamentuinRoute
+  WelzijnFasciatherapieRoute: typeof WelzijnFasciatherapieRoute
+  WelzijnKcrRoute: typeof WelzijnKcrRoute
+  WelzijnLimfedrainageRoute: typeof WelzijnLimfedrainageRoute
+  WelzijnPaardencoachingRoute: typeof WelzijnPaardencoachingRoute
+  WelzijnVeerkrachtRoute: typeof WelzijnVeerkrachtRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  TuinIndexRoute: typeof TuinIndexRoute
+  WelzijnIndexRoute: typeof WelzijnIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/yoga': {
+      id: '/yoga'
+      path: '/yoga'
+      fullPath: '/yoga'
+      preLoaderRoute: typeof YogaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verhuur': {
+      id: '/verhuur'
+      path: '/verhuur'
+      fullPath: '/verhuur'
+      preLoaderRoute: typeof VerhuurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agenda': {
+      id: '/agenda'
+      path: '/agenda'
+      fullPath: '/agenda'
+      preLoaderRoute: typeof AgendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +229,86 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/welzijn/': {
+      id: '/welzijn/'
+      path: '/welzijn'
+      fullPath: '/welzijn/'
+      preLoaderRoute: typeof WelzijnIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tuin/': {
+      id: '/tuin/'
+      path: '/tuin'
+      fullPath: '/tuin/'
+      preLoaderRoute: typeof TuinIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welzijn/veerkracht': {
+      id: '/welzijn/veerkracht'
+      path: '/welzijn/veerkracht'
+      fullPath: '/welzijn/veerkracht'
+      preLoaderRoute: typeof WelzijnVeerkrachtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welzijn/paardencoaching': {
+      id: '/welzijn/paardencoaching'
+      path: '/welzijn/paardencoaching'
+      fullPath: '/welzijn/paardencoaching'
+      preLoaderRoute: typeof WelzijnPaardencoachingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welzijn/limfedrainage': {
+      id: '/welzijn/limfedrainage'
+      path: '/welzijn/limfedrainage'
+      fullPath: '/welzijn/limfedrainage'
+      preLoaderRoute: typeof WelzijnLimfedrainageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welzijn/kcr': {
+      id: '/welzijn/kcr'
+      path: '/welzijn/kcr'
+      fullPath: '/welzijn/kcr'
+      preLoaderRoute: typeof WelzijnKcrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welzijn/fasciatherapie': {
+      id: '/welzijn/fasciatherapie'
+      path: '/welzijn/fasciatherapie'
+      fullPath: '/welzijn/fasciatherapie'
+      preLoaderRoute: typeof WelzijnFasciatherapieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tuin/samentuin': {
+      id: '/tuin/samentuin'
+      path: '/tuin/samentuin'
+      fullPath: '/tuin/samentuin'
+      preLoaderRoute: typeof TuinSamentuinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgendaRoute: AgendaRoute,
+  VerhuurRoute: VerhuurRoute,
+  YogaRoute: YogaRoute,
+  TuinSamentuinRoute: TuinSamentuinRoute,
+  WelzijnFasciatherapieRoute: WelzijnFasciatherapieRoute,
+  WelzijnKcrRoute: WelzijnKcrRoute,
+  WelzijnLimfedrainageRoute: WelzijnLimfedrainageRoute,
+  WelzijnPaardencoachingRoute: WelzijnPaardencoachingRoute,
+  WelzijnVeerkrachtRoute: WelzijnVeerkrachtRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  TuinIndexRoute: TuinIndexRoute,
+  WelzijnIndexRoute: WelzijnIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
