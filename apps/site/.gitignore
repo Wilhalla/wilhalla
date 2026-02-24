@@ -10,4 +10,9 @@ dist-ssr
 .output
 .vinxi
 __unconfig*
-todos.json
+.dolt
+.doltcfg
+.roam
+bun.lock
+beads_wilhalla
+.beads
