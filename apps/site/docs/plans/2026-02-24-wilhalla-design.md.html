@@ -1,0 +1,714 @@
+<h1 id="wilhalla-website-design-document">Wilhalla Website — Design
+Document</h1>
+<p><strong>Date:</strong> 2026-02-24 <strong>Status:</strong>
+Approved</p>
+<hr />
+<h2 id="project-overview">1. Project Overview</h2>
+<p>Wilhalla is the historic ecological garden (1 hectare, bought 1962)
+of Velt-pioneers Dani??l Willaeys and Aleide Lagrou in Belgium. Now run
+by Tinneke (daughter) and Jasmien (granddaughter), it hosts a community
+garden (samentuin) with ~15 volunteers, a kinesitherapy/fasciatherapy
+practice, horse coaching, yoga, workshops, events, and rental
+spaces.</p>
+<p>The website serves as the digital home for all of Wilhalla’s
+activities, with an interactive hand-drawn map as the centrepiece.</p>
+<h3 id="content-areas">Content areas</h3>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tuin</strong></td>
+<td>Garden history, the Wilhalla story, samentuin (community
+garden)</td>
+</tr>
+<tr>
+<td><strong>Welzijn</strong></td>
+<td>Fasciatherapie, limfedrainage, KCR, Paardencoaching, Veerkracht in
+Beweging</td>
+</tr>
+<tr>
+<td><strong>Yoga</strong></td>
+<td>Yoga sessions (standalone page)</td>
+</tr>
+<tr>
+<td><strong>Agenda</strong></td>
+<td>Workshops, activiteiten, dansfeesten, oogstfeesten, benefiet, Google
+Calendar integration</td>
+</tr>
+<tr>
+<td><strong>Verhuur</strong></td>
+<td>Schuur &amp; yurt rental</td>
+</tr>
+<tr>
+<td><strong>Blog</strong></td>
+<td>Articles (future)</td>
+</tr>
+</tbody>
+</table>
+<p>Each section contains: aanbod (offerings), info, and contact.</p>
+<h3 id="technical-requirements">Technical requirements</h3>
+<ul class="incremental">
+<li>3-4 CMS editor accounts (Tinneke, Jasmien, others) for content
+editing, event posting, blogging</li>
+<li>Google Calendar integration for events</li>
+<li>Social media links</li>
+<li>CMS solution TBD at implementation time</li>
+</ul>
+<hr />
+<h2 id="design-philosophy">2. Design Philosophy</h2>
+<p><strong>“A hand-drawn garden journal brought to life on the
+web.”</strong></p>
+<p>The site is an editorial publication in spirit: restrained,
+typographic, spacious. The hand-drawn pencil map and illustrations are
+the only source of color and warmth. Everything else steps back to let
+the art and content speak.</p>
+<h3 id="design-references">Design references</h3>
+<ul class="incremental">
+<li><strong>De Witte Raaf</strong> — editorial typography, generous
+whitespace, text-driven layout, single serif font</li>
+<li><strong>Hendrick’s Gin</strong> — whimsical hand-drawn illustrations
+floating over a clean background</li>
+<li><strong>Art portfolio sites</strong> — minimal navigation, content
+speaks for itself</li>
+</ul>
+<h3 id="core-principles">Core principles</h3>
+<ol class="incremental" type="1">
+<li><strong>Typography does the heavy lifting</strong> — size, weight,
+tracking, and case create hierarchy without color</li>
+<li><strong>Hand-drawn art is the only ornament</strong> — no UI chrome,
+no gradients, no shadows</li>
+<li><strong>Generous whitespace</strong> — let content breathe</li>
+<li><strong>The map is the hero</strong> — it’s the first thing you see,
+the primary navigation, and the most memorable element</li>
+</ol>
+<hr />
+<h2 id="design-system">3. Design System</h2>
+<h3 id="color">3.1 Color</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Value</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--background</code></td>
+<td><code>#ffffff</code></td>
+<td>Page background</td>
+</tr>
+<tr>
+<td><code>--foreground</code></td>
+<td><code>#1a1a1a</code></td>
+<td>Body text</td>
+</tr>
+<tr>
+<td><code>--muted</code></td>
+<td><code>#767676</code></td>
+<td>Captions, metadata, secondary text</td>
+</tr>
+<tr>
+<td><code>--border</code></td>
+<td><code>#e0e0e0</code></td>
+<td>Thin rules, dividers</td>
+</tr>
+<tr>
+<td><code>--hover</code></td>
+<td><code>#f5f5f5</code></td>
+<td>Hover states on nav/links</td>
+</tr>
+<tr>
+<td><code>--accent</code></td>
+<td><code>#000000</code></td>
+<td>Links underline, active states</td>
+</tr>
+</tbody>
+</table>
+<p>No color palette beyond black and white. The hand-drawn map and photo
+content provide all warmth and color.</p>
+<h3 id="typography-eb-garamond">3.2 Typography — EB Garamond</h3>
+<p>Single font throughout. Hierarchy through size, weight, tracking, and
+case.</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 21%" />
+<col style="width: 18%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Size</th>
+<th>Weight</th>
+<th>Style</th>
+<th>Tracking</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Display</strong> (page titles)</td>
+<td><code>clamp(2.5rem, 5vw, 4.5rem)</code></td>
+<td>400</td>
+<td>Uppercase</td>
+<td><code>0.15em</code></td>
+</tr>
+<tr>
+<td><strong>H1</strong> (section titles)</td>
+<td><code>clamp(1.75rem, 3vw, 2.5rem)</code></td>
+<td>500</td>
+<td>Normal case</td>
+<td><code>0.02em</code></td>
+</tr>
+<tr>
+<td><strong>H2</strong> (subsections)</td>
+<td><code>1.25rem</code></td>
+<td>600</td>
+<td>Normal</td>
+<td><code>0.01em</code></td>
+</tr>
+<tr>
+<td><strong>Body</strong></td>
+<td><code>1.125rem</code> (18px)</td>
+<td>400</td>
+<td>Normal</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td><strong>Small/Caption</strong></td>
+<td><code>0.875rem</code></td>
+<td>400</td>
+<td>Italic or normal</td>
+<td><code>0.03em</code></td>
+</tr>
+<tr>
+<td><strong>Nav links</strong></td>
+<td><code>0.9375rem</code> (15px)</td>
+<td>400</td>
+<td>Uppercase</td>
+<td><code>0.12em</code></td>
+</tr>
+</tbody>
+</table>
+<p>Body text line-height: <code>1.7</code> for comfortable reading.</p>
+<h3 id="spacing">3.3 Spacing</h3>
+<p>8px base grid with generous margins:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Token</th>
+<th>Value</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Page max-width</td>
+<td><code>1200px</code></td>
+<td>Centered container</td>
+</tr>
+<tr>
+<td>Section padding</td>
+<td><code>6rem</code> (96px)</td>
+<td>Vertical spacing between sections</td>
+</tr>
+<tr>
+<td>Prose column</td>
+<td><code>680px</code> max</td>
+<td>Optimal reading width for body text</td>
+</tr>
+<tr>
+<td>Component gaps</td>
+<td><code>2rem</code> / <code>3rem</code> / <code>4rem</code></td>
+<td>Progressive spacing scale</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ui-elements">3.4 UI Elements</h3>
+<ul class="incremental">
+<li><strong>Border radius</strong>: <code>0</code> everywhere — sharp
+corners</li>
+<li><strong>Dividers</strong>: 1px <code>--border</code> horizontal
+rules between sections</li>
+<li><strong>Buttons</strong>: text-only with underline, or thin 1px
+bordered rectangles</li>
+<li><strong>Links</strong>: underlined,
+<code>text-underline-offset: 4px</code></li>
+<li><strong>Hover</strong>: subtle background fill or underline
+thickening, no color changes</li>
+<li><strong>Cards</strong>: no shadows, no backgrounds — content
+separated by whitespace or thin rules</li>
+<li><strong>Images</strong>: no rounded corners, no shadows. Optional
+subtle 1px border. Captions in italic EB Garamond below.</li>
+</ul>
+<hr />
+<h2 id="hand-drawn-asset-system">4. Hand-Drawn Asset System</h2>
+<h3 id="asset-types">4.1 Asset types</h3>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 38%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Type</th>
+<th>Format</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Section dividers</strong></td>
+<td>SVG or transparent PNG</td>
+<td>Between major content sections (vine, branch, herbs)</td>
+</tr>
+<tr>
+<td><strong>Background textures</strong></td>
+<td>Large PNG/WebP, light pencil texture</td>
+<td>Behind special subsections (very light, 10-15% opacity)</td>
+</tr>
+<tr>
+<td><strong>Map overlay borders</strong></td>
+<td>SVG paths with pencil-style filter</td>
+<td>Hotspot outlines on the interactive map</td>
+</tr>
+<tr>
+<td><strong>Spot illustrations</strong></td>
+<td>Small SVG/PNG</td>
+<td>Inline accents near relevant content</td>
+</tr>
+</tbody>
+</table>
+<h3 id="design-rules">4.2 Design rules</h3>
+<ul class="incremental">
+<li>Always scanned pencil / colored pencil — visual unity with the
+map</li>
+<li>Background textures are very light so text remains readable</li>
+<li>Dividers span full content width, thin and horizontal</li>
+<li>No hand-drawn element repeats identically — each accent is
+unique</li>
+<li>All hand-drawn assets lazy-loaded except above-the-fold</li>
+</ul>
+<h3 id="placement-guide">4.3 Placement guide</h3>
+<table>
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr>
+<th>Location</th>
+<th>Asset idea</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Below map hero -&gt; first section</td>
+<td>Delicate vine or branch divider</td>
+</tr>
+<tr>
+<td>Between Therapie and Yoga</td>
+<td>Herb/plant sketch</td>
+</tr>
+<tr>
+<td>Samentuin section</td>
+<td>Light pencil garden texture as background</td>
+</tr>
+<tr>
+<td>Verhuur (yurt/schuur)</td>
+<td>Sketch of the yurt or schuur as background texture</td>
+</tr>
+<tr>
+<td>Blog section header</td>
+<td>Botanical border</td>
+</tr>
+<tr>
+<td>Footer area</td>
+<td>Root/ground-level sketch divider</td>
+</tr>
+</tbody>
+</table>
+<h3 id="implementation">4.4 Implementation</h3>
+<pre class="tsx"><code>// Section divider component
+&lt;SectionDivider asset=&quot;vine-01&quot; /&gt;
+
+// Hand-drawn background wrapper
+&lt;HandDrawnBg asset=&quot;texture-herbs&quot;&gt;
+  &lt;content /&gt;
+&lt;/HandDrawnBg&gt;</code></pre>
+<ul class="incremental">
+<li>Dividers: <code>&lt;img&gt;</code> between sections with negative
+margins to overlap into whitespace</li>
+<li>Backgrounds: CSS <code>background-image</code> on container,
+<code>background-size: cover</code>, low opacity</li>
+</ul>
+<hr />
+<h2 id="navigation">5. Navigation</h2>
+<h3 id="structure">5.1 Structure</h3>
+<p>Top horizontal navbar, sticky on scroll.</p>
+<pre><code>WILHALLA          Tuin   Welzijn   Yoga   Agenda   Verhuur   Blog</code></pre>
+<ul class="incremental">
+<li>“WILHALLA” wordmark: EB Garamond, uppercase, wide-tracked
+(<code>0.15em</code>), left-aligned</li>
+<li>Links: uppercase, small (<code>15px</code>), wide-tracked
+(<code>0.12em</code>), right-aligned</li>
+<li>1px bottom border</li>
+<li>White background (opaque on scroll)</li>
+<li>Mobile: hamburger icon right, full-screen overlay menu</li>
+</ul>
+<h3 id="navigation-grouping">5.2 Navigation grouping</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Nav item</th>
+<th>Contains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tuin</strong></td>
+<td>Garden history, samentuin, the Wilhalla story</td>
+</tr>
+<tr>
+<td><strong>Welzijn</strong></td>
+<td>Fasciatherapie, limfedrainage, KCR, Paardencoaching, Veerkracht in
+Beweging</td>
+</tr>
+<tr>
+<td><strong>Yoga</strong></td>
+<td>Standalone page</td>
+</tr>
+<tr>
+<td><strong>Agenda</strong></td>
+<td>Workshops, activiteiten, events calendar</td>
+</tr>
+<tr>
+<td><strong>Verhuur</strong></td>
+<td>Schuur &amp; yurt rental</td>
+</tr>
+<tr>
+<td><strong>Blog</strong></td>
+<td>Blog listing + articles</td>
+</tr>
+</tbody>
+</table>
+<p>Tuin and Welzijn are landing pages that link to sub-pages.</p>
+<hr />
+<h2 id="page-layouts">6. Page Layouts</h2>
+<h3 id="homepage">6.1 Homepage</h3>
+<pre><code>[Sticky navbar]
+
+[Interactive hand-drawn map — near full viewport height]
+
+[Short intro text — 2-3 sentences, centered, 680px]
+
+~~~ hand-drawn vine divider ~~~
+
+[Three teaser blocks: Samentuin | Welzijn | Agenda]
+[Each with short intro + &quot;ontdek -&gt;&quot; link]
+
+~~~ hand-drawn herb divider ~~~
+
+[Featured block with hand-drawn bg texture]
+[E.g., Verhuur highlight or upcoming event]
+
+~~~ hand-drawn root divider ~~~
+
+[Footer]</code></pre>
+<h3 id="content-page-template">6.2 Content page template</h3>
+<p>All inner pages share this structure:</p>
+<pre><code>[Sticky navbar]
+
+PAGE TITLE                          &lt;- Display size, uppercase, wide-tracked
+-------------------------------     &lt;- 1px rule
+
+Intro paragraph (max 680px prose)
+
+~~~ hand-drawn divider ~~~
+
+AANBOD                              &lt;- H2 subsection
+Description + optional image grid
+
+~~~ hand-drawn divider ~~~
+
+[Optional: special block with hand-drawn bg texture]
+[Quote, featured info, highlight]
+
+~~~ hand-drawn divider ~~~
+
+INFO                                &lt;- H2 subsection
+Practical details, pricing, schedules
+
+-------------------------------
+
+CONTACT                             &lt;- Per-section contact
+Name | Email | Phone
+
+[Footer]</code></pre>
+<h3 id="landing-pages-tuin-welzijn">6.3 Landing pages (Tuin,
+Welzijn)</h3>
+<p>Same template but the main content area becomes a link list to
+sub-pages:</p>
+<pre><code>WELZIJN
+-------
+
+Intro over de holistische aanpak...
+
+  Fasciatherapie              -&gt;
+  Limfedrainage               -&gt;
+  Kinetic Chain Release       -&gt;
+  Paardencoaching             -&gt;
+  Veerkracht in Beweging      -&gt;</code></pre>
+<p>Simple list, generous vertical spacing, arrow indicators.</p>
+<h3 id="sub-pages">6.4 Sub-pages</h3>
+<p>Include a breadcrumb: <code>Welzijn / Fasciatherapie</code> — small,
+uppercase, muted color, links back to parent.</p>
+<h3 id="agenda-page">6.5 Agenda page</h3>
+<ul class="incremental">
+<li>Upcoming events listed above calendar: large date, title, short
+description</li>
+<li>Events separated by 1px rules (not cards)</li>
+<li>Embedded Google Calendar below (styled to match via iframe or
+API)</li>
+</ul>
+<h3 id="blog">6.6 Blog</h3>
+<ul class="incremental">
+<li>Listing: title + date + first line, separated by rules (De Witte
+Raaf style)</li>
+<li>Article: full prose template with optional images</li>
+<li>No sidebar, no tag cloud, no clutter</li>
+</ul>
+<hr />
+<h2 id="interactive-map">7. Interactive Map</h2>
+<h3 id="overview">7.1 Overview</h3>
+<p>The hand-drawn colored pencil bird’s-eye map is the homepage hero and
+primary discovery element. Users hover garden areas to see labels and
+borders, click to navigate to pages.</p>
+<h3 id="svg-overlay-system">7.2 SVG overlay system</h3>
+<p>An SVG layer sits on top of the responsive map image. Each garden
+area is a <code>&lt;path&gt;</code> traced to match the area’s organic
+shape.</p>
+<pre><code>+----------------------------------+
+|  &lt;img&gt; map (responsive &lt;picture&gt;)|  &lt;- bottom layer
+|                                  |
+|  &lt;svg&gt; overlay (same dimensions) |  &lt;- top layer, position: absolute
+|    &lt;path&gt; boomgaard              |     viewBox matches map aspect ratio
+|    &lt;path&gt; moestuin               |     paths invisible by default
+|    &lt;path&gt; serre                  |
+|  &lt;/svg&gt;                          |
++----------------------------------+</code></pre>
+<h3 id="hotspot-data">7.3 Hotspot data</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode ts"><code class="sourceCode typescript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> MapHotspot <span class="op">=</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  id<span class="op">:</span> <span class="dt">string</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  label<span class="op">:</span> <span class="dt">string</span>                        <span class="co">// &quot;Moestuin&quot;, &quot;Boomgaard&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  route<span class="op">:</span> <span class="dt">string</span>                        <span class="co">// &quot;/tuin/samentuin&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  path<span class="op">:</span> <span class="dt">string</span>                         <span class="co">// SVG path d attribute</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  labelPosition<span class="op">:</span> { x<span class="op">:</span> <span class="dt">number</span><span class="op">,</span> y<span class="op">:</span> <span class="dt">number</span> }  <span class="co">// where label appears (%)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="interaction-states">7.4 Interaction states</h3>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr>
+<th>State</th>
+<th>Appearance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Default</strong></td>
+<td>Paths invisible (<code>fill: transparent</code>,
+<code>stroke: none</code>)</td>
+</tr>
+<tr>
+<td><strong>Hover</strong></td>
+<td><code>stroke: rgba(0,0,0,0.6)</code> 2px +
+<code>fill: rgba(255,255,255,0.12)</code> subtle wash + label fades
+in</td>
+</tr>
+<tr>
+<td><strong>Focus</strong></td>
+<td>Same as hover (keyboard accessible)</td>
+</tr>
+<tr>
+<td><strong>Active/click</strong></td>
+<td>Routes to page via TanStack Router</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hand-drawn-border-effect">7.5 Hand-drawn border effect</h3>
+<p>SVG filter makes clean paths look like pencil strokes:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode svg"><code class="sourceCode xml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">filter</span><span class="ot"> id=</span><span class="st">&quot;pencil&quot;</span>&gt;</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">feTurbulence</span><span class="ot"> baseFrequency=</span><span class="st">&quot;0.03&quot;</span><span class="ot"> numOctaves=</span><span class="st">&quot;4&quot;</span> /&gt;</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">feDisplacementMap</span><span class="ot"> in=</span><span class="st">&quot;SourceGraphic&quot;</span><span class="ot"> scale=</span><span class="st">&quot;2&quot;</span> /&gt;</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">filter</span>&gt;</span></code></pre></div>
+<p>Alternative approaches: - <code>stroke-dasharray: 8 4</code> for a
+dashed/sketched feel - Slightly irregular path control points for
+natural wobble - Pre-drawn scanned borders per area (most authentic but
+most work)</p>
+<h3 id="tracing-workflow">7.6 Tracing workflow</h3>
+<ol class="incremental" type="1">
+<li>Open map image in Figma or Inkscape</li>
+<li>Draw paths over each garden area with pen tool</li>
+<li>Export SVG path <code>d</code> attributes</li>
+<li>Define in hotspot data array</li>
+<li>Fine-tune positions in browser</li>
+</ol>
+<h3 id="approximate-hotspot-areas">7.7 Approximate hotspot areas</h3>
+<table>
+<thead>
+<tr>
+<th>Hotspot</th>
+<th>Area on map</th>
+<th>Routes to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Boomgaard</td>
+<td>Left side, orchard trees</td>
+<td><code>/tuin</code></td>
+</tr>
+<tr>
+<td>Woning/Schuur</td>
+<td>Center, buildings</td>
+<td><code>/verhuur</code></td>
+</tr>
+<tr>
+<td>Moestuin</td>
+<td>Right side, garden beds</td>
+<td><code>/tuin/samentuin</code></td>
+</tr>
+<tr>
+<td>Serre/Folietunnel</td>
+<td>Right-center, greenhouse</td>
+<td><code>/tuin/samentuin</code></td>
+</tr>
+<tr>
+<td>Bessenkooi</td>
+<td>Right, berry cages</td>
+<td><code>/tuin</code></td>
+</tr>
+<tr>
+<td>Kippen</td>
+<td>Center-right, chickens</td>
+<td><code>/tuin</code></td>
+</tr>
+</tbody>
+</table>
+<p>Positions to be fine-tuned during implementation.</p>
+<h3 id="mobile">7.8 Mobile</h3>
+<ul class="incremental">
+<li>Hotspot areas show subtle dotted border by default
+(discoverability)</li>
+<li>Tap: shows label + navigates</li>
+<li>Minimum tap target: 44x44px</li>
+</ul>
+<h3 id="accessibility">7.9 Accessibility</h3>
+<ul class="incremental">
+<li>Each hotspot is a <code>&lt;button&gt;</code> or
+<code>&lt;a&gt;</code> with <code>aria-label</code></li>
+<li><code>Tab</code> cycles through hotspots</li>
+<li><code>Enter</code> navigates</li>
+<li>Focus triggers hover visual state</li>
+<li>Labels are in DOM for screen readers</li>
+</ul>
+<hr />
+<h2 id="responsive-behavior">8. Responsive behavior</h2>
+<table>
+<colgroup>
+<col style="width: 52%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr>
+<th>Breakpoint</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Desktop (&gt;1024px)</td>
+<td>Full layout, sticky nav with all links, map at near-viewport
+height</td>
+</tr>
+<tr>
+<td>Tablet (768-1024px)</td>
+<td>Slightly reduced spacing, nav may collapse, map scales down</td>
+</tr>
+<tr>
+<td>Mobile (&lt;768px)</td>
+<td>Hamburger nav, full-screen menu overlay, map with tap targets,
+single-column content</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="tech-stack">9. Tech Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Framework</td>
+<td>React 19</td>
+</tr>
+<tr>
+<td>Routing</td>
+<td>TanStack Router (file-based)</td>
+</tr>
+<tr>
+<td>Styling</td>
+<td>Tailwind CSS v4</td>
+</tr>
+<tr>
+<td>Components</td>
+<td>shadcn/ui (new-york, neutral base)</td>
+</tr>
+<tr>
+<td>Data fetching</td>
+<td>TanStack Query</td>
+</tr>
+<tr>
+<td>Font</td>
+<td>EB Garamond Variable</td>
+</tr>
+<tr>
+<td>Build</td>
+<td>Vite 7</td>
+</tr>
+<tr>
+<td>CMS</td>
+<td>TBD (self-hosted headless CMS or custom API)</td>
+</tr>
+</tbody>
+</table>
