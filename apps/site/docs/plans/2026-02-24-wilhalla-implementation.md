@@ -10,11 +10,16 @@
 
 **Design doc:** `docs/plans/2026-02-24-wilhalla-design.md`
 
+**Package manager and task runner:** `bun`
+
+**Other tools:** `roam`, `bd (beads)`
+
 ---
 
 ## Task 1: Design System — Tailwind Tokens & Global Styles
 
 **Files:**
+
 - Modify: `src/styles.css`
 - Create: `src/styles/typography.css`
 
@@ -25,15 +30,15 @@ Replace the `:root` block in `src/styles.css` with Wilhalla's minimal palette. K
 ```css
 :root {
   --radius: 0;
-  --background: oklch(1 0 0);           /* #ffffff */
-  --foreground: oklch(0.157 0 0);       /* #1a1a1a */
+  --background: oklch(1 0 0); /* #ffffff */
+  --foreground: oklch(0.157 0 0); /* #1a1a1a */
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.51 0 0);  /* #767676 */
-  --border: oklch(0.902 0 0);           /* #e0e0e0 */
-  --hover: oklch(0.97 0 0);            /* #f5f5f5 */
-  --primary: oklch(0.157 0 0);          /* #1a1a1a */
-  --primary-foreground: oklch(1 0 0);   /* #ffffff */
-  --accent: oklch(0 0 0);              /* #000000 */
+  --muted-foreground: oklch(0.51 0 0); /* #767676 */
+  --border: oklch(0.902 0 0); /* #e0e0e0 */
+  --hover: oklch(0.97 0 0); /* #f5f5f5 */
+  --primary: oklch(0.157 0 0); /* #1a1a1a */
+  --primary-foreground: oklch(1 0 0); /* #ffffff */
+  --accent: oklch(0 0 0); /* #000000 */
   --accent-foreground: oklch(1 0 0);
   /* keep remaining shadcn tokens mapped to neutral */
   --card: oklch(1 0 0);
@@ -139,6 +144,7 @@ git commit -m "feat: add Wilhalla design system tokens and typography scale"
 ## Task 2: Layout Shell — Navbar & Footer
 
 **Files:**
+
 - Create: `src/components/navbar.tsx`
 - Create: `src/components/footer.tsx`
 - Create: `src/components/mobile-menu.tsx`
@@ -148,9 +154,9 @@ git commit -m "feat: add Wilhalla design system tokens and typography scale"
 
 ```tsx
 // src/components/navbar.tsx
-import { Link } from "@tanstack/react-router"
-import { useState } from "react"
-import { MobileMenu } from "./mobile-menu"
+import { Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { MobileMenu } from "./mobile-menu";
 
 const navLinks = [
   { label: "Tuin", to: "/tuin" },
@@ -159,10 +165,10 @@ const navLinks = [
   { label: "Agenda", to: "/agenda" },
   { label: "Verhuur", to: "/verhuur" },
   { label: "Blog", to: "/blog" },
-] as const
+] as const;
 
 export function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-background border-b border-border">
@@ -192,7 +198,14 @@ export function Navbar() {
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          >
             <line x1="3" y1="6" x2="21" y2="6" />
             <line x1="3" y1="12" x2="21" y2="12" />
             <line x1="3" y1="18" x2="21" y2="18" />
@@ -200,9 +213,13 @@ export function Navbar() {
         </button>
       </nav>
 
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} links={navLinks} />
+      <MobileMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        links={navLinks}
+      />
     </header>
-  )
+  );
 }
 ```
 
@@ -210,16 +227,16 @@ export function Navbar() {
 
 ```tsx
 // src/components/mobile-menu.tsx
-import { Link } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router";
 
 type MobileMenuProps = {
-  open: boolean
-  onClose: () => void
-  links: ReadonlyArray<{ label: string; to: string }>
-}
+  open: boolean;
+  onClose: () => void;
+  links: ReadonlyArray<{ label: string; to: string }>;
+};
 
 export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
-  if (!open) return null
+  if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center gap-10">
@@ -228,7 +245,14 @@ export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
         onClick={onClose}
         aria-label="Close menu"
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
           <line x1="4" y1="4" x2="20" y2="20" />
           <line x1="20" y1="4" x2="4" y2="20" />
         </svg>
@@ -245,7 +269,7 @@ export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
         </Link>
       ))}
     </div>
-  )
+  );
 }
 ```
 
@@ -261,7 +285,8 @@ export function Footer() {
           <div>
             <h3 className="text-nav mb-4">Contact</h3>
             <address className="text-small not-italic text-muted-foreground leading-relaxed">
-              Wilhalla<br />
+              Wilhalla
+              <br />
               {/* Address TBD from CMS */}
             </address>
           </div>
@@ -273,9 +298,7 @@ export function Footer() {
           </div>
           <div>
             <h3 className="text-nav mb-4">Volg ons</h3>
-            <div className="flex gap-4">
-              {/* Social links TBD */}
-            </div>
+            <div className="flex gap-4">{/* Social links TBD */}</div>
           </div>
         </div>
         <div className="mt-12 pt-6 border-t border-border">
@@ -285,7 +308,7 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
 ```
 
@@ -294,13 +317,13 @@ export function Footer() {
 Update `src/routes/__root.tsx` to include Navbar and Footer wrapping the Outlet:
 
 ```tsx
-import { Outlet, createRootRoute } from "@tanstack/react-router"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
+import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 
 export const Route = createRootRoute({
   component: RootComponent,
-})
+});
 
 function RootComponent() {
   return (
@@ -311,7 +334,7 @@ function RootComponent() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
 ```
 
@@ -334,6 +357,7 @@ git commit -m "feat: add navbar and footer layout shell"
 ## Task 3: Interactive Map — SVG Overlay with Pencil Effect
 
 **Files:**
+
 - Create: `src/components/map/interactive-map.tsx`
 - Create: `src/components/map/map-hotspot.tsx`
 - Create: `src/components/map/pencil-filter.tsx`
@@ -371,7 +395,7 @@ export function PencilFilter() {
         />
       </filter>
     </defs>
-  )
+  );
 }
 ```
 
@@ -383,12 +407,12 @@ Extract the path `d` attribute from `house_path.svg`. The path coordinates are a
 // src/components/map/hotspots.ts
 
 export type MapHotspot = {
-  id: string
-  label: string
-  route: string
-  path: string
-  labelPosition: { x: number; y: number }
-}
+  id: string;
+  label: string;
+  route: string;
+  path: string;
+  labelPosition: { x: number; y: number };
+};
 
 // Path extracted from house_path.svg
 // Original SVG had transform="translate(-594.59889,-431.93085)" on the group,
@@ -396,7 +420,8 @@ export type MapHotspot = {
 // The viewBox of the overlay SVG is "0 0 4000 2337" (map pixel dimensions).
 // If Inkscape doc matched map dimensions, coords map 1:1.
 // Verify visually and adjust if needed.
-const HOUSE_PATH = "m 618.56041,432.7902 -2.82456,1.02344 -0.53396,1.71677 -3.83728,1.58725 -2.4935,1.24335 -1.94866,1.7964 -0.30245,3.01921 -1.24373,2.32962 0.003,3.42365 -0.77095,2.87574 -0.34466,3.00555 -0.74983,2.84452 -0.74534,2.85559 -1.40409,1.86782 -1.40011,3.0477 -0.0235,3.37297 -0.75577,3.02947 -0.70606,2.8743 -0.65203,2.90149 1.48623,2.90561 -2.66699,2.20719 -1.13355,3.454 2.94358,0.39923 4.15907,0.69052 1.43897,0.0503 2.90693,0.28118 2.70801,0.1136 2.77632,0.15204 3.0561,-0.15436 2.90955,0.38957 2.96866,0.47164 2.61917,-0.3433 4.77101,1.02513 1.67263,0.48487 3.08042,0.81779 3.56084,0.48772 0.8921,-0.11179 2.41329,-1.72991 1.22397,-2.99823 1.8934,-1.28966 3.0265,-1.65816 0.62701,-2.03026 3.69238,0.61968 1.98979,0.0419 3.16722,0.2752 2.48965,-0.70189 3.30179,-0.002 2.93317,-0.42212 3.38937,-0.15201 3.15516,-0.76217 3.26946,-0.0238 3.16888,0.57852 5.03588,0.78015 1.70192,0.24861 1.84922,-1.11495 3.49008,0.69718 3.47325,0.87188 2.32409,0.44987 4.11493,0.83682 1.8407,0.39021 4.07989,0.78005 1.71779,0.34078 2.57888,0.23755 4.04263,0.97106 2.4381,0.61826 3.10196,0.80588 3.13984,0.83352 3.62706,0.72507 1.06095,-0.5211 3.55571,1.44635 -0.11943,-3.26287 1.72972,-2.32041 1.63488,-2.5188 0.0904,-3.72598 -0.0877,-2.44828 0.94713,-2.67424 -0.0764,-3.05083 -0.0305,-3.87656 0.11265,-1.64554 0.51654,-2.72778 -0.20582,-3.41895 -0.27428,-2.75228 1.5268,-2.157 -0.48984,-3.62814 -0.44746,-2.74825 -0.1298,-2.58415 -0.0483,-2.81235 0.27432,-2.78514 -3.54513,-0.92875 -2.46608,-0.56077 -1.41392,0.21054 -4.63652,-1.28019 -2.93046,-0.25935 -2.98752,-0.10081 -1.49011,0.28591 -4.74391,-0.3338 -1.6714,0.27511 -4.28031,-0.26026 -3.07476,-1.41229 -3.29762,-0.54969 -0.79602,0.0806 -3.65133,0.17825 -3.80615,0.0429 -2.76862,0.0522 -3.22322,0.0704 -3.22748,-0.0471 -1.69649,0.13055 -3.06903,0.10317 -2.84482,-0.12064 -2.42123,0.0386 -4.528,0.0892 -3.22683,0.0213 -3.44694,-0.20891 -3.05228,-0.37588 -2.21509,0.1979 -3.46521,-0.0588 -3.5957,-0.86533 -2.64811,-0.12588 -2.97721,-0.067 -3.30255,-0.47749 -2.70965,0.0161 -2.83,0.0988 -3.41709,-0.16681 -2.31053,0.25735 -2.97295,0.21281 -2.63379,0.18552 z"
+const HOUSE_PATH =
+  "m 618.56041,432.7902 -2.82456,1.02344 -0.53396,1.71677 -3.83728,1.58725 -2.4935,1.24335 -1.94866,1.7964 -0.30245,3.01921 -1.24373,2.32962 0.003,3.42365 -0.77095,2.87574 -0.34466,3.00555 -0.74983,2.84452 -0.74534,2.85559 -1.40409,1.86782 -1.40011,3.0477 -0.0235,3.37297 -0.75577,3.02947 -0.70606,2.8743 -0.65203,2.90149 1.48623,2.90561 -2.66699,2.20719 -1.13355,3.454 2.94358,0.39923 4.15907,0.69052 1.43897,0.0503 2.90693,0.28118 2.70801,0.1136 2.77632,0.15204 3.0561,-0.15436 2.90955,0.38957 2.96866,0.47164 2.61917,-0.3433 4.77101,1.02513 1.67263,0.48487 3.08042,0.81779 3.56084,0.48772 0.8921,-0.11179 2.41329,-1.72991 1.22397,-2.99823 1.8934,-1.28966 3.0265,-1.65816 0.62701,-2.03026 3.69238,0.61968 1.98979,0.0419 3.16722,0.2752 2.48965,-0.70189 3.30179,-0.002 2.93317,-0.42212 3.38937,-0.15201 3.15516,-0.76217 3.26946,-0.0238 3.16888,0.57852 5.03588,0.78015 1.70192,0.24861 1.84922,-1.11495 3.49008,0.69718 3.47325,0.87188 2.32409,0.44987 4.11493,0.83682 1.8407,0.39021 4.07989,0.78005 1.71779,0.34078 2.57888,0.23755 4.04263,0.97106 2.4381,0.61826 3.10196,0.80588 3.13984,0.83352 3.62706,0.72507 1.06095,-0.5211 3.55571,1.44635 -0.11943,-3.26287 1.72972,-2.32041 1.63488,-2.5188 0.0904,-3.72598 -0.0877,-2.44828 0.94713,-2.67424 -0.0764,-3.05083 -0.0305,-3.87656 0.11265,-1.64554 0.51654,-2.72778 -0.20582,-3.41895 -0.27428,-2.75228 1.5268,-2.157 -0.48984,-3.62814 -0.44746,-2.74825 -0.1298,-2.58415 -0.0483,-2.81235 0.27432,-2.78514 -3.54513,-0.92875 -2.46608,-0.56077 -1.41392,0.21054 -4.63652,-1.28019 -2.93046,-0.25935 -2.98752,-0.10081 -1.49011,0.28591 -4.74391,-0.3338 -1.6714,0.27511 -4.28031,-0.26026 -3.07476,-1.41229 -3.29762,-0.54969 -0.79602,0.0806 -3.65133,0.17825 -3.80615,0.0429 -2.76862,0.0522 -3.22322,0.0704 -3.22748,-0.0471 -1.69649,0.13055 -3.06903,0.10317 -2.84482,-0.12064 -2.42123,0.0386 -4.528,0.0892 -3.22683,0.0213 -3.44694,-0.20891 -3.05228,-0.37588 -2.21509,0.1979 -3.46521,-0.0588 -3.5957,-0.86533 -2.64811,-0.12588 -2.97721,-0.067 -3.30255,-0.47749 -2.70965,0.0161 -2.83,0.0988 -3.41709,-0.16681 -2.31053,0.25735 -2.97295,0.21281 -2.63379,0.18552 z";
 
 export const hotspots: MapHotspot[] = [
   {
@@ -411,24 +436,24 @@ export const hotspots: MapHotspot[] = [
   // { id: "moestuin", label: "Moestuin", route: "/tuin/samentuin", path: "...", labelPosition: { x: ..., y: ... } },
   // { id: "serre", label: "Serre", route: "/tuin/samentuin", path: "...", labelPosition: { x: ..., y: ... } },
   // { id: "bessenkooi", label: "Bessenkooi", route: "/tuin", path: "...", labelPosition: { x: ..., y: ... } },
-]
+];
 ```
 
 **Step 3: Create the MapHotspot component**
 
 ```tsx
 // src/components/map/map-hotspot.tsx
-import { useNavigate } from "@tanstack/react-router"
-import { useState } from "react"
-import type { MapHotspot } from "./hotspots"
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import type { MapHotspot } from "./hotspots";
 
 type MapHotspotProps = {
-  hotspot: MapHotspot
-}
+  hotspot: MapHotspot;
+};
 
 export function MapHotspotPath({ hotspot }: MapHotspotProps) {
-  const navigate = useNavigate()
-  const [hovered, setHovered] = useState(false)
+  const navigate = useNavigate();
+  const [hovered, setHovered] = useState(false);
 
   return (
     <g>
@@ -447,7 +472,7 @@ export function MapHotspotPath({ hotspot }: MapHotspotProps) {
         aria-label={hotspot.label}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
-            navigate({ to: hotspot.route })
+            navigate({ to: hotspot.route });
           }
         }}
         onFocus={() => setHovered(true)}
@@ -473,7 +498,7 @@ export function MapHotspotPath({ hotspot }: MapHotspotProps) {
         {hotspot.label}
       </text>
     </g>
-  )
+  );
 }
 ```
 
@@ -481,16 +506,19 @@ export function MapHotspotPath({ hotspot }: MapHotspotProps) {
 
 ```tsx
 // src/components/map/interactive-map.tsx
-import { PencilFilter } from "./pencil-filter"
-import { MapHotspotPath } from "./map-hotspot"
-import { hotspots } from "./hotspots"
+import { PencilFilter } from "./pencil-filter";
+import { MapHotspotPath } from "./map-hotspot";
+import { hotspots } from "./hotspots";
 
-const MAP_WIDTH = 4000
-const MAP_HEIGHT = 2337
+const MAP_WIDTH = 4000;
+const MAP_HEIGHT = 2337;
 
 export function InteractiveMap() {
   return (
-    <section className="relative w-full" style={{ aspectRatio: `${MAP_WIDTH}/${MAP_HEIGHT}` }}>
+    <section
+      className="relative w-full"
+      style={{ aspectRatio: `${MAP_WIDTH}/${MAP_HEIGHT}` }}
+    >
       {/* Map image */}
       <picture>
         <source media="(min-width: 2560px)" srcSet="/wilhalla_map-3840.webp" />
@@ -518,7 +546,7 @@ export function InteractiveMap() {
         ))}
       </svg>
     </section>
-  )
+  );
 }
 ```
 
@@ -526,10 +554,10 @@ export function InteractiveMap() {
 
 ```tsx
 // src/routes/index.tsx
-import { createFileRoute } from "@tanstack/react-router"
-import { InteractiveMap } from "@/components/map/interactive-map"
+import { createFileRoute } from "@tanstack/react-router";
+import { InteractiveMap } from "@/components/map/interactive-map";
 
-export const Route = createFileRoute("/")({ component: HomePage })
+export const Route = createFileRoute("/")({ component: HomePage });
 
 function HomePage() {
   return (
@@ -539,14 +567,14 @@ function HomePage() {
       {/* Intro text */}
       <section className="mx-auto max-w-[680px] px-6 py-24 text-center">
         <p className="text-body">
-          Wilhalla is de historische Velt-tuin van Velt-pioniers Dani&euml;l Willaeys
-          en Aleide Lagrou. Sinds 1962 wordt er biologisch getuinierd op deze tuin
-          van 1 hectare. Tinneke en Jasmien zetten hun visie verder met een samentuin,
-          therapie, yoga en tal van activiteiten.
+          Wilhalla is de historische Velt-tuin van Velt-pioniers Dani&euml;l
+          Willaeys en Aleide Lagrou. Sinds 1962 wordt er biologisch getuinierd
+          op deze tuin van 1 hectare. Tinneke en Jasmien zetten hun visie verder
+          met een samentuin, therapie, yoga en tal van activiteiten.
         </p>
       </section>
     </div>
-  )
+  );
 }
 ```
 
@@ -554,6 +582,7 @@ function HomePage() {
 
 Run: `bun run dev`
 Expected:
+
 - Map displays full-width with correct aspect ratio
 - Hovering the house area shows a pencil-style border outline + "Woning & Schuur" label
 - Clicking the house area navigates (to 404 for now, that's fine)
@@ -573,6 +602,7 @@ git commit -m "feat: add interactive map with SVG overlay and pencil filter effe
 ## Task 4: Homepage — Teaser Sections & Structure
 
 **Files:**
+
 - Create: `src/components/section-divider.tsx`
 - Create: `src/components/teaser-block.tsx`
 - Modify: `src/routes/index.tsx`
@@ -585,8 +615,8 @@ This is a placeholder that renders a 1px rule for now. When hand-drawn assets ar
 // src/components/section-divider.tsx
 
 type SectionDividerProps = {
-  asset?: string  // future: path to hand-drawn divider image
-}
+  asset?: string; // future: path to hand-drawn divider image
+};
 
 export function SectionDivider({ asset }: SectionDividerProps) {
   if (asset) {
@@ -600,7 +630,7 @@ export function SectionDivider({ asset }: SectionDividerProps) {
           loading="lazy"
         />
       </div>
-    )
+    );
   }
 
   // Fallback: simple 1px rule
@@ -608,7 +638,7 @@ export function SectionDivider({ asset }: SectionDividerProps) {
     <div className="mx-auto max-w-[1200px] px-6">
       <hr className="border-border border-t" />
     </div>
-  )
+  );
 }
 ```
 
@@ -616,25 +646,33 @@ export function SectionDivider({ asset }: SectionDividerProps) {
 
 ```tsx
 // src/components/teaser-block.tsx
-import { Link } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router";
 
 type TeaserBlockProps = {
-  title: string
-  description: string
-  to: string
-  linkLabel?: string
-}
+  title: string;
+  description: string;
+  to: string;
+  linkLabel?: string;
+};
 
-export function TeaserBlock({ title, description, to, linkLabel = "Ontdek" }: TeaserBlockProps) {
+export function TeaserBlock({
+  title,
+  description,
+  to,
+  linkLabel = "Ontdek",
+}: TeaserBlockProps) {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-h2 uppercase tracking-[0.08em]">{title}</h2>
       <p className="text-body text-muted-foreground">{description}</p>
-      <Link to={to} className="text-nav text-foreground inline-flex items-center gap-2 no-underline hover:underline">
+      <Link
+        to={to}
+        className="text-nav text-foreground inline-flex items-center gap-2 no-underline hover:underline"
+      >
         {linkLabel} <span aria-hidden="true">&rarr;</span>
       </Link>
     </div>
-  )
+  );
 }
 ```
 
@@ -642,30 +680,32 @@ export function TeaserBlock({ title, description, to, linkLabel = "Ontdek" }: Te
 
 ```tsx
 // src/components/hand-drawn-bg.tsx
-import type { ReactNode } from "react"
+import type { ReactNode } from "react";
 
 type HandDrawnBgProps = {
-  asset?: string  // path to background texture image
-  children: ReactNode
-}
+  asset?: string; // path to background texture image
+  children: ReactNode;
+};
 
 export function HandDrawnBg({ asset, children }: HandDrawnBgProps) {
   return (
     <section
       className="relative py-24"
-      style={asset ? {
-        backgroundImage: `url(${asset})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      } : {
-        backgroundColor: "var(--hover)",
-      }}
+      style={
+        asset
+          ? {
+              backgroundImage: `url(${asset})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : {
+              backgroundColor: "var(--hover)",
+            }
+      }
     >
-      <div className="mx-auto max-w-[1200px] px-6">
-        {children}
-      </div>
+      <div className="mx-auto max-w-[1200px] px-6">{children}</div>
     </section>
-  )
+  );
 }
 ```
 
@@ -674,13 +714,13 @@ export function HandDrawnBg({ asset, children }: HandDrawnBgProps) {
 Update `src/routes/index.tsx`:
 
 ```tsx
-import { createFileRoute } from "@tanstack/react-router"
-import { InteractiveMap } from "@/components/map/interactive-map"
-import { SectionDivider } from "@/components/section-divider"
-import { TeaserBlock } from "@/components/teaser-block"
-import { HandDrawnBg } from "@/components/hand-drawn-bg"
+import { createFileRoute } from "@tanstack/react-router";
+import { InteractiveMap } from "@/components/map/interactive-map";
+import { SectionDivider } from "@/components/section-divider";
+import { TeaserBlock } from "@/components/teaser-block";
+import { HandDrawnBg } from "@/components/hand-drawn-bg";
 
-export const Route = createFileRoute("/")({ component: HomePage })
+export const Route = createFileRoute("/")({ component: HomePage });
 
 function HomePage() {
   return (
@@ -691,10 +731,10 @@ function HomePage() {
       {/* Intro */}
       <section className="mx-auto max-w-[680px] px-6 py-24 text-center">
         <p className="text-body">
-          Wilhalla is de historische Velt-tuin van Velt-pioniers Dani&euml;l Willaeys
-          en Aleide Lagrou. Sinds 1962 wordt er biologisch getuinierd op deze tuin
-          van 1 hectare. Tinneke en Jasmien zetten hun visie verder met een samentuin,
-          therapie, yoga en tal van activiteiten.
+          Wilhalla is de historische Velt-tuin van Velt-pioniers Dani&euml;l
+          Willaeys en Aleide Lagrou. Sinds 1962 wordt er biologisch getuinierd
+          op deze tuin van 1 hectare. Tinneke en Jasmien zetten hun visie verder
+          met een samentuin, therapie, yoga en tal van activiteiten.
         </p>
       </section>
 
@@ -728,10 +768,13 @@ function HomePage() {
         <div className="max-w-[680px] mx-auto text-center">
           <h2 className="text-h1 mb-6">Verhuur</h2>
           <p className="text-body text-muted-foreground mb-8">
-            De schuur en yurt zijn beschikbaar voor verhuur.
-            Organiseer je workshop, retraite of feest op Wilhalla.
+            De schuur en yurt zijn beschikbaar voor verhuur. Organiseer je
+            workshop, retraite of feest op Wilhalla.
           </p>
-          <a href="/verhuur" className="text-nav text-foreground inline-flex items-center gap-2 no-underline hover:underline">
+          <a
+            href="/verhuur"
+            className="text-nav text-foreground inline-flex items-center gap-2 no-underline hover:underline"
+          >
             Meer info <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
@@ -739,7 +782,7 @@ function HomePage() {
 
       <SectionDivider />
     </div>
-  )
+  );
 }
 ```
 
@@ -760,6 +803,7 @@ git commit -m "feat: add homepage teaser sections, dividers, and hand-drawn bg c
 ## Task 5: Route Structure — All Pages as Stubs
 
 **Files:**
+
 - Create: `src/routes/tuin/index.tsx`
 - Create: `src/routes/tuin/samentuin.tsx`
 - Create: `src/routes/welzijn/index.tsx`
@@ -781,20 +825,18 @@ git commit -m "feat: add homepage teaser sections, dividers, and hand-drawn bg c
 // src/components/page-header.tsx
 
 type PageHeaderProps = {
-  title: string
-  intro?: string
-}
+  title: string;
+  intro?: string;
+};
 
 export function PageHeader({ title, intro }: PageHeaderProps) {
   return (
     <header className="mx-auto max-w-[1200px] px-6 pt-24 pb-12">
       <h1 className="text-display mb-6">{title}</h1>
       <hr className="border-border border-t mb-8" />
-      {intro && (
-        <p className="text-body max-w-[680px]">{intro}</p>
-      )}
+      {intro && <p className="text-body max-w-[680px]">{intro}</p>}
     </header>
-  )
+  );
 }
 ```
 
@@ -802,11 +844,11 @@ export function PageHeader({ title, intro }: PageHeaderProps) {
 
 ```tsx
 // src/components/breadcrumb.tsx
-import { Link } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router";
 
 type BreadcrumbProps = {
-  items: Array<{ label: string; to?: string }>
-}
+  items: Array<{ label: string; to?: string }>;
+};
 
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
@@ -816,7 +858,10 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
           <li key={i} className="flex items-center gap-2">
             {i > 0 && <span aria-hidden="true">/</span>}
             {item.to ? (
-              <Link to={item.to} className="text-muted-foreground hover:text-foreground no-underline hover:underline">
+              <Link
+                to={item.to}
+                className="text-muted-foreground hover:text-foreground no-underline hover:underline"
+              >
                 {item.label}
               </Link>
             ) : (
@@ -826,7 +871,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
         ))}
       </ol>
     </nav>
-  )
+  );
 }
 ```
 
@@ -836,15 +881,13 @@ Each page follows the same pattern. Example for a landing page:
 
 ```tsx
 // src/routes/tuin/index.tsx
-import { createFileRoute, Link } from "@tanstack/react-router"
-import { PageHeader } from "@/components/page-header"
-import { SectionDivider } from "@/components/section-divider"
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { PageHeader } from "@/components/page-header";
+import { SectionDivider } from "@/components/section-divider";
 
-export const Route = createFileRoute("/tuin/")({ component: TuinPage })
+export const Route = createFileRoute("/tuin/")({ component: TuinPage });
 
-const subPages = [
-  { label: "Samentuin", to: "/tuin/samentuin" },
-]
+const subPages = [{ label: "Samentuin", to: "/tuin/samentuin" }];
 
 function TuinPage() {
   return (
@@ -869,7 +912,7 @@ function TuinPage() {
         </ul>
       </section>
     </div>
-  )
+  );
 }
 ```
 
@@ -877,22 +920,29 @@ Example for a sub-page:
 
 ```tsx
 // src/routes/welzijn/fasciatherapie.tsx
-import { createFileRoute } from "@tanstack/react-router"
-import { PageHeader } from "@/components/page-header"
-import { Breadcrumb } from "@/components/breadcrumb"
+import { createFileRoute } from "@tanstack/react-router";
+import { PageHeader } from "@/components/page-header";
+import { Breadcrumb } from "@/components/breadcrumb";
 
-export const Route = createFileRoute("/welzijn/fasciatherapie")({ component: FasciatherapiePage })
+export const Route = createFileRoute("/welzijn/fasciatherapie")({
+  component: FasciatherapiePage,
+});
 
 function FasciatherapiePage() {
   return (
     <div>
-      <Breadcrumb items={[{ label: "Welzijn", to: "/welzijn" }, { label: "Fasciatherapie" }]} />
+      <Breadcrumb
+        items={[
+          { label: "Welzijn", to: "/welzijn" },
+          { label: "Fasciatherapie" },
+        ]}
+      />
       <PageHeader
         title="Fasciatherapie"
         intro="Placeholder — content van Tinneke en Jasmien."
       />
     </div>
-  )
+  );
 }
 ```
 
@@ -915,6 +965,7 @@ git commit -m "feat: add all route stubs with page headers and breadcrumbs"
 ## Task 6: Content Page Template Component
 
 **Files:**
+
 - Create: `src/components/content-page.tsx`
 - Modify: one route to demonstrate (e.g., `src/routes/welzijn/fasciatherapie.tsx`)
 
@@ -924,29 +975,36 @@ This encapsulates the pattern: PageHeader → sections (Aanbod, Info, Contact) w
 
 ```tsx
 // src/components/content-page.tsx
-import type { ReactNode } from "react"
-import { PageHeader } from "./page-header"
-import { SectionDivider } from "./section-divider"
+import type { ReactNode } from "react";
+import { PageHeader } from "./page-header";
+import { SectionDivider } from "./section-divider";
 
 type ContentSection = {
-  title: string
-  content: ReactNode
-}
+  title: string;
+  content: ReactNode;
+};
 
 type ContentPageProps = {
-  title: string
-  intro?: string
-  sections: ContentSection[]
+  title: string;
+  intro?: string;
+  sections: ContentSection[];
   contact?: {
-    name: string
-    email?: string
-    phone?: string
-  }
-  breadcrumb?: ReactNode  // pass <Breadcrumb /> from the route
-  dividerAsset?: string
-}
+    name: string;
+    email?: string;
+    phone?: string;
+  };
+  breadcrumb?: ReactNode; // pass <Breadcrumb /> from the route
+  dividerAsset?: string;
+};
 
-export function ContentPage({ title, intro, sections, contact, breadcrumb, dividerAsset }: ContentPageProps) {
+export function ContentPage({
+  title,
+  intro,
+  sections,
+  contact,
+  breadcrumb,
+  dividerAsset,
+}: ContentPageProps) {
   return (
     <div>
       {breadcrumb}
@@ -956,10 +1014,10 @@ export function ContentPage({ title, intro, sections, contact, breadcrumb, divid
         <div key={i}>
           <SectionDivider asset={dividerAsset} />
           <section className="mx-auto max-w-[1200px] px-6 py-24">
-            <h2 className="text-h2 uppercase tracking-[0.08em] mb-8">{section.title}</h2>
-            <div className="max-w-[680px] text-body">
-              {section.content}
-            </div>
+            <h2 className="text-h2 uppercase tracking-[0.08em] mb-8">
+              {section.title}
+            </h2>
+            <div className="max-w-[680px] text-body">{section.content}</div>
           </section>
         </div>
       ))}
@@ -970,17 +1028,27 @@ export function ContentPage({ title, intro, sections, contact, breadcrumb, divid
             <hr className="border-border border-t" />
           </div>
           <section className="mx-auto max-w-[1200px] px-6 py-24">
-            <h2 className="text-h2 uppercase tracking-[0.08em] mb-8">Contact</h2>
+            <h2 className="text-h2 uppercase tracking-[0.08em] mb-8">
+              Contact
+            </h2>
             <address className="text-body not-italic">
               <p className="font-medium">{contact.name}</p>
-              {contact.email && <p><a href={`mailto:${contact.email}`}>{contact.email}</a></p>}
-              {contact.phone && <p><a href={`tel:${contact.phone}`}>{contact.phone}</a></p>}
+              {contact.email && (
+                <p>
+                  <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                </p>
+              )}
+              {contact.phone && (
+                <p>
+                  <a href={`tel:${contact.phone}`}>{contact.phone}</a>
+                </p>
+              )}
             </address>
           </section>
         </>
       )}
     </div>
-  )
+  );
 }
 ```
 

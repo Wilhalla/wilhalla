@@ -1,14 +1,14 @@
-import { useNavigate } from "@tanstack/react-router"
-import { useState } from "react"
-import type { MapHotspot } from "./hotspots"
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import type { MapHotspot } from "./hotspots";
 
 type MapHotspotProps = {
-  hotspot: MapHotspot
-}
+  hotspot: MapHotspot;
+};
 
 export function MapHotspotPath({ hotspot }: MapHotspotProps) {
-  const navigate = useNavigate()
-  const [hovered, setHovered] = useState(false)
+  const navigate = useNavigate();
+  const [hovered, setHovered] = useState(false);
 
   return (
     <g>
@@ -27,7 +27,7 @@ export function MapHotspotPath({ hotspot }: MapHotspotProps) {
         aria-label={hotspot.label}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
-            navigate({ to: hotspot.route })
+            navigate({ to: hotspot.route });
           }
         }}
         onFocus={() => setHovered(true)}
@@ -53,5 +53,5 @@ export function MapHotspotPath({ hotspot }: MapHotspotProps) {
         {hotspot.label}
       </text>
     </g>
-  )
+  );
 }

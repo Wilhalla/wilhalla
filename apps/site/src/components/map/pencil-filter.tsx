@@ -17,5 +17,5 @@ export function PencilFilter() {
         />
       </filter>
     </defs>
-  )
+  );
 }

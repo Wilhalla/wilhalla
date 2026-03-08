@@ -1,8 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
-import { PageHeader } from "@/components/page-header"
-import { SectionDivider } from "@/components/section-divider"
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { PageHeader } from "@/components/page-header";
+import { SectionDivider } from "@/components/section-divider";
 
-export const Route = createFileRoute("/welzijn/")({ component: WelzijnPage })
+export const Route = createFileRoute("/welzijn/")({ component: WelzijnPage });
 
 const subPages = [
   { label: "Fasciatherapie", to: "/welzijn/fasciatherapie" },
@@ -10,7 +10,7 @@ const subPages = [
   { label: "Kinetic Chain Release", to: "/welzijn/kcr" },
   { label: "Paardencoaching", to: "/welzijn/paardencoaching" },
   { label: "Veerkracht in Beweging", to: "/welzijn/veerkracht" },
-]
+];
 
 function WelzijnPage() {
   return (
@@ -35,5 +35,5 @@ function WelzijnPage() {
         </ul>
       </section>
     </div>
-  )
+  );
 }

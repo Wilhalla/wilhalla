@@ -1,12 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
-import { PageHeader } from "@/components/page-header"
-import { SectionDivider } from "@/components/section-divider"
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { PageHeader } from "@/components/page-header";
+import { SectionDivider } from "@/components/section-divider";
 
-export const Route = createFileRoute("/tuin/")({ component: TuinPage })
+export const Route = createFileRoute("/tuin/")({ component: TuinPage });
 
-const subPages = [
-  { label: "Samentuin", to: "/tuin/samentuin" },
-]
+const subPages = [{ label: "Samentuin", to: "/tuin/samentuin" }];
 
 function TuinPage() {
   return (
@@ -31,5 +29,5 @@ function TuinPage() {
         </ul>
       </section>
     </div>
-  )
+  );
 }

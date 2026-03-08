@@ -6,7 +6,8 @@ export function Footer() {
           <div>
             <h3 className="text-nav mb-4">Contact</h3>
             <address className="text-small not-italic text-muted-foreground leading-relaxed">
-              Wilhalla<br />
+              Wilhalla
+              <br />
               {/* Address TBD from CMS */}
             </address>
           </div>
@@ -18,9 +19,7 @@ export function Footer() {
           </div>
           <div>
             <h3 className="text-nav mb-4">Volg ons</h3>
-            <div className="flex gap-4">
-              {/* Social links TBD */}
-            </div>
+            <div className="flex gap-4">{/* Social links TBD */}</div>
           </div>
         </div>
         <div className="mt-12 pt-6 border-t border-border">
@@ -30,5 +29,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
