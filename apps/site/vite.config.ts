@@ -15,7 +15,13 @@ const config = defineConfig({
   ],
   server: {
     watch: {
-      ignored: ["**/.dolt/**", "**/.roam/**", "**/.beads/**", "**/beads_wilhalla/**", "**/.doltcfg/**"],
+      ignored: [
+        "**/.dolt/**",
+        "**/.roam/**",
+        "**/.beads/**",
+        "**/beads_wilhalla/**",
+        "**/.doltcfg/**",
+      ],
     },
   },
 });

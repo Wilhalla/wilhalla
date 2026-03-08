@@ -1,8 +1,8 @@
-import { Link } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router";
 
 type BreadcrumbProps = {
-  items: Array<{ label: string; to?: string }>
-}
+  items: Array<{ label: string; to?: string }>;
+};
 
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
@@ -12,7 +12,10 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
           <li key={i} className="flex items-center gap-2">
             {i > 0 && <span aria-hidden="true">/</span>}
             {item.to ? (
-              <Link to={item.to as string} className="text-muted-foreground hover:text-foreground no-underline hover:underline">
+              <Link
+                to={item.to as string}
+                className="text-muted-foreground hover:text-foreground no-underline hover:underline"
+              >
                 {item.label}
               </Link>
             ) : (
@@ -22,5 +25,5 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
         ))}
       </ol>
     </nav>
-  )
+  );
 }

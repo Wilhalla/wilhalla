@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { PageHeader } from "@/components/page-header"
+import { createFileRoute } from "@tanstack/react-router";
+import { PageHeader } from "@/components/page-header";
 
-export const Route = createFileRoute("/verhuur")({ component: VerhuurPage })
+export const Route = createFileRoute("/verhuur")({ component: VerhuurPage });
 
 function VerhuurPage() {
   return (
@@ -11,5 +11,5 @@ function VerhuurPage() {
         intro="De schuur en yurt zijn beschikbaar voor verhuur."
       />
     </div>
-  )
+  );
 }

@@ -7,6 +7,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html, body {
+  overscroll-behavior: none;
+  scroll-behavior: smooth;
+}
+
 body {
   @apply m-0;
   font-family: "EB Garamond Variable", serif;
@@ -62,15 +67,15 @@ code {
 
 :root {
   --radius: 0;
-  --background: oklch(1 0 0);           /* #ffffff */
-  --foreground: oklch(0.157 0 0);       /* #1a1a1a */
+  --background: oklch(0.93 0.03 145); /* soft sage green */
+  --foreground: oklch(0.157 0 0); /* #1a1a1a */
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.51 0 0);  /* #767676 */
-  --border: oklch(0.902 0 0);           /* #e0e0e0 */
-  --hover: oklch(0.97 0 0);            /* #f5f5f5 */
-  --primary: oklch(0.157 0 0);          /* #1a1a1a */
-  --primary-foreground: oklch(1 0 0);   /* #ffffff */
-  --accent: oklch(0 0 0);              /* #000000 */
+  --muted-foreground: oklch(0.51 0 0); /* #767676 */
+  --border: oklch(0.902 0 0); /* #e0e0e0 */
+  --hover: oklch(0.97 0 0); /* #f5f5f5 */
+  --primary: oklch(0.157 0 0); /* #1a1a1a */
+  --primary-foreground: oklch(1 0 0); /* #ffffff */
+  --accent: oklch(0 0 0); /* #000000 */
   --accent-foreground: oklch(1 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.157 0 0);
