@@ -65,39 +65,42 @@ This project uses git worktrees for parallel development.
 
 ### Worktree Setup
 
-| Worktree         | Branch  | Purpose               |
-| ---------------- | ------- | --------------------- |
-| `wilhalla/`      | develop | Active development    |
-| `wilhalla-main/` | main    | Production-ready code |
+| Worktree                    | Branch  | Purpose                    |
+| --------------------------- | ------- | -------------------------- |
+| repo root                   | develop | Active development         |
+| `instances/wilhalla:main/`  | main    | Production-ready checkout  |
+| `instances/wilhalla:<slug>` | varies  | Managed feature worktrees  |
 
 ### Creating Worktrees
 
-**For large features, always create a dedicated worktree:**
+Use the harness from the repo root:
 
 ```bash
-# Create new feature worktree (from wilhalla/ directory)
-git worktree add ../wilhalla-<feature-name> -b feature/<feature-name>
-
-# Example: blog rewrite
-git worktree add ../wilhalla-blog -b feature/blog-rewrite
+just worktree-add blog-rewrite
+cd instances/wilhalla:blog-rewrite
+just bootstrap
 ```
+
+You can still use raw Git commands, but new managed worktrees should live under
+`instances/` so runtime state and derived ports stay isolated.
 
 **List all worktrees:**
 
 ```bash
-git worktree list
+just worktree-list
 ```
 
 **Remove a worktree when done:**
 
 ```bash
-git worktree remove ../wilhalla-<feature-name>
-git branch -d feature/<feature-name>
+just worktree-rm blog-rewrite
 ```
 
 ### Best Practices
 
 - Use worktrees for any feature taking more than 1 session
+- Run `just bootstrap` once per checkout so `.env.worktree` is generated
+- Use `just port-map` or `just env` to inspect the derived per-worktree ports
 - Keep `develop` clean - only merge tested, complete work
 - Sync worktrees with `git pull` before starting work
 - Prune stale worktrees: `git worktree prune`
