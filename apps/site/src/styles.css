@@ -7,7 +7,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-html, body {
+html,
+body {
   overscroll-behavior: none;
   scroll-behavior: smooth;
 }

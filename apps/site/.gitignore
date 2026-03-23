@@ -2,8 +2,10 @@ node_modules
 .DS_Store
 dist
 dist-ssr
+.next
 *.local
 .env
+.env.*
 .nitro
 .tanstack
 .wrangler
@@ -15,3 +17,9 @@ __unconfig*
 .roam
 beads_wilhalla
 .beads
+/runtime/*
+!/runtime/README.md
+/instances/*
+!/instances/README.md
+/worktrees/*
+!/worktrees/README.md
