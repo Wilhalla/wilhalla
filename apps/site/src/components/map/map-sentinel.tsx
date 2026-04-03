@@ -2,27 +2,25 @@ const MAP_WIDTH = 4000;
 const MAP_HEIGHT = 2337;
 
 export interface MapSentinelProps {
-  id: string;
   x1: number;
   y1: number;
   x2: number;
   y2: number;
-  onHoverChange?: (id: string | null) => void;
   padding?: number;
   debug?: boolean;
 }
 
 // Rendered inside <svg viewBox="0 0 4000 2337"> — coordinates are image pixels.
 export function MapSentinel({
-  id,
   x1,
   y1,
   x2,
   y2,
-  onHoverChange,
   padding = 40,
   debug = false,
 }: MapSentinelProps) {
+  if (!debug) return null;
+
   const minX = Math.max(0, Math.min(x1, x2) - padding);
   const minY = Math.max(0, Math.min(y1, y2) - padding);
   const maxX = Math.min(MAP_WIDTH, Math.max(x1, x2) + padding);
@@ -30,13 +28,8 @@ export function MapSentinel({
   const w = maxX - minX;
   const h = maxY - minY;
 
-  const setActive = (nextHovered: boolean) => {
-    onHoverChange?.(nextHovered ? id : null);
-  };
-
   return (
     <g>
-      {/* Hit area — transparent, just catches mouse events */}
       <rect
         x={minX}
         y={minY}
@@ -45,9 +38,7 @@ export function MapSentinel({
         fill={debug ? "rgba(255,0,0,0.12)" : "transparent"}
         stroke={debug ? "red" : "none"}
         strokeWidth={debug ? 4 : 0}
-        className="cursor-pointer"
-        onPointerEnter={() => setActive(true)}
-        onPointerLeave={() => setActive(false)}
+        pointerEvents="none"
       />
 
       {/* Debug label */}
