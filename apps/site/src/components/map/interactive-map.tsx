@@ -33,21 +33,27 @@ const INTRO_SEQUENCE = mapSentinels
     return leftOrder - rightOrder;
   });
 const INTRO_START_DELAY_MS = 450;
-const INTRO_STEP_MS = 420;
-const INTRO_OVERLAY_VISIBLE_MS = 1800;
+const DESKTOP_INTRO_STEP_MS = 420;
+const DESKTOP_INTRO_OVERLAY_VISIBLE_MS = 1800;
+const MOBILE_INTRO_STEP_MS = 520;
+const MOBILE_INTRO_OVERLAY_VISIBLE_MS = 420;
 const OPENING_FADE_DURATION_MS = 1800;
 const OPENING_FADE_START_DELAY_MS = 100;
 const ONBOARDING_START_DELAY_MS = 160;
+const DESKTOP_OVERLAY_TRANSITION_MS = 1600;
+const MOBILE_INTRO_OVERLAY_TRANSITION_MS = 260;
 let hasPlayedInitialMapSequence = false;
 
 function MapScene({
   activeHoverImages,
   fetchPriority,
+  overlayTransitionDurationMs,
   onHoverChange,
   sizes,
 }: {
   activeHoverImages: string[];
   fetchPriority?: "auto" | "high" | "low";
+  overlayTransitionDurationMs: number;
   onHoverChange: (id: string | null) => void;
   sizes: string;
 }) {
@@ -102,7 +108,10 @@ function MapScene({
             alt=""
             aria-hidden="true"
             className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ease-out"
-            style={{ opacity: activeHoverImages.includes(hoverImage) ? 1 : 0 }}
+            style={{
+              opacity: activeHoverImages.includes(hoverImage) ? 1 : 0,
+              transitionDuration: `${overlayTransitionDurationMs}ms`,
+            }}
             loading="eager"
             decoding="async"
           />
@@ -141,6 +150,7 @@ export function InteractiveMap() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const ignoreNextScrollRef = useRef(false);
   const shouldPlayInitialSequenceRef = useRef(!hasPlayedInitialMapSequence);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [mobileHintDismissed, setMobileHintDismissed] = useState(false);
   const [desktopHintDismissed, setDesktopHintDismissed] = useState(false);
   const [hoveredSentinelId, setHoveredSentinelId] = useState<string | null>(
@@ -162,11 +172,35 @@ export function InteractiveMap() {
           introActiveSentinelIds.flatMap((id) => getSentinelHoverImages(id)),
         ),
       );
+  const introStepMs = isMobileViewport
+    ? MOBILE_INTRO_STEP_MS
+    : DESKTOP_INTRO_STEP_MS;
+  const introOverlayVisibleMs = isMobileViewport
+    ? MOBILE_INTRO_OVERLAY_VISIBLE_MS
+    : DESKTOP_INTRO_OVERLAY_VISIBLE_MS;
+  const overlayTransitionDurationMs =
+    isMobileViewport && onboardingVisible && !introDismissed
+      ? MOBILE_INTRO_OVERLAY_TRANSITION_MS
+      : DESKTOP_OVERLAY_TRANSITION_MS;
 
   const dismissIntro = () => {
     setIntroDismissed(true);
     setIntroActiveSentinelIds([]);
   };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px)");
+    const syncViewport = () => {
+      setIsMobileViewport(mediaQuery.matches);
+    };
+
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncViewport);
+    };
+  }, []);
 
   useEffect(() => {
     if (!shouldPlayInitialSequenceRef.current) return;
@@ -200,7 +234,7 @@ export function InteractiveMap() {
     timers.push(
       window.setTimeout(() => {
         INTRO_SEQUENCE.forEach((sentinel, index) => {
-          const startOffset = index * INTRO_STEP_MS;
+          const startOffset = index * introStepMs;
 
           timers.push(
             window.setTimeout(() => {
@@ -217,7 +251,7 @@ export function InteractiveMap() {
               setIntroActiveSentinelIds((current) =>
                 current.filter((id) => id !== sentinel.id),
               );
-            }, startOffset + INTRO_OVERLAY_VISIBLE_MS),
+            }, startOffset + introOverlayVisibleMs),
           );
         });
 
@@ -226,8 +260,8 @@ export function InteractiveMap() {
             () => {
               setIntroDismissed(true);
             },
-            (INTRO_SEQUENCE.length - 1) * INTRO_STEP_MS +
-              INTRO_OVERLAY_VISIBLE_MS,
+            (INTRO_SEQUENCE.length - 1) * introStepMs +
+              introOverlayVisibleMs,
           ),
         );
       }, INTRO_START_DELAY_MS),
@@ -236,7 +270,7 @@ export function InteractiveMap() {
     return () => {
       timers.forEach((timer) => window.clearTimeout(timer));
     };
-  }, [introDismissed, onboardingVisible]);
+  }, [introDismissed, introOverlayVisibleMs, introStepMs, onboardingVisible]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -267,6 +301,7 @@ export function InteractiveMap() {
         >
           <MapScene
             activeHoverImages={activeHoverImages}
+            overlayTransitionDurationMs={overlayTransitionDurationMs}
             sizes="171vh"
             onHoverChange={(id) => {
               if (id && onboardingVisible) dismissIntro();
@@ -297,6 +332,7 @@ export function InteractiveMap() {
           <MapScene
             activeHoverImages={activeHoverImages}
             fetchPriority="high"
+            overlayTransitionDurationMs={overlayTransitionDurationMs}
             sizes="120vw"
             onHoverChange={(id) => {
               if (id && onboardingVisible) {
