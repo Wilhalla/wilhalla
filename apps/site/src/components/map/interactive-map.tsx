@@ -3,7 +3,11 @@ import { hotspots } from "./hotspots";
 import { MapHotspotPath } from "./map-hotspot";
 import { MapInteractionHint } from "./map-interaction-hint";
 import { MapSentinel } from "./map-sentinel";
-import { mapSentinels } from "./map-sentinels";
+import {
+  getActiveSentinelId,
+  getSentinelHoverImages,
+  mapSentinels,
+} from "./map-sentinels";
 import { PencilFilter } from "./pencil-filter";
 
 const MAP_WIDTH = 4000;
@@ -17,6 +21,9 @@ const MAP_WEBP_SRC_SET = [
   "/wilhalla_map-3840.webp 3840w",
   "/wilhalla_map-4000.webp 4000w",
 ].join(", ");
+const ALL_HOVER_IMAGES = Array.from(
+  new Set(mapSentinels.flatMap((sentinel) => sentinel.hoverImages)),
+);
 const INTRO_SEQUENCE = mapSentinels
   .filter((sentinel) => sentinel.includeInIntro !== false)
   .sort((left, right) => {
@@ -34,20 +41,20 @@ const ONBOARDING_START_DELAY_MS = 160;
 let hasPlayedInitialMapSequence = false;
 
 function MapScene({
-  activeSentinelIds,
+  activeHoverImages,
   fetchPriority,
   onHoverChange,
   sizes,
 }: {
-  activeSentinelIds: string[];
+  activeHoverImages: string[];
   fetchPriority?: "auto" | "high" | "low";
-  onHoverChange: (ids: string[]) => void;
+  onHoverChange: (id: string | null) => void;
   sizes: string;
 }) {
   const [hiResMapLoaded, setHiResMapLoaded] = useState(false);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const updateHoveredSentinels = (clientX: number, clientY: number) => {
+  const updateHoveredSentinel = (clientX: number, clientY: number) => {
     const svg = svgRef.current;
     if (!svg) return;
 
@@ -59,24 +66,7 @@ function MapScene({
     if (!screenMatrix) return;
 
     const cursor = point.matrixTransform(screenMatrix.inverse());
-    const hoveredIds = mapSentinels
-      .filter((sentinel) => {
-        const padding = sentinel.padding ?? 0;
-        const minX = Math.min(sentinel.x1, sentinel.x2) - padding;
-        const maxX = Math.max(sentinel.x1, sentinel.x2) + padding;
-        const minY = Math.min(sentinel.y1, sentinel.y2) - padding;
-        const maxY = Math.max(sentinel.y1, sentinel.y2) + padding;
-
-        return (
-          cursor.x >= minX &&
-          cursor.x <= maxX &&
-          cursor.y >= minY &&
-          cursor.y <= maxY
-        );
-      })
-      .map((sentinel) => sentinel.id);
-
-    onHoverChange(hoveredIds);
+    onHoverChange(getActiveSentinelId(cursor));
   };
 
   return (
@@ -105,21 +95,17 @@ function MapScene({
         />
       </picture>
       <div className="pointer-events-none absolute inset-0">
-        {mapSentinels.map((sentinel) => (
-          sentinel.hoverImages.map((hoverImage, index) => (
-            <img
-              key={`${sentinel.id}-${index}`}
-              src={hoverImage}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ease-out"
-              style={{
-                opacity: activeSentinelIds.includes(sentinel.id) ? 1 : 0,
-              }}
-              loading="eager"
-              decoding="async"
-            />
-          ))
+        {ALL_HOVER_IMAGES.map((hoverImage) => (
+          <img
+            key={hoverImage}
+            src={hoverImage}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ease-out"
+            style={{ opacity: activeHoverImages.includes(hoverImage) ? 1 : 0 }}
+            loading="eager"
+            decoding="async"
+          />
         ))}
       </div>
       <svg
@@ -128,9 +114,9 @@ function MapScene({
         className="absolute inset-0 h-full w-full"
         preserveAspectRatio="xMidYMid slice"
         onPointerMove={(event) => {
-          updateHoveredSentinels(event.clientX, event.clientY);
+          updateHoveredSentinel(event.clientX, event.clientY);
         }}
-        onPointerLeave={() => onHoverChange([])}
+        onPointerLeave={() => onHoverChange(null)}
       >
         <PencilFilter />
         {hotspots.map((hotspot) => (
@@ -157,7 +143,9 @@ export function InteractiveMap() {
   const shouldPlayInitialSequenceRef = useRef(!hasPlayedInitialMapSequence);
   const [mobileHintDismissed, setMobileHintDismissed] = useState(false);
   const [desktopHintDismissed, setDesktopHintDismissed] = useState(false);
-  const [hoveredSentinelIds, setHoveredSentinelIds] = useState<string[]>([]);
+  const [hoveredSentinelId, setHoveredSentinelId] = useState<string | null>(
+    null,
+  );
   const [introActiveSentinelIds, setIntroActiveSentinelIds] = useState<
     string[]
   >([]);
@@ -167,11 +155,13 @@ export function InteractiveMap() {
     shouldPlayInitialSequenceRef.current,
   );
 
-  const activeSentinelIds = hoveredSentinelIds.length
-    ? Array.from(
-        new Set([...introActiveSentinelIds, ...hoveredSentinelIds]),
-      )
-    : introActiveSentinelIds;
+  const activeHoverImages = hoveredSentinelId
+    ? getSentinelHoverImages(hoveredSentinelId)
+    : Array.from(
+        new Set(
+          introActiveSentinelIds.flatMap((id) => getSentinelHoverImages(id)),
+        ),
+      );
 
   const dismissIntro = () => {
     setIntroDismissed(true);
@@ -276,11 +266,11 @@ export function InteractiveMap() {
           style={{ width: `calc(100dvh * ${ASPECT_RATIO})`, minWidth: "100vw" }}
         >
           <MapScene
-            activeSentinelIds={activeSentinelIds}
+            activeHoverImages={activeHoverImages}
             sizes="171vh"
-            onHoverChange={(ids) => {
-              if (ids.length && onboardingVisible) dismissIntro();
-              setHoveredSentinelIds(ids);
+            onHoverChange={(id) => {
+              if (id && onboardingVisible) dismissIntro();
+              setHoveredSentinelId(id);
             }}
           />
           <div
@@ -305,15 +295,15 @@ export function InteractiveMap() {
       <div className="hidden lg:block relative w-full h-svh overflow-hidden bg-black">
         <div className="absolute inset-0 scale-[1.2] origin-center">
           <MapScene
-            activeSentinelIds={activeSentinelIds}
+            activeHoverImages={activeHoverImages}
             fetchPriority="high"
             sizes="120vw"
-            onHoverChange={(ids) => {
-              if (ids.length && onboardingVisible) {
+            onHoverChange={(id) => {
+              if (id && onboardingVisible) {
                 setDesktopHintDismissed(true);
                 dismissIntro();
               }
-              setHoveredSentinelIds(ids);
+              setHoveredSentinelId(id);
             }}
           />
         </div>
