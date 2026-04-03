@@ -71,16 +71,20 @@ function MapScene({
       </picture>
       <div className="pointer-events-none absolute inset-0">
         {mapSentinels.map((sentinel) => (
-          <img
-            key={sentinel.id}
-            src={sentinel.hoverImage}
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ease-out"
-            style={{ opacity: activeSentinelIds.includes(sentinel.id) ? 1 : 0 }}
-            loading="eager"
-            decoding="async"
-          />
+          sentinel.hoverImages.map((hoverImage, index) => (
+            <img
+              key={`${sentinel.id}-${index}`}
+              src={hoverImage}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ease-out"
+              style={{
+                opacity: activeSentinelIds.includes(sentinel.id) ? 1 : 0,
+              }}
+              loading="eager"
+              decoding="async"
+            />
+          ))
         ))}
       </div>
       <svg

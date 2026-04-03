@@ -4,7 +4,7 @@ export type MapSentinelConfig = {
   y1: number;
   x2: number;
   y2: number;
-  hoverImage: string;
+  hoverImages: string[];
 };
 
 // These regions are defined in full-map pixel coordinates (4000x2337).
@@ -15,7 +15,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1350,
     x2: 990,
     y2: 1900,
-    hoverImage: "/map-overlays/hover/horses.webp",
+    hoverImages: [
+      "/map-overlays/hover/horses.webp",
+      "/map-overlays/text/horses.webp",
+    ],
   },
   {
     id: "barn",
@@ -23,7 +26,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1550,
     x2: 2250,
     y2: 1685,
-    hoverImage: "/map-overlays/hover/barn.webp",
+    hoverImages: [
+      "/map-overlays/hover/barn.webp",
+      "/map-overlays/text/barn.webp",
+    ],
   },
   {
     id: "vake-tree",
@@ -31,7 +37,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1550,
     x2: 2000,
     y2: 1675,
-    hoverImage: "/map-overlays/hover/vake-tree.webp",
+    hoverImages: [
+      "/map-overlays/hover/vake-tree.webp",
+      "/map-overlays/text/vake-tree.webp",
+    ],
   },
   {
     id: "garden",
@@ -39,7 +48,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1085,
     x2: 2935,
     y2: 1440,
-    hoverImage: "/map-overlays/hover/garden.webp",
+    hoverImages: [
+      "/map-overlays/hover/garden.webp",
+      "/map-overlays/text/garden.webp",
+    ],
   },
   {
     id: "yurt",
@@ -47,7 +59,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1517,
     x2: 3085,
     y2: 1740,
-    hoverImage: "/map-overlays/hover/yurt.webp",
+    hoverImages: [
+      "/map-overlays/hover/yurt.webp",
+      "/map-overlays/text/yurt.webp",
+    ],
   },
   {
     id: "swallows",
@@ -55,6 +70,6 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 830,
     x2: 2745,
     y2: 1030,
-    hoverImage: "/map-overlays/hover/swallows.webp",
+    hoverImages: ["/map-overlays/hover/swallows.webp"],
   },
 ];
