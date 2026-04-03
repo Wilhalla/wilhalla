@@ -114,7 +114,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1350,
     x2: 990,
     y2: 1900,
-    hoverImages: ["/map-overlays/hover/horses.webp"],
+    hoverImages: [
+      "/map-overlays/hover/horses.webp",
+      "/map-overlays/text/horses.webp",
+    ],
     padding: 40,
   },
   {
@@ -123,7 +126,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1550,
     x2: 2250,
     y2: 1685,
-    hoverImages: ["/map-overlays/hover/barn.webp"],
+    hoverImages: [
+      "/map-overlays/hover/barn.webp",
+      "/map-overlays/text/barn.webp",
+    ],
     padding: 40,
   },
   {
@@ -132,7 +138,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1550,
     x2: 2000,
     y2: 1675,
-    hoverImages: ["/map-overlays/hover/vake-tree.webp"],
+    hoverImages: [
+      "/map-overlays/hover/vake-tree.webp",
+      "/map-overlays/text/vake-tree.webp",
+    ],
     padding: 40,
   },
   {
@@ -141,7 +150,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1085,
     x2: 2935,
     y2: 1440,
-    hoverImages: ["/map-overlays/hover/garden.webp"],
+    hoverImages: [
+      "/map-overlays/hover/garden.webp",
+      "/map-overlays/text/garden.webp",
+    ],
     padding: 40,
   },
   {
@@ -150,7 +162,10 @@ export const mapSentinels: MapSentinelConfig[] = [
     y1: 1517,
     x2: 3085,
     y2: 1740,
-    hoverImages: ["/map-overlays/hover/yurt.webp"],
+    hoverImages: [
+      "/map-overlays/hover/yurt.webp",
+      "/map-overlays/text/yurt.webp",
+    ],
     padding: 40,
   },
   {
