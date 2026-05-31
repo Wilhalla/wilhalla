@@ -12,7 +12,7 @@
 
 **Package manager and task runner:** `bun`
 
-**Other tools:** `roam`, `bd (beads)`
+**Other tools:** `roam`
 
 ---
 

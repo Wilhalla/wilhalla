@@ -18,8 +18,6 @@ const config = defineConfig({
       ignored: [
         "**/.dolt/**",
         "**/.roam/**",
-        "**/.beads/**",
-        "**/beads_wilhalla/**",
         "**/.doltcfg/**",
       ],
     },
