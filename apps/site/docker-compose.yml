@@ -1,6 +1,6 @@
 services:
   wilhalla:
-    image: janpeterd/wilhalla-spa:latest
+    image: janpeterd/wilhalla-site:latest
     ports:
       - "8080:80"
     restart: unless-stopped

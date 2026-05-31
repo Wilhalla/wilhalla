@@ -10,7 +10,7 @@
 
 **Design doc:** `docs/plans/2026-02-24-wilhalla-design.md`
 
-**Package manager and task runner:** `bun`
+**Package manager and task runner:** `pnpm`
 
 **Other tools:** `roam`
 
@@ -129,7 +129,7 @@ a {
 
 **Step 5: Verify dev server runs**
 
-Run: `bun run dev`
+Run: `pnpm run dev`
 Expected: Dev server starts, page loads with updated font styles, no errors.
 
 **Step 6: Commit**
@@ -342,7 +342,7 @@ Remove the TanStack Devtools from root in production (keep for dev only with laz
 
 **Step 5: Verify in browser**
 
-Run: `bun run dev`
+Run: `pnpm run dev`
 Expected: Navbar shows "WILHALLA" left + nav links right. Footer shows at bottom. Hamburger on mobile. Links route to 404 (pages don't exist yet) which is fine.
 
 **Step 6: Commit**
@@ -580,7 +580,7 @@ function HomePage() {
 
 **Step 6: Verify in browser**
 
-Run: `bun run dev`
+Run: `pnpm run dev`
 Expected:
 
 - Map displays full-width with correct aspect ratio
@@ -788,7 +788,7 @@ function HomePage() {
 
 **Step 5: Verify in browser**
 
-Run: `bun run dev`
+Run: `pnpm run dev`
 Expected: Full homepage renders — map hero, intro text, 3 teaser blocks in a row (stacked on mobile), featured Verhuur block with grey background, dividers between sections.
 
 **Step 6: Commit**
@@ -950,7 +950,7 @@ Create ALL route files listed above following these two patterns (landing pages 
 
 **Step 4: Verify in browser**
 
-Run: `bun run dev`
+Run: `pnpm run dev`
 Expected: All nav links work. Landing pages show sub-page lists. Sub-pages show breadcrumbs. TanStack Router auto-generates the route tree.
 
 **Step 5: Commit**
@@ -1058,7 +1058,7 @@ Update `src/routes/welzijn/fasciatherapie.tsx` to use ContentPage with placehold
 
 **Step 3: Verify in browser**
 
-Run: `bun run dev`, navigate to `/welzijn/fasciatherapie`
+Run: `pnpm run dev`, navigate to `/welzijn/fasciatherapie`
 Expected: Breadcrumb → title → divider → sections → contact. Clean editorial layout.
 
 **Step 4: Commit**

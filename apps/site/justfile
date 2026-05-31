@@ -4,25 +4,25 @@ default:
     @just --list
 
 install:
-    bun install
+    pnpm install
 
 dev:
-    bun run dev -- --host 0.0.0.0
+    pnpm run dev -- --host 0.0.0.0
 
 preview:
-    bun run preview -- --host 0.0.0.0
+    HOST=0.0.0.0 pnpm run preview
 
 build:
-    bun run build
+    pnpm run build
 
 test:
-    bun run test
+    pnpm run test
 
 fmt:
-    bun run format
+    pnpm run format
 
 check:
-    bun run check
+    pnpm run check
 
 sync-map-overlays source='/home/jp/Downloads/transfer-16' output='public/map-overlays':
     ./scripts/sync-map-overlays.sh "{{source}}" "{{output}}"

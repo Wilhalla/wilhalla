@@ -1,7 +1,16 @@
 import { PageHeader } from "@/components/page-header";
+import { routeMeta } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/agenda")({ component: AgendaPage });
+export const Route = createFileRoute("/agenda")({
+  head: () => ({
+    meta: routeMeta({
+      title: "Agenda",
+      description: "Workshops, activiteiten en evenementen op Wilhalla.",
+    }),
+  }),
+  component: AgendaPage,
+});
 
 function AgendaPage() {
   return (

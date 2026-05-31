@@ -1,7 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/page-header";
+import { routeMeta } from "@/lib/seo";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/blog/")({ component: BlogPage });
+export const Route = createFileRoute("/blog/")({
+  head: () => ({
+    meta: routeMeta({
+      title: "Blog",
+      description: "Verhalen en updates van Wilhalla.",
+    }),
+  }),
+  component: BlogPage,
+});
 
 function BlogPage() {
   return (

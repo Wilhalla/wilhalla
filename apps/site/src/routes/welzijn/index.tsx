@@ -1,8 +1,18 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/page-header";
 import { SectionDivider } from "@/components/section-divider";
+import { routeMeta } from "@/lib/seo";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/welzijn/")({ component: WelzijnPage });
+export const Route = createFileRoute("/welzijn/")({
+  head: () => ({
+    meta: routeMeta({
+      title: "Welzijn",
+      description:
+        "Een holistische aanpak voor lichaam en geest. Fasciatherapie, paardencoaching en lichaamsgerichte therapie door Tinneke en Jasmien.",
+    }),
+  }),
+  component: WelzijnPage,
+});
 
 const subPages = [
   { label: "Fasciatherapie", to: "/welzijn/fasciatherapie" },

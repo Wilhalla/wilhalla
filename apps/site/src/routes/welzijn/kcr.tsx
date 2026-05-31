@@ -1,8 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PageHeader } from "@/components/page-header";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { PageHeader } from "@/components/page-header";
+import { routeMeta } from "@/lib/seo";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/welzijn/kcr")({ component: KcrPage });
+export const Route = createFileRoute("/welzijn/kcr")({
+  head: () => ({
+    meta: routeMeta({
+      title: "Kinetic Chain Release",
+      description: "Kinetic Chain Release bij Wilhalla.",
+    }),
+  }),
+  component: KcrPage,
+});
 
 function KcrPage() {
   return (
