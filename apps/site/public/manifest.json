@@ -1,25 +1,33 @@
 {
-  "short_name": "TanStack App",
-  "name": "Create TanStack App Sample",
+  "short_name": "Wilhalla",
+  "name": "Wilhalla",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
     },
     {
-      "src": "logo192.png",
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "sizes": "192x192"
+      "purpose": "any"
     },
     {
-      "src": "logo512.png",
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#f4ead7",
   "background_color": "#ffffff"
 }
