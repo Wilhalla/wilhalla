@@ -7,8 +7,12 @@
     "#/*": "./src/*"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"],
-    "ignoredBuiltDependencies": ["msw"]
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ],
+    "ignoredBuiltDependencies": [
+      "msw"
+    ]
   },
   "scripts": {
     "dev": "vite dev --port 3000",
@@ -30,6 +34,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.575.0",
+    "nitro": "3.0.260522-beta",
     "radix-ui": "^1.4.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
