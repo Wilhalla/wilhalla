@@ -17,9 +17,7 @@ __unconfig*
 .roam
 beads_wilhalla
 .beads
+.codex/
+/assets/
 /runtime/*
 !/runtime/README.md
-/instances/*
-!/instances/README.md
-/worktrees/*
-!/worktrees/README.md

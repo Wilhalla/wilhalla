@@ -3,32 +3,14 @@ set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
 default:
     @just --list
 
-bootstrap:
-    ./scripts/bootstrap-worktree.sh
-
-env:
-    ./scripts/print-worktree-env.sh
-
-port-map:
-    ./scripts/port-map.sh
-
-worktree-add name branch='' start='HEAD':
-    if [[ -n "{{branch}}" ]]; then ./scripts/worktree-create.sh "{{name}}" "{{branch}}" "{{start}}"; else ./scripts/worktree-create.sh "{{name}}"; fi
-
-worktree-list:
-    ./scripts/worktree-list.sh
-
-worktree-rm name force='false':
-    ./scripts/worktree-remove.sh "{{name}}" "{{force}}"
-
 install:
     bun install
 
 dev:
-    ./scripts/run-ui.sh
+    bun run dev -- --host 0.0.0.0
 
 preview:
-    ./scripts/run-preview.sh
+    bun run preview -- --host 0.0.0.0
 
 build:
     bun run build
@@ -41,3 +23,6 @@ fmt:
 
 check:
     bun run check
+
+sync-map-overlays source='/home/jp/Downloads/transfer-16' output='public/map-overlays':
+    ./scripts/sync-map-overlays.sh "{{source}}" "{{output}}"
