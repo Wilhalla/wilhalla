@@ -1,8 +1,18 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/page-header";
 import { SectionDivider } from "@/components/section-divider";
+import { routeMeta } from "@/lib/seo";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/tuin/")({ component: TuinPage });
+export const Route = createFileRoute("/tuin/")({
+  head: () => ({
+    meta: routeMeta({
+      title: "Tuin",
+      description:
+        "Wilhalla is een tuin van 1 hectare met boomgaard, moestuin, bessenkooi, serre, kippen, bijen en meer.",
+    }),
+  }),
+  component: TuinPage,
+});
 
 const subPages = [{ label: "Samentuin", to: "/tuin/samentuin" }];
 

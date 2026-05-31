@@ -1,8 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PageHeader } from "@/components/page-header";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { PageHeader } from "@/components/page-header";
+import { routeMeta } from "@/lib/seo";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/tuin/samentuin")({
+  head: () => ({
+    meta: routeMeta({
+      title: "Samentuin",
+      description: "Samentuin bij Wilhalla.",
+    }),
+  }),
   component: SamentuinPage,
 });
 

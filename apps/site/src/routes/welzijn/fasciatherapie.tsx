@@ -1,8 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ContentPage } from "@/components/content-page";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { ContentPage } from "@/components/content-page";
+import { routeMeta } from "@/lib/seo";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/welzijn/fasciatherapie")({
+  head: () => ({
+    meta: routeMeta({
+      title: "Fasciatherapie",
+      description:
+        "Fasciatherapie bij Wilhalla: een zachte, holistische methode voor het lichaam.",
+    }),
+  }),
   component: FasciatherapiePage,
 });
 
