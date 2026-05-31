@@ -3,12 +3,25 @@
 ## Quick Reference
 
 ```bash
-bd ready              # Find available work
-bd show <id>          # View issue details
-bd update <id> --status in_progress  # Claim work
-bd close <id>         # Complete work
-bd sync               # Sync with git
+gh issue list         # Find available work
+gh issue view <id>    # View issue details and comments
+gh issue create       # Create follow-up work
+gh issue close <id>   # Complete work
 ```
+
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs are tracked in GitHub Issues for `Wilhalla/wilhalla-site`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the default five-label triage vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout: read root `CONTEXT.md` and root `docs/adr/` when present. See `docs/agents/domain.md`.
 
 <!-- BEGIN ROAM INTEGRATION -->
 
@@ -44,7 +57,6 @@ Run `roam --help` for all commands. Use `roam --json <cmd>` for structured outpu
 4. **PUSH TO REMOTE** - This is MANDATORY:
    ```bash
    git pull --rebase
-   bd sync
    git push
    git status  # MUST show "up to date with origin"
    ```
