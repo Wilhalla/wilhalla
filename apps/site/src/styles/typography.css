@@ -1,6 +1,7 @@
-/* Typography scale — EB Garamond Variable */
+/* Legacy map typography (home page) + ElevenLabs-inspired editorial system */
 
 .text-display {
+  font-family: "EB Garamond Variable", Georgia, serif;
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 400;
   text-transform: uppercase;
@@ -9,36 +10,104 @@
 }
 
 .text-h1 {
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
+  font-family: var(--font-waldenburg);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
 }
 
 .text-h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  line-height: 1.3;
+  font-family: var(--font-waldenburg);
+  font-size: var(--text-heading);
+  font-weight: 300;
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-heading);
 }
 
 .text-body {
-  font-size: 1.125rem;
+  font-family: var(--font-inter);
+  font-size: var(--text-body-lg);
   font-weight: 400;
-  line-height: 1.7;
+  line-height: var(--leading-body-lg);
+  letter-spacing: 0.01em;
 }
 
 .text-small {
-  font-size: 0.875rem;
+  font-family: var(--font-inter);
+  font-size: var(--text-body);
   font-weight: 400;
-  letter-spacing: 0.03em;
-  line-height: 1.5;
+  letter-spacing: 0.01em;
+  line-height: var(--leading-body);
 }
 
 .text-nav {
-  font-size: 0.9375rem;
+  font-family: var(--font-inter);
+  font-size: var(--text-body);
   font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.01em;
   line-height: 1;
+}
+
+.el-display {
+  font-family: var(--font-waldenburg);
+  font-size: clamp(2.25rem, 6vw, var(--text-display));
+  font-weight: 300;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+}
+
+.el-heading {
+  font-family: var(--font-waldenburg);
+  font-size: clamp(2rem, 4vw, var(--text-heading-lg));
+  font-weight: 300;
+  letter-spacing: var(--tracking-heading-lg);
+  line-height: var(--leading-heading-lg);
+}
+
+.el-heading-sm {
+  font-family: var(--font-waldenburg);
+  font-size: var(--text-heading);
+  font-weight: 300;
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-heading);
+}
+
+.el-body {
+  font-family: var(--font-inter);
+  font-size: var(--text-body-lg);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: var(--leading-body-lg);
+}
+
+.el-body-sm {
+  font-family: var(--font-inter);
+  font-size: var(--text-body);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: var(--leading-body);
+}
+
+.el-label {
+  font-family: var(--font-inter);
+  font-size: var(--text-body);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: var(--leading-body);
+}
+
+.el-stamp {
+  font-family: var(--font-waldenburgfh);
+  font-size: var(--text-body);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+}
+
+.el-mono {
+  font-family: var(--font-geist-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.69;
 }

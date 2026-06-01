@@ -12,27 +12,27 @@ export function MapHotspotPath({ hotspot }: MapHotspotProps) {
 
   return (
     <g>
-      <path
-        d={hotspot.path}
-        fill={hovered ? "rgba(255,255,255,0.12)" : "transparent"}
-        stroke={hovered ? "rgba(0,0,0,0.6)" : "none"}
-        strokeWidth={hovered ? 2 : 0}
-        filter="url(#pencil-stroke)"
-        className="cursor-pointer transition-all duration-300"
+      <a
+        href={hotspot.route}
+        aria-label={hotspot.label}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onClick={() => navigate({ to: hotspot.route })}
-        role="button"
-        tabIndex={0}
-        aria-label={hotspot.label}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            navigate({ to: hotspot.route });
-          }
+        onClick={(event) => {
+          event.preventDefault();
+          navigate({ to: hotspot.route });
         }}
         onFocus={() => setHovered(true)}
         onBlur={() => setHovered(false)}
-      />
+      >
+        <path
+          d={hotspot.path}
+          fill={hovered ? "rgba(255,255,255,0.12)" : "transparent"}
+          stroke={hovered ? "rgba(0,0,0,0.6)" : "none"}
+          strokeWidth={hovered ? 2 : 0}
+          filter="url(#pencil-stroke)"
+          className="cursor-pointer transition-all duration-300"
+        />
+      </a>
 
       {/* Label */}
       <text

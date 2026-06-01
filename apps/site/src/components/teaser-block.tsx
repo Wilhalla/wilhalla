@@ -14,13 +14,10 @@ export function TeaserBlock({
   linkLabel = "Ontdek",
 }: TeaserBlockProps) {
   return (
-    <div className="flex flex-col gap-4">
-      <h2 className="text-h2 uppercase tracking-[0.08em]">{title}</h2>
-      <p className="text-body text-muted-foreground">{description}</p>
-      <Link
-        to={to}
-        className="text-nav text-foreground inline-flex items-center gap-2 no-underline hover:underline"
-      >
+    <div className="space-y-4">
+      <h2 className="el-heading-sm m-0 text-obsidian">{title}</h2>
+      <p className="el-body-sm text-gravel">{description}</p>
+      <Link to={to} className="eleven-pill-ghost">
         {linkLabel} <span aria-hidden="true">&rarr;</span>
       </Link>
     </div>

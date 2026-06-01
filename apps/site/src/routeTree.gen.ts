@@ -11,17 +11,19 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as YogaRouteImport } from './routes/yoga'
 import { Route as VerhuurRouteImport } from './routes/verhuur'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WelzijnIndexRouteImport } from './routes/welzijn/index'
-import { Route as TuinIndexRouteImport } from './routes/tuin/index'
-import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as OverOnsIndexRouteImport } from './routes/over-ons/index'
 import { Route as WelzijnVeerkrachtRouteImport } from './routes/welzijn/veerkracht'
 import { Route as WelzijnPaardencoachingRouteImport } from './routes/welzijn/paardencoaching'
+import { Route as WelzijnMuziektherapieRouteImport } from './routes/welzijn/muziektherapie'
 import { Route as WelzijnLimfedrainageRouteImport } from './routes/welzijn/limfedrainage'
 import { Route as WelzijnKcrRouteImport } from './routes/welzijn/kcr'
 import { Route as WelzijnFasciatherapieRouteImport } from './routes/welzijn/fasciatherapie'
-import { Route as TuinSamentuinRouteImport } from './routes/tuin/samentuin'
+import { Route as OverOnsSamentuinRouteImport } from './routes/over-ons/samentuin'
 
 const YogaRoute = YogaRouteImport.update({
   id: '/yoga',
@@ -31,6 +33,16 @@ const YogaRoute = YogaRouteImport.update({
 const VerhuurRoute = VerhuurRouteImport.update({
   id: '/verhuur',
   path: '/verhuur',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgendaRoute = AgendaRouteImport.update({
@@ -48,14 +60,9 @@ const WelzijnIndexRoute = WelzijnIndexRouteImport.update({
   path: '/welzijn/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TuinIndexRoute = TuinIndexRouteImport.update({
-  id: '/tuin/',
-  path: '/tuin/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogIndexRoute = BlogIndexRouteImport.update({
-  id: '/blog/',
-  path: '/blog/',
+const OverOnsIndexRoute = OverOnsIndexRouteImport.update({
+  id: '/over-ons/',
+  path: '/over-ons/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WelzijnVeerkrachtRoute = WelzijnVeerkrachtRouteImport.update({
@@ -66,6 +73,11 @@ const WelzijnVeerkrachtRoute = WelzijnVeerkrachtRouteImport.update({
 const WelzijnPaardencoachingRoute = WelzijnPaardencoachingRouteImport.update({
   id: '/welzijn/paardencoaching',
   path: '/welzijn/paardencoaching',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelzijnMuziektherapieRoute = WelzijnMuziektherapieRouteImport.update({
+  id: '/welzijn/muziektherapie',
+  path: '/welzijn/muziektherapie',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WelzijnLimfedrainageRoute = WelzijnLimfedrainageRouteImport.update({
@@ -83,56 +95,62 @@ const WelzijnFasciatherapieRoute = WelzijnFasciatherapieRouteImport.update({
   path: '/welzijn/fasciatherapie',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TuinSamentuinRoute = TuinSamentuinRouteImport.update({
-  id: '/tuin/samentuin',
-  path: '/tuin/samentuin',
+const OverOnsSamentuinRoute = OverOnsSamentuinRouteImport.update({
+  id: '/over-ons/samentuin',
+  path: '/over-ons/samentuin',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
+  '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
   '/verhuur': typeof VerhuurRoute
   '/yoga': typeof YogaRoute
-  '/tuin/samentuin': typeof TuinSamentuinRoute
+  '/over-ons/samentuin': typeof OverOnsSamentuinRoute
   '/welzijn/fasciatherapie': typeof WelzijnFasciatherapieRoute
   '/welzijn/kcr': typeof WelzijnKcrRoute
   '/welzijn/limfedrainage': typeof WelzijnLimfedrainageRoute
+  '/welzijn/muziektherapie': typeof WelzijnMuziektherapieRoute
   '/welzijn/paardencoaching': typeof WelzijnPaardencoachingRoute
   '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
-  '/blog/': typeof BlogIndexRoute
-  '/tuin/': typeof TuinIndexRoute
+  '/over-ons/': typeof OverOnsIndexRoute
   '/welzijn/': typeof WelzijnIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
+  '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
   '/verhuur': typeof VerhuurRoute
   '/yoga': typeof YogaRoute
-  '/tuin/samentuin': typeof TuinSamentuinRoute
+  '/over-ons/samentuin': typeof OverOnsSamentuinRoute
   '/welzijn/fasciatherapie': typeof WelzijnFasciatherapieRoute
   '/welzijn/kcr': typeof WelzijnKcrRoute
   '/welzijn/limfedrainage': typeof WelzijnLimfedrainageRoute
+  '/welzijn/muziektherapie': typeof WelzijnMuziektherapieRoute
   '/welzijn/paardencoaching': typeof WelzijnPaardencoachingRoute
   '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
-  '/blog': typeof BlogIndexRoute
-  '/tuin': typeof TuinIndexRoute
+  '/over-ons': typeof OverOnsIndexRoute
   '/welzijn': typeof WelzijnIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
+  '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
   '/verhuur': typeof VerhuurRoute
   '/yoga': typeof YogaRoute
-  '/tuin/samentuin': typeof TuinSamentuinRoute
+  '/over-ons/samentuin': typeof OverOnsSamentuinRoute
   '/welzijn/fasciatherapie': typeof WelzijnFasciatherapieRoute
   '/welzijn/kcr': typeof WelzijnKcrRoute
   '/welzijn/limfedrainage': typeof WelzijnLimfedrainageRoute
+  '/welzijn/muziektherapie': typeof WelzijnMuziektherapieRoute
   '/welzijn/paardencoaching': typeof WelzijnPaardencoachingRoute
   '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
-  '/blog/': typeof BlogIndexRoute
-  '/tuin/': typeof TuinIndexRoute
+  '/over-ons/': typeof OverOnsIndexRoute
   '/welzijn/': typeof WelzijnIndexRoute
 }
 export interface FileRouteTypes {
@@ -140,62 +158,70 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/agenda'
+    | '/contact'
+    | '/gallery'
     | '/verhuur'
     | '/yoga'
-    | '/tuin/samentuin'
+    | '/over-ons/samentuin'
     | '/welzijn/fasciatherapie'
     | '/welzijn/kcr'
     | '/welzijn/limfedrainage'
+    | '/welzijn/muziektherapie'
     | '/welzijn/paardencoaching'
     | '/welzijn/veerkracht'
-    | '/blog/'
-    | '/tuin/'
+    | '/over-ons/'
     | '/welzijn/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/agenda'
+    | '/contact'
+    | '/gallery'
     | '/verhuur'
     | '/yoga'
-    | '/tuin/samentuin'
+    | '/over-ons/samentuin'
     | '/welzijn/fasciatherapie'
     | '/welzijn/kcr'
     | '/welzijn/limfedrainage'
+    | '/welzijn/muziektherapie'
     | '/welzijn/paardencoaching'
     | '/welzijn/veerkracht'
-    | '/blog'
-    | '/tuin'
+    | '/over-ons'
     | '/welzijn'
   id:
     | '__root__'
     | '/'
     | '/agenda'
+    | '/contact'
+    | '/gallery'
     | '/verhuur'
     | '/yoga'
-    | '/tuin/samentuin'
+    | '/over-ons/samentuin'
     | '/welzijn/fasciatherapie'
     | '/welzijn/kcr'
     | '/welzijn/limfedrainage'
+    | '/welzijn/muziektherapie'
     | '/welzijn/paardencoaching'
     | '/welzijn/veerkracht'
-    | '/blog/'
-    | '/tuin/'
+    | '/over-ons/'
     | '/welzijn/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgendaRoute: typeof AgendaRoute
+  ContactRoute: typeof ContactRoute
+  GalleryRoute: typeof GalleryRoute
   VerhuurRoute: typeof VerhuurRoute
   YogaRoute: typeof YogaRoute
-  TuinSamentuinRoute: typeof TuinSamentuinRoute
+  OverOnsSamentuinRoute: typeof OverOnsSamentuinRoute
   WelzijnFasciatherapieRoute: typeof WelzijnFasciatherapieRoute
   WelzijnKcrRoute: typeof WelzijnKcrRoute
   WelzijnLimfedrainageRoute: typeof WelzijnLimfedrainageRoute
+  WelzijnMuziektherapieRoute: typeof WelzijnMuziektherapieRoute
   WelzijnPaardencoachingRoute: typeof WelzijnPaardencoachingRoute
   WelzijnVeerkrachtRoute: typeof WelzijnVeerkrachtRoute
-  BlogIndexRoute: typeof BlogIndexRoute
-  TuinIndexRoute: typeof TuinIndexRoute
+  OverOnsIndexRoute: typeof OverOnsIndexRoute
   WelzijnIndexRoute: typeof WelzijnIndexRoute
 }
 
@@ -213,6 +239,20 @@ declare module '@tanstack/react-router' {
       path: '/verhuur'
       fullPath: '/verhuur'
       preLoaderRoute: typeof VerhuurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agenda': {
@@ -236,18 +276,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WelzijnIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tuin/': {
-      id: '/tuin/'
-      path: '/tuin'
-      fullPath: '/tuin/'
-      preLoaderRoute: typeof TuinIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog/': {
-      id: '/blog/'
-      path: '/blog'
-      fullPath: '/blog/'
-      preLoaderRoute: typeof BlogIndexRouteImport
+    '/over-ons/': {
+      id: '/over-ons/'
+      path: '/over-ons'
+      fullPath: '/over-ons/'
+      preLoaderRoute: typeof OverOnsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/welzijn/veerkracht': {
@@ -262,6 +295,13 @@ declare module '@tanstack/react-router' {
       path: '/welzijn/paardencoaching'
       fullPath: '/welzijn/paardencoaching'
       preLoaderRoute: typeof WelzijnPaardencoachingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welzijn/muziektherapie': {
+      id: '/welzijn/muziektherapie'
+      path: '/welzijn/muziektherapie'
+      fullPath: '/welzijn/muziektherapie'
+      preLoaderRoute: typeof WelzijnMuziektherapieRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/welzijn/limfedrainage': {
@@ -285,11 +325,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WelzijnFasciatherapieRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tuin/samentuin': {
-      id: '/tuin/samentuin'
-      path: '/tuin/samentuin'
-      fullPath: '/tuin/samentuin'
-      preLoaderRoute: typeof TuinSamentuinRouteImport
+    '/over-ons/samentuin': {
+      id: '/over-ons/samentuin'
+      path: '/over-ons/samentuin'
+      fullPath: '/over-ons/samentuin'
+      preLoaderRoute: typeof OverOnsSamentuinRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -298,16 +338,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgendaRoute: AgendaRoute,
+  ContactRoute: ContactRoute,
+  GalleryRoute: GalleryRoute,
   VerhuurRoute: VerhuurRoute,
   YogaRoute: YogaRoute,
-  TuinSamentuinRoute: TuinSamentuinRoute,
+  OverOnsSamentuinRoute: OverOnsSamentuinRoute,
   WelzijnFasciatherapieRoute: WelzijnFasciatherapieRoute,
   WelzijnKcrRoute: WelzijnKcrRoute,
   WelzijnLimfedrainageRoute: WelzijnLimfedrainageRoute,
+  WelzijnMuziektherapieRoute: WelzijnMuziektherapieRoute,
   WelzijnPaardencoachingRoute: WelzijnPaardencoachingRoute,
   WelzijnVeerkrachtRoute: WelzijnVeerkrachtRoute,
-  BlogIndexRoute: BlogIndexRoute,
-  TuinIndexRoute: TuinIndexRoute,
+  OverOnsIndexRoute: OverOnsIndexRoute,
   WelzijnIndexRoute: WelzijnIndexRoute,
 }
 export const routeTree = rootRouteImport

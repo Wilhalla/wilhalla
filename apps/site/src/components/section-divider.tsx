@@ -5,14 +5,14 @@ type SectionDividerProps = {
 export function SectionDivider({ asset }: SectionDividerProps) {
   if (asset) {
     return (
-      <div className="mx-auto max-w-[1200px] px-6 py-4">
+      <div className="site-container py-4">
         <img src={asset} alt="" className="h-auto w-full" loading="lazy" />
       </div>
     );
   }
   return (
-    <div className="mx-auto max-w-[1200px] px-6">
-      <hr className="border-t border-border" />
+    <div className="site-container">
+      <hr className="border-t border-chalk" />
     </div>
   );
 }
