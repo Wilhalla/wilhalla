@@ -1,31 +1,15 @@
-import { Breadcrumb } from "@/components/breadcrumb";
-import { PageHeader } from "@/components/page-header";
-import { routeMeta } from "@/lib/seo";
+import { editorialPages } from "@/config/registries";
+import {
+  EditorialPlaceholderPage,
+  editorialRouteHead,
+} from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/welzijn/kcr")({
-  head: () => ({
-    meta: routeMeta({
-      title: "Kinetic Chain Release",
-      description: "Kinetic Chain Release bij Wilhalla.",
-    }),
-  }),
+  head: () => editorialRouteHead(editorialPages.kcr, "/welzijn/kcr"),
   component: KcrPage,
 });
 
 function KcrPage() {
-  return (
-    <div>
-      <Breadcrumb
-        items={[
-          { label: "Welzijn", to: "/welzijn" },
-          { label: "Kinetic Chain Release" },
-        ]}
-      />
-      <PageHeader
-        title="Kinetic Chain Release"
-        intro="Placeholder — content wordt later aangevuld."
-      />
-    </div>
-  );
+  return <EditorialPlaceholderPage page={editorialPages.kcr} />;
 }

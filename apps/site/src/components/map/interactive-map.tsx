@@ -1,84 +1,362 @@
-import { useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { interactiveMapRegistry } from "@/config/registries";
+import {
+  allMapHoverImages,
+  getActiveMapDiscovery,
+  getAdjustedExplanationPosition,
+  getMapOverlayTransitionDurationMs,
+  hasDarkInkCardLabel,
+  introMapSequence,
+  isTextOverlayImage,
+  mapDiscoveryTimings,
+  type ViewBoxRect,
+} from "@/modules/interactive-map-discovery";
+import { Link } from "@tanstack/react-router";
 import { hotspots } from "./hotspots";
 import { MapHotspotPath } from "./map-hotspot";
 import { MapInteractionHint } from "./map-interaction-hint";
 import { MapSentinel } from "./map-sentinel";
 import {
   getActiveSentinelId,
-  getSentinelHoverImages,
+  getSentinelFallbackGlowBounds,
+  type MapSentinelExplanation,
   mapSentinels,
 } from "./map-sentinels";
 import { PencilFilter } from "./pencil-filter";
 
-const MAP_WIDTH = 4000;
-const MAP_HEIGHT = 2337;
+const { height: MAP_HEIGHT, width: MAP_WIDTH } =
+  interactiveMapRegistry.dimensions;
 const ASPECT_RATIO = MAP_WIDTH / MAP_HEIGHT;
-const MAP_WEBP_SRC_SET = [
-  "/wilhalla_map-640.webp 640w",
-  "/wilhalla_map-1024.webp 1024w",
-  "/wilhalla_map-1920.webp 1920w",
-  "/wilhalla_map-2560.webp 2560w",
-  "/wilhalla_map-3840.webp 3840w",
-  "/wilhalla_map-4000.webp 4000w",
-].join(", ");
-const ALL_HOVER_IMAGES = Array.from(
-  new Set(mapSentinels.flatMap((sentinel) => sentinel.hoverImages)),
-);
-const INTRO_SEQUENCE = mapSentinels
-  .filter((sentinel) => sentinel.includeInIntro !== false)
-  .sort((left, right) => {
-    const leftOrder = left.x1 + left.y1;
-    const rightOrder = right.x1 + right.y1;
+const MAP_WEBP_SRC_SET = interactiveMapRegistry.assets.webpSrcSet.join(", ");
 
-    return leftOrder - rightOrder;
-  });
-const INTRO_START_DELAY_MS = 450;
-const DESKTOP_INTRO_STEP_MS = 420;
-const DESKTOP_INTRO_OVERLAY_VISIBLE_MS = 1800;
-const MOBILE_INTRO_STEP_MS = 520;
-const MOBILE_INTRO_OVERLAY_VISIBLE_MS = 420;
-const OPENING_FADE_DURATION_MS = 1800;
-const OPENING_FADE_START_DELAY_MS = 100;
-const ONBOARDING_START_DELAY_MS = 160;
-const DESKTOP_OVERLAY_TRANSITION_MS = 1600;
-const MOBILE_INTRO_OVERLAY_TRANSITION_MS = 260;
+function clientPointToSvgPoint(
+  svg: SVGSVGElement,
+  point: { x: number; y: number },
+) {
+  const svgPoint = svg.createSVGPoint();
+  svgPoint.x = point.x;
+  svgPoint.y = point.y;
+
+  const screenMatrix = svg.getScreenCTM();
+  if (!screenMatrix) return null;
+
+  return svgPoint.matrixTransform(screenMatrix.inverse());
+}
+
+function getVisibleViewBoxRect(svg: SVGSVGElement): ViewBoxRect | null {
+  const svgRect = svg.getBoundingClientRect();
+  const visibleClientRect = {
+    bottom: Math.min(svgRect.bottom, window.innerHeight),
+    left: Math.max(svgRect.left, 0),
+    right: Math.min(svgRect.right, window.innerWidth),
+    top: Math.max(svgRect.top, 0),
+  };
+
+  if (
+    visibleClientRect.right <= visibleClientRect.left ||
+    visibleClientRect.bottom <= visibleClientRect.top
+  ) {
+    return null;
+  }
+
+  const corners = [
+    { x: visibleClientRect.left, y: visibleClientRect.top },
+    { x: visibleClientRect.right, y: visibleClientRect.top },
+    { x: visibleClientRect.right, y: visibleClientRect.bottom },
+    { x: visibleClientRect.left, y: visibleClientRect.bottom },
+  ]
+    .map((corner) => clientPointToSvgPoint(svg, corner))
+    .filter((corner): corner is DOMPoint => Boolean(corner));
+
+  if (corners.length === 0) return null;
+
+  return {
+    minX: Math.min(...corners.map((corner) => corner.x)),
+    minY: Math.min(...corners.map((corner) => corner.y)),
+    maxX: Math.max(...corners.map((corner) => corner.x)),
+    maxY: Math.max(...corners.map((corner) => corner.y)),
+  };
+}
+const {
+  desktopIntroOverlayTransitionMs: DESKTOP_INTRO_OVERLAY_TRANSITION_MS,
+  desktopIntroStepMs: DESKTOP_INTRO_STEP_MS,
+  introStartDelayMs: INTRO_START_DELAY_MS,
+  mobileIntroOverlayTransitionMs: MOBILE_INTRO_OVERLAY_TRANSITION_MS,
+  mobileIntroStepMs: MOBILE_INTRO_STEP_MS,
+  onboardingStartDelayMs: ONBOARDING_START_DELAY_MS,
+} = mapDiscoveryTimings;
 let hasPlayedInitialMapSequence = false;
 
+function SentinelExplanationCard({
+  explanation,
+  labelImages,
+  visibleViewBoxRect,
+}: {
+  explanation: MapSentinelExplanation | null;
+  labelImages: string[];
+  visibleViewBoxRect: ViewBoxRect | null;
+}) {
+  const [displayedExplanation, setDisplayedExplanation] =
+    useState<MapSentinelExplanation | null>(null);
+  const [displayedLabelImages, setDisplayedLabelImages] = useState<string[]>(
+    [],
+  );
+  const [visible, setVisible] = useState(false);
+  const hasDisplayedExplanationRef = useRef(false);
+  const labelImageKey = labelImages.join("|");
+
+  useEffect(() => {
+    let fadeTimer: number | undefined;
+    let revealFrame: number | undefined;
+
+    if (!explanation) {
+      setVisible(false);
+      fadeTimer = window.setTimeout(() => {
+        setDisplayedExplanation(null);
+        setDisplayedLabelImages([]);
+        hasDisplayedExplanationRef.current = false;
+      }, 180);
+      return () => {
+        if (fadeTimer !== undefined) window.clearTimeout(fadeTimer);
+      };
+    }
+
+    setVisible(false);
+    fadeTimer = window.setTimeout(
+      () => {
+        setDisplayedExplanation(explanation);
+        setDisplayedLabelImages(labelImageKey ? labelImageKey.split("|") : []);
+        hasDisplayedExplanationRef.current = true;
+        revealFrame = window.requestAnimationFrame(() => setVisible(true));
+      },
+      hasDisplayedExplanationRef.current ? 90 : 0,
+    );
+
+    return () => {
+      if (fadeTimer !== undefined) window.clearTimeout(fadeTimer);
+      if (revealFrame !== undefined) window.cancelAnimationFrame(revealFrame);
+    };
+  }, [explanation, labelImageKey]);
+
+  if (!displayedExplanation) return null;
+
+  const { height, width, x, y } = getAdjustedExplanationPosition({
+    explanation: displayedExplanation,
+    visibleViewBoxRect,
+  });
+  const { text } = displayedExplanation;
+  const hasLabelImages = displayedLabelImages.length > 0;
+  const hasDarkInkLabel = displayedLabelImages.some(hasDarkInkCardLabel);
+  const useDarkCard = hasLabelImages && !hasDarkInkLabel;
+  const cardClassName = `flex h-full flex-col rounded-[34px] border px-[36px] py-[28px] shadow-[0_14px_34px_rgba(38,27,18,0.16)] backdrop-blur-[2px] transition-[opacity,transform] duration-300 ease-out ${
+    hasLabelImages
+      ? "items-start justify-center gap-[24px]"
+      : "items-start justify-center"
+  } ${
+    useDarkCard
+      ? "border-white/15 bg-[#2a2118]/88 text-[#fff8dc]"
+      : "border-black/10 bg-[#fdf8e9]/90 text-[#261b12]"
+  }`;
+
+  return (
+    <foreignObject
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      className="pointer-events-none hidden overflow-visible lg:block"
+    >
+      <div
+        className={cardClassName}
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible
+            ? "translate3d(0, 0, 0) scale(1)"
+            : "translate3d(0, 10px, 0) scale(0.985)",
+        }}
+      >
+        {hasLabelImages ? (
+          <div className="flex max-w-full flex-wrap items-end gap-[14px]">
+            {displayedLabelImages.map((labelImage) => {
+              const isVakeTreeLabel = labelImage.endsWith("/vake-tree.webp");
+
+              return (
+                <img
+                  key={labelImage}
+                  src={labelImage}
+                  alt=""
+                  aria-hidden="true"
+                  className={`block h-auto max-w-full object-contain drop-shadow-[0_2px_3px_rgba(0,0,0,0.22)] ${
+                    isVakeTreeLabel
+                      ? "max-h-[164px] min-h-[92px]"
+                      : "max-h-[132px] min-h-[64px]"
+                  }`}
+                  loading="eager"
+                  decoding="async"
+                />
+              );
+            })}
+          </div>
+        ) : null}
+        <p className="m-0 font-waldenburg text-[34px] leading-[1.28] tracking-[0.01em]">
+          {text}
+        </p>
+      </div>
+    </foreignObject>
+  );
+}
+
+function MapHeroOverlay() {
+  return (
+    <section
+      className="pointer-events-none absolute left-[20%] top-[20%] z-20 hidden w-[min(34vw,500px)] text-left lg:block"
+      aria-labelledby="map-hero-title"
+    >
+      <h1
+        id="map-hero-title"
+        className="m-0 font-waldenburg text-[clamp(34px,2.6vw,54px)] leading-[0.95] tracking-[-0.025em] text-[#21180f]"
+      >
+        Wilhalla
+      </h1>
+      <p className="m-0 mt-3 max-w-[380px] text-balance font-waldenburg text-[clamp(18px,1.15vw,23px)] leading-[1.22] tracking-[0.01em] text-[#3f3225]">
+        Een levende plek voor tuin, welzijn, yoga en ontmoeting.
+      </p>
+      <Link
+        to="/over-ons"
+        className="pointer-events-auto mt-4 inline-flex min-h-[34px] items-center justify-center rounded-full border border-chalk bg-obsidian px-4 font-waldenburg text-[16px] leading-none tracking-[0.01em] text-eggshell no-underline shadow-subtle-2 transition-transform duration-200 hover:-translate-y-px"
+      >
+        Ontdek Wilhalla
+      </Link>
+    </section>
+  );
+}
+
+function FallbackSentinelGlow({
+  activeSentinelId,
+}: {
+  activeSentinelId: string | null;
+}) {
+  const bounds = activeSentinelId
+    ? getSentinelFallbackGlowBounds(activeSentinelId)
+    : null;
+  if (!bounds) return null;
+
+  const width = bounds.maxX - bounds.minX;
+  const height = bounds.maxY - bounds.minY;
+  const cx = bounds.minX + width / 2;
+  const cy = bounds.minY + height / 2;
+
+  return (
+    <g pointerEvents="none">
+      <defs>
+        <filter
+          id="map-fallback-sentinel-glow"
+          x="-70%"
+          y="-70%"
+          width="240%"
+          height="240%"
+        >
+          <feGaussianBlur stdDeviation="24" />
+        </filter>
+      </defs>
+      <ellipse
+        cx={cx}
+        cy={cy}
+        rx={Math.max(90, width * 0.62)}
+        ry={Math.max(70, height * 0.58)}
+        fill="#fff1a8"
+        opacity={0.34}
+        filter="url(#map-fallback-sentinel-glow)"
+        style={{ mixBlendMode: "screen" }}
+      />
+    </g>
+  );
+}
+
 function MapScene({
+  activeExplanation,
   activeHoverImages,
+  activeLabelImages,
+  activeSentinelId,
   fetchPriority,
   overlayTransitionDurationMs,
   onHoverChange,
   sizes,
 }: {
+  activeExplanation: MapSentinelExplanation | null;
   activeHoverImages: string[];
+  activeLabelImages: string[];
+  activeSentinelId: string | null;
   fetchPriority?: "auto" | "high" | "low";
   overlayTransitionDurationMs: number;
   onHoverChange: (id: string | null) => void;
   sizes: string;
 }) {
   const [hiResMapLoaded, setHiResMapLoaded] = useState(false);
+  const [visibleViewBoxRect, setVisibleViewBoxRect] =
+    useState<ViewBoxRect | null>(null);
+  const hiResMapRef = useRef<HTMLImageElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const hiResMap = hiResMapRef.current;
+    if (hiResMap?.complete && hiResMap.naturalWidth > 0) {
+      setHiResMapLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    let animationFrame: number | undefined;
+    const syncVisibleViewBoxRect = () => {
+      if (animationFrame !== undefined) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+      animationFrame = window.requestAnimationFrame(() => {
+        setVisibleViewBoxRect(getVisibleViewBoxRect(svg));
+      });
+    };
+
+    syncVisibleViewBoxRect();
+
+    const resizeObserver = new ResizeObserver(syncVisibleViewBoxRect);
+    resizeObserver.observe(svg);
+    window.addEventListener("resize", syncVisibleViewBoxRect);
+    window.visualViewport?.addEventListener("resize", syncVisibleViewBoxRect);
+    window.visualViewport?.addEventListener("scroll", syncVisibleViewBoxRect);
+
+    return () => {
+      if (animationFrame !== undefined) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", syncVisibleViewBoxRect);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        syncVisibleViewBoxRect,
+      );
+      window.visualViewport?.removeEventListener(
+        "scroll",
+        syncVisibleViewBoxRect,
+      );
+    };
+  }, []);
 
   const updateHoveredSentinel = (clientX: number, clientY: number) => {
     const svg = svgRef.current;
     if (!svg) return;
 
-    const point = svg.createSVGPoint();
-    point.x = clientX;
-    point.y = clientY;
-
-    const screenMatrix = svg.getScreenCTM();
-    if (!screenMatrix) return;
-
-    const cursor = point.matrixTransform(screenMatrix.inverse());
+    const cursor = clientPointToSvgPoint(svg, { x: clientX, y: clientY });
+    if (!cursor) return;
     onHoverChange(getActiveSentinelId(cursor));
   };
 
   return (
     <>
       <img
-        src="/wilhalla_map-640.webp"
+        src={interactiveMapRegistry.assets.placeholderSrc}
         alt=""
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"
@@ -86,12 +364,18 @@ function MapScene({
         decoding="async"
       />
       <picture>
+        <source
+          media={interactiveMapRegistry.desktopMediaQuery}
+          type="image/webp"
+          srcSet={interactiveMapRegistry.assets.desktopWebpSrc}
+        />
         <source type="image/webp" srcSet={MAP_WEBP_SRC_SET} sizes={sizes} />
         <img
-          src="/wilhalla_map.jpg"
-          srcSet="/wilhalla_map.jpg 4000w"
-          sizes={sizes}
-          alt="Kaart van Wilhalla"
+          ref={hiResMapRef}
+          src={interactiveMapRegistry.assets.fallbackSrc}
+          srcSet={interactiveMapRegistry.assets.fallbackSrcSet}
+          sizes={interactiveMapRegistry.desktopImgSizes}
+          alt={interactiveMapRegistry.imageAlt}
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
           style={{ opacity: hiResMapLoaded ? 1 : 0 }}
           loading="eager"
@@ -101,7 +385,7 @@ function MapScene({
         />
       </picture>
       <div className="pointer-events-none absolute inset-0">
-        {ALL_HOVER_IMAGES.map((hoverImage) => (
+        {allMapHoverImages.map((hoverImage) => (
           <img
             key={hoverImage}
             src={hoverImage}
@@ -109,7 +393,11 @@ function MapScene({
             aria-hidden="true"
             className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ease-out"
             style={{
-              opacity: activeHoverImages.includes(hoverImage) ? 1 : 0,
+              opacity:
+                activeHoverImages.includes(hoverImage) &&
+                !(activeExplanation && isTextOverlayImage(hoverImage))
+                  ? 1
+                  : 0,
               transitionDuration: `${overlayTransitionDurationMs}ms`,
             }}
             loading="eager"
@@ -119,6 +407,7 @@ function MapScene({
       </div>
       <svg
         ref={svgRef}
+        aria-hidden="true"
         viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
         className="absolute inset-0 h-full w-full"
         preserveAspectRatio="xMidYMid slice"
@@ -128,6 +417,7 @@ function MapScene({
         onPointerLeave={() => onHoverChange(null)}
       >
         <PencilFilter />
+        <FallbackSentinelGlow activeSentinelId={activeSentinelId} />
         {hotspots.map((hotspot) => (
           <MapHotspotPath key={hotspot.id} hotspot={hotspot} />
         ))}
@@ -138,10 +428,18 @@ function MapScene({
             y1={sentinel.y1}
             x2={sentinel.x2}
             y2={sentinel.y2}
-            padding={sentinel.padding ?? 0}
+            padding={
+              sentinel.padding ?? interactiveMapRegistry.defaultSentinelPadding
+            }
           />
         ))}
+        <SentinelExplanationCard
+          explanation={activeExplanation}
+          labelImages={activeLabelImages}
+          visibleViewBoxRect={visibleViewBoxRect}
+        />
       </svg>
+      <MapHeroOverlay />
     </>
   );
 }
@@ -156,40 +454,35 @@ export function InteractiveMap() {
   const [hoveredSentinelId, setHoveredSentinelId] = useState<string | null>(
     null,
   );
-  const [introActiveSentinelIds, setIntroActiveSentinelIds] = useState<
-    string[]
-  >([]);
+  const [introActiveSentinelId, setIntroActiveSentinelId] = useState<
+    string | null
+  >(null);
   const [introDismissed, setIntroDismissed] = useState(false);
   const [onboardingVisible, setOnboardingVisible] = useState(false);
-  const [openingVisible, setOpeningVisible] = useState(
-    shouldPlayInitialSequenceRef.current,
-  );
 
-  const activeHoverImages = hoveredSentinelId
-    ? getSentinelHoverImages(hoveredSentinelId)
-    : Array.from(
-        new Set(
-          introActiveSentinelIds.flatMap((id) => getSentinelHoverImages(id)),
-        ),
-      );
+  const { activeExplanation, activeHoverImages, activeLabelImages } =
+    getActiveMapDiscovery({ hoveredSentinelId, introActiveSentinelId });
   const introStepMs = isMobileViewport
     ? MOBILE_INTRO_STEP_MS
     : DESKTOP_INTRO_STEP_MS;
-  const introOverlayVisibleMs = isMobileViewport
-    ? MOBILE_INTRO_OVERLAY_VISIBLE_MS
-    : DESKTOP_INTRO_OVERLAY_VISIBLE_MS;
-  const overlayTransitionDurationMs =
-    isMobileViewport && onboardingVisible && !introDismissed
-      ? MOBILE_INTRO_OVERLAY_TRANSITION_MS
-      : DESKTOP_OVERLAY_TRANSITION_MS;
+  const introOverlayTransitionMs = isMobileViewport
+    ? MOBILE_INTRO_OVERLAY_TRANSITION_MS
+    : DESKTOP_INTRO_OVERLAY_TRANSITION_MS;
+  const overlayTransitionDurationMs = getMapOverlayTransitionDurationMs({
+    introDismissed,
+    introOverlayTransitionMs,
+    onboardingVisible,
+  });
 
   const dismissIntro = () => {
     setIntroDismissed(true);
-    setIntroActiveSentinelIds([]);
+    setIntroActiveSentinelId(null);
   };
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1023px)");
+    const mediaQuery = window.matchMedia(
+      interactiveMapRegistry.mobileMediaQuery,
+    );
     const syncViewport = () => {
       setIsMobileViewport(mediaQuery.matches);
     };
@@ -207,21 +500,11 @@ export function InteractiveMap() {
 
     hasPlayedInitialMapSequence = true;
 
-    const fadeTimer = window.setTimeout(() => {
-      setOpeningVisible(false);
-    }, OPENING_FADE_START_DELAY_MS);
-
-    const onboardingTimer = window.setTimeout(
-      () => {
-        setOnboardingVisible(true);
-      },
-      OPENING_FADE_START_DELAY_MS +
-        OPENING_FADE_DURATION_MS +
-        ONBOARDING_START_DELAY_MS,
-    );
+    const onboardingTimer = window.setTimeout(() => {
+      setOnboardingVisible(true);
+    }, ONBOARDING_START_DELAY_MS);
 
     return () => {
-      window.clearTimeout(fadeTimer);
       window.clearTimeout(onboardingTimer);
     };
   }, []);
@@ -229,136 +512,93 @@ export function InteractiveMap() {
   useEffect(() => {
     if (!onboardingVisible || introDismissed) return;
 
-    const timers: number[] = [];
+    let cancelled = false;
+    let timer: number | undefined;
 
-    timers.push(
-      window.setTimeout(() => {
-        INTRO_SEQUENCE.forEach((sentinel, index) => {
-          const startOffset = index * introStepMs;
+    const schedule = (callback: () => void, delayMs: number) => {
+      timer = window.setTimeout(() => {
+        if (!cancelled) callback();
+      }, delayMs);
+    };
 
-          timers.push(
-            window.setTimeout(() => {
-              setIntroActiveSentinelIds((current) =>
-                current.includes(sentinel.id)
-                  ? current
-                  : [...current, sentinel.id],
-              );
-            }, startOffset),
-          );
+    const showNextSentinel = (index: number) => {
+      if (index >= introMapSequence.length) {
+        setIntroActiveSentinelId(null);
+        schedule(() => setIntroDismissed(true), introOverlayTransitionMs);
+        return;
+      }
 
-          timers.push(
-            window.setTimeout(() => {
-              setIntroActiveSentinelIds((current) =>
-                current.filter((id) => id !== sentinel.id),
-              );
-            }, startOffset + introOverlayVisibleMs),
-          );
-        });
+      setIntroActiveSentinelId(introMapSequence[index].id);
+      schedule(() => showNextSentinel(index + 1), introStepMs);
+    };
 
-        timers.push(
-          window.setTimeout(
-            () => {
-              setIntroDismissed(true);
-            },
-            (INTRO_SEQUENCE.length - 1) * introStepMs +
-              introOverlayVisibleMs,
-          ),
-        );
-      }, INTRO_START_DELAY_MS),
-    );
+    schedule(() => showNextSentinel(0), INTRO_START_DELAY_MS);
 
     return () => {
-      timers.forEach((timer) => window.clearTimeout(timer));
+      cancelled = true;
+      if (timer !== undefined) window.clearTimeout(timer);
     };
-  }, [introDismissed, introOverlayVisibleMs, introStepMs, onboardingVisible]);
+  }, [
+    introDismissed,
+    introOverlayTransitionMs,
+    introStepMs,
+    onboardingVisible,
+  ]);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
+
+    if (!isMobileViewport) {
+      el.scrollLeft = 0;
+      return;
+    }
+
     ignoreNextScrollRef.current = true;
-    el.scrollLeft = (el.scrollWidth - el.clientWidth) / 1.65;
-  }, []);
+    el.scrollLeft =
+      (el.scrollWidth - el.clientWidth) /
+      interactiveMapRegistry.mobileInitialScrollDivisor;
+  }, [isMobileViewport]);
 
   return (
-    <>
-      {/* Mobile: aspect-ratio width, horizontal scroll to explore */}
+    <div
+      ref={scrollRef}
+      className="relative h-dvh w-full overflow-x-auto overflow-y-hidden overscroll-x-none bg-black scrollbar-none lg:h-svh lg:overflow-hidden"
+      onScroll={() => {
+        if (ignoreNextScrollRef.current) {
+          ignoreNextScrollRef.current = false;
+          return;
+        }
+        if (!onboardingVisible) return;
+        setMobileHintDismissed(true);
+        dismissIntro();
+      }}
+    >
       <div
-        ref={scrollRef}
-        className="relative lg:hidden w-full h-dvh overflow-x-auto overflow-y-hidden scrollbar-none overscroll-x-none bg-black"
-        onScroll={() => {
-          if (ignoreNextScrollRef.current) {
-            ignoreNextScrollRef.current = false;
-            return;
-          }
-          if (!onboardingVisible) return;
-          setMobileHintDismissed(true);
-          dismissIntro();
-        }}
+        className="relative h-full min-w-[100vw] w-[calc(100dvh*var(--map-aspect-ratio))] lg:absolute lg:inset-0 lg:min-w-0 lg:w-auto lg:origin-center lg:scale-[1.2]"
+        style={{ "--map-aspect-ratio": ASPECT_RATIO } as CSSProperties}
       >
-        <div
-          className="relative h-full"
-          style={{ width: `calc(100dvh * ${ASPECT_RATIO})`, minWidth: "100vw" }}
-        >
-          <MapScene
-            activeHoverImages={activeHoverImages}
-            overlayTransitionDurationMs={overlayTransitionDurationMs}
-            sizes="171vh"
-            onHoverChange={(id) => {
-              if (id && onboardingVisible) dismissIntro();
-              setHoveredSentinelId(id);
-            }}
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-10 transition-opacity ease-out"
-            style={{
-              opacity: openingVisible ? 1 : 0,
-              transitionDuration: `${OPENING_FADE_DURATION_MS}ms`,
-              transitionTimingFunction: "cubic-bezier(0.55, 0.08, 0.68, 0.53)",
-              background:
-                "radial-gradient(circle at 50% 28%, rgba(63,52,40,0.28) 0%, rgba(28,24,20,0.62) 34%, rgba(12,11,10,0.9) 70%, rgba(7,7,7,0.96) 100%)",
-            }}
-          />
-        </div>
-        <MapInteractionHint
-          mobileDismissed={!onboardingVisible || mobileHintDismissed}
-          desktopDismissed={desktopHintDismissed}
-        />
-      </div>
-
-      {/* Desktop: full-screen cover, scaled in 1.2× from center */}
-      <div className="hidden lg:block relative w-full h-svh overflow-hidden bg-black">
-        <div className="absolute inset-0 scale-[1.2] origin-center">
-          <MapScene
-            activeHoverImages={activeHoverImages}
-            fetchPriority="high"
-            overlayTransitionDurationMs={overlayTransitionDurationMs}
-            sizes="120vw"
-            onHoverChange={(id) => {
-              if (id && onboardingVisible) {
-                setDesktopHintDismissed(true);
-                dismissIntro();
-              }
-              setHoveredSentinelId(id);
-            }}
-          />
-        </div>
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10 transition-opacity ease-out"
-          style={{
-            opacity: openingVisible ? 1 : 0,
-            transitionDuration: `${OPENING_FADE_DURATION_MS}ms`,
-            transitionTimingFunction: "cubic-bezier(0.55, 0.08, 0.68, 0.53)",
-            background:
-              "radial-gradient(circle at 50% 20%, rgba(63,52,40,0.24) 0%, rgba(27,23,19,0.58) 28%, rgba(12,11,10,0.88) 64%, rgba(7,7,7,0.96) 100%)",
+        <MapScene
+          activeExplanation={activeExplanation}
+          activeHoverImages={activeHoverImages}
+          activeLabelImages={activeLabelImages}
+          activeSentinelId={hoveredSentinelId}
+          fetchPriority="high"
+          overlayTransitionDurationMs={overlayTransitionDurationMs}
+          sizes={interactiveMapRegistry.sceneSizes}
+          onHoverChange={(id) => {
+            if (id && onboardingVisible) {
+              if (!isMobileViewport) setDesktopHintDismissed(true);
+              dismissIntro();
+            }
+            setHoveredSentinelId(id);
           }}
         />
-        <MapInteractionHint
-          mobileDismissed={mobileHintDismissed}
-          desktopDismissed={!onboardingVisible || desktopHintDismissed}
-        />
       </div>
-    </>
+      <MapInteractionHint
+        mobileDismissed={!onboardingVisible || mobileHintDismissed}
+        desktopDismissed={!onboardingVisible || desktopHintDismissed}
+      />
+    </div>
   );
 }

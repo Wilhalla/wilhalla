@@ -1,15 +1,11 @@
-export type MapSentinelConfig = {
-  id: string;
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-  hoverImages: string[];
-  includeInIntro?: boolean;
-  padding?: number;
-};
+import { interactiveMapRegistry } from "@/config/registries";
+import type { MapSentinelConfig, MapSentinelExplanation } from "@/types";
 
-type SentinelBounds = {
+export type { MapSentinelConfig, MapSentinelExplanation };
+
+export const mapSentinels = interactiveMapRegistry.sentinels;
+
+export type SentinelBounds = {
   minX: number;
   minY: number;
   maxX: number;
@@ -17,7 +13,8 @@ type SentinelBounds = {
 };
 
 function getSentinelBounds(sentinel: MapSentinelConfig): SentinelBounds {
-  const padding = sentinel.padding ?? 0;
+  const padding =
+    sentinel.padding ?? interactiveMapRegistry.defaultSentinelPadding;
 
   return {
     minX: Math.min(sentinel.x1, sentinel.x2) - padding,
@@ -64,8 +61,9 @@ function containsSentinel(
 }
 
 function getSentinelDepth(sentinel: MapSentinelConfig): number {
-  return mapSentinels.filter((candidate) => containsSentinel(candidate, sentinel))
-    .length;
+  return mapSentinels.filter((candidate) =>
+    containsSentinel(candidate, sentinel),
+  ).length;
 }
 
 function compareSpecificity(
@@ -78,8 +76,10 @@ function compareSpecificity(
   const areaDifference = getSentinelArea(left) - getSentinelArea(right);
   if (areaDifference !== 0) return areaDifference;
 
-  return mapSentinels.findIndex((sentinel) => sentinel.id === left.id) -
-    mapSentinels.findIndex((sentinel) => sentinel.id === right.id);
+  return (
+    mapSentinels.findIndex((sentinel) => sentinel.id === left.id) -
+    mapSentinels.findIndex((sentinel) => sentinel.id === right.id)
+  );
 }
 
 export function getActiveSentinelId(point: {
@@ -106,132 +106,30 @@ export function getSentinelHoverImages(id: string): string[] {
   return [...new Set([...ancestorImages, ...activeSentinel.hoverImages])];
 }
 
-// These regions are defined in full-map pixel coordinates (4000x2337).
-export const mapSentinels: MapSentinelConfig[] = [
-  {
-    id: "horses",
-    x1: 400,
-    y1: 1350,
-    x2: 990,
-    y2: 1900,
-    hoverImages: [
-      "/map-overlays/hover/horses.webp",
-      "/map-overlays/text/horses.webp",
-    ],
-    padding: 40,
-  },
-  {
-    id: "barn",
-    x1: 2050,
-    y1: 1550,
-    x2: 2250,
-    y2: 1685,
-    hoverImages: [
-      "/map-overlays/hover/barn.webp",
-      "/map-overlays/text/barn.webp",
-    ],
-    padding: 40,
-  },
-  {
-    id: "vake-tree",
-    x1: 1900,
-    y1: 1550,
-    x2: 2000,
-    y2: 1675,
-    hoverImages: [
-      "/map-overlays/hover/vake-tree.webp",
-      "/map-overlays/text/vake-tree.webp",
-    ],
-    padding: 40,
-  },
-  {
-    id: "garden",
-    x1: 2460,
-    y1: 1085,
-    x2: 2935,
-    y2: 1440,
-    hoverImages: [
-      "/map-overlays/hover/garden.webp",
-      "/map-overlays/text/garden.webp",
-    ],
-    padding: 40,
-  },
-  {
-    id: "yurt",
-    x1: 2850,
-    y1: 1517,
-    x2: 3085,
-    y2: 1740,
-    hoverImages: [
-      "/map-overlays/hover/yurt.webp",
-      "/map-overlays/text/yurt.webp",
-    ],
-    padding: 40,
-  },
-  {
-    id: "swallows",
-    x1: 1855,
-    y1: 830,
-    x2: 2745,
-    y2: 1030,
-    hoverImages: ["/map-overlays/hover/swallows.webp"],
-    padding: 40,
-  },
-  {
-    id: "caption-kippenhok",
-    x1: 2330,
-    y1: 1239,
-    x2: 2490,
-    y2: 1404,
-    hoverImages: ["/map-overlays/text/kippenhok.webp"],
-    includeInIntro: false,
-  },
-  {
-    id: "caption-trampoline",
-    x1: 2205,
-    y1: 1258,
-    x2: 2301,
-    y2: 1330,
-    hoverImages: ["/map-overlays/text/trampoline.webp"],
-    includeInIntro: false,
-  },
-  {
-    id: "caption-parking",
-    x1: 1750,
-    y1: 1517,
-    x2: 1942,
-    y2: 1639,
-    hoverImages: ["/map-overlays/text/parking.webp"],
-    includeInIntro: false,
-  },
-  {
-    id: "caption-boomgaard-kleinfruit",
-    x1: 2833,
-    y1: 1089,
-    x2: 3595,
-    y2: 1785,
-    hoverImages: ["/map-overlays/text/boomgaard-kleinfruit.webp"],
-    includeInIntro: false,
-  },
-  {
-    id: "caption-windroos",
-    x1: 691,
-    y1: 793,
-    x2: 1003,
-    y2: 1057,
-    hoverImages: [
-      "/map-overlays/text/zoerselbos.webp",
-      "/map-overlays/text/halle-dorp.webp",
-    ],
-    includeInIntro: false,
-  },
-  {
-    id: "caption-bijen",
-    x1: 3411,
-    y1: 1413,
-    x2: 3575,
-    y2: 1589,
-    hoverImages: ["/map-overlays/text/bijen.webp"],
-    includeInIntro: false,
-  },
-];
+export function getSentinelTextImages(id: string): string[] {
+  return [
+    ...(mapSentinels.find((sentinel) => sentinel.id === id)?.hoverImages ?? []),
+  ].filter((image) => image.includes("/map-overlays/text/"));
+}
+
+export function getSentinelExplanation(
+  id: string,
+): MapSentinelExplanation | null {
+  return (
+    mapSentinels.find((sentinel) => sentinel.id === id)?.explanation ?? null
+  );
+}
+
+export function getSentinelFallbackGlowBounds(
+  id: string,
+): SentinelBounds | null {
+  const activeSentinel = mapSentinels.find((sentinel) => sentinel.id === id);
+  if (!activeSentinel) return null;
+
+  const hasPaintedHoverOverlay = activeSentinel.hoverImages.some((image) =>
+    image.includes("/hover/"),
+  );
+  if (hasPaintedHoverOverlay) return null;
+
+  return getSentinelBounds(activeSentinel);
+}

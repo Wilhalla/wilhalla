@@ -1,3 +1,4 @@
+import { interactiveMapRegistry } from "@/config/registries";
 import { ArrowLeftRight, SquareMousePointer } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -59,8 +60,8 @@ export function MapInteractionHint({
         className={`left-1/2 top-24 w-[min(88vw,22rem)] -translate-x-1/2 lg:hidden ${
           mobileDismissed ? "opacity-0" : "opacity-100"
         }`}
-        eyebrow="Verken"
-        message="Scroll naar links of rechts om over de kaart te bewegen."
+        eyebrow={interactiveMapRegistry.hints.mobile.eyebrow}
+        message={interactiveMapRegistry.hints.mobile.message}
         icon={<ArrowLeftRight className="h-4 w-4" strokeWidth={1.5} />}
       />
 
@@ -68,8 +69,8 @@ export function MapInteractionHint({
         className={`left-1/2 top-24 hidden w-[22rem] -translate-x-1/2 lg:block ${
           desktopDismissed ? "opacity-0" : "opacity-100"
         }`}
-        eyebrow="Ontdek"
-        message="Beweeg de muis over het landschap."
+        eyebrow={interactiveMapRegistry.hints.desktop.eyebrow}
+        message={interactiveMapRegistry.hints.desktop.message}
         icon={<SquareMousePointer className="h-4 w-4" strokeWidth={1.5} />}
       />
     </>

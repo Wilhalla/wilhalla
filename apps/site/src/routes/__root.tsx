@@ -1,4 +1,7 @@
-import type { ReactNode } from "react";
+import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
+import { NotFound } from "@/components/not-found";
+import { siteIdentity } from "@/config/registries";
 import {
   HeadContent,
   Outlet,
@@ -6,10 +9,8 @@ import {
   createRootRoute,
   useLocation,
 } from "@tanstack/react-router";
-import { Footer } from "@/components/footer";
-import { Navbar } from "@/components/navbar";
-import { NotFound } from "@/components/not-found";
-import { routeMeta } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/react";
+import type { ReactNode } from "react";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -17,15 +18,15 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { name: "theme-color", content: "#f4ead7" },
-      ...routeMeta(),
+      { name: "theme-color", content: siteIdentity.themeColor },
+      { name: "application-name", content: siteIdentity.name },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", sizes: "any" },
-      { rel: "icon", type: "image/png", href: "/favicon.png" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
-      { rel: "manifest", href: "/manifest.json" },
+      { rel: "icon", href: siteIdentity.assets.ico, sizes: "any" },
+      { rel: "icon", type: "image/png", href: siteIdentity.assets.favicon },
+      { rel: "apple-touch-icon", href: siteIdentity.assets.appleTouchIcon },
+      { rel: "manifest", href: siteIdentity.assets.manifest },
     ],
   }),
   notFoundComponent: NotFound,
@@ -42,7 +43,7 @@ function RootComponent() {
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="nl">
+    <html lang={siteIdentity.lang}>
       <head>
         <HeadContent />
       </head>
@@ -57,14 +58,16 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 function AppLayout() {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const isContact = location.pathname === "/contact";
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className={`min-h-screen flex flex-col ${isHome ? "" : "site-shell"}`}>
+      <Analytics />
       <Navbar />
-      <main className={`flex-1 ${isHome ? "" : "pt-16"}`}>
+      <main className={`flex-1 ${isHome ? "" : "pt-12"}`}>
         <Outlet />
       </main>
-      {!isHome && <Footer />}
+      {!isHome && !isContact && <Footer />}
     </div>
   );
 }

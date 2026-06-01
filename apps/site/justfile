@@ -26,3 +26,9 @@ check:
 
 sync-map-overlays source='/home/jp/Downloads/transfer-16' output='public/map-overlays':
     ./scripts/sync-map-overlays.sh "{{source}}" "{{output}}"
+
+generate-map-hover-overlays input='public/map-overlays/original' output='public/map-overlays/hover':
+    ./scripts/generate-map-hover-overlays.sh "{{input}}" "{{output}}"
+
+generate-map-caption-glows output='public/map-overlays/hover':
+    ./scripts/generate-map-caption-glows.sh "{{output}}"

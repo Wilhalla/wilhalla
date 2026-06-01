@@ -1,5 +1,4 @@
-const MAP_WIDTH = 4000;
-const MAP_HEIGHT = 2337;
+import { interactiveMapRegistry } from "@/config/registries";
 
 export interface MapSentinelProps {
   x1: number;
@@ -10,21 +9,23 @@ export interface MapSentinelProps {
   debug?: boolean;
 }
 
-// Rendered inside <svg viewBox="0 0 4000 2337"> — coordinates are image pixels.
+// Rendered inside the map SVG viewBox — coordinates are image pixels.
 export function MapSentinel({
   x1,
   y1,
   x2,
   y2,
-  padding = 40,
+  padding = interactiveMapRegistry.defaultSentinelPadding,
   debug = false,
 }: MapSentinelProps) {
   if (!debug) return null;
 
+  const { height: mapHeight, width: mapWidth } =
+    interactiveMapRegistry.dimensions;
   const minX = Math.max(0, Math.min(x1, x2) - padding);
   const minY = Math.max(0, Math.min(y1, y2) - padding);
-  const maxX = Math.min(MAP_WIDTH, Math.max(x1, x2) + padding);
-  const maxY = Math.min(MAP_HEIGHT, Math.max(y1, y2) + padding);
+  const maxX = Math.min(mapWidth, Math.max(x1, x2) + padding);
+  const maxY = Math.min(mapHeight, Math.max(y1, y2) + padding);
   const w = maxX - minX;
   const h = maxY - minY;
 
