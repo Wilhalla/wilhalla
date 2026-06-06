@@ -24,6 +24,8 @@ import { Route as WelzijnLimfedrainageRouteImport } from './routes/welzijn/limfe
 import { Route as WelzijnKcrRouteImport } from './routes/welzijn/kcr'
 import { Route as WelzijnFasciatherapieRouteImport } from './routes/welzijn/fasciatherapie'
 import { Route as OverOnsSamentuinRouteImport } from './routes/over-ons/samentuin'
+import { Route as ApiCmsAuthCallbackRouteImport } from './routes/api/cms-auth/callback'
+import { Route as ApiCmsAuthAuthRouteImport } from './routes/api/cms-auth/auth'
 
 const YogaRoute = YogaRouteImport.update({
   id: '/yoga',
@@ -100,6 +102,16 @@ const OverOnsSamentuinRoute = OverOnsSamentuinRouteImport.update({
   path: '/over-ons/samentuin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCmsAuthCallbackRoute = ApiCmsAuthCallbackRouteImport.update({
+  id: '/api/cms-auth/callback',
+  path: '/api/cms-auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCmsAuthAuthRoute = ApiCmsAuthAuthRouteImport.update({
+  id: '/api/cms-auth/auth',
+  path: '/api/cms-auth/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -117,6 +129,8 @@ export interface FileRoutesByFullPath {
   '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
   '/over-ons/': typeof OverOnsIndexRoute
   '/welzijn/': typeof WelzijnIndexRoute
+  '/api/cms-auth/auth': typeof ApiCmsAuthAuthRoute
+  '/api/cms-auth/callback': typeof ApiCmsAuthCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -134,6 +148,8 @@ export interface FileRoutesByTo {
   '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
   '/over-ons': typeof OverOnsIndexRoute
   '/welzijn': typeof WelzijnIndexRoute
+  '/api/cms-auth/auth': typeof ApiCmsAuthAuthRoute
+  '/api/cms-auth/callback': typeof ApiCmsAuthCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -152,6 +168,8 @@ export interface FileRoutesById {
   '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
   '/over-ons/': typeof OverOnsIndexRoute
   '/welzijn/': typeof WelzijnIndexRoute
+  '/api/cms-auth/auth': typeof ApiCmsAuthAuthRoute
+  '/api/cms-auth/callback': typeof ApiCmsAuthCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +189,8 @@ export interface FileRouteTypes {
     | '/welzijn/veerkracht'
     | '/over-ons/'
     | '/welzijn/'
+    | '/api/cms-auth/auth'
+    | '/api/cms-auth/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +208,8 @@ export interface FileRouteTypes {
     | '/welzijn/veerkracht'
     | '/over-ons'
     | '/welzijn'
+    | '/api/cms-auth/auth'
+    | '/api/cms-auth/callback'
   id:
     | '__root__'
     | '/'
@@ -205,6 +227,8 @@ export interface FileRouteTypes {
     | '/welzijn/veerkracht'
     | '/over-ons/'
     | '/welzijn/'
+    | '/api/cms-auth/auth'
+    | '/api/cms-auth/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -223,6 +247,8 @@ export interface RootRouteChildren {
   WelzijnVeerkrachtRoute: typeof WelzijnVeerkrachtRoute
   OverOnsIndexRoute: typeof OverOnsIndexRoute
   WelzijnIndexRoute: typeof WelzijnIndexRoute
+  ApiCmsAuthAuthRoute: typeof ApiCmsAuthAuthRoute
+  ApiCmsAuthCallbackRoute: typeof ApiCmsAuthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -332,6 +358,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OverOnsSamentuinRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/cms-auth/callback': {
+      id: '/api/cms-auth/callback'
+      path: '/api/cms-auth/callback'
+      fullPath: '/api/cms-auth/callback'
+      preLoaderRoute: typeof ApiCmsAuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/cms-auth/auth': {
+      id: '/api/cms-auth/auth'
+      path: '/api/cms-auth/auth'
+      fullPath: '/api/cms-auth/auth'
+      preLoaderRoute: typeof ApiCmsAuthAuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -351,6 +391,8 @@ const rootRouteChildren: RootRouteChildren = {
   WelzijnVeerkrachtRoute: WelzijnVeerkrachtRoute,
   OverOnsIndexRoute: OverOnsIndexRoute,
   WelzijnIndexRoute: WelzijnIndexRoute,
+  ApiCmsAuthAuthRoute: ApiCmsAuthAuthRoute,
+  ApiCmsAuthCallbackRoute: ApiCmsAuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
