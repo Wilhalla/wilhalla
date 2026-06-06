@@ -1,10 +1,12 @@
 import { editorialPages } from "@/config/registries";
-import fasciatherapieContent from "@/content/pages/welzijn/fasciatherapie.md?raw";
+import { getEditorialPageHtml } from "@/content/editorial-pages";
 import {
   EditorialMarkdownPage,
   editorialRouteHead,
 } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
+
+const fasciatherapieContent = getEditorialPageHtml("welzijn/fasciatherapie");
 
 export const Route = createFileRoute("/welzijn/fasciatherapie")({
   head: () =>
@@ -19,7 +21,7 @@ function FasciatherapiePage() {
   return (
     <EditorialMarkdownPage
       page={editorialPages.fasciatherapie}
-      markdown={fasciatherapieContent}
+      html={fasciatherapieContent}
     />
   );
 }

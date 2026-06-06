@@ -1,10 +1,12 @@
 import { editorialPages } from "@/config/registries";
-import welzijnContent from "@/content/pages/welzijn.md?raw";
+import { getEditorialPageHtml } from "@/content/editorial-pages";
 import {
   EditorialLandingPage,
   editorialRouteHead,
 } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
+
+const welzijnContent = getEditorialPageHtml("welzijn");
 
 export const Route = createFileRoute("/welzijn/")({
   head: () => editorialRouteHead(editorialPages.welzijn, "/welzijn"),
@@ -13,9 +15,6 @@ export const Route = createFileRoute("/welzijn/")({
 
 function WelzijnPage() {
   return (
-    <EditorialLandingPage
-      page={editorialPages.welzijn}
-      markdown={welzijnContent}
-    />
+    <EditorialLandingPage page={editorialPages.welzijn} html={welzijnContent} />
   );
 }

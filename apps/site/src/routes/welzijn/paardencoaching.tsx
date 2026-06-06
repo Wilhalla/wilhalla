@@ -1,10 +1,12 @@
 import { editorialPages } from "@/config/registries";
-import paardencoachingContent from "@/content/pages/welzijn/paardencoaching.md?raw";
+import { getEditorialPageHtml } from "@/content/editorial-pages";
 import {
   EditorialMarkdownPage,
   editorialRouteHead,
 } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
+
+const paardencoachingContent = getEditorialPageHtml("welzijn/paardencoaching");
 
 export const Route = createFileRoute("/welzijn/paardencoaching")({
   head: () =>
@@ -19,7 +21,7 @@ function PaardencoachingPage() {
   return (
     <EditorialMarkdownPage
       page={editorialPages.paardencoaching}
-      markdown={paardencoachingContent}
+      html={paardencoachingContent}
     />
   );
 }

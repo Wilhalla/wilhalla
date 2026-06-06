@@ -1,0 +1,137 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: Wilhalla/wilhalla-site
+  branch: develop
+  # OAuth endpoint for deployed CMS. Change this if the production domain changes.
+  base_url: https://wilhalla-site.vercel.app/api/cms-auth
+
+site_url: https://www.wilhalla.be
+display_url: https://www.wilhalla.be
+
+media_folder: /public/gallery
+public_folder: /gallery
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2048
+          height: 2048
+        svg:
+          optimize: true
+
+collections:
+  - name: pages
+    label: Websitepagina's
+    icon: article
+    media_folder: /public/uploads
+    public_folder: /uploads
+    files:
+      - name: over-ons
+        label: Over ons
+        file: src/content/pages/tuin.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: samentuin
+        label: Samentuin
+        file: src/content/pages/tuin/samentuin.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: welzijn
+        label: Welzijn
+        file: src/content/pages/welzijn.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: fasciatherapie
+        label: Fasciatherapie
+        file: src/content/pages/welzijn/fasciatherapie.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: paardencoaching
+        label: Paardencoaching
+        file: src/content/pages/welzijn/paardencoaching.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: muziektherapie
+        label: Muziektherapie
+        file: src/content/pages/welzijn/muziektherapie.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: yoga
+        label: Yoga en dans
+        file: src/content/pages/yoga.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: verhuur
+        label: Verhuur
+        file: src/content/pages/verhuur.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: agenda
+        label: Agenda
+        file: src/content/pages/agenda.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: galerij
+        label: Galerij
+        file: src/content/pages/galerij.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: contact
+        label: Contact
+        file: src/content/pages/contact.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+
+  - name: gallery
+    label: Galerij foto's
+    icon: imagesmode
+    media_folder: /public/gallery
+    public_folder: /gallery
+    files:
+      - name: images
+        label: Foto's
+        file: src/content/gallery.json
+        format: json
+        fields:
+          - label: Foto's
+            name: images
+            widget: list
+            summary: '{{fields.alt}}'
+            fields:
+              - { label: Foto, name: image, widget: image }
+              - label: Thumbnail
+                name: thumbnail
+                widget: image
+                required: false
+                hint: Optioneel. Laat leeg om de gewone foto te gebruiken.
+              - { label: Alt-tekst, name: alt, widget: string }
+              - label: Oorspronkelijke bestandsnaam
+                name: originalName
+                widget: string
+                required: false
+              - label: Breedte thumbnail
+                name: width
+                widget: number
+                value_type: int
+                required: false
+              - label: Hoogte thumbnail
+                name: height
+                widget: number
+                value_type: int
+                required: false
+              - label: Breedte volledige foto
+                name: fullWidth
+                widget: number
+                value_type: int
+                required: false
+              - label: Hoogte volledige foto
+                name: fullHeight
+                widget: number
+                value_type: int
+                required: false

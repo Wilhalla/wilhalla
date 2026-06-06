@@ -1,7 +1,7 @@
 import { MarkdownContent } from "@/components/markdown-content";
 import { PageHeader } from "@/components/page-header";
 import { agendaRegistry, editorialPages } from "@/config/registries";
-import agendaContent from "@/content/pages/agenda.md?raw";
+import { getEditorialPageHtml } from "@/content/editorial-pages";
 import {
   type AgendaEvent,
   addMonths,
@@ -19,6 +19,8 @@ import {
 } from "@/modules/agenda-calendar";
 import { editorialRouteHead } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
+
+const agendaContent = getEditorialPageHtml("agenda");
 import { createServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
 
@@ -44,7 +46,7 @@ function AgendaPage() {
 
       <section className="site-container py-10 md:py-16">
         <div className="max-w-[820px]">
-          <MarkdownContent markdown={agendaContent} />
+          <MarkdownContent html={agendaContent} />
         </div>
 
         <AgendaCalendar events={events} />

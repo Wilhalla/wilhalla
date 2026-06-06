@@ -27,11 +27,11 @@ export function editorialRouteHead(page: EditorialPage, path: string) {
 
 export function EditorialMarkdownPage({
   page,
-  markdown,
+  html,
   children,
 }: {
   page: EditorialPage;
-  markdown: string;
+  html: string;
   children?: ReactNode;
 }) {
   return (
@@ -40,7 +40,7 @@ export function EditorialMarkdownPage({
       <PageHeader title={page.title} intro={page.intro} />
       <section className="site-container py-10 md:py-16">
         <div className="max-w-[820px]">
-          <MarkdownContent markdown={markdown} />
+          <MarkdownContent html={html} />
           {children && (
             <div className="mt-12 border-t border-chalk pt-8">{children}</div>
           )}
@@ -52,17 +52,17 @@ export function EditorialMarkdownPage({
 
 export function EditorialLandingPage({
   page,
-  markdown,
+  html,
 }: {
   page: EditorialLandingPage;
-  markdown: string;
+  html: string;
 }) {
   return (
     <div>
       <PageHeader title={page.title} intro={page.intro} />
       <section className="site-container py-10 md:py-16">
         <div className="max-w-[820px]">
-          <MarkdownContent markdown={markdown} />
+          <MarkdownContent html={html} />
         </div>
 
         <nav

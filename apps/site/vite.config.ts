@@ -1,3 +1,4 @@
+import contentCollections from "@content-collections/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
 import viteReact from "@vitejs/plugin-react";
@@ -9,6 +10,7 @@ const config = defineConfig({
     tsconfigPaths: true,
   },
   plugins: [
+    contentCollections({ isEnabled: () => process.env.VITEST !== "true" }),
     tailwindcss(),
     tanstackStart(),
     nitro(),
