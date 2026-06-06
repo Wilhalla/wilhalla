@@ -27,6 +27,8 @@ type GalleryImage = {
 };
 
 const galleryImages = galleryContent.images as readonly GalleryImage[];
+const galleryAltTextByOriginalName: Readonly<Record<string, string>> =
+  galleryRegistry.altTextByOriginalName;
 
 function GalleryPage() {
   return (
@@ -48,13 +50,13 @@ function GalleryPage() {
               const alt =
                 image.alt?.trim() ||
                 (image.originalName
-                  ? galleryRegistry.altTextByOriginalName[image.originalName]
+                  ? galleryAltTextByOriginalName[image.originalName]
                   : undefined) ||
                 `${galleryRegistry.fallbackAltPrefix} ${index + 1} van ${siteIdentity.name}`;
 
               return (
                 <li
-                  key={`${image.image}-${index}`}
+                  key={`${image.image}-${image.alt ?? image.originalName ?? ""}`}
                   className="break-inside-avoid list-none"
                 >
                   <a

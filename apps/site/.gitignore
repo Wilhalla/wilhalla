@@ -16,6 +16,7 @@ __unconfig*
 .doltcfg
 .roam
 .content-collections
+.worktrees/
 beads_wilhalla
 .beads
 .codex/

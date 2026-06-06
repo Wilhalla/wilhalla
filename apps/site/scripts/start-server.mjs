@@ -39,7 +39,8 @@ const mimeTypes = new Map([
 
 function toRequest(req) {
   const protocol = req.headers["x-forwarded-proto"] ?? "http";
-  const hostHeader = req.headers["x-forwarded-host"] ?? req.headers.host ?? `localhost:${port}`;
+  const hostHeader =
+    req.headers["x-forwarded-host"] ?? req.headers.host ?? `localhost:${port}`;
   const url = new URL(req.url ?? "/", `${protocol}://${hostHeader}`);
   const headers = new Headers();
 
@@ -70,7 +71,9 @@ function getStaticPath(pathname) {
 
   const relativePath = normalize(decodedPath).replace(/^([/\\])+/, "");
   const filePath = join(clientDir, relativePath);
-  const normalizedClientDir = clientDir.endsWith(sep) ? clientDir : `${clientDir}${sep}`;
+  const normalizedClientDir = clientDir.endsWith(sep)
+    ? clientDir
+    : `${clientDir}${sep}`;
 
   if (filePath !== clientDir && !filePath.startsWith(normalizedClientDir)) {
     return null;
@@ -91,7 +94,8 @@ async function serveStatic(req, res) {
   const fileStat = await stat(filePath);
   if (!fileStat.isFile()) return false;
 
-  const contentType = mimeTypes.get(extname(filePath)) ?? "application/octet-stream";
+  const contentType =
+    mimeTypes.get(extname(filePath)) ?? "application/octet-stream";
   res.statusCode = 200;
   res.setHeader("content-type", contentType);
   res.setHeader("content-length", fileStat.size);
@@ -116,7 +120,9 @@ const nodeServer = createServer(async (req, res) => {
     const response = await startServer.fetch(toRequest(req));
     res.statusCode = response.status;
     res.statusMessage = response.statusText;
-    response.headers.forEach((value, key) => res.setHeader(key, value));
+    response.headers.forEach((value, key) => {
+      res.setHeader(key, value);
+    });
 
     if (!response.body || req.method === "HEAD") {
       res.end();
