@@ -1,9 +1,12 @@
 import { editorialPages } from "@/config/registries";
+import { getEditorialPageHtml } from "@/content/editorial-pages";
 import {
-  EditorialPlaceholderPage,
+  EditorialMarkdownPage,
   editorialRouteHead,
 } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
+
+const limfedrainageContent = getEditorialPageHtml("welzijn/limfedrainage");
 
 export const Route = createFileRoute("/welzijn/limfedrainage")({
   head: () =>
@@ -12,5 +15,10 @@ export const Route = createFileRoute("/welzijn/limfedrainage")({
 });
 
 function LimfedrainagePage() {
-  return <EditorialPlaceholderPage page={editorialPages.limfedrainage} />;
+  return (
+    <EditorialMarkdownPage
+      page={editorialPages.limfedrainage}
+      html={limfedrainageContent}
+    />
+  );
 }

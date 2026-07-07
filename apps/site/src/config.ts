@@ -158,7 +158,6 @@ export const siteConfig = {
       title: "Limfedrainage",
       description: "Limfedrainage bij Wilhalla.",
       intro: "Placeholder — content wordt later aangevuld.",
-      placeholderText: "Deze pagina krijgt binnenkort meer inhoud.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Limfedrainage" },
@@ -168,7 +167,6 @@ export const siteConfig = {
       title: "Kinetic Chain Release",
       description: "Kinetic Chain Release bij Wilhalla.",
       intro: "Placeholder — content wordt later aangevuld.",
-      placeholderText: "Deze pagina krijgt binnenkort meer inhoud.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Kinetic Chain Release" },
@@ -178,7 +176,6 @@ export const siteConfig = {
       title: "Veerkracht in Beweging",
       description: "Veerkracht in Beweging bij Wilhalla.",
       intro: "Placeholder — content wordt later aangevuld.",
-      placeholderText: "Deze pagina krijgt binnenkort meer inhoud.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Veerkracht in Beweging" },

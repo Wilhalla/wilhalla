@@ -13,7 +13,6 @@ type EditorialPage = {
   description: string;
   intro: string;
   breadcrumb?: readonly BreadcrumbItem[];
-  placeholderText?: string;
 };
 
 type EditorialLandingPage = EditorialPage & {
@@ -87,20 +86,6 @@ export function EditorialLandingPage({
             </Link>
           ))}
         </nav>
-      </section>
-    </div>
-  );
-}
-
-export function EditorialPlaceholderPage({ page }: { page: EditorialPage }) {
-  return (
-    <div>
-      {page.breadcrumb && <Breadcrumb items={page.breadcrumb} />}
-      <PageHeader title={page.title} intro={page.intro} />
-      <section className="site-container py-10 md:py-16">
-        <p className="el-body max-w-[680px] text-cinder">
-          {page.placeholderText}
-        </p>
       </section>
     </div>
   );
