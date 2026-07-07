@@ -14,7 +14,5 @@ export const Route = createFileRoute("/welzijn/kcr")({
 });
 
 function KcrPage() {
-  return (
-    <EditorialMarkdownPage page={editorialPages.kcr} html={kcrContent} />
-  );
+  return <EditorialMarkdownPage page={editorialPages.kcr} html={kcrContent} />;
 }

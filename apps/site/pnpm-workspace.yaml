@@ -1,0 +1,9 @@
+packages:
+  - .
+
+overrides:
+  "@tanstack/start-server-core": "1.169.8"
+
+allowBuilds:
+  esbuild: true
+  msw: false
