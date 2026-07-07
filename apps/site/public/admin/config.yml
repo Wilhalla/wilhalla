@@ -117,7 +117,7 @@ collections:
           - label: Foto's
             name: images
             widget: list
-            summary: '{{fields.alt}}'
+            summary: "{{fields.alt}}"
             fields:
               - { label: Foto, name: image, widget: image }
               - label: Thumbnail

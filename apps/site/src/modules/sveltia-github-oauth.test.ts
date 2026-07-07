@@ -50,7 +50,7 @@ describe("Sveltia GitHub OAuth", () => {
   });
 
   it("exchanges a valid callback code for a token response for Sveltia", async () => {
-    const fetch = vi.fn(async () =>
+    const fetch = vi.fn<typeof globalThis.fetch>(async () =>
       Response.json({ access_token: "gho_token" }),
     );
     vi.stubGlobal("fetch", fetch);

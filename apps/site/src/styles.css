@@ -89,12 +89,8 @@ code {
     monospace;
   --shadow-subtle: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;
   --shadow-subtle-2:
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px, rgba(
-      0,
-      0,
-      0,
-      0.04
-    ) 0px 2px 4px 0px;
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
   --shadow-subtle-4:
     rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 4px 0px;
   --shadow-subtle-7:
@@ -202,12 +198,8 @@ code {
 
   --shadow-subtle: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;
   --shadow-subtle-2:
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px, rgba(
-      0,
-      0,
-      0,
-      0.04
-    ) 0px 2px 4px 0px;
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
   --shadow-subtle-3: rgba(0, 0, 0, 0.1) 0px 0px 0px 0.5px inset;
   --shadow-subtle-4:
     rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 4px 0px;
@@ -217,12 +209,8 @@ code {
     rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
   --shadow-subtle-8: rgba(255, 255, 255, 0.6) 0px 0px 0px 1px inset;
   --shadow-subtle-9:
-    rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 1px 1px 0px, rgba(
-      0,
-      0,
-      0,
-      0.04
-    ) 0px 2px 4px 0px;
+    rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 1px 1px 0px,
+    rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
 
   --background: var(--color-eggshell);
   --foreground: var(--color-obsidian);
