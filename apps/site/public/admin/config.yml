@@ -62,6 +62,21 @@ collections:
         file: src/content/pages/welzijn/muziektherapie.md
         fields:
           - { label: Inhoud, name: body, widget: richtext }
+      - name: limfedrainage
+        label: Limfedrainage
+        file: src/content/pages/welzijn/limfedrainage.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: kcr
+        label: Kinetic Chain Release
+        file: src/content/pages/welzijn/kcr.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: veerkracht
+        label: Veerkracht in Beweging
+        file: src/content/pages/welzijn/veerkracht.md
+        fields:
+          - { label: Inhoud, name: body, widget: richtext }
       - name: yoga
         label: Yoga en dans
         file: src/content/pages/yoga.md
