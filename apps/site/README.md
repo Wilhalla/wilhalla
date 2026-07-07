@@ -18,12 +18,12 @@ pnpm run build
 pnpm run start
 ```
 
-`pnpm run build` emits:
+`pnpm run build` emits the TanStack Start/Nitro production bundle into `.output/`:
 
-- `dist/client` — browser assets and copied `public/` files
-- `dist/server` — TanStack Start SSR server bundle
+- `.output/public` — browser assets and copied `public/` files
+- `.output/server` — SSR server bundle
 
-`pnpm run start` runs `scripts/start-server.mjs`, a small Node server that serves static assets from `dist/client` and sends all page requests through the TanStack Start SSR handler.
+`pnpm run start` runs Nitro's Node server entry at `.output/server/index.mjs`.
 
 Configure the production server with:
 

@@ -10,7 +10,7 @@ ENV PATH=$PNPM_HOME:$PATH
 RUN corepack enable
 
 # Copy dependency manifests first for better layer caching
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
@@ -28,9 +28,8 @@ ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=80
 
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/scripts/start-server.mjs ./scripts/start-server.mjs
+COPY --from=builder /app/.output ./.output
 
 EXPOSE 80
 
-CMD ["node", "scripts/start-server.mjs"]
+CMD ["node", ".output/server/index.mjs"]
