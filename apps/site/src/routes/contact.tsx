@@ -73,11 +73,11 @@ function ContactPage() {
     <main className="min-h-[calc(100svh-3rem)] bg-eggshell px-4 py-10 text-obsidian md:py-16">
       <section className="mx-auto flex w-full max-w-[460px] flex-col items-center">
         <img
-          src={siteIdentity.assets.favicon}
+          src={siteIdentity.assets.appleLogo}
           alt=""
-          width={96}
-          height={96}
-          className="h-24 w-24"
+          width={768}
+          height={741}
+          className="h-32 w-auto origin-bottom transition duration-300 ease-out hover:-translate-y-1 hover:rotate-[2deg] hover:scale-[1.03] hover:saturate-110 md:h-36"
         />
 
         <h1 className="mt-3 mb-0 font-waldenburg text-[clamp(2.2rem,10vw,3.35rem)] leading-none font-normal tracking-[-0.045em]">

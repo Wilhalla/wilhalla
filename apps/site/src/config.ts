@@ -20,6 +20,7 @@ export const siteConfig = {
     footerTagline: "Wilhalla — Velt-ecotuin sinds 1962",
     assets: {
       favicon: "/favicon.png",
+      appleLogo: "/wilhalla-apple-logo.webp",
       ico: "/favicon.ico",
       appleTouchIcon: "/apple-touch-icon.png",
       manifest: "/manifest.json",
