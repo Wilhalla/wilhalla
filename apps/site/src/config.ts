@@ -79,41 +79,17 @@ export const siteConfig = {
   },
 
   pages: {
-    agenda: {
-      title: "Agenda",
-      description: "Workshops, activiteiten en evenementen op Wilhalla.",
-      intro: "Workshops, activiteiten en evenementen op Wilhalla.",
-    },
-    gallery: {
-      title: "Galerij",
-      description: "Beelden van Wilhalla, de tuin, de yurt en activiteiten.",
-      intro: "Beelden van Wilhalla, de tuin, de yurt en activiteiten.",
-    },
     tuin: {
-      title: "Over ons",
-      description:
-        "Wilhalla is een plek om te vertragen, te verbinden en te groeien, samen, op het ritme van de natuur.",
-      intro:
-        "Welkom bij Wilhalla, een idyllische plek in het groene Halle-Zoersel, waar natuur, rust en verbinding samenkomen.",
       subPages: [{ label: "Samentuin", to: "/over-ons/samentuin" }],
       subPageNavLabel: "Over ons pagina's",
     },
     samentuin: {
-      title: "Samentuin",
-      description:
-        "Samen zorgen voor de moestuin, fruitkooien en boomgaard van Wilhalla.",
-      intro:
-        "Iedereen met een hart voor tuinieren en natuur is welkom om mee te groeien in onze werking.",
       breadcrumb: [
         { label: "Over ons", to: "/over-ons" },
         { label: "Samentuin" },
       ],
     },
     welzijn: {
-      title: "Welzijn",
-      description:
-        "Vanuit een holistische benadering voor lichaam en geest biedt Wilhalla therapieën, workshops en coaching aan.",
-      intro: "Een holistische aanpak voor lichaam en geest.",
       subPages: [
         { label: "Fasciatherapie", to: "/welzijn/fasciatherapie" },
         { label: "Paardencoaching", to: "/welzijn/paardencoaching" },
@@ -125,74 +101,40 @@ export const siteConfig = {
       subPageNavLabel: "Welzijn aanbod",
     },
     fasciatherapie: {
-      title: "Fasciatherapie",
-      description:
-        "Fasciatherapie bij Wilhalla: een zachte, diepwerkende methode voor lichaam en geest.",
-      intro:
-        "Een zachte, diepwerkende methode waarbij lichaam en geest samen benaderd worden.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Fasciatherapie" },
       ],
     },
     paardencoaching: {
-      title: "Paardencoaching",
-      description:
-        "Paardencoaching bij Wilhalla met paarden in vrijheid en verbinding in wederzijds respect.",
-      intro: "Paarden oordelen niet en communiceren met je onderbewuste.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Paardencoaching" },
       ],
     },
     muziektherapie: {
-      title: "Muziektherapie",
-      description:
-        "Muziektherapie, Sound & Senses en live muziek bij Wilhalla.",
-      intro: "Muziek is een onmisbaar onderdeel van de werking van Wilhalla.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Muziektherapie" },
       ],
     },
     lymfedrainage: {
-      title: "Lymfedrainage",
-      description: "Lymfedrainage bij Wilhalla.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Lymfedrainage" },
       ],
     },
     kcr: {
-      title: "Kinetic Chain Release",
-      description: "Kinetic Chain Release bij Wilhalla.",
-      intro: "Placeholder — content wordt later aangevuld.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Kinetic Chain Release" },
       ],
     },
     veerkracht: {
-      title: "Veerkracht in Beweging",
-      description: "Veerkracht in Beweging bij Wilhalla.",
-      intro: "Placeholder — content wordt later aangevuld.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Veerkracht in Beweging" },
       ],
-    },
-    verhuur: {
-      title: "Verhuur",
-      description:
-        "De yurt en gerenoveerde schuur van Wilhalla zijn beschikbaar voor workshops, retraites, bijeenkomsten en feesten in vertrouwde kring.",
-      intro:
-        "Unieke plekken midden in het groen, waar rust en eenvoud centraal staan.",
-    },
-    yoga: {
-      title: "Yoga en dans",
-      description:
-        "Yoga en danslessen en workshops tussen het groen of in de yurt.",
-      intro: "Lessen en workshops tussen het groen of in de yurt.",
     },
   },
 

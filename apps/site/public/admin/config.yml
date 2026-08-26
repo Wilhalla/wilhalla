@@ -36,71 +36,169 @@ collections:
         label: Over ons
         file: src/content/pages/tuin.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: samentuin
         label: Samentuin
         file: src/content/pages/tuin/samentuin.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: welzijn
         label: Welzijn
         file: src/content/pages/welzijn.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: fasciatherapie
         label: Fasciatherapie
         file: src/content/pages/welzijn/fasciatherapie.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: paardencoaching
         label: Paardencoaching
         file: src/content/pages/welzijn/paardencoaching.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: muziektherapie
         label: Muziektherapie
         file: src/content/pages/welzijn/muziektherapie.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: lymfedrainage
         label: Lymfedrainage
         file: src/content/pages/welzijn/lymfedrainage.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: kcr
         label: Kinetic Chain Release
         file: src/content/pages/welzijn/kcr.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: veerkracht
         label: Veerkracht in Beweging
         file: src/content/pages/welzijn/veerkracht.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: yoga
         label: Yoga en dans
         file: src/content/pages/yoga.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: verhuur
         label: Verhuur
         file: src/content/pages/verhuur.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: agenda
         label: Agenda
         file: src/content/pages/agenda.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: galerij
         label: Galerij
         file: src/content/pages/galerij.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
       - name: contact
         label: Contact
         file: src/content/pages/contact.md
         fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
           - { label: Inhoud, name: body, widget: richtext }
 
   - name: gallery

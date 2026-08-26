@@ -1,3 +1,9 @@
+---
+title: "Fasciatherapie"
+description: "Fasciatherapie bij Wilhalla: een zachte, diepwerkende methode voor lichaam en geest."
+intro: "Een zachte, diepwerkende methode waarbij lichaam en geest samen benaderd worden."
+---
+
 Fasciatherapie is een zachte, diepwerkende methode ontwikkeld door Danis Bois, waarbij lichaam en geest samen benaderd worden. We kijken niet alleen naar waar je klachten voelt, maar ook hoe ze ontstaan en wat ze in je dagelijks leven beïnvloeden.
 
 Met trage, manuele technieken en eenvoudige bewegingsoefeningen helpen we spanning los te laten en het zelfherstellend vermogen van je lichaam te activeren. Je leert opnieuw luisteren naar je lichaam, waardoor klachten niet alleen verminderen, maar je ook beter leert begrijpen wat je lichaam nodig heeft.

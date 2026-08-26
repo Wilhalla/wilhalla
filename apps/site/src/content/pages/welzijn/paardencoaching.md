@@ -1,3 +1,9 @@
+---
+title: "Paardencoaching"
+description: "Paardencoaching bij Wilhalla met paarden in vrijheid en verbinding in wederzijds respect."
+intro: "Paarden oordelen niet en communiceren met je onderbewuste."
+---
+
 Paarden zijn meesters in het lezen van hun mededieren. In de kudde valt het paard dat het laatst de vluchtreflex van de anderen heeft gevoeld ten prooi aan het roofdier. De ander lezen is dus een overlevingsstrategie. Paarden oordelen niet en communiceren met je onderbewuste. Als je oude patronen wilt opruimen, het gevoel hebt dat je geblokkeerd bent of je potentieel ten volle wilt ontdekken, helpt het paard je de overgang te maken naar je authentieke ik.
 
 Voorkennis van paardengedrag is niet nodig. Er worden geen oefeningen gedaan met de paarden en er wordt niet op gereden. Het paard is in vrijheid. De verbinding die gecreëerd wordt, is in wederzijds respect.

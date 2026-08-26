@@ -4,17 +4,14 @@ import {
   siteIdentity,
   socialRegistry,
 } from "@/config/registries";
+import { getEditorialPage } from "@/content/editorial-pages";
 import { routeHead } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 
+const contactPage = getEditorialPage("contact");
+
 export const Route = createFileRoute("/contact")({
-  head: () =>
-    routeHead({
-      title: "Contact",
-      description:
-        "Contactgegevens van Wilhalla: mail, route en sociale kanalen.",
-      path: "/contact",
-    }),
+  head: () => routeHead({ ...contactPage, path: "/contact" }),
   component: ContactPage,
 });
 
