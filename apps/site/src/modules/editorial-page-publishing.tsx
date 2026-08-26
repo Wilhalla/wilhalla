@@ -11,7 +11,7 @@ type BreadcrumbItem = { label: string; to?: string };
 type EditorialPage = {
   title: string;
   description: string;
-  intro: string;
+  intro?: string;
   breadcrumb?: readonly BreadcrumbItem[];
 };
 
