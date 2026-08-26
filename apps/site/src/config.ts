@@ -158,7 +158,6 @@ export const siteConfig = {
     lymfedrainage: {
       title: "Lymfedrainage",
       description: "Lymfedrainage bij Wilhalla.",
-      intro: "Placeholder — content wordt later aangevuld.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
         { label: "Lymfedrainage" },
