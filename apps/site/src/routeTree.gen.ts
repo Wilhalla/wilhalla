@@ -20,7 +20,7 @@ import { Route as OverOnsIndexRouteImport } from './routes/over-ons/index'
 import { Route as WelzijnVeerkrachtRouteImport } from './routes/welzijn/veerkracht'
 import { Route as WelzijnPaardencoachingRouteImport } from './routes/welzijn/paardencoaching'
 import { Route as WelzijnMuziektherapieRouteImport } from './routes/welzijn/muziektherapie'
-import { Route as WelzijnLimfedrainageRouteImport } from './routes/welzijn/limfedrainage'
+import { Route as WelzijnLymfedrainageRouteImport } from './routes/welzijn/lymfedrainage'
 import { Route as WelzijnKcrRouteImport } from './routes/welzijn/kcr'
 import { Route as WelzijnFasciatherapieRouteImport } from './routes/welzijn/fasciatherapie'
 import { Route as OverOnsSamentuinRouteImport } from './routes/over-ons/samentuin'
@@ -82,9 +82,9 @@ const WelzijnMuziektherapieRoute = WelzijnMuziektherapieRouteImport.update({
   path: '/welzijn/muziektherapie',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WelzijnLimfedrainageRoute = WelzijnLimfedrainageRouteImport.update({
-  id: '/welzijn/limfedrainage',
-  path: '/welzijn/limfedrainage',
+const WelzijnLymfedrainageRoute = WelzijnLymfedrainageRouteImport.update({
+  id: '/welzijn/lymfedrainage',
+  path: '/welzijn/lymfedrainage',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WelzijnKcrRoute = WelzijnKcrRouteImport.update({
@@ -123,7 +123,7 @@ export interface FileRoutesByFullPath {
   '/over-ons/samentuin': typeof OverOnsSamentuinRoute
   '/welzijn/fasciatherapie': typeof WelzijnFasciatherapieRoute
   '/welzijn/kcr': typeof WelzijnKcrRoute
-  '/welzijn/limfedrainage': typeof WelzijnLimfedrainageRoute
+  '/welzijn/lymfedrainage': typeof WelzijnLymfedrainageRoute
   '/welzijn/muziektherapie': typeof WelzijnMuziektherapieRoute
   '/welzijn/paardencoaching': typeof WelzijnPaardencoachingRoute
   '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
@@ -142,7 +142,7 @@ export interface FileRoutesByTo {
   '/over-ons/samentuin': typeof OverOnsSamentuinRoute
   '/welzijn/fasciatherapie': typeof WelzijnFasciatherapieRoute
   '/welzijn/kcr': typeof WelzijnKcrRoute
-  '/welzijn/limfedrainage': typeof WelzijnLimfedrainageRoute
+  '/welzijn/lymfedrainage': typeof WelzijnLymfedrainageRoute
   '/welzijn/muziektherapie': typeof WelzijnMuziektherapieRoute
   '/welzijn/paardencoaching': typeof WelzijnPaardencoachingRoute
   '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
@@ -162,7 +162,7 @@ export interface FileRoutesById {
   '/over-ons/samentuin': typeof OverOnsSamentuinRoute
   '/welzijn/fasciatherapie': typeof WelzijnFasciatherapieRoute
   '/welzijn/kcr': typeof WelzijnKcrRoute
-  '/welzijn/limfedrainage': typeof WelzijnLimfedrainageRoute
+  '/welzijn/lymfedrainage': typeof WelzijnLymfedrainageRoute
   '/welzijn/muziektherapie': typeof WelzijnMuziektherapieRoute
   '/welzijn/paardencoaching': typeof WelzijnPaardencoachingRoute
   '/welzijn/veerkracht': typeof WelzijnVeerkrachtRoute
@@ -183,7 +183,7 @@ export interface FileRouteTypes {
     | '/over-ons/samentuin'
     | '/welzijn/fasciatherapie'
     | '/welzijn/kcr'
-    | '/welzijn/limfedrainage'
+    | '/welzijn/lymfedrainage'
     | '/welzijn/muziektherapie'
     | '/welzijn/paardencoaching'
     | '/welzijn/veerkracht'
@@ -202,7 +202,7 @@ export interface FileRouteTypes {
     | '/over-ons/samentuin'
     | '/welzijn/fasciatherapie'
     | '/welzijn/kcr'
-    | '/welzijn/limfedrainage'
+    | '/welzijn/lymfedrainage'
     | '/welzijn/muziektherapie'
     | '/welzijn/paardencoaching'
     | '/welzijn/veerkracht'
@@ -221,7 +221,7 @@ export interface FileRouteTypes {
     | '/over-ons/samentuin'
     | '/welzijn/fasciatherapie'
     | '/welzijn/kcr'
-    | '/welzijn/limfedrainage'
+    | '/welzijn/lymfedrainage'
     | '/welzijn/muziektherapie'
     | '/welzijn/paardencoaching'
     | '/welzijn/veerkracht'
@@ -241,7 +241,7 @@ export interface RootRouteChildren {
   OverOnsSamentuinRoute: typeof OverOnsSamentuinRoute
   WelzijnFasciatherapieRoute: typeof WelzijnFasciatherapieRoute
   WelzijnKcrRoute: typeof WelzijnKcrRoute
-  WelzijnLimfedrainageRoute: typeof WelzijnLimfedrainageRoute
+  WelzijnLymfedrainageRoute: typeof WelzijnLymfedrainageRoute
   WelzijnMuziektherapieRoute: typeof WelzijnMuziektherapieRoute
   WelzijnPaardencoachingRoute: typeof WelzijnPaardencoachingRoute
   WelzijnVeerkrachtRoute: typeof WelzijnVeerkrachtRoute
@@ -330,11 +330,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WelzijnMuziektherapieRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/welzijn/limfedrainage': {
-      id: '/welzijn/limfedrainage'
-      path: '/welzijn/limfedrainage'
-      fullPath: '/welzijn/limfedrainage'
-      preLoaderRoute: typeof WelzijnLimfedrainageRouteImport
+    '/welzijn/lymfedrainage': {
+      id: '/welzijn/lymfedrainage'
+      path: '/welzijn/lymfedrainage'
+      fullPath: '/welzijn/lymfedrainage'
+      preLoaderRoute: typeof WelzijnLymfedrainageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/welzijn/kcr': {
@@ -385,7 +385,7 @@ const rootRouteChildren: RootRouteChildren = {
   OverOnsSamentuinRoute: OverOnsSamentuinRoute,
   WelzijnFasciatherapieRoute: WelzijnFasciatherapieRoute,
   WelzijnKcrRoute: WelzijnKcrRoute,
-  WelzijnLimfedrainageRoute: WelzijnLimfedrainageRoute,
+  WelzijnLymfedrainageRoute: WelzijnLymfedrainageRoute,
   WelzijnMuziektherapieRoute: WelzijnMuziektherapieRoute,
   WelzijnPaardencoachingRoute: WelzijnPaardencoachingRoute,
   WelzijnVeerkrachtRoute: WelzijnVeerkrachtRoute,
