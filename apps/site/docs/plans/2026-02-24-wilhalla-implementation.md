@@ -808,7 +808,7 @@ git commit -m "feat: add homepage teaser sections, dividers, and hand-drawn bg c
 - Create: `src/routes/tuin/samentuin.tsx`
 - Create: `src/routes/welzijn/index.tsx`
 - Create: `src/routes/welzijn/fasciatherapie.tsx`
-- Create: `src/routes/welzijn/limfedrainage.tsx`
+- Create: `src/routes/welzijn/lymfedrainage.tsx`
 - Create: `src/routes/welzijn/kcr.tsx`
 - Create: `src/routes/welzijn/paardencoaching.tsx`
 - Create: `src/routes/welzijn/veerkracht.tsx`

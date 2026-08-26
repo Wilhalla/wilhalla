@@ -118,7 +118,7 @@ export const siteConfig = {
         { label: "Fasciatherapie", to: "/welzijn/fasciatherapie" },
         { label: "Paardencoaching", to: "/welzijn/paardencoaching" },
         { label: "Muziektherapie", to: "/welzijn/muziektherapie" },
-        { label: "Limfedrainage", to: "/welzijn/limfedrainage" },
+        { label: "Lymfedrainage", to: "/welzijn/lymfedrainage" },
         { label: "Kinetic Chain Release", to: "/welzijn/kcr" },
         { label: "Veerkracht in Beweging", to: "/welzijn/veerkracht" },
       ],
@@ -155,13 +155,13 @@ export const siteConfig = {
         { label: "Muziektherapie" },
       ],
     },
-    limfedrainage: {
-      title: "Limfedrainage",
-      description: "Limfedrainage bij Wilhalla.",
+    lymfedrainage: {
+      title: "Lymfedrainage",
+      description: "Lymfedrainage bij Wilhalla.",
       intro: "Placeholder — content wordt later aangevuld.",
       breadcrumb: [
         { label: "Welzijn", to: "/welzijn" },
-        { label: "Limfedrainage" },
+        { label: "Lymfedrainage" },
       ],
     },
     kcr: {

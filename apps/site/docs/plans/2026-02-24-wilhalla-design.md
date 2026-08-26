@@ -16,7 +16,7 @@ The website serves as the digital home for all of Wilhalla's activities, with an
 | Area | Description |
 |------|-------------|
 | **Tuin** | Garden history, the Wilhalla story, samentuin (community garden) |
-| **Welzijn** | Fasciatherapie, limfedrainage, KCR, Paardencoaching, Veerkracht in Beweging |
+| **Welzijn** | Fasciatherapie, lymfedrainage, KCR, Paardencoaching, Veerkracht in Beweging |
 | **Yoga** | Yoga sessions (standalone page) |
 | **Agenda** | Workshops, activiteiten, dansfeesten, oogstfeesten, benefiet, Google Calendar integration |
 | **Verhuur** | Schuur & yurt rental |
@@ -175,7 +175,7 @@ WILHALLA          Tuin   Welzijn   Yoga   Agenda   Verhuur   Blog
 | Nav item | Contains |
 |----------|----------|
 | **Tuin** | Garden history, samentuin, the Wilhalla story |
-| **Welzijn** | Fasciatherapie, limfedrainage, KCR, Paardencoaching, Veerkracht in Beweging |
+| **Welzijn** | Fasciatherapie, lymfedrainage, KCR, Paardencoaching, Veerkracht in Beweging |
 | **Yoga** | Standalone page |
 | **Agenda** | Workshops, activiteiten, events calendar |
 | **Verhuur** | Schuur & yurt rental |
@@ -257,7 +257,7 @@ WELZIJN
 Intro over de holistische aanpak...
 
   Fasciatherapie              ->
-  Limfedrainage               ->
+  Lymfedrainage               ->
   Kinetic Chain Release       ->
   Paardencoaching             ->
   Veerkracht in Beweging      ->

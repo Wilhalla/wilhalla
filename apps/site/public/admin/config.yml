@@ -62,9 +62,9 @@ collections:
         file: src/content/pages/welzijn/muziektherapie.md
         fields:
           - { label: Inhoud, name: body, widget: richtext }
-      - name: limfedrainage
-        label: Limfedrainage
-        file: src/content/pages/welzijn/limfedrainage.md
+      - name: lymfedrainage
+        label: Lymfedrainage
+        file: src/content/pages/welzijn/lymfedrainage.md
         fields:
           - { label: Inhoud, name: body, widget: richtext }
       - name: kcr
