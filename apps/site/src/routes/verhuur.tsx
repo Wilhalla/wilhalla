@@ -1,23 +1,17 @@
-import { editorialPages } from "@/config/registries";
-import { getEditorialPageHtml } from "@/content/editorial-pages";
+import { getEditorialPage } from "@/content/editorial-pages";
 import {
   EditorialMarkdownPage,
   editorialRouteHead,
 } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
 
-const verhuurContent = getEditorialPageHtml("verhuur");
+const verhuurPage = getEditorialPage("verhuur");
 
 export const Route = createFileRoute("/verhuur")({
-  head: () => editorialRouteHead(editorialPages.verhuur, "/verhuur"),
+  head: () => editorialRouteHead(verhuurPage, "/verhuur"),
   component: VerhuurPage,
 });
 
 function VerhuurPage() {
-  return (
-    <EditorialMarkdownPage
-      page={editorialPages.verhuur}
-      html={verhuurContent}
-    />
-  );
+  return <EditorialMarkdownPage page={verhuurPage} html={verhuurPage.html} />;
 }

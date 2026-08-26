@@ -1,20 +1,17 @@
-import { editorialPages } from "@/config/registries";
-import { getEditorialPageHtml } from "@/content/editorial-pages";
+import { getEditorialPage } from "@/content/editorial-pages";
 import {
   EditorialMarkdownPage,
   editorialRouteHead,
 } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
 
-const yogaContent = getEditorialPageHtml("yoga");
+const yogaPage = getEditorialPage("yoga");
 
 export const Route = createFileRoute("/yoga")({
-  head: () => editorialRouteHead(editorialPages.yoga, "/yoga"),
+  head: () => editorialRouteHead(yogaPage, "/yoga"),
   component: YogaPage,
 });
 
 function YogaPage() {
-  return (
-    <EditorialMarkdownPage page={editorialPages.yoga} html={yogaContent} />
-  );
+  return <EditorialMarkdownPage page={yogaPage} html={yogaPage.html} />;
 }

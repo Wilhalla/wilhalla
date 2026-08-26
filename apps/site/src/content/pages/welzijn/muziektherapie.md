@@ -1,3 +1,9 @@
+---
+title: "Muziektherapie"
+description: "Muziektherapie, Sound & Senses en live muziek bij Wilhalla."
+intro: "Muziek is een onmisbaar onderdeel van de werking van Wilhalla."
+---
+
 Wilhalla is een plek waar inspiratie en ontmoeting centraal staan. Muziek vormt daarin een onmisbaar onderdeel van onze werking.
 
 Momenteel organiseren we maandelijks de sessie _Sound & Senses_, waar je [hier](https://www.theyurt.be/lessenaanbod-2) meer informatie over vindt.

@@ -1,7 +1,7 @@
 import { MarkdownContent } from "@/components/markdown-content";
 import { PageHeader } from "@/components/page-header";
-import { agendaRegistry, editorialPages } from "@/config/registries";
-import { getEditorialPageHtml } from "@/content/editorial-pages";
+import { agendaRegistry } from "@/config/registries";
+import { getEditorialPage } from "@/content/editorial-pages";
 import {
   type AgendaEvent,
   addMonths,
@@ -20,7 +20,7 @@ import {
 import { editorialRouteHead } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
 
-const agendaContent = getEditorialPageHtml("agenda");
+const agendaPage = getEditorialPage("agenda");
 import { createServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
 
@@ -30,7 +30,7 @@ const getAgendaEvents = createServerFn({ method: "GET" }).handler(() =>
 
 export const Route = createFileRoute("/agenda")({
   loader: () => getAgendaEvents(),
-  head: () => editorialRouteHead(editorialPages.agenda, "/agenda"),
+  head: () => editorialRouteHead(agendaPage, "/agenda"),
   component: AgendaPage,
 });
 
@@ -39,14 +39,11 @@ function AgendaPage() {
 
   return (
     <div>
-      <PageHeader
-        title={editorialPages.agenda.title}
-        intro={editorialPages.agenda.intro}
-      />
+      <PageHeader title={agendaPage.title} intro={agendaPage.intro} />
 
       <section className="site-container py-10 md:py-16">
         <div className="max-w-[820px]">
-          <MarkdownContent html={agendaContent} />
+          <MarkdownContent html={agendaPage.html} />
         </div>
 
         <AgendaCalendar events={events} />

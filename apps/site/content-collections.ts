@@ -7,6 +7,9 @@ const pages = defineCollection({
   directory: "src/content/pages",
   include: "**/*.md",
   schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    intro: z.string().optional(),
     content: z.string(),
   }),
   transform: async (page, context) => ({

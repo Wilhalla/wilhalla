@@ -1,19 +1,15 @@
 import { MarkdownContent } from "@/components/markdown-content";
 import { PageHeader } from "@/components/page-header";
-import {
-  editorialPages,
-  galleryRegistry,
-  siteIdentity,
-} from "@/config/registries";
+import { galleryRegistry, siteIdentity } from "@/config/registries";
 import galleryContent from "@/content/gallery.json";
-import { getEditorialPageHtml } from "@/content/editorial-pages";
+import { getEditorialPage } from "@/content/editorial-pages";
 import { editorialRouteHead } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
 
-const galerijContent = getEditorialPageHtml("galerij");
+const galleryPage = getEditorialPage("galerij");
 
 export const Route = createFileRoute("/gallery")({
-  head: () => editorialRouteHead(editorialPages.gallery, "/gallery"),
+  head: () => editorialRouteHead(galleryPage, "/gallery"),
   component: GalleryPage,
 });
 
@@ -33,15 +29,12 @@ const galleryAltTextByOriginalName: Readonly<Record<string, string>> =
 function GalleryPage() {
   return (
     <div>
-      <PageHeader
-        title={editorialPages.gallery.title}
-        intro={editorialPages.gallery.intro}
-      />
+      <PageHeader title={galleryPage.title} intro={galleryPage.intro} />
 
       <section className="site-container py-10 md:py-16">
         <div className="space-y-12">
           <div className="max-w-[820px]">
-            <MarkdownContent html={galerijContent} />
+            <MarkdownContent html={galleryPage.html} />
           </div>
 
           <ul className="columns-1 gap-4 p-0 sm:columns-2 lg:columns-3 [&>li]:mb-4">
