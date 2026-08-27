@@ -1,5 +1,6 @@
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { interactiveMapRegistry } from "@/config/registries";
+import { allHomepages } from "content-collections";
 import {
   allMapHoverImages,
   getActiveMapDiscovery,
@@ -206,6 +207,12 @@ function SentinelExplanationCard({
   );
 }
 
+const homepage = allHomepages[0];
+
+if (!homepage) {
+  throw new Error("Missing homepage content");
+}
+
 function MapHeroOverlay() {
   return (
     <section
@@ -219,7 +226,7 @@ function MapHeroOverlay() {
         Wilhalla
       </h1>
       <p className="m-0 mt-3 max-w-[380px] text-balance font-waldenburg text-[clamp(18px,1.15vw,23px)] leading-[1.22] tracking-[0.01em] text-[#3f3225]">
-        Een levende plek voor tuin, welzijn, yoga en ontmoeting.
+        {homepage.tagline}
       </p>
       <Link
         to="/over-ons"

@@ -2,6 +2,16 @@ import { defineCollection, defineConfig } from "@content-collections/core";
 import { compileMarkdown } from "@content-collections/markdown";
 import { z } from "zod";
 
+const homepage = defineCollection({
+  name: "homepage",
+  directory: "src/content",
+  include: "homepage.md",
+  schema: z.object({
+    tagline: z.string(),
+    content: z.string(),
+  }),
+});
+
 const pages = defineCollection({
   name: "pages",
   directory: "src/content/pages",
@@ -21,5 +31,5 @@ const pages = defineCollection({
 });
 
 export default defineConfig({
-  content: [pages],
+  content: [homepage, pages],
 });

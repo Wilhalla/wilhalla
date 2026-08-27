@@ -32,6 +32,11 @@ collections:
     media_folder: /public/uploads
     public_folder: /uploads
     files:
+      - name: home
+        label: Home
+        file: src/content/homepage.md
+        fields:
+          - { label: Tagline, name: tagline, widget: string }
       - name: over-ons
         label: Over ons
         file: src/content/pages/tuin.md
