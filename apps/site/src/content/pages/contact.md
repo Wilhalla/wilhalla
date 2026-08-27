@@ -1,5 +1,6 @@
 ---
 title: "Contact"
+linkLabel: "Contact"
 description: "Contactgegevens van Wilhalla: mail, route en sociale kanalen."
 ---
 

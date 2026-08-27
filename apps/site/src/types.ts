@@ -14,6 +14,10 @@ export type NavigationLink = {
   icon: NavigationIconName;
 };
 
+export type NavigationLinkConfig = Omit<NavigationLink, "label"> & {
+  contentPath: string;
+};
+
 export type SocialLink = {
   label: string;
   href: string;
@@ -23,6 +27,15 @@ export type SocialLink = {
 export type PageLink = {
   label: string;
   to: string;
+};
+
+export type PageLinkConfig = Omit<PageLink, "label"> & {
+  contentPath: string;
+};
+
+export type BreadcrumbItemConfig = {
+  contentPath: string;
+  to?: string;
 };
 
 export type PageConfig = {

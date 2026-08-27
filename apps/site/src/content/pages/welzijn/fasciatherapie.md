@@ -1,5 +1,6 @@
 ---
 title: "Fasciatherapie"
+linkLabel: "Fasciatherapie"
 description: "Fasciatherapie bij Wilhalla: een zachte, diepwerkende methode voor lichaam en geest."
 intro: "Een zachte, diepwerkende methode waarbij lichaam en geest samen benaderd worden."
 ---

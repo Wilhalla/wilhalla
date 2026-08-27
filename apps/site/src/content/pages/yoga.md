@@ -1,5 +1,6 @@
 ---
 title: "Yoga en dans"
+linkLabel: "Yoga"
 description: "Yoga en danslessen en workshops tussen het groen of in de yurt."
 intro: "Lessen en workshops tussen het groen of in de yurt."
 ---

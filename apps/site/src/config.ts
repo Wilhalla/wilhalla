@@ -1,7 +1,9 @@
 import type {
+  BreadcrumbItemConfig,
   MapHotspotConfig,
   MapSentinelConfig,
-  NavigationLink,
+  NavigationLinkConfig,
+  PageLinkConfig,
   SocialLink,
 } from "@/types";
 
@@ -69,72 +71,87 @@ export const siteConfig = {
 
   navigation: {
     links: [
-      { label: "Over ons", to: "/over-ons", icon: "users" },
-      { label: "Welzijn", to: "/welzijn", icon: "heart" },
-      { label: "Yoga", to: "/yoga", icon: "flower" },
-      { label: "Verhuur", to: "/verhuur", icon: "tent" },
-      { label: "Agenda", to: "/agenda", icon: "calendar" },
-      { label: "Galerij", to: "/gallery", icon: "images" },
-    ] satisfies readonly NavigationLink[],
+      { contentPath: "tuin", to: "/over-ons", icon: "users" },
+      { contentPath: "welzijn", to: "/welzijn", icon: "heart" },
+      { contentPath: "yoga", to: "/yoga", icon: "flower" },
+      { contentPath: "verhuur", to: "/verhuur", icon: "tent" },
+      { contentPath: "agenda", to: "/agenda", icon: "calendar" },
+      { contentPath: "galerij", to: "/gallery", icon: "images" },
+    ] satisfies readonly NavigationLinkConfig[],
+    contactContentPath: "contact",
   },
 
   pages: {
     tuin: {
-      subPages: [{ label: "Samentuin", to: "/over-ons/samentuin" }],
+      subPages: [
+        { contentPath: "tuin/samentuin", to: "/over-ons/samentuin" },
+      ] satisfies readonly PageLinkConfig[],
       subPageNavLabel: "Over ons pagina's",
     },
     samentuin: {
       breadcrumb: [
-        { label: "Over ons", to: "/over-ons" },
-        { label: "Samentuin" },
-      ],
+        { contentPath: "tuin", to: "/over-ons" },
+        { contentPath: "tuin/samentuin" },
+      ] satisfies readonly BreadcrumbItemConfig[],
     },
     welzijn: {
       subPages: [
-        { label: "Fasciatherapie", to: "/welzijn/fasciatherapie" },
-        { label: "Paardencoaching", to: "/welzijn/paardencoaching" },
-        { label: "Muziektherapie", to: "/welzijn/muziektherapie" },
-        { label: "Lymfedrainage", to: "/welzijn/lymfedrainage" },
-        { label: "Kinetic Chain Release", to: "/welzijn/kcr" },
-        { label: "Veerkracht in Beweging", to: "/welzijn/veerkracht" },
-      ],
+        {
+          contentPath: "welzijn/fasciatherapie",
+          to: "/welzijn/fasciatherapie",
+        },
+        {
+          contentPath: "welzijn/paardencoaching",
+          to: "/welzijn/paardencoaching",
+        },
+        {
+          contentPath: "welzijn/muziektherapie",
+          to: "/welzijn/muziektherapie",
+        },
+        {
+          contentPath: "welzijn/lymfedrainage",
+          to: "/welzijn/lymfedrainage",
+        },
+        { contentPath: "welzijn/kcr", to: "/welzijn/kcr" },
+        { contentPath: "welzijn/veerkracht", to: "/welzijn/veerkracht" },
+      ] satisfies readonly PageLinkConfig[],
       subPageNavLabel: "Welzijn aanbod",
     },
     fasciatherapie: {
       breadcrumb: [
-        { label: "Welzijn", to: "/welzijn" },
-        { label: "Fasciatherapie" },
-      ],
+        { contentPath: "welzijn", to: "/welzijn" },
+        { contentPath: "welzijn/fasciatherapie" },
+      ] satisfies readonly BreadcrumbItemConfig[],
     },
     paardencoaching: {
       breadcrumb: [
-        { label: "Welzijn", to: "/welzijn" },
-        { label: "Paardencoaching" },
-      ],
+        { contentPath: "welzijn", to: "/welzijn" },
+        { contentPath: "welzijn/paardencoaching" },
+      ] satisfies readonly BreadcrumbItemConfig[],
     },
     muziektherapie: {
       breadcrumb: [
-        { label: "Welzijn", to: "/welzijn" },
-        { label: "Muziektherapie" },
-      ],
+        { contentPath: "welzijn", to: "/welzijn" },
+        { contentPath: "welzijn/muziektherapie" },
+      ] satisfies readonly BreadcrumbItemConfig[],
     },
     lymfedrainage: {
       breadcrumb: [
-        { label: "Welzijn", to: "/welzijn" },
-        { label: "Lymfedrainage" },
-      ],
+        { contentPath: "welzijn", to: "/welzijn" },
+        { contentPath: "welzijn/lymfedrainage" },
+      ] satisfies readonly BreadcrumbItemConfig[],
     },
     kcr: {
       breadcrumb: [
-        { label: "Welzijn", to: "/welzijn" },
-        { label: "Kinetic Chain Release" },
-      ],
+        { contentPath: "welzijn", to: "/welzijn" },
+        { contentPath: "welzijn/kcr" },
+      ] satisfies readonly BreadcrumbItemConfig[],
     },
     veerkracht: {
       breadcrumb: [
-        { label: "Welzijn", to: "/welzijn" },
-        { label: "Veerkracht in Beweging" },
-      ],
+        { contentPath: "welzijn", to: "/welzijn" },
+        { contentPath: "welzijn/veerkracht" },
+      ] satisfies readonly BreadcrumbItemConfig[],
     },
   },
 

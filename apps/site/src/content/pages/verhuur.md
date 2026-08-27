@@ -1,5 +1,6 @@
 ---
 title: "Verhuur"
+linkLabel: "Verhuur"
 description: "De yurt en gerenoveerde schuur van Wilhalla zijn beschikbaar voor workshops, retraites, bijeenkomsten en feesten in vertrouwde kring."
 intro: "Unieke plekken midden in het groen, waar rust en eenvoud centraal staan."
 ---

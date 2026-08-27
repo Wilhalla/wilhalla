@@ -1,5 +1,6 @@
 ---
 title: "Samentuin"
+linkLabel: "Samentuin"
 description: "Samen zorgen voor de moestuin, fruitkooien en boomgaard van Wilhalla."
 intro: "Iedereen met een hart voor tuinieren en natuur is welkom om mee te groeien in onze werking."
 ---

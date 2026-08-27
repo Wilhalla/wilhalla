@@ -1,5 +1,6 @@
 ---
 title: "Paardencoaching"
+linkLabel: "Paardencoaching"
 description: "Paardencoaching bij Wilhalla met paarden in vrijheid en verbinding in wederzijds respect."
 intro: "Paarden oordelen niet en communiceren met je onderbewuste."
 ---

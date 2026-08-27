@@ -1,5 +1,6 @@
 ---
 title: "Muziektherapie"
+linkLabel: "Muziektherapie"
 description: "Muziektherapie, Sound & Senses en live muziek bij Wilhalla."
 intro: "Muziek is een onmisbaar onderdeel van de werking van Wilhalla."
 ---

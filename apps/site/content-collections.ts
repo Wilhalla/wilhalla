@@ -8,6 +8,7 @@ const pages = defineCollection({
   include: "**/*.md",
   schema: z.object({
     title: z.string(),
+    linkLabel: z.string(),
     description: z.string(),
     intro: z.string().optional(),
     content: z.string(),
