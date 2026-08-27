@@ -1,5 +1,6 @@
 ---
 title: "Galerij"
+linkLabel: "Galerij"
 description: "Beelden van Wilhalla, de tuin, de yurt en activiteiten."
 intro: "Beelden van Wilhalla, de tuin, de yurt en activiteiten."
 ---

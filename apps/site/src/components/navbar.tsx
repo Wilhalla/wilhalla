@@ -73,7 +73,7 @@ export function Navbar() {
             className="hidden justify-self-end md:inline-flex eleven-pill font-waldenburg text-[16px] font-normal tracking-[0.01em]"
           >
             <Mail className="h-4 w-4" strokeWidth={1.5} />
-            Contact
+            {navigationRegistry.contactLabel}
           </Link>
         </nav>
       </header>
@@ -83,6 +83,7 @@ export function Navbar() {
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
         links={navLinks}
+        contactLabel={navigationRegistry.contactLabel}
       />
     </>
   );

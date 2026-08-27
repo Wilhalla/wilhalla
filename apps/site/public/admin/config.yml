@@ -37,6 +37,7 @@ collections:
         file: src/content/pages/tuin.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -49,6 +50,7 @@ collections:
         file: src/content/pages/tuin/samentuin.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -61,6 +63,7 @@ collections:
         file: src/content/pages/welzijn.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -73,6 +76,7 @@ collections:
         file: src/content/pages/welzijn/fasciatherapie.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -85,6 +89,7 @@ collections:
         file: src/content/pages/welzijn/paardencoaching.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -97,6 +102,7 @@ collections:
         file: src/content/pages/welzijn/muziektherapie.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -109,6 +115,7 @@ collections:
         file: src/content/pages/welzijn/lymfedrainage.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -121,6 +128,7 @@ collections:
         file: src/content/pages/welzijn/kcr.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -133,6 +141,7 @@ collections:
         file: src/content/pages/welzijn/veerkracht.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -145,6 +154,7 @@ collections:
         file: src/content/pages/yoga.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -157,6 +167,7 @@ collections:
         file: src/content/pages/verhuur.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -169,6 +180,7 @@ collections:
         file: src/content/pages/agenda.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -181,6 +193,7 @@ collections:
         file: src/content/pages/galerij.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro
@@ -193,6 +206,7 @@ collections:
         file: src/content/pages/contact.md
         fields:
           - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
           - { label: SEO-beschrijving, name: description, widget: text }
           - label: Intro
             name: intro

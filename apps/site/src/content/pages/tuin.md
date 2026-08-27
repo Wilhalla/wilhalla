@@ -1,5 +1,6 @@
 ---
 title: "Over ons"
+linkLabel: "Over ons"
 description: "Wilhalla is een plek om te vertragen, te verbinden en te groeien, samen, op het ritme van de natuur."
 intro: "Welkom bij Wilhalla, een idyllische plek in het groene Halle-Zoersel, waar natuur, rust en verbinding samenkomen."
 ---

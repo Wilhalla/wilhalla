@@ -17,6 +17,7 @@ type MobileMenuProps = {
   open: boolean;
   onClose: () => void;
   links: ReadonlyArray<{ label: string; to: string; icon: NavigationIconName }>;
+  contactLabel: string;
 };
 
 const navIconByName = {
@@ -28,7 +29,12 @@ const navIconByName = {
   users: UsersRound,
 } satisfies Record<NavigationIconName, LucideIcon>;
 
-export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
+export function MobileMenu({
+  open,
+  onClose,
+  links,
+  contactLabel,
+}: MobileMenuProps) {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -79,7 +85,7 @@ export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
         tabIndex={open ? 0 : -1}
       >
         <Mail className="h-4 w-4" strokeWidth={1.5} />
-        Contact
+        {contactLabel}
       </Link>
     </div>
   );
