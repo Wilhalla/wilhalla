@@ -5,6 +5,7 @@ default:
 
 install:
     pnpm install
+    git config --local core.hooksPath .githooks
 
 dev:
     pnpm run dev -- --host 0.0.0.0
