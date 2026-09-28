@@ -4,6 +4,13 @@ backend:
   name: github
   repo: Wilhalla/wilhalla-site
   branch: develop
+  commit_messages:
+    create: 'content(cms): create {{collection}} "{{slug}}"'
+    update: 'content(cms): update {{collection}} "{{slug}}"'
+    delete: 'content(cms): delete {{collection}} "{{slug}}"'
+    uploadMedia: 'content(cms): upload "{{path}}"'
+    deleteMedia: 'content(cms): delete "{{path}}"'
+    openAuthoring: '{{message}}'
   # OAuth endpoint for deployed CMS. Change this if the production domain changes.
   base_url: https://wilhalla-site.vercel.app/api/cms-auth
 
