@@ -1,3 +1,4 @@
+import { SlideshowSecondsSelect } from "./GallerySlideshowControls";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
@@ -11,11 +12,9 @@ import {
   PinOff,
   Play,
   Shuffle,
-  Timer,
   X,
 } from "lucide-react";
 import { Button } from "@wilhalla/ui/components/button";
-import { Input } from "@wilhalla/ui/components/input";
 import {
   Select,
   SelectContent,
@@ -23,12 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@wilhalla/ui/components/select";
-import {
-  SLIDESHOW_SECONDS_MAX,
-  SLIDESHOW_SECONDS_MIN,
-  type GallerySlideshowImage,
-  type SlideshowMode,
-} from "./useGallerySlideshow";
+import { type GallerySlideshowImage, type SlideshowMode } from "./useGallerySlideshow";
 
 const SLIDESHOW_FADE_MS = 700;
 
@@ -227,10 +221,8 @@ export function GallerySlideshowOverlay({
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <Button
-            variant="outline"
+            variant="inverse"
             size="icon-lg"
-            className="border-eggshell/25 bg-transparent text-eggshell hover:bg-eggshell/10 hover:text-eggshell"
-            type="button"
             onClick={() => setControlsPinned((current) => !current)}
             aria-pressed={controlsPinned}
             aria-label={
@@ -243,24 +235,15 @@ export function GallerySlideshowOverlay({
             <PinIcon className="size-4" aria-hidden="true" />
           </Button>
           <Button
-            variant="outline"
+            variant="inverse"
             size="icon-lg"
-            className="border-eggshell/25 bg-transparent text-eggshell hover:bg-eggshell/10 hover:text-eggshell"
-            type="button"
             onClick={toggleFullscreen}
             aria-label={isFullscreen ? "Verlaat volledig scherm" : "Volledig scherm"}
             title={isFullscreen ? "Verlaat volledig scherm" : "Volledig scherm"}
           >
             <FullscreenIcon className="size-4" aria-hidden="true" />
           </Button>
-          <Button
-            variant="outline"
-            size="icon-lg"
-            className="border-eggshell/25 bg-transparent text-eggshell hover:bg-eggshell/10 hover:text-eggshell"
-            type="button"
-            onClick={onClose}
-            aria-label="Sluit diashow"
-          >
+          <Button variant="inverse" size="icon-lg" onClick={onClose} aria-label="Sluit diashow">
             <X className="size-4" aria-hidden="true" />
           </Button>
         </div>
@@ -288,38 +271,40 @@ export function GallerySlideshowOverlay({
             decoding="async"
           />
         </div>
-        <Button
-          variant="outline"
-          size="icon-lg"
-          className={`absolute left-4 top-1/2 size-11 -translate-y-1/2 border-eggshell/25 bg-obsidian/55 text-eggshell backdrop-blur transition-opacity duration-300 hover:bg-eggshell/10 hover:text-eggshell disabled:opacity-30 ${controlsVisibilityClass}`}
-          type="button"
-          onClick={onPrevious}
-          disabled={count < 2}
-          aria-label="Vorige dia"
+        <div
+          className={`absolute left-4 top-1/2 -translate-y-1/2 transition-opacity duration-300 ${controlsVisibilityClass}`}
         >
-          <ArrowLeft className="size-5" aria-hidden="true" />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon-lg"
-          className={`absolute right-4 top-1/2 size-11 -translate-y-1/2 border-eggshell/25 bg-obsidian/55 text-eggshell backdrop-blur transition-opacity duration-300 hover:bg-eggshell/10 hover:text-eggshell disabled:opacity-30 ${controlsVisibilityClass}`}
-          type="button"
-          onClick={onNext}
-          disabled={count < 2}
-          aria-label="Volgende dia"
+          <Button
+            variant="inverse"
+            size="icon-lg"
+            onClick={onPrevious}
+            disabled={count < 2}
+            aria-label="Vorige dia"
+          >
+            <ArrowLeft />
+          </Button>
+        </div>
+        <div
+          className={`absolute right-4 top-1/2 -translate-y-1/2 transition-opacity duration-300 ${controlsVisibilityClass}`}
         >
-          <ArrowRight className="size-5" aria-hidden="true" />
-        </Button>
+          <Button
+            variant="inverse"
+            size="icon-lg"
+            onClick={onNext}
+            disabled={count < 2}
+            aria-label="Volgende dia"
+          >
+            <ArrowRight />
+          </Button>
+        </div>
       </div>
 
       <footer
         className={`absolute inset-x-0 bottom-0 z-20 flex flex-wrap items-center justify-center gap-2 border-t border-eggshell/15 bg-black/90 px-4 py-3 text-sm backdrop-blur transition-opacity duration-300 ${controlsVisibilityClass}`}
       >
         <Button
-          variant="outline"
+          variant="inverse"
           size="sm"
-          className="h-9 gap-2 border-eggshell/20 bg-transparent px-3 text-xs text-eggshell hover:bg-eggshell/10 hover:text-eggshell"
-          type="button"
           onClick={onTogglePaused}
           disabled={count < 2}
           aria-pressed={paused}
@@ -329,11 +314,7 @@ export function GallerySlideshowOverlay({
           <PlaybackIcon className="size-4" aria-hidden="true" /> {paused ? "Hervatten" : "Pauze"}
         </Button>
         <Select value={mode} onValueChange={(value) => onModeChange(value as SlideshowMode)}>
-          <SelectTrigger
-            size="sm"
-            className="h-9 w-40 border border-eggshell/20 px-3 text-xs text-eggshell [&_svg]:text-eggshell"
-          >
-            <span className="sr-only">Diashow volgorde</span>
+          <SelectTrigger size="sm" variant="inverse" className="w-40" aria-label="Diashow volgorde">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="z-[250]">
@@ -345,20 +326,11 @@ export function GallerySlideshowOverlay({
             </SelectItem>
           </SelectContent>
         </Select>
-        <label className="inline-flex min-h-9 items-center gap-2 rounded-full border border-eggshell/20 px-3 text-xs text-eggshell">
-          <Timer className="size-4" aria-hidden="true" />
-          <span className="sr-only">Seconden per beeld</span>
-          <Input
-            className="h-8 w-10 border-0 bg-transparent p-0 text-right font-mono text-xs text-eggshell"
-            type="number"
-            min={SLIDESHOW_SECONDS_MIN}
-            max={SLIDESHOW_SECONDS_MAX}
-            step="1"
-            value={seconds}
-            onChange={(event) => onSecondsChange(Number(event.currentTarget.value))}
-          />
-          sec/beeld
-        </label>
+        <SlideshowSecondsSelect
+          seconds={seconds}
+          variant="inverse"
+          onSecondsChange={onSecondsChange}
+        />
       </footer>
     </div>
   );

@@ -117,8 +117,8 @@ export default function ViewerSidebar({
                 <button
                   className={
                     active
-                      ? "absolute top-0 h-full border border-obsidian bg-eggshell p-1 text-left"
-                      : "absolute top-0 h-full border-r border-chalk bg-eggshell p-1 text-left hover:bg-powder"
+                      ? "absolute top-0 h-full rounded-lg bg-pure-surface p-1 text-left ring-2 ring-obsidian"
+                      : "absolute top-0 h-full rounded-lg p-1 text-left transition-colors duration-150 hover:bg-powder"
                   }
                   key={virtualItem.key}
                   type="button"
@@ -130,7 +130,7 @@ export default function ViewerSidebar({
                   }}
                 >
                   <GalleryThumbnail
-                    className="aspect-[4/3] w-full object-cover"
+                    className="aspect-4/3 w-full rounded-md object-cover"
                     image={image}
                     alt=""
                     loading="lazy"
@@ -140,7 +140,7 @@ export default function ViewerSidebar({
                   <span className="line-clamp-2 pt-1 text-caption leading-3 text-obsidian">
                     {image.postTitle}
                   </span>
-                  <span className="block truncate pt-0.5 font-mono text-[9px] text-gravel">
+                  <span className="block truncate pt-0.5 text-caption text-gravel">
                     {formatImagePostDateTime(image)}
                   </span>
                 </button>
@@ -161,13 +161,13 @@ export default function ViewerSidebar({
           <div className="grid grid-cols-2 gap-2">
             {similarImages.map((image) => (
               <button
-                className="group grid gap-2 border border-chalk p-1 text-left hover:border-slate"
+                className="group grid gap-2 rounded-lg p-1 text-left transition-colors duration-150 hover:bg-powder"
                 key={image.id}
                 type="button"
                 onClick={() => onSelectImage(image.id)}
               >
                 <GalleryThumbnail
-                  className="aspect-[4/3] w-full object-cover"
+                  className="aspect-4/3 w-full rounded-md object-cover"
                   image={image}
                   alt=""
                   loading="lazy"

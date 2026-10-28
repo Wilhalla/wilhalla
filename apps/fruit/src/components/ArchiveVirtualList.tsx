@@ -1,3 +1,4 @@
+import { Button } from "@wilhalla/ui/components/button";
 import { layout } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -168,10 +169,7 @@ export default function ArchiveVirtualList() {
             Categorie
           </label>
           <Select value={topicFilter || "all"} onValueChange={changeCategory}>
-            <SelectTrigger
-              id="archive-category"
-              className="min-w-48 rounded-none border-0 border-b border-chalk bg-transparent px-0 shadow-none"
-            >
+            <SelectTrigger id="archive-category" className="min-w-48">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -244,13 +242,9 @@ export default function ArchiveVirtualList() {
             <div className="rounded-2xl border border-dashed border-chalk bg-powder/40 p-8 text-gravel">
               Geen berichten gevonden in categorie{" "}
               <strong className="text-obsidian">{activeTopicLabel}</strong>.{" "}
-              <button
-                className="font-bold text-obsidian underline decoration-chalk underline-offset-4 hover:decoration-obsidian"
-                type="button"
-                onClick={() => changeCategory("all")}
-              >
+              <Button variant="link" size="inline" onClick={() => changeCategory("all")}>
                 Toon alle berichten
-              </button>
+              </Button>
               .
             </div>
           )}

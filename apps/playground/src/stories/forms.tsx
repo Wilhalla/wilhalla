@@ -1,3 +1,10 @@
+import { Button } from "@wilhalla/ui/components/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@wilhalla/ui/components/collapsible";
+import { Slider } from "@wilhalla/ui/components/slider";
 import { Input } from "@wilhalla/ui/components/input";
 import {
   InputGroup,
@@ -106,6 +113,28 @@ export const selectStory: Story = {
           </Select>
         </Example>
       ))}
+      <Example label='variant="outline" · variant="inverse"'>
+        <Select defaultValue="chronological">
+          <SelectTrigger variant="outline" size="sm" className="w-44">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="chronological">Chronologisch</SelectItem>
+            <SelectItem value="random">Willekeurig</SelectItem>
+          </SelectContent>
+        </Select>
+        <div className="rounded-2xl bg-obsidian p-3">
+          <Select defaultValue="5">
+            <SelectTrigger variant="inverse" size="sm" className="w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="5">5 sec per beeld</SelectItem>
+              <SelectItem value="8">8 sec per beeld</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </Example>
       <Example label="placeholder · disabled">
         <Select>
           <SelectTrigger className="w-44">
@@ -123,6 +152,35 @@ export const selectStory: Story = {
             <SelectItem value="x">x</SelectItem>
           </SelectContent>
         </Select>
+      </Example>
+    </Examples>
+  ),
+};
+
+export const sliderStory: Story = {
+  id: "slider",
+  title: "Slider · Collapsible",
+  source: "@wilhalla/ui/components/{slider,collapsible}",
+  description:
+    "A range (zoom in the image viewer) and a disclosure (long values in the data tables).",
+  render: () => (
+    <Examples>
+      <Example label="Slider">
+        <Slider className="w-56" defaultValue={[2]} min={1} max={4} step={0.25} aria-label="Zoom" />
+      </Example>
+      <Example label="Collapsible">
+        <Collapsible className="w-full max-w-sm">
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm">
+              Toon volledige tekst
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <p className="m-0 mt-2 text-body text-cinder">
+              De gele bloemen van de kornoeljebessen zijn nu ver uitgebloeid.
+            </p>
+          </CollapsibleContent>
+        </Collapsible>
       </Example>
     </Examples>
   ),

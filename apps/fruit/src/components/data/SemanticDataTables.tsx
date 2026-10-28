@@ -10,7 +10,12 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 
-import { Download } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronRight, Download } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@wilhalla/ui/components/collapsible";
 
 import { Button } from "@wilhalla/ui/components/button";
 import {
@@ -251,14 +256,19 @@ function RawCell({ value }: { value: unknown }) {
 
   if (isLong) {
     return (
-      <details className="w-[32rem] max-w-[72vw]">
-        <summary className="cursor-pointer whitespace-normal break-words font-mono text-xs leading-relaxed text-obsidian marker:text-slate">
-          {summarizeCell(text)}
-        </summary>
-        <pre className="mt-3 max-h-80 max-w-full overflow-auto border-l border-chalk bg-transparent pl-3 font-mono text-xs leading-relaxed text-obsidian whitespace-pre-wrap">
-          {text}
-        </pre>
-      </details>
+      <Collapsible className="w-[32rem] max-w-[72vw]">
+        <CollapsibleTrigger className="group w-full text-left">
+          <span className="flex items-start gap-1.5 font-mono text-xs leading-relaxed break-words whitespace-normal text-obsidian">
+            <ChevronRight className="mt-0.5 size-3.5 shrink-0 text-gravel transition-transform duration-150 group-data-[state=open]:rotate-90" />
+            {summarizeCell(text)}
+          </span>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <pre className="mt-3 max-h-80 max-w-full overflow-auto border-l border-chalk bg-transparent pl-3 font-mono text-xs leading-relaxed text-obsidian whitespace-pre-wrap">
+            {text}
+          </pre>
+        </CollapsibleContent>
+      </Collapsible>
     );
   }
 
@@ -406,21 +416,14 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
         </div>
         <div className="flex flex-wrap gap-3 md:justify-end">
           {!rows && (
-            <Button
-              className="h-auto justify-self-start rounded-none px-0 py-0 text-sm font-medium text-obsidian hover:bg-transparent hover:text-gravel md:justify-self-end"
-              type="button"
-              variant="ghost"
-              onClick={loadDataset}
-              disabled={loading}
-            >
+            <Button variant="link" size="inline" onClick={loadDataset} disabled={loading}>
               {loading ? "laden…" : "laad tabel"}
             </Button>
           )}
           {rows && (
             <Button
-              className="h-auto justify-self-start rounded-none px-0 py-0 text-sm font-medium text-obsidian hover:bg-transparent hover:text-gravel md:justify-self-end"
-              type="button"
-              variant="ghost"
+              variant="link"
+              size="inline"
               onClick={() => downloadDataset(dataset)}
               aria-label={`Download ${definition.title} als JSON`}
             >
@@ -443,15 +446,12 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
         <div className="min-w-0 max-w-full overflow-hidden">
           <Table
             containerClassName="max-h-[78vh] min-w-0 max-w-full overflow-auto"
-            className="w-max min-w-full border-separate border-spacing-0"
+            className="w-max min-w-full"
             aria-label={`${definition.title} tabel`}
           >
-            <TableHeader className="sticky top-0 z-20 bg-eggshell/95 backdrop-blur [&_tr]:border-b-0">
+            <TableHeader data-sticky="true">
               {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow
-                  key={headerGroup.id}
-                  className="border-b border-chalk hover:bg-transparent"
-                >
+                <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
@@ -459,19 +459,19 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
                         columnWidth(header.column.id) === "compact" && "w-20 min-w-20 max-w-28",
                         columnWidth(header.column.id) === "medium" && "w-40 min-w-32 max-w-52",
                         columnWidth(header.column.id) === "wide" && "min-w-44 max-w-[32rem]",
-                        "border-b border-chalk bg-eggshell/95 px-3 text-xs font-medium uppercase tracking-[0.08em] text-slate",
                       )}
                     >
                       {header.isPlaceholder ? null : (
-                        <button
-                          className="inline-flex items-center gap-1 text-left disabled:cursor-default"
-                          type="button"
+                        <Button
+                          variant="ghost"
+                          size="xs"
                           disabled={!header.column.getCanSort()}
                           onClick={header.column.getToggleSortingHandler()}
                         >
                           {flexRender(header.column.columnDef.header, header.getContext())}
-                          {{ asc: "↑", desc: "↓" }[header.column.getIsSorted() as string] ?? null}
-                        </button>
+                          {header.column.getIsSorted() === "asc" && <ArrowUp />}
+                          {header.column.getIsSorted() === "desc" && <ArrowDown />}
+                        </Button>
                       )}
                     </TableHead>
                   ))}
@@ -480,7 +480,7 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="border-b border-chalk/80 hover:bg-powder/20">
+                <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell, cellIndex) => (
                     <TableCell
                       key={cell.id}
@@ -488,10 +488,9 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
                         columnWidth(cell.column.id) === "compact" && "w-20 min-w-20 max-w-28",
                         columnWidth(cell.column.id) === "medium" && "w-40 min-w-32 max-w-52",
                         columnWidth(cell.column.id) === "wide" && "min-w-44 max-w-[32rem]",
-                        "px-3 py-2 align-top whitespace-normal",
-                        cellIndex === 0 &&
-                          "sticky left-0 z-10 bg-eggshell font-mono text-xs text-slate",
+                        "align-top whitespace-normal",
                       )}
+                      data-sticky={cellIndex === 0 ? "true" : undefined}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>

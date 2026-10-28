@@ -1,3 +1,4 @@
+import { Slider } from "@wilhalla/ui/components/slider";
 import type { CSSProperties, MouseEvent, PointerEvent, RefObject, WheelEvent } from "react";
 import {
   ArrowLeft,
@@ -257,9 +258,9 @@ export default function ViewerImageStage({
             onStart={onStartSlideshow}
           />
           <Button
-            className="h-10 w-10 shrink-0 px-0"
+            className="shrink-0"
             variant="outline"
-            size="icon"
+            size="icon-lg"
             type="button"
             onClick={onToggleFullscreen}
             aria-label={viewerFullscreen ? "Verlaat volledig scherm" : "Volledig scherm"}
@@ -274,9 +275,9 @@ export default function ViewerImageStage({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                className="h-10 shrink-0 gap-2 px-4 max-sm:hidden"
+                className="shrink-0 max-sm:hidden"
                 variant="outline"
-                size="sm"
+                size="default"
                 type="button"
                 title={`Schaal: ${currentScaleOption.label}`}
               >
@@ -285,10 +286,7 @@ export default function ViewerImageStage({
                 <ChevronDown className="size-3" aria-hidden="true" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="center"
-              className="w-72 border border-chalk bg-eggshell text-obsidian"
-            >
+            <DropdownMenuContent align="center" className="w-72">
               <DropdownMenuLabel>Afbeelding schalen</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuRadioGroup
@@ -298,11 +296,7 @@ export default function ViewerImageStage({
                 }}
               >
                 {IMAGE_SCALE_OPTIONS.map((option) => (
-                  <DropdownMenuRadioItem
-                    className="items-start gap-2 px-2 py-2 pr-8"
-                    key={option.value}
-                    value={option.value}
-                  >
+                  <DropdownMenuRadioItem key={option.value} value={option.value}>
                     <span className="grid gap-0.5">
                       <span className="text-sm font-medium leading-4">{option.label}</span>
                       <span className="text-xs leading-4 text-gravel">{option.description}</span>
@@ -318,9 +312,8 @@ export default function ViewerImageStage({
             aria-label="Afbeelding in- en uitzoomen"
           >
             <Button
-              className="size-8 px-0"
               variant="ghost"
-              size="icon"
+              size="icon-sm"
               type="button"
               onClick={() => onSetImageZoomAt(imageZoom - IMAGE_ZOOM_STEP)}
               disabled={imageZoom <= IMAGE_ZOOM_MIN}
@@ -333,9 +326,8 @@ export default function ViewerImageStage({
               {imageZoomLabel}
             </span>
             <Button
-              className="size-8 px-0"
               variant="ghost"
-              size="icon"
+              size="icon-sm"
               type="button"
               onClick={() => onSetImageZoomAt(imageZoom + IMAGE_ZOOM_STEP)}
               disabled={imageZoom >= IMAGE_ZOOM_MAX}
@@ -346,9 +338,8 @@ export default function ViewerImageStage({
             </Button>
             {imageZoomChanged && (
               <Button
-                className="size-8 px-0"
                 variant="ghost"
-                size="icon"
+                size="icon-sm"
                 type="button"
                 onClick={onResetZoom}
                 aria-label="Reset zoom"
@@ -359,9 +350,9 @@ export default function ViewerImageStage({
             )}
           </div>
           <Button
-            className="h-10 shrink-0 gap-2 px-4 max-sm:hidden"
+            className="shrink-0 max-sm:hidden"
             variant={zoomEnabled ? "default" : "outline"}
-            size="sm"
+            size="default"
             type="button"
             aria-pressed={zoomEnabled}
             aria-label="Vergrootglas"
@@ -377,9 +368,9 @@ export default function ViewerImageStage({
             <span className="hidden 2xl:inline">Vergrootglas</span>
           </Button>
           <Button
-            className="h-10 w-10 shrink-0 px-0"
+            className="shrink-0"
             variant="outline"
-            size="icon"
+            size="icon-lg"
             type="button"
             onClick={onDownload}
             aria-label="Download originele afbeelding"
@@ -387,7 +378,7 @@ export default function ViewerImageStage({
           >
             <Download className="size-4" aria-hidden="true" />
           </Button>
-          <Button className="h-10 w-10 shrink-0 px-0" variant="outline" size="icon" asChild>
+          <Button className="shrink-0" variant="outline" size="icon-lg" asChild>
             <a
               href={viewerImageFullSrc}
               target="_blank"
@@ -399,41 +390,44 @@ export default function ViewerImageStage({
             </a>
           </Button>
           {zoomEnabled && (
-            <label className="flex shrink-0 items-center gap-2 pl-1">
-              <span className="sr-only">Zoomwaarde</span>
-              <input
-                className="h-1 w-32 accent-obsidian md:w-44"
-                type="range"
+            <div className="flex shrink-0 items-center gap-3 pl-1">
+              <Slider
+                className="w-32 md:w-44"
+                aria-label="Zoomwaarde"
                 min={ZOOM_MIN}
                 max={ZOOM_MAX}
                 step={ZOOM_STEP}
-                value={zoomValue}
-                onChange={(event) => onSetZoomValue(Number(event.currentTarget.value))}
+                value={[zoomValue]}
+                onValueChange={([value]) => onSetZoomValue(value)}
               />
-              <span className="w-10 text-right font-mono text-xs">{zoomValueLabel}×</span>
-            </label>
+              <span className="w-10 text-right font-sans text-body text-gravel tabular-nums">
+                {zoomValueLabel}×
+              </span>
+            </div>
           )}
         </div>
       </div>
       <div className="pointer-events-none absolute inset-y-0 left-0 right-0 z-30 flex items-center justify-between px-3 lg:px-5">
-        <button
-          className="pointer-events-auto inline-grid size-11 place-items-center rounded-full border border-chalk bg-eggshell/90 text-obsidian shadow-subtle-7 backdrop-blur transition hover:border-slate hover:bg-eggshell disabled:opacity-30"
-          type="button"
+        <Button
+          variant="outline"
+          size="icon-lg"
+          className="pointer-events-auto"
           disabled={!previousImage}
           onClick={() => previousImage && onOpenImage(previousImage.id)}
           aria-label="Vorige afbeelding"
         >
-          <ArrowLeft className="size-5" aria-hidden="true" />
-        </button>
-        <button
-          className="pointer-events-auto inline-grid size-11 place-items-center rounded-full border border-chalk bg-eggshell/90 text-obsidian shadow-subtle-7 backdrop-blur transition hover:border-slate hover:bg-eggshell disabled:opacity-30"
-          type="button"
+          <ArrowLeft />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon-lg"
+          className="pointer-events-auto"
           disabled={!nextImage}
           onClick={() => nextImage && onOpenImage(nextImage.id)}
           aria-label="Volgende afbeelding"
         >
-          <ArrowRight className="size-5" aria-hidden="true" />
-        </button>
+          <ArrowRight />
+        </Button>
       </div>
     </div>
   );
