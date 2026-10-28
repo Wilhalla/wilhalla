@@ -13,8 +13,10 @@ import {
   SelectValue,
 } from "@wilhalla/ui/components/select";
 import { Separator } from "@wilhalla/ui/components/separator";
+import { PageHeader } from "@wilhalla/ui/components/page-header";
 import { Switch } from "@wilhalla/ui/components/switch";
-import { typography } from "@wilhalla/ui/lib/typography";
+import { ToggleGroup, ToggleGroupItem } from "@wilhalla/ui/components/toggle-group";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { ArrowLeft, ArrowRight, Maximize2, Minus, Plus, Scan, Search, X } from "lucide-react";
 import {
@@ -79,6 +81,65 @@ function plotPosition(point: { x: number; y: number }, size: { width: number; he
   };
 }
 
+type Arrangement = "subject" | "meaning";
+
+/**
+ * 1 when stories sit in their subject's district, 0 when they sit where the text projection puts
+ * them; glides between the two (on-screen movement: ease-in-out) unless motion is reduced.
+ */
+function useArrangementBlend(arrangement: Arrangement) {
+  const target = arrangement === "subject" ? 1 : 0;
+  const [blend, setBlend] = useState(target);
+  const blendRef = useRef(target);
+  useEffect(() => {
+    const from = blendRef.current;
+    if (from === target) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      blendRef.current = target;
+      setBlend(target);
+      return;
+    }
+    const start = performance.now();
+    const duration = 700;
+    let frame = 0;
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+      blendRef.current = from + (target - from) * eased;
+      setBlend(blendRef.current);
+      if (t < 1) frame = requestAnimationFrame(step);
+    };
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, [target]);
+  return blend;
+}
+
+/**
+ * Where to write a subject's name on the map by meaning: the centre of its densest neighbourhood,
+ * not its mean (a subject spreads over the map, and its mean often lands in another's area).
+ */
+function meaningAnchors(points: MapPoint[]) {
+  const grid = 12;
+  const cells = new Map<string, Map<string, { count: number; x: number; y: number }>>();
+  for (const point of points) {
+    const key = `${Math.floor(point.x * grid)}:${Math.floor(point.y * grid)}`;
+    const byCell = cells.get(point.topicId) ?? new Map();
+    const cell = byCell.get(key) ?? { count: 0, x: 0, y: 0 };
+    cell.count += 1;
+    cell.x += point.x;
+    cell.y += point.y;
+    byCell.set(key, cell);
+    cells.set(point.topicId, byCell);
+  }
+  return new Map(
+    [...cells.entries()].map(([categoryId, byCell]) => {
+      const densest = [...byCell.values()].sort((a, b) => b.count - a.count)[0];
+      return [categoryId, { x: densest.x / densest.count, y: densest.y / densest.count }];
+    }),
+  );
+}
+
 export default function AtlasApp() {
   const { dataError, loadingData, points, topics } = useAtlasData();
   useDismissHydrationLoader("atlas-hydration-loader", loadingData);
@@ -98,6 +159,13 @@ export default function AtlasApp() {
   const [, setSelectedClusterId] = useState<string | null>(null);
   const [hover, setHover] = useState<{ point: MapPoint; at: ScreenPoint } | null>(null);
   const [dragging, setDragging] = useState(false);
+  const [arrangement, setArrangement] = useState<Arrangement>(() =>
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("view") === "meaning"
+      ? "meaning"
+      : "subject",
+  );
+  const blend = useArrangementBlend(arrangement);
 
   const browse = useMemo(
     () =>
@@ -111,7 +179,8 @@ export default function AtlasApp() {
     [points, topics, filters, selectedPoint],
   );
   const aspect = aspectOf(canvasSize);
-  const layout = useMemo(() => layoutDistricts(points, aspect), [points, aspect]);
+  const districtLayout = useMemo(() => layoutDistricts(points, aspect), [points, aspect]);
+  const anchors = useMemo(() => meaningAnchors(points), [points]);
   const categoryCounts = useMemo(() => {
     const counts = new Map<string, number>();
     for (const point of points)
@@ -160,10 +229,24 @@ export default function AtlasApp() {
     writeUrl(filters, point);
   };
 
-  /** Screen position of a story (its place in its district) or of a raw unit-square point. */
-  const screenOf = (point: { id?: string; x: number; y: number }) => {
-    const plot = plotPosition((point.id && layout.positions.get(point.id)) || point, canvasSize);
+  /** Screen position of a position in the layout rectangle. */
+  const toScreen = (position: { x: number; y: number }) => {
+    const plot = plotPosition(position, canvasSize);
     return { x: plot.x * scale + pan.x, y: plot.y * scale + pan.y };
+  };
+  /** Where the projection puts a story, in the same rectangle as the districts. */
+  const meaningPosition = (point: { x: number; y: number }) => ({
+    x: point.x * aspect,
+    y: point.y,
+  });
+  /** Screen position of a story, between its place by meaning and in its district. */
+  const screenOf = (point: MapPoint) => {
+    const byMeaning = meaningPosition(point);
+    const bySubject = districtLayout.positions.get(point.id) ?? byMeaning;
+    return toScreen({
+      x: byMeaning.x + (bySubject.x - byMeaning.x) * blend,
+      y: byMeaning.y + (bySubject.y - byMeaning.y) * blend,
+    });
   };
 
   // Draw.
@@ -179,16 +262,31 @@ export default function AtlasApp() {
     const muted = themeValue("--color-chalk");
     const unit = unitOf(canvasSize) * scale;
 
-    // Districts: a soft disc per subject, so the regions read before the dots do.
-    for (const district of layout.districts) {
-      const { x, y } = screenOf(district);
+    // By subject: a soft disc per subject, so the regions read before the dots do.
+    for (const district of blend > 0.02 ? districtLayout.districts : []) {
+      const { x, y } = toScreen(district);
       context.fillStyle = colorMix(
         colorFor(district.id),
-        !focus ? 0.07 : district.id === focus ? 0.12 : 0.03,
+        (!focus ? 0.07 : district.id === focus ? 0.12 : 0.03) * blend,
       );
       context.beginPath();
       context.arc(x, y, district.r * unit + radius * 2, 0, Math.PI * 2);
       context.fill();
+    }
+
+    // By meaning: a coloured haze where the selected subject's stories gather.
+    if (focus && blend < 0.98) {
+      context.save();
+      context.filter = "blur(18px)";
+      context.globalAlpha = 0.12 * (1 - blend);
+      context.fillStyle = colorFor(focus);
+      for (const point of browse.visible) {
+        const { x, y } = screenOf(point);
+        context.beginPath();
+        context.arc(x, y, 14 * Math.sqrt(scale), 0, Math.PI * 2);
+        context.fill();
+      }
+      context.restore();
     }
 
     // Points outside the filters stay as a faint backdrop, so the map keeps its shape.
@@ -211,7 +309,7 @@ export default function AtlasApp() {
       if (x < -8 || y < -8 || x > width + 8 || y > height + 8) continue;
       const color = colorFor(focus ?? point.topicId);
       context.beginPath();
-      if (focus && point.topicId !== focus) {
+      if (focus && point.topicId !== focus && blend > 0.5) {
         context.strokeStyle = color;
         context.arc(x, y, radius - 0.6, 0, Math.PI * 2);
         context.stroke();
@@ -251,19 +349,36 @@ export default function AtlasApp() {
       context.stroke();
     }
 
-    // Subject names above their district, while zoomed out.
-    if (scale < 2.6 && !selectedPoint) {
+    // Subject names, while zoomed out: above their district, or on their densest area by meaning.
+    if (scale < 2.6 && !selectedPoint && blend < 0.5) {
+      context.font = `400 17px ${themeValue("--font-heading")}`;
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.lineJoin = "round";
+      for (const [categoryId, anchor] of anchors) {
+        if (categoryId === "overig" || (focus && categoryId !== focus)) continue;
+        const label = categoryById.get(categoryId)?.label;
+        if (!label) continue;
+        const { x, y } = toScreen(meaningPosition(anchor));
+        context.lineWidth = 5;
+        context.strokeStyle = themeValue("--color-pure-surface");
+        context.strokeText(label, x, y);
+        context.fillStyle = themeValue("--color-obsidian");
+        context.fillText(label, x, y);
+      }
+    }
+    if (scale < 2.6 && !selectedPoint && blend >= 0.5) {
       context.font = `400 17px ${themeValue("--font-heading")}`;
       context.textAlign = "center";
       context.textBaseline = "bottom";
       context.lineJoin = "round";
-      for (const district of layout.districts) {
+      for (const district of districtLayout.districts) {
         if (focus && district.id !== focus) continue;
         const label = categoryById.get(district.id)?.label;
         if (!label) continue;
         // Too small to carry a name without colliding with its neighbours (phones): zoom in.
         if (district.r * unit < 34) continue;
-        const { x, y } = screenOf(district);
+        const { x, y } = toScreen(district);
         const top = y - district.r * unit - radius * 2 - 4;
         context.lineWidth = 5;
         context.strokeStyle = themeValue("--color-pure-surface");
@@ -343,231 +458,259 @@ export default function AtlasApp() {
   const focusCategory = filters.topic === "all" ? null : categoryById.get(filters.topic);
 
   return (
-    <div className="mx-auto w-[calc(100%-2rem)] max-w-page py-10 md:py-14">
-      <header className="grid gap-3 md:grid-cols-[1fr_minmax(0,28rem)] md:items-end">
-        <h1 className={typography.display}>Atlas</h1>
-        <p className={cn(typography.intro, "m-0")}>
-          Elk punt is een verhaal, gegroepeerd per hoofdonderwerp. Binnen een groep liggen verwante
-          verhalen dicht bij elkaar.
-        </p>
-      </header>
-
-      <div className="mt-8 flex flex-wrap items-center gap-3 border-b border-chalk pb-4">
-        <InputGroup className="w-full sm:w-72">
-          <InputGroupAddon>
-            <Search />
-          </InputGroupAddon>
-          <InputGroupInput
-            placeholder="Zoek een verhaal"
-            value={filters.search}
-            onChange={(event) => updateFilters({ search: event.target.value })}
-          />
-          {filters.search && (
-            <InputGroupAddon align="inline-end">
-              <InputGroupButton
-                size="icon-xs"
-                aria-label="Zoekterm wissen"
-                onClick={() => updateFilters({ search: "" })}
-              >
-                <X />
-              </InputGroupButton>
-            </InputGroupAddon>
-          )}
-        </InputGroup>
-        <Select value={filters.year} onValueChange={(year) => updateFilters({ year })}>
-          <SelectTrigger className="w-36" aria-label="Jaar">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Alle jaren</SelectItem>
-            {browse.years.map((year) => (
-              <SelectItem key={year} value={String(year)}>
-                {year}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={filters.season} onValueChange={(season) => updateFilters({ season })}>
-          <SelectTrigger className="w-40" aria-label="Seizoen">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Alle seizoenen</SelectItem>
-            {SEASONS.map((season) => (
-              <SelectItem key={season} value={season}>
-                {season.charAt(0).toUpperCase() + season.slice(1)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <label className="flex items-center gap-2 font-sans text-body text-cinder">
-          <Switch
-            checked={filters.imagesOnly}
-            onCheckedChange={(imagesOnly) => updateFilters({ imagesOnly })}
-          />
-          Met beelden
-        </label>
-        {hasFilters && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => updateFilters({ ...ALL_FILTERS, topic: filters.topic })}
+    <>
+      <PageHeader
+        size="page"
+        title="Atlas"
+        intro={
+          arrangement === "subject"
+            ? "Elk punt is een verhaal, gegroepeerd per hoofdonderwerp. Binnen een groep liggen verwante verhalen dicht bij elkaar."
+            : "Elk punt is een verhaal, geplaatst naar wat er staat: verhalen die op elkaar lijken, liggen dicht bij elkaar, ook over onderwerpen heen."
+        }
+        actions={
+          <ToggleGroup
+            type="single"
+            value={arrangement}
+            aria-label="Schikking"
+            onValueChange={(value) => {
+              if (value !== "subject" && value !== "meaning") return;
+              setArrangement(value);
+              const url = new URL(window.location.href);
+              if (value === "meaning") url.searchParams.set("view", "meaning");
+              else url.searchParams.delete("view");
+              writeBrowserPath(`${url.pathname}${url.search}${url.hash}`, "replace");
+            }}
           >
-            Wis filters
-          </Button>
-        )}
-        <p className={cn(typography.small, "m-0 ml-auto text-gravel")}>
-          {numberFormat.format(browse.visible.length)} van {numberFormat.format(points.length)}{" "}
-          verhalen
-        </p>
-      </div>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <div
-          ref={plotRef}
-          className="relative h-[min(70svh,44rem)] min-h-96 overflow-hidden rounded-2xl bg-pure-surface shadow-subtle-2"
-        >
-          <canvas
-            ref={canvasRef}
-            aria-label="Kaart van alle verhalen, gegroepeerd per onderwerp"
-            className="block size-full touch-none data-[dragging=true]:cursor-grabbing data-[hover=true]:cursor-pointer"
-            data-dragging={dragging}
-            data-hover={Boolean(hover)}
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerUp}
-            onPointerLeave={() => setHover(null)}
-          />
-          {(loadingData || dataError) && (
-            <p
-              className={cn(
-                typography.small,
-                "absolute inset-0 m-0 grid place-items-center text-gravel",
-              )}
+            <ToggleGroupItem value="subject">Per onderwerp</ToggleGroupItem>
+            <ToggleGroupItem value="meaning">Op betekenis</ToggleGroupItem>
+          </ToggleGroup>
+        }
+      />
+      <div className={cn(layout.container, "pt-6 pb-16")}>
+        <div className="flex flex-wrap items-center gap-3 border-b border-chalk pb-4">
+          <InputGroup className="w-full sm:w-72">
+            <InputGroupAddon>
+              <Search />
+            </InputGroupAddon>
+            <InputGroupInput
+              placeholder="Zoek een verhaal"
+              value={filters.search}
+              onChange={(event) => updateFilters({ search: event.target.value })}
+            />
+            {filters.search && (
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  size="icon-xs"
+                  aria-label="Zoekterm wissen"
+                  onClick={() => updateFilters({ search: "" })}
+                >
+                  <X />
+                </InputGroupButton>
+              </InputGroupAddon>
+            )}
+          </InputGroup>
+          <Select value={filters.year} onValueChange={(year) => updateFilters({ year })}>
+            <SelectTrigger className="w-36" aria-label="Jaar">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Alle jaren</SelectItem>
+              {browse.years.map((year) => (
+                <SelectItem key={year} value={String(year)}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={filters.season} onValueChange={(season) => updateFilters({ season })}>
+            <SelectTrigger className="w-40" aria-label="Seizoen">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Alle seizoenen</SelectItem>
+              {SEASONS.map((season) => (
+                <SelectItem key={season} value={season}>
+                  {season.charAt(0).toUpperCase() + season.slice(1)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <label className="flex items-center gap-2 font-sans text-body text-cinder">
+            <Switch
+              checked={filters.imagesOnly}
+              onCheckedChange={(imagesOnly) => updateFilters({ imagesOnly })}
+            />
+            Met beelden
+          </label>
+          {hasFilters && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => updateFilters({ ...ALL_FILTERS, topic: filters.topic })}
             >
-              {dataError ?? "Atlas laden…"}
-            </p>
+              Wis filters
+            </Button>
           )}
-          {hover && !dragging && (
-            <div
-              className="pointer-events-none absolute top-(--y) left-(--x) z-10 w-64 -translate-x-1/2 -translate-y-[calc(100%+14px)] rounded-xl bg-pure-surface px-3 py-2 shadow-subtle-4"
-              style={{ "--x": `${hover.at.x}px`, "--y": `${hover.at.y}px` } as CSSProperties}
-            >
-              <p className="m-0 font-sans text-body leading-body font-medium text-obsidian">
-                {hover.point.title}
-              </p>
-              <p className={cn(typography.caption, "m-0 mt-0.5")}>
-                {formatDate(hover.point.date)} · {categoryById.get(hover.point.topicId)?.label}
-              </p>
-            </div>
-          )}
-          <div className="absolute right-3 bottom-3 flex flex-col gap-1">
-            <Button
-              variant="outline"
-              size="icon-sm"
-              aria-label="Inzoomen"
-              onClick={() => zoomBy(1.4)}
-            >
-              <Plus />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon-sm"
-              aria-label="Uitzoomen"
-              onClick={() => zoomBy(1 / 1.4)}
-            >
-              <Minus />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon-sm"
-              aria-label="Hele kaart tonen"
-              onClick={resetView}
-            >
-              <Scan />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon-sm"
-              aria-label="Volledig scherm"
-              onClick={toggleFullscreen}
-            >
-              <Maximize2 />
-            </Button>
-          </div>
+          <p className={cn(typography.small, "m-0 ml-auto text-gravel")}>
+            {numberFormat.format(browse.visible.length)} van {numberFormat.format(points.length)}{" "}
+            verhalen
+          </p>
         </div>
 
-        <aside className="min-w-0">
-          {selectedPoint ? (
-            <StoryPanel
-              point={selectedPoint}
-              related={[...browse.relatedPointIds]
-                .map((id) => pointsById.get(id))
-                .filter((point): point is MapPoint => Boolean(point))
-                .slice(0, 5)}
-              onSelect={selectPoint}
-              onClose={() => selectPoint(null)}
+        <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+          <div
+            ref={plotRef}
+            className="relative h-[min(70svh,44rem)] min-h-96 overflow-hidden rounded-2xl bg-pure-surface shadow-subtle-2"
+          >
+            <canvas
+              ref={canvasRef}
+              aria-label="Kaart van alle verhalen, gegroepeerd per onderwerp"
+              className="block size-full touch-none data-[dragging=true]:cursor-grabbing data-[hover=true]:cursor-pointer"
+              data-dragging={dragging}
+              data-hover={Boolean(hover)}
+              onPointerDown={onPointerDown}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+              onPointerLeave={() => setHover(null)}
             />
-          ) : (
-            <div className="grid gap-4">
-              <h2 className={cn(typography.eyebrow)}>Onderwerpen</h2>
-              <ul className="m-0 grid list-none gap-0.5 p-0">
-                {atlasCategories.map((category) => {
-                  const active = filters.topic === category.id;
-                  return (
-                    <li key={category.id}>
-                      <button
-                        type="button"
-                        aria-pressed={active}
-                        onClick={() => updateFilters({ topic: active ? "all" : category.id })}
-                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left font-sans text-body text-cinder transition-colors hover:bg-powder aria-pressed:bg-powder aria-pressed:text-obsidian"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="size-2.5 shrink-0 rounded-full bg-(--dot)"
-                          style={{ "--dot": colorFor(category.id) } as CSSProperties}
-                        />
-                        <span className="flex-1">{category.label}</span>
-                        <span className="text-gravel tabular-nums">
-                          {numberFormat.format(categoryCounts.get(category.id) ?? 0)}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-              {focusCategory && (
-                <>
-                  <Separator />
-                  <p className={cn(typography.small, "m-0 text-cinder")}>
-                    {focusCategory.description}
-                  </p>
-                  <p className={cn(typography.small, "m-0 text-cinder")}>
-                    {numberFormat.format(primaryCounts.get(focusCategory.id) ?? 0)} verhalen gaan
-                    vooral hierover (gevulde punten). Nog{" "}
-                    {numberFormat.format(
-                      (categoryCounts.get(focusCategory.id) ?? 0) -
-                        (primaryCounts.get(focusCategory.id) ?? 0),
-                    )}{" "}
-                    raken het aan; zij staan bij hun eigen onderwerp (open rondjes).
-                  </p>
-                  <a
-                    href={`/archive/?category=${encodeURIComponent(focusCategory.id)}`}
-                    className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-fit")}
-                  >
-                    Alle verhalen over {focusCategory.label.toLowerCase()} <ArrowRight />
-                  </a>
-                </>
-              )}
-              <p className={cn(typography.caption, "m-0")}>
-                Sleep om te verschuiven, scrol of gebruik + en − om te zoomen. Klik op een punt om
-                het verhaal te openen.
+            {(loadingData || dataError) && (
+              <p
+                className={cn(
+                  typography.small,
+                  "absolute inset-0 m-0 grid place-items-center text-gravel",
+                )}
+              >
+                {dataError ?? "Atlas laden…"}
               </p>
+            )}
+            {hover && !dragging && (
+              <div
+                className="pointer-events-none absolute top-(--y) left-(--x) z-10 w-64 -translate-x-1/2 -translate-y-[calc(100%+14px)] rounded-xl bg-pure-surface px-3 py-2 shadow-subtle-4"
+                style={{ "--x": `${hover.at.x}px`, "--y": `${hover.at.y}px` } as CSSProperties}
+              >
+                <p className="m-0 font-sans text-body leading-body font-medium text-obsidian">
+                  {hover.point.title}
+                </p>
+                <p className={cn(typography.caption, "m-0 mt-0.5")}>
+                  {formatDate(hover.point.date)} · {categoryById.get(hover.point.topicId)?.label}
+                </p>
+              </div>
+            )}
+            <div className="absolute right-3 bottom-3 flex flex-col gap-1">
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Inzoomen"
+                onClick={() => zoomBy(1.4)}
+              >
+                <Plus />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Uitzoomen"
+                onClick={() => zoomBy(1 / 1.4)}
+              >
+                <Minus />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Hele kaart tonen"
+                onClick={resetView}
+              >
+                <Scan />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Volledig scherm"
+                onClick={toggleFullscreen}
+              >
+                <Maximize2 />
+              </Button>
             </div>
-          )}
-        </aside>
+          </div>
+
+          <aside className="min-w-0">
+            {selectedPoint ? (
+              <StoryPanel
+                point={selectedPoint}
+                related={[...browse.relatedPointIds]
+                  .map((id) => pointsById.get(id))
+                  .filter((point): point is MapPoint => Boolean(point))
+                  .slice(0, 5)}
+                onSelect={selectPoint}
+                onClose={() => selectPoint(null)}
+              />
+            ) : (
+              <div className="grid gap-4">
+                <h2 className={cn(typography.eyebrow)}>Onderwerpen</h2>
+                <ul className="m-0 grid list-none gap-0.5 p-0">
+                  {atlasCategories.map((category) => {
+                    const active = filters.topic === category.id;
+                    return (
+                      <li key={category.id}>
+                        <button
+                          type="button"
+                          aria-pressed={active}
+                          onClick={() => updateFilters({ topic: active ? "all" : category.id })}
+                          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left font-sans text-body text-cinder transition-colors hover:bg-powder aria-pressed:bg-powder aria-pressed:text-obsidian"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="size-2.5 shrink-0 rounded-full bg-(--dot)"
+                            style={{ "--dot": colorFor(category.id) } as CSSProperties}
+                          />
+                          <span className="flex-1">{category.label}</span>
+                          <span className="text-gravel tabular-nums">
+                            {numberFormat.format(categoryCounts.get(category.id) ?? 0)}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+                {focusCategory && (
+                  <>
+                    <Separator />
+                    <p className={cn(typography.small, "m-0 text-cinder")}>
+                      {focusCategory.description}
+                    </p>
+                    {arrangement === "meaning" ? (
+                      <p className={cn(typography.small, "m-0 text-cinder")}>
+                        De gekleurde waas toont waar de verhalen hierover samenkomen; ze liggen
+                        verspreid, omdat ze ook over andere onderwerpen gaan.
+                      </p>
+                    ) : (
+                      <p className={cn(typography.small, "m-0 text-cinder")}>
+                        {numberFormat.format(primaryCounts.get(focusCategory.id) ?? 0)} verhalen
+                        gaan vooral hierover (gevulde punten). Nog{" "}
+                        {numberFormat.format(
+                          (categoryCounts.get(focusCategory.id) ?? 0) -
+                            (primaryCounts.get(focusCategory.id) ?? 0),
+                        )}{" "}
+                        raken het aan; zij staan bij hun eigen onderwerp (open rondjes).
+                      </p>
+                    )}
+                    <a
+                      href={`/archive/?category=${encodeURIComponent(focusCategory.id)}`}
+                      className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-fit")}
+                    >
+                      Alle verhalen over {focusCategory.label.toLowerCase()} <ArrowRight />
+                    </a>
+                  </>
+                )}
+                <p className={cn(typography.caption, "m-0")}>
+                  Sleep om te verschuiven, scrol of gebruik + en − om te zoomen. Klik op een punt om
+                  het verhaal te openen.
+                </p>
+              </div>
+            )}
+          </aside>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

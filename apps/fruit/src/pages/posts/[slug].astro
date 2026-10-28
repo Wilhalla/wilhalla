@@ -2,8 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import PostContent from '../../components/PostContent.astro'
 import ReactionList from '../../components/ReactionList'
-import ChronologicalPosts from '../../components/ChronologicalPosts'
-import RelatedPosts from '../../components/RelatedPosts'
+import FurtherReading from '../../components/FurtherReading'
 import { archiveAssetUrl } from '../../lib/assetUrls'
 import { buildArchivePostReading } from '../../lib/archivePostReading'
 import { postIndex } from '../../lib/postIndex'
@@ -28,52 +27,6 @@ const postDescription = displayPost.excerpt || displayPost.title
   modifiedTime={displayPost.isoDate}
 >
   <PostContent reading={reading} />
-  <ChronologicalPosts postId={displayPost.id} />
-  <RelatedPosts postId={displayPost.id} />
+  <FurtherReading postId={displayPost.id} />
   <ReactionList reactions={displayPost.reactions} />
-  <script is:inline>
-    (() => {
-      if (window.__fruitArchivePostLayoutInstalled) return
-      window.__fruitArchivePostLayoutInstalled = true
-
-      const collapseTimers = new WeakMap()
-      const slideDuration = 760
-
-      function setButtonState(button, expanded) {
-        button.setAttribute('aria-expanded', String(expanded))
-        button.setAttribute('aria-label', expanded ? 'Fotopaneel inklappen' : 'Fotopaneel openen')
-      }
-
-      document.addEventListener('click', (event) => {
-        const button = event.target.closest('[data-photo-toggle]')
-        if (!button) return
-        const layout = button.closest('[data-post-layout]')
-        if (!layout) return
-
-        const existingTimer = collapseTimers.get(layout)
-        if (existingTimer) {
-          window.clearTimeout(existingTimer)
-          collapseTimers.delete(layout)
-        }
-
-        const isClosing = layout.classList.contains('is-photo-sliding-out')
-        const isCollapsed = layout.classList.contains('is-photo-collapsed') || isClosing
-
-        if (isCollapsed) {
-          layout.classList.remove('is-photo-collapsed', 'is-photo-sliding-out')
-          setButtonState(button, true)
-          return
-        }
-
-        layout.classList.add('is-photo-collapsed', 'is-photo-sliding-out')
-        setButtonState(button, false)
-
-        const timer = window.setTimeout(() => {
-          layout.classList.remove('is-photo-sliding-out')
-          collapseTimers.delete(layout)
-        }, slideDuration)
-        collapseTimers.set(layout, timer)
-      })
-    })()
-  </script>
 </BaseLayout>

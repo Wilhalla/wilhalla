@@ -60,185 +60,6 @@
 }
 
 @layer components {
-  .post-reading-layout {
-    --post-photo-layout-duration: 760ms;
-    --post-photo-panel-duration: 680ms;
-    --post-photo-ease: cubic-bezier(0.22, 1, 0.36, 1);
-    width: 100%;
-    max-width: 104rem;
-    margin-inline: auto;
-    padding: 3.5rem 2rem;
-    transition: max-width var(--post-photo-layout-duration) var(--post-photo-ease);
-  }
-
-  .post-reading-grid {
-    display: grid;
-    gap: 3rem;
-    align-items: start;
-    overflow-x: clip;
-    transition:
-      grid-template-columns var(--post-photo-layout-duration) var(--post-photo-ease),
-      gap var(--post-photo-layout-duration) var(--post-photo-ease);
-  }
-
-  .post-reading-grid--with-images {
-    grid-template-columns: minmax(34rem, 2fr) minmax(24rem, 1fr);
-  }
-
-  .post-reading-main {
-    max-width: 100%;
-    margin-inline: auto;
-    transition: max-width var(--post-photo-layout-duration) var(--post-photo-ease);
-  }
-
-  .post-photo-panel {
-    min-inline-size: 0;
-    border-inline-start: 1px solid color-mix(in srgb, var(--color-chalk) 72%, transparent);
-    padding-inline-start: 1.25rem;
-    opacity: 1;
-    transform: translateX(0);
-    transition:
-      padding-inline-start var(--post-photo-layout-duration) var(--post-photo-ease),
-      opacity 360ms ease,
-      transform var(--post-photo-layout-duration) var(--post-photo-ease),
-      visibility 360ms ease;
-  }
-
-  .post-reading-layout.is-photo-collapsed {
-    max-width: 82rem;
-  }
-
-  .post-reading-layout.is-photo-collapsed .post-reading-grid--with-images {
-    grid-template-columns: minmax(0, 1fr) 3rem;
-    gap: 1.5rem;
-  }
-
-  .post-reading-layout.is-photo-collapsed .post-reading-main {
-    max-width: 54rem;
-    margin-inline: auto;
-  }
-
-  .post-reading-layout.is-photo-collapsed .post-photo-panel,
-  .post-reading-layout.is-photo-sliding-out .post-photo-panel {
-    overflow: hidden;
-  }
-
-  .post-reading-layout.is-photo-collapsed .post-photo-panel {
-    padding-inline-start: 0.375rem;
-  }
-
-  .post-photo-panel__content {
-    inline-size: max(100%, 24rem);
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transform-origin: right center;
-    transition:
-      transform var(--post-photo-panel-duration) var(--post-photo-ease),
-      opacity 360ms ease,
-      visibility 0s linear 0s;
-    will-change: transform, opacity;
-  }
-
-  .post-reading-layout.is-photo-collapsed .post-photo-panel__content,
-  .post-reading-layout.is-photo-sliding-out .post-photo-panel__content {
-    opacity: 0;
-    transform: translate3d(calc(100% + 1.5rem), 0, 0);
-    visibility: hidden;
-    pointer-events: none;
-    transition:
-      transform var(--post-photo-panel-duration) var(--post-photo-ease),
-      opacity 320ms ease,
-      visibility 0s linear var(--post-photo-panel-duration);
-  }
-
-  .post-photo-toggle {
-    display: inline-flex;
-    min-height: 2.25rem;
-    align-items: center;
-    justify-content: center;
-    gap: 0.375rem;
-    margin-bottom: 1rem;
-    border-radius: 9999px;
-    background: var(--color-obsidian);
-    color: var(--color-eggshell);
-    max-inline-size: 8rem;
-    overflow: hidden;
-    padding-inline: 0.875rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    white-space: nowrap;
-    transition:
-      max-inline-size 420ms var(--post-photo-ease),
-      padding-inline 420ms var(--post-photo-ease);
-  }
-
-  .post-photo-toggle__expanded,
-  .post-photo-toggle__collapsed {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-  }
-
-  .post-photo-toggle__collapsed {
-    display: none;
-  }
-
-  .post-reading-layout.is-photo-collapsed .post-photo-toggle,
-  .post-reading-layout.is-photo-sliding-out .post-photo-toggle {
-    width: 2.25rem;
-    max-inline-size: 2.25rem;
-    padding-inline: 0;
-  }
-
-  .post-reading-layout.is-photo-collapsed .post-photo-toggle__expanded,
-  .post-reading-layout.is-photo-sliding-out .post-photo-toggle__expanded {
-    display: none;
-  }
-
-  .post-reading-layout.is-photo-collapsed .post-photo-toggle__collapsed,
-  .post-reading-layout.is-photo-sliding-out .post-photo-toggle__collapsed {
-    display: inline-flex;
-  }
-
-  @media (min-width: 1280px) {
-    .post-reading-grid--with-images {
-      grid-template-columns: minmax(42rem, 2fr) minmax(28rem, 1fr);
-    }
-
-    .post-photo-panel__content {
-      inline-size: max(100%, 28rem);
-    }
-  }
-
-  @media (max-width: 1023px) {
-    .post-reading-layout {
-      padding-inline: 1rem;
-    }
-
-    .post-reading-grid--with-images,
-    .post-reading-layout.is-photo-collapsed .post-reading-grid--with-images {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-
-    .post-photo-panel {
-      border-block-start: 1px solid color-mix(in srgb, var(--color-chalk) 72%, transparent);
-      border-inline-start: 0;
-      padding-block-start: 1.25rem;
-      padding-inline-start: 0;
-    }
-
-    .post-reading-layout.is-photo-collapsed .post-photo-panel {
-      display: none;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .post-photo-panel {
-      display: none;
-    }
-  }
-
   .site-loader {
     position: fixed;
     inset: 0;
@@ -330,35 +151,6 @@
     animation: site-loader-spin 720ms linear infinite;
   }
 
-  .apple-page-ornament {
-    position: fixed;
-    z-index: 1;
-    pointer-events: none;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0.14;
-    mix-blend-mode: multiply;
-  }
-
-  .apple-page-ornament--left {
-    left: max(-4rem, -6vw);
-    top: 16vh;
-    width: clamp(10rem, 20vw, 20rem);
-    aspect-ratio: 1;
-    background-image: var(--apple-asset-2);
-    transform: rotate(-10deg);
-  }
-
-  .apple-page-ornament--right {
-    right: max(-4rem, -6vw);
-    bottom: 8vh;
-    width: clamp(11rem, 22vw, 23rem);
-    aspect-ratio: 1;
-    background-image: var(--apple-asset-1);
-    transform: rotate(8deg);
-  }
-
   .apple-image {
     background: transparent;
     object-fit: contain;
@@ -370,11 +162,6 @@
     height: 2.1rem;
     margin-block: -0.35rem;
     flex: 0 0 auto;
-  }
-
-  .section-apple {
-    width: clamp(4.5rem, 11vw, 8rem);
-    height: auto;
   }
 
   @keyframes site-loader-fade-in {
@@ -399,12 +186,6 @@
     to {
       transform: rotate(360deg);
     }
-  }
-}
-
-@media (max-width: 767px) {
-  .apple-page-ornament {
-    display: none;
   }
 }
 
