@@ -1,3 +1,5 @@
+import orientationFixes from "../data/image-orientation-fixes.json";
+
 const DEFAULT_S3_ASSET_ENDPOINT = "https://objects.janpeterdhalle.com";
 const DEFAULT_S3_ASSET_BUCKET = "wilhalla-vake-blog";
 const ARCHIVE_IMAGE_PREFIX = "/archive-images/";
@@ -40,6 +42,21 @@ export const s3AssetBaseUrl = trimTrailingSlash(
 export const useRemoteImageAssets =
   envString(import.meta.env.PUBLIC_USE_REMOTE_IMAGE_ASSETS || "true") !== "false";
 
+// Photos that showed sideways get upright copies in public/archive-fixes/ (written by
+// scripts/fix-image-orientation.ts); serve those instead of the bucket's file or thumbnails.
+const orientationFixed = new Set(
+  Object.keys(orientationFixes).map((path) =>
+    path.replace(ARCHIVE_IMAGE_PREFIX, "").replace(/\.[^/.]+$/, ""),
+  ),
+);
+
+function orientationFixPath(pathname: string) {
+  const key = pathname
+    .replace(/^\/archive-(?:images|thumbs(?:-240|-96)?)\//, "")
+    .replace(/\.[^/.]+$/, "");
+  return orientationFixed.has(key) ? `/archive-fixes${pathname}` : undefined;
+}
+
 function splitSuffix(path: string) {
   const index = path.search(/[?#]/);
   if (index === -1) return { pathname: path, suffix: "" };
@@ -51,10 +68,14 @@ export function archiveAssetUrl(assetPath: string) {
   if (!assetPath.startsWith(ARCHIVE_IMAGE_PREFIX)) return assetPath;
 
   const { pathname, suffix } = splitSuffix(assetPath);
+  const fixed = orientationFixPath(pathname);
+  if (fixed) return `${fixed}${suffix}`;
   return `${joinUrl(s3AssetBaseUrl, pathname)}${suffix}`;
 }
 
 function remoteArchivePath(pathname: string, suffix: string) {
+  const fixed = orientationFixPath(pathname);
+  if (fixed) return `${fixed}${suffix}`;
   if (!useRemoteImageAssets || !s3AssetBaseUrl) return `${pathname}${suffix}`;
   return `${joinUrl(s3AssetBaseUrl, pathname)}${suffix}`;
 }
