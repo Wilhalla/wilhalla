@@ -1,7 +1,5 @@
-import { Button } from "@wilhalla/ui/components/button";
 import { Separator } from "@wilhalla/ui/components/separator";
 import { cn } from "@wilhalla/ui/lib/utils";
-import { useState, type CSSProperties } from "react";
 
 import { badgeStory } from "./stories/badge";
 import { buttonStory } from "./stories/button";
@@ -36,53 +34,14 @@ const stories: Story[] = [
   dividerStory,
 ];
 
-// Each app's typefaces (apps/site/src/styles.css, apps/fruit/theme.css).
-const apps = {
-  site: {
-    label: "Site",
-    fonts: {
-      "--app-heading": '"EB Garamond Variable", Georgia, serif',
-      "--app-sans": "Inter, ui-sans-serif, system-ui, sans-serif",
-    },
-  },
-  fruit: {
-    label: "Fruit",
-    fonts: {
-      "--app-heading": '"Fraunces Variable", ui-serif, Georgia, serif',
-      "--app-sans": '"DM Sans Variable", ui-sans-serif, system-ui, sans-serif',
-    },
-  },
-} as const;
-
-type AppId = keyof typeof apps;
-
 export function App() {
-  const [app, setApp] = useState<AppId>("site");
-
   return (
-    <div style={apps[app].fonts as CSSProperties} className="min-h-screen bg-background font-sans">
+    <div className="min-h-screen bg-background font-sans">
       <header className="sticky top-0 z-10 border-b border-chalk bg-eggshell/90 backdrop-blur">
         <div className="mx-auto flex w-[calc(100%-2rem)] max-w-page items-center justify-between gap-4 py-3">
           <div className="flex items-baseline gap-3">
             <span className="font-heading text-heading-sm text-obsidian">Wilhalla UI</span>
             <span className="hidden font-mono text-xs text-gravel sm:inline">@wilhalla/ui</span>
-          </div>
-          <div
-            role="group"
-            aria-label="Typefaces"
-            className="flex items-center gap-1 rounded-full bg-powder p-1"
-          >
-            {(Object.keys(apps) as AppId[]).map((id) => (
-              <Button
-                key={id}
-                size="sm"
-                variant={app === id ? "outline" : "ghost"}
-                aria-pressed={app === id}
-                onClick={() => setApp(id)}
-              >
-                {apps[id].label}
-              </Button>
-            ))}
           </div>
         </div>
       </header>

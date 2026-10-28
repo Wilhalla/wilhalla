@@ -76,7 +76,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
   }));
 
   return (
-    <div className={cn(layout.shell, "pb-20")}>
+    <div className={cn(layout.container, "pb-20")}>
       <section className="relative overflow-hidden py-16 md:py-24">
         <div className="max-w-5xl">
           <h1 className={cn(typography.display, "max-w-4xl")}>Blogarchiefstatistieken</h1>

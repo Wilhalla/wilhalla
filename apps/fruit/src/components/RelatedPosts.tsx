@@ -45,7 +45,7 @@ export default function RelatedPosts({ postId }: Props) {
 
   return (
     <section
-      className={cn(layout.shell, "border-t border-chalk py-14")}
+      className={cn(layout.container, "border-t border-chalk py-14")}
       aria-labelledby="related-atlas-title"
     >
       <div className="relative">

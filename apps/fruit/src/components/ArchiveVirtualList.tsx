@@ -169,7 +169,7 @@ export default function ArchiveVirtualList() {
     <>
       <section
         className={cn(
-          layout.shell,
+          layout.container,
           "flex flex-wrap items-center justify-between gap-4 border-b border-chalk py-6",
         )}
         aria-label="Archiefweergave"
@@ -218,7 +218,7 @@ export default function ArchiveVirtualList() {
 
       <section
         className={cn(
-          layout.shell,
+          layout.container,
           "grid grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 pb-56 pt-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-8",
         )}
       >

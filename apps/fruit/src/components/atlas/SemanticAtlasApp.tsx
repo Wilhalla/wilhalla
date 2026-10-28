@@ -496,7 +496,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
     if (scale > 2) {
       context.globalAlpha = 0.22;
       context.fillStyle = themeValue("--color-gravel");
-      context.font = '600 10px "DM Sans Variable", sans-serif';
+      context.font = `600 10px ${themeValue("--font-sans")}`;
       for (let x = 0; x < 4; x += 1) {
         for (let y = 0; y < 4; y += 1) {
           const p = screenAtlasCoordinate(x / 4 + 0.012, y / 4 + 0.025, rect);
@@ -818,7 +818,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
 
     context.save();
     context.textBaseline = "middle";
-    context.font = '500 12px "DM Sans Variable", sans-serif';
+    context.font = `500 12px ${themeValue("--font-sans")}`;
     const placed: Array<{
       x: number;
       y: number;
@@ -1293,7 +1293,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
 
   return (
     <section
-      className="relative z-10 mx-auto w-full max-w-[120rem] bg-[#fbfbfa] px-5 py-4 text-obsidian max-md:px-4"
+      className="relative z-10 mx-auto w-full max-w-[120rem] bg-eggshell px-5 py-4 text-obsidian max-md:px-4"
       data-atlas-root
     >
       {dataError && (
@@ -1509,7 +1509,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
         <main className="min-w-0">
           <div
             ref={mapShellRef}
-            className="relative h-[76vh] min-h-[38rem] max-h-[58rem] overflow-hidden border border-chalk bg-[#fbfbfa] shadow-[0_22px_80px_rgba(31,29,27,0.06)] max-md:h-[68vh] max-md:min-h-[28rem] fullscreen:h-screen fullscreen:max-h-none fullscreen:min-h-0 fullscreen:w-screen fullscreen:border-0"
+            className="relative h-[76vh] min-h-[38rem] max-h-[58rem] overflow-hidden border border-chalk bg-eggshell shadow-[0_22px_80px_rgba(31,29,27,0.06)] max-md:h-[68vh] max-md:min-h-[28rem] fullscreen:h-screen fullscreen:max-h-none fullscreen:min-h-0 fullscreen:w-screen fullscreen:border-0"
           >
             <div
               className="absolute left-4 top-4 z-10 flex items-center gap-1"

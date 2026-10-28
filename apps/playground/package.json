@@ -9,9 +9,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@fontsource-variable/dm-sans": "catalog:",
-    "@fontsource-variable/eb-garamond": "catalog:",
-    "@fontsource-variable/fraunces": "catalog:",
     "@wilhalla/ui": "workspace:*",
     "lucide-react": "catalog:",
     "react": "catalog:",

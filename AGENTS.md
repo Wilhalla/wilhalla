@@ -74,9 +74,11 @@ to `error` rather than adding new exceptions. Each app's `package.json` exposes 
   shared set; keep an app-local copy only when an app deliberately customizes a component.
 - The theme is `packages/ui/src/styles/tokens.css`: colours, type scale, shadows, page width and
   the shadcn semantic variables, all as Tailwind theme tokens (it also brings `tw-animate-css` and
-  shadcn's base CSS). Apps import it right after `tailwindcss` and only add their typefaces
-  (`--font-heading`, `--font-sans`). Type styles for headings and intros are class recipes in
-  `@wilhalla/ui/lib/typography` (`typography.display`, `.section`, `.kicker`, `.eyebrow`), usable
+  shadcn's base CSS, and self-hosts the typefaces: EB Garamond, Inter, Geist Mono). Apps import it
+  right after `tailwindcss` and add no colours or typefaces of their own: every app looks like
+  the Wilhalla site, which is the reference. Type styles for headings and intros are class recipes in
+  `@wilhalla/ui/lib/typography` (`typography.display`, `.section`, `.heading`, `.intro`, `.body`, `.small`, …) and the page
+  column is `Container` / `layout.container`, usable
   from Astro `class` as well as React.
 - No new component classes in CSS (`.my-card { … }`): compose utilities and variants (`cva`)
   instead. Hand-written CSS is for what utilities cannot express, such as complex animations,

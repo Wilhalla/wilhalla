@@ -83,7 +83,7 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
 
   return (
     <section className="w-full pb-24" aria-labelledby="chronology-title" data-chronology-feed>
-      <div className={cn(layout.shell, "relative z-10 overflow-x-clip py-16")}>
+      <div className={cn(layout.container, "relative z-10 overflow-x-clip py-16")}>
         <div className="grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8">
           <aside
             className="sticky top-16 self-start pr-2 md:top-16 md:pr-6"

@@ -29,11 +29,6 @@
   "dependencies": {
     "@astrojs/react": "catalog:",
     "@astrojs/vercel": "catalog:",
-    "@fontsource-variable/dm-sans": "catalog:",
-    "@fontsource-variable/fraunces": "catalog:",
-    "@fontsource-variable/geist": "catalog:",
-    "@fontsource-variable/source-sans-3": "catalog:",
-    "@fontsource/anton": "catalog:",
     "@lucide/astro": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@tanstack/react-table": "catalog:",

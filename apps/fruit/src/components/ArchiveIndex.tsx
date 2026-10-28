@@ -18,7 +18,7 @@ export default function ArchiveIndex({ aggregatedPosts, allPosts }: Props) {
     <>
       <section
         className={cn(
-          layout.shell,
+          layout.container,
           "flex items-end justify-between gap-6 border-b border-chalk py-6 max-md:flex-col max-md:items-start",
         )}
         aria-label="Archiefweergave"
@@ -39,7 +39,10 @@ export default function ArchiveIndex({ aggregatedPosts, allPosts }: Props) {
           onChange={setMode}
         />
       </section>
-      <section className={cn(layout.shell, "space-y-1 pb-56 pt-6")} aria-label="Alle blogberichten">
+      <section
+        className={cn(layout.container, "space-y-1 pb-56 pt-6")}
+        aria-label="Alle blogberichten"
+      >
         {posts.map((post, index) => (
           <ArchiveRow post={post} index={index} total={posts.length} key={`${mode}-${post.id}`} />
         ))}

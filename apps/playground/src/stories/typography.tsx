@@ -7,7 +7,7 @@ export const typographyStory: Story = {
   title: "Typography recipes",
   source: "@wilhalla/ui/lib/typography",
   description:
-    "Class recipes for the editorial type styles, for React (className) and Astro (class). Switch typefaces in the header.",
+    "Class recipes for the Wilhalla type styles, for React (className) and Astro (class).",
   render: () => (
     <Examples wide>
       <Example label="typography.eyebrow + typography.display">
