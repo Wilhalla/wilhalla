@@ -37,6 +37,7 @@
     "@wilhalla/ui": "workspace:*",
     "astro": "catalog:",
     "cheerio": "catalog:",
+    "domhandler": "catalog:",
     "lucide-react": "catalog:",
     "mermaid": "catalog:",
     "minisearch": "catalog:",
