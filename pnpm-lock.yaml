@@ -301,6 +301,9 @@ catalogs:
     cmdk:
       specifier: ^1.1.1
       version: 1.1.1
+    domhandler:
+      specifier: ^5.0.3
+      version: 5.0.3
     jsdom:
       specifier: ^29.1.1
       version: 29.1.1
@@ -411,6 +414,9 @@ importers:
       cheerio:
         specifier: 'catalog:'
         version: 1.2.0
+      domhandler:
+        specifier: 'catalog:'
+        version: 5.0.3
       lucide-react:
         specifier: 'catalog:'
         version: 1.62.0(@types/react@19.3.0)(react@19.3.1)
