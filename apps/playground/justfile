@@ -12,7 +12,7 @@ setup:
 
 # Every shared component in all its variants and states: http://127.0.0.1:4400
 dev: setup
-    jp dev --port 4400 -- pnpm exec vite --host 127.0.0.1 --port 4400
+    jp dev --port 4400 -- pnpm --dir "{{justfile_directory()}}" exec vite --host 127.0.0.1 --port 4400
 
 build:
     pnpm run build
