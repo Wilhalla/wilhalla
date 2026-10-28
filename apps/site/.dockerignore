@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.gitignore
+.env*
+*.md
+Dockerfile
+.dockerignore
+.vscode
+.dolt
+.roam
+.doltcfg
+beads_wilhalla
+*.log

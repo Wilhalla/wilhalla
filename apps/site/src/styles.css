@@ -1,0 +1,409 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@import "@fontsource-variable/eb-garamond";
+@import "./styles/typography.css";
+
+@custom-variant dark (&:is(.dark *));
+
+html,
+body {
+  overscroll-behavior: none;
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply m-0;
+  font-family: "EB Garamond Variable", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-underline-offset: 4px;
+}
+
+code {
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+@theme inline {
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-4xl: 30px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-hover: var(--hover);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-eggshell: #fdfcfc;
+  --color-powder: #f5f3f1;
+  --color-chalk: #e5e5e5;
+  --color-fog: #b1b0b0;
+  --color-gravel: #777169;
+  --color-slate: #a59f97;
+  --color-cinder: #57534d;
+  --color-obsidian: #000000;
+  --color-signal-blue: #0447ff;
+  --color-ember: #ff4704;
+  --font-waldenburg:
+    "EB Garamond Variable", Cormorant Garamond, "Libre Baskerville", Georgia,
+    serif;
+  --font-waldenburgfh:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-inter:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-geist-mono:
+    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+  --shadow-subtle: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;
+  --shadow-subtle-2:
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+  --shadow-subtle-4:
+    rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 4px 0px;
+  --shadow-subtle-7:
+    rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+}
+
+:root {
+  /* ElevenLabs-inspired design tokens */
+  --color-eggshell: #fdfcfc;
+  --color-powder: #f5f3f1;
+  --color-chalk: #e5e5e5;
+  --color-fog: #b1b0b0;
+  --color-gravel: #777169;
+  --color-slate: #a59f97;
+  --color-cinder: #57534d;
+  --color-obsidian: #000000;
+  --color-signal-blue: #0447ff;
+  --color-ember: #ff4704;
+  --color-voice-spectrum: #3d75d8;
+  --gradient-voice-spectrum: conic-gradient(
+    from 180deg,
+    rgb(61, 117, 216) 11.5931deg,
+    rgb(42, 104, 210) 26.317deg,
+    rgb(117, 190, 229) 32.3924deg,
+    rgb(82, 208, 233) 38.9146deg,
+    rgb(33, 89, 186) 75.3508deg,
+    rgb(58, 116, 218) 85.0388deg,
+    rgb(108, 215, 236) 94.5293deg,
+    rgb(90, 185, 241) 122.11deg,
+    rgb(51, 161, 229) 129.967deg,
+    rgb(31, 95, 207) 136.719deg,
+    rgb(44, 84, 202) 144.313deg,
+    rgb(58, 158, 207) 175.985deg,
+    rgb(49, 103, 197) 183.869deg,
+    rgb(173, 232, 243) 201.635deg,
+    rgb(216, 241, 245) 224.865deg,
+    rgb(165, 219, 230) 239.729deg,
+    rgb(43, 157, 214) 268.165deg,
+    rgb(174, 224, 233) 286.211deg,
+    rgb(32, 186, 208) 329.654deg,
+    rgb(30, 83, 176) 343.551deg,
+    rgb(47, 64, 210) 359.255deg
+  );
+
+  --font-waldenburg:
+    "EB Garamond Variable", Cormorant Garamond, "Libre Baskerville", Georgia,
+    serif;
+  --font-waldenburgfh:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-inter:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-geist-mono:
+    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+
+  --text-caption: 10px;
+  --leading-caption: 1.2;
+  --text-body: 14px;
+  --leading-body: 1.43;
+  --text-body-lg: 16px;
+  --leading-body-lg: 1.5;
+  --text-subheading: 18px;
+  --leading-subheading: 1.44;
+  --text-heading-sm: 20px;
+  --leading-heading-sm: 1.4;
+  --text-heading: 32px;
+  --leading-heading: 1.17;
+  --tracking-heading: -0.64px;
+  --text-heading-lg: 36px;
+  --leading-heading-lg: 1.13;
+  --tracking-heading-lg: -0.72px;
+  --text-display: 48px;
+  --leading-display: 1.08;
+  --tracking-display: -0.96px;
+
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-36: 36px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-56: 56px;
+  --spacing-64: 64px;
+  --spacing-72: 72px;
+  --spacing-96: 96px;
+  --spacing-160: 160px;
+
+  --page-max-width: 1200px;
+  --radius: 4px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-2xl-2: 20px;
+  --radius-3xl: 24px;
+  --radius-3xl-2: 30px;
+  --radius-full: 9999px;
+
+  --shadow-subtle: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;
+  --shadow-subtle-2:
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+  --shadow-subtle-3: rgba(0, 0, 0, 0.1) 0px 0px 0px 0.5px inset;
+  --shadow-subtle-4:
+    rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 4px 0px;
+  --shadow-subtle-5: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px inset;
+  --shadow-subtle-6: rgb(235, 232, 228) 0px 0px 0px 0.5px inset;
+  --shadow-subtle-7:
+    rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+  --shadow-subtle-8: rgba(255, 255, 255, 0.6) 0px 0px 0px 1px inset;
+  --shadow-subtle-9:
+    rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 1px 1px 0px,
+    rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+
+  --background: var(--color-eggshell);
+  --foreground: var(--color-obsidian);
+  --muted: var(--color-powder);
+  --muted-foreground: var(--color-gravel);
+  --border: var(--color-chalk);
+  --hover: var(--color-powder);
+  --primary: var(--color-obsidian);
+  --primary-foreground: var(--color-eggshell);
+  --accent: var(--color-powder);
+  --accent-foreground: var(--color-obsidian);
+  --card: #ffffff;
+  --card-foreground: var(--color-obsidian);
+  --popover: #ffffff;
+  --popover-foreground: var(--color-obsidian);
+  --secondary: var(--color-powder);
+  --secondary-foreground: var(--color-obsidian);
+  --destructive: #c2410c;
+  --input: var(--color-chalk);
+  --ring: var(--color-gravel);
+  --sidebar: #ffffff;
+  --sidebar-foreground: var(--color-obsidian);
+  --sidebar-primary: var(--color-obsidian);
+  --sidebar-primary-foreground: var(--color-eggshell);
+  --sidebar-accent: var(--color-powder);
+  --sidebar-accent-foreground: var(--color-obsidian);
+  --sidebar-border: var(--color-chalk);
+  --sidebar-ring: var(--color-gravel);
+}
+
+@layer components {
+  .site-shell {
+    background: var(--color-eggshell);
+    color: var(--color-obsidian);
+    font-family: var(--font-inter);
+  }
+
+  .site-container {
+    width: min(100% - 32px, var(--page-max-width));
+    margin-inline: auto;
+  }
+
+  .eleven-nav-link {
+    border-radius: var(--radius-full);
+    color: var(--color-obsidian);
+    font-family: var(--font-inter);
+    font-size: var(--text-body);
+    letter-spacing: 0.01em;
+    padding: 7px 10px;
+    text-decoration: none;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .eleven-nav-link:hover,
+  .eleven-nav-link[data-status="active"] {
+    background: var(--color-powder);
+  }
+
+  .eleven-pill,
+  .eleven-pill-ghost {
+    align-items: center;
+    border-radius: var(--radius-full);
+    display: inline-flex;
+    font-family: var(--font-inter);
+    font-size: var(--text-body);
+    font-weight: 500;
+    gap: var(--spacing-8);
+    justify-content: center;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    min-height: 34px;
+    text-decoration: none;
+    transition:
+      transform 160ms ease,
+      background-color 160ms ease;
+    white-space: nowrap;
+  }
+
+  .eleven-pill {
+    background: var(--color-obsidian);
+    border: 1px solid var(--color-chalk);
+    box-shadow: var(--shadow-subtle-2);
+    color: var(--color-eggshell);
+    padding: 0 var(--spacing-16);
+  }
+
+  .eleven-pill-ghost {
+    background: #ffffff;
+    border: 1px solid var(--color-chalk);
+    box-shadow: var(--shadow-subtle-2);
+    color: var(--color-obsidian);
+    padding: 0 var(--spacing-12);
+  }
+
+  .eleven-pill:hover,
+  .eleven-pill-ghost:hover {
+    transform: translateY(-1px);
+  }
+
+  .eleven-card {
+    background: #ffffff;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-subtle-7);
+  }
+
+  .eleven-surface {
+    background: var(--color-powder);
+    border-radius: var(--radius-2xl-2);
+  }
+
+  .eleven-hairline {
+    border-color: var(--color-chalk);
+  }
+
+  .page-intro {
+    font-size: clamp(1.125rem, 1.8vw, 1.35rem);
+    line-height: 1.65;
+  }
+
+  .markdown-editorial {
+    color: var(--color-cinder);
+    font-family: var(--font-inter);
+    font-size: clamp(1.0625rem, 1.2vw, 1.1875rem);
+    letter-spacing: 0.005em;
+    line-height: 1.82;
+  }
+
+  .markdown-editorial p {
+    margin: 0;
+  }
+
+  .markdown-editorial h2,
+  .markdown-editorial h3,
+  .markdown-editorial h4,
+  .markdown-editorial h5,
+  .markdown-editorial h6 {
+    margin-top: var(--spacing-40);
+  }
+
+  .markdown-editorial strong {
+    color: var(--color-obsidian);
+    font-weight: 550;
+  }
+
+  .markdown-editorial em {
+    color: var(--color-cinder);
+  }
+
+  .markdown-editorial a {
+    color: var(--color-obsidian);
+    text-decoration: underline;
+    text-decoration-color: var(--color-fog);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition:
+      background-color 160ms ease,
+      text-decoration-color 160ms ease;
+  }
+
+  .markdown-editorial a:hover {
+    background: var(--color-powder);
+    text-decoration-color: var(--color-obsidian);
+  }
+
+  .markdown-editorial ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .markdown-editorial li {
+    border-top: 1px solid var(--color-chalk);
+    padding: var(--spacing-12) 0;
+  }
+
+  .markdown-editorial img {
+    background: var(--color-powder);
+    border-radius: 18px;
+    display: block;
+    height: auto;
+    max-height: 720px;
+    object-fit: cover;
+    width: 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

@@ -1,0 +1,276 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: Wilhalla/wilhalla-site
+  branch: develop
+  commit_messages:
+    create: 'content(cms): create {{collection}} "{{slug}}"'
+    update: 'content(cms): update {{collection}} "{{slug}}"'
+    delete: 'content(cms): delete {{collection}} "{{slug}}"'
+    uploadMedia: 'content(cms): upload "{{path}}"'
+    deleteMedia: 'content(cms): delete "{{path}}"'
+    openAuthoring: '{{message}}'
+  # OAuth endpoint for deployed CMS. Change this if the production domain changes.
+  base_url: https://wilhalla-site.vercel.app/api/cms-auth
+
+site_url: https://www.wilhalla.be
+display_url: https://www.wilhalla.be
+
+media_folder: /public/gallery
+public_folder: /gallery
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2048
+          height: 2048
+        svg:
+          optimize: true
+
+collections:
+  - name: pages
+    label: Websitepagina's
+    icon: article
+    media_folder: /public/uploads
+    public_folder: /uploads
+    files:
+      - name: home
+        label: Home
+        file: src/content/homepage.md
+        fields:
+          - { label: Tagline, name: tagline, widget: string }
+      - name: over-ons
+        label: Over ons
+        file: src/content/pages/tuin.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: samentuin
+        label: Samentuin
+        file: src/content/pages/tuin/samentuin.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: welzijn
+        label: Welzijn
+        file: src/content/pages/welzijn.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: fasciatherapie
+        label: Fasciatherapie
+        file: src/content/pages/welzijn/fasciatherapie.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: paardencoaching
+        label: Paardencoaching
+        file: src/content/pages/welzijn/paardencoaching.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: muziektherapie
+        label: Muziektherapie
+        file: src/content/pages/welzijn/muziektherapie.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: lymfedrainage
+        label: Lymfedrainage
+        file: src/content/pages/welzijn/lymfedrainage.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: kcr
+        label: Kinetic Chain Release
+        file: src/content/pages/welzijn/kcr.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: veerkracht
+        label: Veerkracht in Beweging
+        file: src/content/pages/welzijn/veerkracht.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: yoga
+        label: Yoga en dans
+        file: src/content/pages/yoga.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: verhuur
+        label: Verhuur
+        file: src/content/pages/verhuur.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: agenda
+        label: Agenda
+        file: src/content/pages/agenda.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: galerij
+        label: Galerij
+        file: src/content/pages/galerij.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+      - name: contact
+        label: Contact
+        file: src/content/pages/contact.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Linklabel, name: linkLabel, widget: string }
+          - { label: SEO-beschrijving, name: description, widget: text }
+          - label: Intro
+            name: intro
+            widget: text
+            required: false
+            hint: Optioneel. Wordt onder de paginatitel getoond.
+          - { label: Inhoud, name: body, widget: richtext }
+
+  - name: gallery
+    label: Galerij foto's
+    icon: imagesmode
+    media_folder: /public/gallery
+    public_folder: /gallery
+    files:
+      - name: images
+        label: Foto's
+        file: src/content/gallery.json
+        format: json
+        fields:
+          - label: Foto's
+            name: images
+            widget: list
+            summary: "{{fields.alt}}"
+            fields:
+              - { label: Foto, name: image, widget: image }
+              - label: Thumbnail
+                name: thumbnail
+                widget: image
+                required: false
+                hint: Optioneel. Laat leeg om de gewone foto te gebruiken.
+              - { label: Alt-tekst, name: alt, widget: string }
+              - label: Oorspronkelijke bestandsnaam
+                name: originalName
+                widget: string
+                required: false
+              - label: Breedte thumbnail
+                name: width
+                widget: number
+                value_type: int
+                required: false
+              - label: Hoogte thumbnail
+                name: height
+                widget: number
+                value_type: int
+                required: false
+              - label: Breedte volledige foto
+                name: fullWidth
+                widget: number
+                value_type: int
+                required: false
+              - label: Hoogte volledige foto
+                name: fullHeight
+                widget: number
+                value_type: int
+                required: false
