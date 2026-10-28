@@ -17,9 +17,7 @@ export function DistributionChart({ data }: { data: DistributionBucket[] }) {
         <CartesianGrid vertical={false} stroke="var(--color-chalk)" />
         <XAxis dataKey="label" tickLine={false} axisLine={false} />
         <YAxis hide />
-        <ChartTooltip
-          content={<ChartTooltipContent className="border-chalk bg-pure-surface shadow-none" />}
-        />
+        <ChartTooltip content={<ChartTooltipContent />} />
         <Bar dataKey="posts" fill="var(--color-posts)" radius={[2, 2, 0, 0]}>
           <LabelList
             dataKey="posts"
@@ -57,9 +55,7 @@ export function ValueBarChart({
           width={labelWidth}
           className="text-xs"
         />
-        <ChartTooltip
-          content={<ChartTooltipContent className="border-chalk bg-pure-surface shadow-none" />}
-        />
+        <ChartTooltip content={<ChartTooltipContent />} />
         <Bar dataKey="value" fill="var(--color-value)" radius={[0, 2, 2, 0]}>
           <LabelList
             dataKey="value"

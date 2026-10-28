@@ -33,7 +33,7 @@ const navItems = [
     </nav>
     <button
       id="site-mobile-menu-button"
-      class="inline-grid size-10 shrink-0 place-items-center rounded-full border border-chalk bg-pure-surface text-obsidian shadow-subtle sm:hidden"
+      class={cn(buttonVariants({ variant: "outline", size: "icon" }), "sm:hidden")}
       type="button"
       aria-label="Menu openen"
       aria-expanded="false"

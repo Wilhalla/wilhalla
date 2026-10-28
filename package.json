@@ -6,7 +6,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "lint": "oxlint --max-warnings 413",
+    "lint": "oxlint --max-warnings 170",
     "format": "oxfmt",
     "format:check": "oxfmt --check"
   },

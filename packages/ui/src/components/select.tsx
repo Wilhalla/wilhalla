@@ -25,17 +25,21 @@ function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.V
 function SelectTrigger({
   className,
   size = "default",
+  variant = "default",
   children,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
   size?: "sm" | "default";
+  /** `outline` gets a hairline border (in toolbars), `inverse` sits on dark overlays. */
+  variant?: "default" | "outline" | "inverse";
 }) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       data-size={size}
+      data-variant={variant}
       className={cn(
-        "flex w-full min-w-0 items-center justify-between gap-1.5 rounded-full border-0 bg-transparent px-4 text-sm whitespace-nowrap text-obsidian shadow-none transition-colors outline-none select-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-gravel data-[size=default]:h-10 data-[size=sm]:h-9 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "flex w-full min-w-0 items-center justify-between gap-1.5 rounded-full border-0 bg-transparent px-4 text-sm whitespace-nowrap text-obsidian shadow-none transition-colors outline-none select-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-gravel data-[size=default]:h-10 data-[size=sm]:h-9 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[variant=outline]:border data-[variant=outline]:border-chalk data-[variant=inverse]:border data-[variant=inverse]:border-eggshell/25 data-[variant=inverse]:bg-obsidian/55 data-[variant=inverse]:text-eggshell data-[variant=inverse]:[&_svg]:text-eggshell",
         className,
       )}
       {...props}

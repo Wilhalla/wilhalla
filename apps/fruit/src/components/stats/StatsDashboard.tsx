@@ -111,7 +111,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
           />
         </section>
 
-        <Separator className="my-10 bg-chalk" />
+        <Separator className="my-10" />
 
         <TopicSeasonHeatmap initialData={stats.topicCalendar} />
 
@@ -136,11 +136,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                   interval="preserveStartEnd"
                 />
                 <YAxis tickLine={false} axisLine={false} width={36} />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent className="border-chalk bg-pure-surface shadow-none" />
-                  }
-                />
+                <ChartTooltip content={<ChartTooltipContent />} />
                 <Area
                   type="monotone"
                   dataKey="posts"
@@ -168,13 +164,11 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
 
           <div className="grid content-start gap-6">
             <MinimalCard>
-              <CardHeader className="px-0 pb-4">
+              <CardHeader>
                 <CardTitle>Consistentie</CardTitle>
-                <CardDescription className="text-gravel">
-                  Waar het archief zijn tempo toont.
-                </CardDescription>
+                <CardDescription>Waar het archief zijn tempo toont.</CardDescription>
               </CardHeader>
-              <CardContent className="grid gap-5 px-0">
+              <CardContent className="grid">
                 <div className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-chalk pt-4">
                   <span className="text-gravel">Langste dagelijkse reeks</span>
                   <span className="font-mono text-lg tabular-nums">
@@ -226,11 +220,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                 <CartesianGrid vertical={false} stroke="var(--color-chalk)" />
                 <XAxis dataKey="label" tickLine={false} axisLine={false} />
                 <YAxis hide />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent className="border-chalk bg-pure-surface shadow-none" />
-                  }
-                />
+                <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar dataKey="posts" fill="var(--color-posts)" radius={[2, 2, 0, 0]}>
                   <LabelList
                     dataKey="posts"
@@ -266,7 +256,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
           </ChartBlock>
         </section>
 
-        <Separator className="my-10 bg-chalk" />
+        <Separator className="my-10" />
 
         <section>
           <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -364,7 +354,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
           />
         </section>
 
-        <Separator className="my-10 bg-chalk" />
+        <Separator className="my-10" />
 
         <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
           <ChartBlock
@@ -387,11 +377,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                   width={150}
                   className="text-xs"
                 />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent className="border-chalk bg-pure-surface shadow-none" />
-                  }
-                />
+                <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar dataKey="posts" fill="var(--color-posts)" radius={[0, 2, 2, 0]}>
                   <LabelList
                     dataKey="posts"
@@ -405,13 +391,13 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
           </ChartBlock>
 
           <MinimalCard>
-            <CardHeader className="px-0 pb-4">
+            <CardHeader>
               <CardTitle>Categoriedetails</CardTitle>
-              <CardDescription className="text-gravel">
+              <CardDescription>
                 Gemiddelde lengte en beelden per primaire categorie.
               </CardDescription>
             </CardHeader>
-            <CardContent className="px-0">
+            <CardContent>
               <div className="grid gap-3">
                 {stats.topics.slice(0, 8).map((topic) => (
                   <div className="border-t border-chalk pt-3" key={topic.id}>
@@ -455,11 +441,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                   width={44}
                   tickFormatter={(value) => formatCompact(Number(value))}
                 />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent className="border-chalk bg-pure-surface shadow-none" />
-                  }
-                />
+                <ChartTooltip content={<ChartTooltipContent />} />
                 <Line
                   dataKey="avgChars"
                   stroke="var(--color-avgChars)"

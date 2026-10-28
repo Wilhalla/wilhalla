@@ -1,9 +1,10 @@
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@wilhalla/ui/components/input-group";
+import { Button } from "@wilhalla/ui/components/button";
 import { PageHeader } from "@wilhalla/ui/components/page-header";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { layout } from "@wilhalla/ui/lib/typography";
 import { useState } from "react";
 import { ArrowRight, ImageIcon, Loader2, Search } from "lucide-react";
-import { Input } from "@wilhalla/ui/components/input";
 import {
   Select,
   SelectContent,
@@ -79,10 +80,12 @@ export default function SearchApp() {
       />
       <div className={cn(layout.container, "pb-20")}>
         <div className="min-w-0 border-b border-chalk py-6">
-          <label className="flex min-h-14 min-w-0 items-center gap-3 bg-transparent">
-            <Search className="size-5 shrink-0 text-gravel" aria-hidden="true" />
-            <Input
-              className="min-w-0 flex-1 border-0 bg-transparent px-0 text-xl shadow-none outline-none placeholder:text-gravel/60 focus-visible:ring-0 md:text-2xl"
+          <InputGroup className="w-full max-w-2xl">
+            <InputGroupAddon>
+              <Search />
+            </InputGroupAddon>
+            <InputGroupInput
+              aria-label="Zoekterm"
               autoFocus
               type="search"
               value={query}
@@ -90,18 +93,15 @@ export default function SearchApp() {
               onKeyDown={(event) => {
                 if (event.key === "Enter") setFullTextEnabled(true);
               }}
-              placeholder="Zoek bv. sterappel, bijen, compost, boskoop…"
+              placeholder="Bijvoorbeeld sterappel, bijen, compost, boskoop"
             />
-          </label>
+          </InputGroup>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <label className="text-sm text-gravel" htmlFor="search-category">
               Categorie
             </label>
             <Select value={category} onValueChange={changeCategory}>
-              <SelectTrigger
-                id="search-category"
-                className="min-w-52 rounded-none border-0 border-b border-chalk bg-transparent px-0 shadow-none"
-              >
+              <SelectTrigger id="search-category" className="min-w-52">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -127,13 +127,9 @@ export default function SearchApp() {
             {query.trim().length >= 2 && (
               <span className="inline-flex flex-wrap items-center gap-3">
                 {!fullTextLoaded && (
-                  <button
-                    className="font-medium text-obsidian underline decoration-chalk underline-offset-4 hover:decoration-obsidian"
-                    type="button"
-                    onClick={() => setFullTextEnabled(true)}
-                  >
+                  <Button variant="link" size="inline" onClick={() => setFullTextEnabled(true)}>
                     {fullTextLoading ? "Volledige tekst laden…" : "Zoek ook in volledige tekst"}
-                  </button>
+                  </Button>
                 )}
                 <span>Gesorteerd op relevantie</span>
               </span>

@@ -1,3 +1,4 @@
+import { ToggleGroup, ToggleGroupItem } from "@wilhalla/ui/components/toggle-group";
 import {
   Tooltip,
   TooltipContent,
@@ -32,38 +33,32 @@ const modes = [
 export default function ArchiveViewToggle({ mode, aggregatedCount, allCount, onChange }: Props) {
   return (
     <TooltipProvider>
-      <div
-        className="inline-flex rounded-full bg-pure-surface p-1 shadow-subtle-7"
-        role="group"
+      <ToggleGroup
+        type="single"
+        value={mode}
         aria-label="Kies archiefweergave"
+        onValueChange={(value) => {
+          if (value === "aggregated" || value === "all") onChange(value);
+        }}
       >
         {modes.map((item) => (
           <Tooltip key={item.value}>
             <TooltipTrigger asChild>
-              <button
-                type="button"
-                className="rounded-full px-4 py-2 text-sm text-gravel transition-colors hover:bg-powder hover:text-obsidian aria-pressed:bg-obsidian aria-pressed:text-eggshell aria-pressed:hover:bg-obsidian aria-pressed:hover:text-eggshell"
-                aria-pressed={mode === item.value}
-                onClick={() => onChange(item.value)}
-              >
-                {item.label}{" "}
-                <span className="font-mono">
+              <ToggleGroupItem value={item.value}>
+                {item.label}
+                <span className="text-gravel tabular-nums">
                   {(item.value === "aggregated" ? aggregatedCount : allCount).toLocaleString(
                     "nl-BE",
                   )}
                 </span>
-              </button>
+              </ToggleGroupItem>
             </TooltipTrigger>
-            <TooltipContent
-              side="bottom"
-              sideOffset={8}
-              className="max-w-72 text-center leading-snug"
-            >
+            <TooltipContent side="bottom" sideOffset={8}>
               {item.description}
             </TooltipContent>
           </Tooltip>
         ))}
-      </div>
+      </ToggleGroup>
     </TooltipProvider>
   );
 }

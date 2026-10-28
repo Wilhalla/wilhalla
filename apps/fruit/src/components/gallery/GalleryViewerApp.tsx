@@ -1,3 +1,4 @@
+import { Button } from "@wilhalla/ui/components/button";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { useMemo, useRef, useState } from "react";
@@ -329,27 +330,22 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
-          <button
-            className="hidden min-h-9 items-center gap-2 rounded-full border border-chalk px-3 text-sm text-obsidian hover:border-slate md:inline-flex"
-            type="button"
-            onClick={goBackToGallery}
-          >
-            <ArrowLeft className="size-4" aria-hidden="true" /> Terug
-          </button>
-          <a
-            className="inline-flex min-h-9 items-center gap-2 rounded-full border border-obsidian bg-obsidian px-3 text-sm font-medium text-eggshell no-underline hover:text-eggshell"
-            href={`/posts/${viewerImage.postSlug}/`}
-          >
-            Lees artikel <ExternalLink className="size-4" aria-hidden="true" />
-          </a>
-          <button
-            className="inline-grid size-9 place-items-center rounded-full border border-chalk text-obsidian hover:border-slate"
-            type="button"
+          <Button variant="outline" size="sm" className="max-md:hidden" onClick={goBackToGallery}>
+            <ArrowLeft /> Terug
+          </Button>
+          <Button asChild size="sm">
+            <a href={`/posts/${viewerImage.postSlug}/`}>
+              Lees het bericht <ExternalLink />
+            </a>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon-sm"
             onClick={goBackToGallery}
             aria-label="Sluit beeldviewer"
           >
-            <X className="size-4" aria-hidden="true" />
-          </button>
+            <X />
+          </Button>
         </div>
       </header>
 

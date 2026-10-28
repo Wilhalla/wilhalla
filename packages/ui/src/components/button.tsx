@@ -18,7 +18,10 @@ const buttonVariants = cva(
         secondary:
           "border border-chalk bg-powder text-obsidian hover:bg-pure-surface aria-expanded:bg-pure-surface",
         ghost: "text-obsidian hover:bg-powder aria-expanded:bg-powder",
-        link: "text-obsidian underline-offset-4 hover:underline",
+        link: "text-obsidian underline decoration-chalk underline-offset-4 hover:decoration-obsidian",
+        /** On photos and dark overlays (slideshow, viewer). */
+        inverse:
+          "border border-eggshell/25 bg-obsidian/55 text-eggshell backdrop-blur hover:bg-obsidian/75 aria-pressed:bg-eggshell/15 disabled:opacity-30",
       },
       size: {
         default: "h-[34px] px-4 has-[>svg]:px-3",
@@ -29,6 +32,8 @@ const buttonVariants = cva(
         "icon-xs": "size-6 [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-8",
         "icon-lg": "size-10",
+        /** An action inside running text, e.g. "toon alles" after a sentence. */
+        inline: "h-auto gap-1 p-0 align-baseline",
       },
     },
     defaultVariants: {
