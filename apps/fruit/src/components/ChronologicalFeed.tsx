@@ -1,4 +1,4 @@
-import { layout } from "@wilhalla/ui/lib/typography";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { archiveAssetUrl } from "../lib/assetUrls";
 import {
@@ -10,11 +10,10 @@ import {
   formatArchiveDate,
 } from "../lib/archiveDateTime";
 import type { PostSummary } from "../lib/postIndex";
+import { postCounts, postListExcerpt, postListTitle } from "../lib/postMeta";
 import { yearPickerCountClass, yearPickerItemClass } from "./yearPickerStyles";
 
 type Props = { posts: PostSummary[]; limit?: number };
-const countPill =
-  "inline-flex min-h-6 items-center rounded-full px-2.5 font-mono text-label leading-none";
 const activeYearScript = `
 (() => {
   const root = document.currentScript?.closest('[data-chronology-feed]')
@@ -138,7 +137,7 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                         ?.count.toLocaleString("nl-BE")}{" "}
                       berichten
                     </p>
-                    <h2 className="m-0 font-heading text-5xl font-normal leading-none tracking-tight text-obsidian md:text-7xl">
+                    <h2 className={cn(typography.display, "leading-none")}>
                       {displayArchiveYear(month.year)}
                     </h2>
                   </header>
@@ -191,11 +190,11 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                             </time>
                             {image && (
                               <div
-                                className="relative aspect-[4/3] overflow-hidden rounded-[2px] bg-powder"
+                                className="relative aspect-4/3 overflow-hidden rounded-lg bg-powder"
                                 aria-hidden="true"
                               >
                                 <img
-                                  className="h-full w-full object-cover saturate-[0.82] transition duration-200 group-hover:scale-[1.01] group-hover:saturate-100"
+                                  className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02] motion-reduce:transition-none"
                                   src={archiveAssetUrl(image)}
                                   alt=""
                                   loading="lazy"
@@ -205,44 +204,13 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                             )}
                           </div>
                           <div className="min-w-0 self-center">
-                            <div className="mb-2.5 flex flex-wrap items-center gap-2 text-xs leading-none tracking-tight text-gravel">
-                              {timeLabel && (
-                                <span title={formatArchiveDate(post)}>{timeLabel}</span>
-                              )}
-                              <span
-                                className="inline-flex flex-wrap gap-1.5"
-                                aria-label={`${post.imageCount} beelden, ${post.reactionCount} reacties${post.seriesPostCount ? `, samengevoegde reeks van ${post.seriesPostCount} berichten` : ""}`}
-                              >
-                                {post.seriesPostCount && (
-                                  <span
-                                    className={`${countPill} bg-obsidian text-eggshell`}
-                                    title={`Samengevoegde reeks: ${post.seriesPostCount} berichten`}
-                                  >
-                                    {post.seriesPostCount} delen
-                                  </span>
-                                )}
-                                <span
-                                  className={`${countPill} bg-powder text-gravel`}
-                                  title="Beelden"
-                                >
-                                  {post.imageCount} beelden
-                                </span>
-                                <span
-                                  className={`${countPill} bg-powder text-gravel`}
-                                  title="Reacties"
-                                >
-                                  {post.reactionCount} reacties
-                                </span>
-                              </span>
-                            </div>
-                            <h4 className="m-0 max-w-4xl break-words text-[22px] font-medium leading-[1.16] tracking-[-0.035em] text-obsidian [overflow-wrap:anywhere] md:text-[30px]">
-                              {post.title}
-                            </h4>
-                            {post.excerpt && (
-                              <p className="mt-3 max-w-3xl break-words text-[15px] leading-7 text-gravel [overflow-wrap:anywhere]">
-                                {post.excerpt}
+                            {(timeLabel || postCounts(post)) && (
+                              <p className="m-0 mb-1.5 font-sans text-body leading-body text-gravel">
+                                {[timeLabel, postCounts(post)].filter(Boolean).join(" · ")}
                               </p>
                             )}
+                            <h4 className={postListTitle}>{post.title}</h4>
+                            {post.excerpt && <p className={postListExcerpt}>{post.excerpt}</p>}
                           </div>
                         </a>
                       </article>

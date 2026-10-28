@@ -1,5 +1,4 @@
-import { typography } from "@wilhalla/ui/lib/typography";
-import { cn } from "@wilhalla/ui/lib/utils";
+import { PageHeader } from "@wilhalla/ui/components/page-header";
 import { RotateCcw, Search } from "lucide-react";
 import { Input } from "@wilhalla/ui/components/input";
 import {
@@ -39,26 +38,26 @@ export function GalleryHeader({
   onSortNewestChange,
 }: GalleryHeaderProps) {
   return (
-    <header className="grid gap-6 border-b border-chalk pb-7 lg:grid-cols-[minmax(0,1fr)_auto]">
-      <div className="min-w-0">
-        <h1 className={cn(typography.display, "max-w-3xl break-words")}>Beeldarchief</h1>
-        <p className="m-0 mt-3 max-w-2xl text-sm leading-6 text-gravel">
-          {filteredCount.toLocaleString("nl-BE")} foto’s · {peopleCount} met personen ·{" "}
-          {plantCount.toLocaleString("nl-BE")} met planten
-        </p>
-      </div>
-      <label className="flex items-center gap-2 self-end text-sm text-gravel">
-        Sorteer
-        <select
-          className="min-h-9 rounded-full border border-chalk bg-transparent px-3 text-sm text-obsidian outline-none"
+    <PageHeader
+      size="page"
+      title="Beeldarchief"
+      intro="Alle foto's uit het blog, elk met een link naar het bericht waar ze bij horen. Beschrijvingen en filters zijn automatisch gemaakt."
+      meta={`${filteredCount.toLocaleString("nl-BE")} foto's · ${peopleCount} met personen · ${plantCount.toLocaleString("nl-BE")} met planten`}
+      actions={
+        <Select
           value={sortNewest ? "new" : "old"}
-          onChange={(event) => onSortNewestChange(event.target.value === "new")}
+          onValueChange={(value) => onSortNewestChange(value === "new")}
         >
-          <option value="new">Nieuw → Oud</option>
-          <option value="old">Oud → Nieuw</option>
-        </select>
-      </label>
-    </header>
+          <SelectTrigger className="w-44" aria-label="Sorteer">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent align="end">
+            <SelectItem value="new">Nieuwste eerst</SelectItem>
+            <SelectItem value="old">Oudste eerst</SelectItem>
+          </SelectContent>
+        </Select>
+      }
+    />
   );
 }
 

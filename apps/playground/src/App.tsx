@@ -11,11 +11,13 @@ import { inputGroupStory, inputStory, selectStory, switchStory } from "./stories
 import { commandStory, overlayStory } from "./stories/overlays";
 import { tokensStory } from "./stories/tokens";
 import { typographyStory } from "./stories/typography";
+import { pageHeaderPageStory, proseStory, sectionStory, toggleStory } from "./stories/reading";
 
 // Add a story here when a component joins @wilhalla/ui.
 const stories: Story[] = [
   tokensStory,
   typographyStory,
+  proseStory,
   buttonStory,
   badgeStory,
   cardStory,
@@ -29,6 +31,9 @@ const stories: Story[] = [
   chartStory,
   feedbackStory,
   pageHeaderStory,
+  pageHeaderPageStory,
+  sectionStory,
+  toggleStory,
   breadcrumbStory,
   teaserStory,
   dividerStory,
