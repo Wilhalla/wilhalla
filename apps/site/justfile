@@ -12,7 +12,7 @@ setup:
 
 # Start the dev server on http://localhost:3000 (all interfaces)
 dev: setup
-    jp dev --port 3000 -- pnpm exec vite dev --host 0.0.0.0 --port 3000
+    jp dev --port 3000 -- pnpm --dir "{{justfile_directory()}}" exec vite dev --host 0.0.0.0 --port 3000
 
 # Build the SSR bundle into .output/
 build:

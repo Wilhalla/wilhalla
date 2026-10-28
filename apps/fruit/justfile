@@ -13,7 +13,7 @@ setup:
 
 # Start the dev server on http://127.0.0.1:4321
 dev: setup
-    jp dev --port 4321 -- pnpm exec astro dev --host 127.0.0.1 --port 4321
+    jp dev --port 4321 -- pnpm --dir "{{justfile_directory()}}" exec astro dev --host 127.0.0.1 --port 4321
 
 # Build the static site into dist/
 build:
