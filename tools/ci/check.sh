@@ -35,6 +35,7 @@ esac
 pnpm exec oxfmt --check
 # Lint, including @shadcn/lint. The warning cap in package.json#scripts.lint only goes down.
 pnpm run lint
-for script in typecheck test build; do
+# build first: it generates sources that typecheck needs (content-collections in apps/site).
+for script in build typecheck test; do
   pnpm "${filter[@]}" --workspace-concurrency=1 run --if-present "$script"
 done
