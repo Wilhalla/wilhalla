@@ -130,7 +130,7 @@ const datasetDefinitions: DatasetDefinition[] = [
   },
   {
     id: "topics",
-    title: "Atlas categorieën",
+    title: "Onderwerpen",
     file: "topics.json",
     url: generated("topics.json"),
     preferredColumns: [
@@ -516,7 +516,7 @@ export default function SemanticDataTables() {
       <SectionHeader
         id="datasets-title"
         title="Datasets"
-        description="De bestanden achter de atlas, het beeldarchief en de zoekfunctie. Open er een om de ruwe rijen te bekijken of te downloaden."
+        description="De bestanden achter de onderwerpen, het beeldarchief en het zoeken."
       />
       <div className="min-w-0 border-t border-chalk">
         {datasetDefinitions.map((definition) => (

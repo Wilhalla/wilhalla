@@ -81,7 +81,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
       <PageHeader
         size="page"
         title="Statistieken"
-        intro="Hoe het blog groeide: wanneer er geschreven werd, waarover, en hoeveel beelden en reacties erbij hoorden."
+        intro="Wanneer en hoeveel er geschreven werd, met hoeveel foto's en reacties."
         meta={`${formatDate(stats.totals.firstDate)} tot ${formatDate(stats.totals.lastDate)} · ${formatNumber(stats.totals.activeDays)} actieve dagen · mediaan ${formatNumber(stats.totals.medianChars)} tekens per bericht`}
       />
       <div className={cn(layout.container, "pt-10 pb-20")}>
@@ -90,25 +90,25 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
             icon={CalendarDays}
             label="Berichten"
             value={formatNumber(stats.totals.posts)}
-            detail={`${formatNumber(stats.totals.activeYears)} jaargangen met gemiddeld ${stats.totals.avgDaysBetweenActiveDays} dagen tussen actieve blogdagen.`}
+            detail={`${formatNumber(stats.totals.activeYears)} jaar, gemiddeld om de ${stats.totals.avgDaysBetweenActiveDays} dagen een bericht.`}
           />
           <Kpi
             icon={Image}
             label="Beelden"
             value={formatNumber(stats.totals.images)}
-            detail={`${pct(stats.totals.illustratedPosts, stats.totals.posts)} van de berichten bevat minstens één afbeelding.`}
+            detail={`${pct(stats.totals.illustratedPosts, stats.totals.posts)} van de berichten heeft foto's.`}
           />
           <Kpi
             icon={MessageCircle}
             label="Reacties"
             value={formatNumber(stats.totals.reactions)}
-            detail={`${pct(stats.totals.reactedPosts, stats.totals.posts)} kreeg zichtbaar gesprek onderaan het bericht.`}
+            detail={`${pct(stats.totals.reactedPosts, stats.totals.posts)} van de berichten kreeg een reactie.`}
           />
           <Kpi
             icon={Ruler}
-            label="Tekstvolume"
-            value={formatCompact(stats.totals.chars)}
-            detail={`P95-lengte: ${formatNumber(stats.totals.p95Chars)} tekens. Samen goed voor ${formatCompact(stats.totals.words)} woorden.`}
+            label="Woorden"
+            value={formatCompact(stats.totals.words)}
+            detail={`${formatCompact(stats.totals.chars)} tekens. De langste berichten tellen meer dan ${formatNumber(stats.totals.p95Chars)} tekens.`}
           />
         </section>
 
@@ -117,10 +117,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
         <TopicSeasonHeatmap initialData={stats.topicCalendar} />
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[1.45fr_0.95fr]">
-          <ChartBlock
-            title="Publicatieritme"
-            description="Berichten vormen de hoofdcurve; beelden en reacties tonen wanneer het archief visueler of conversatiever werd."
-          >
+          <ChartBlock title="Per jaar" description="Berichten, foto's en reacties per jaar.">
             <ChartContainer config={yearChartConfig} className="h-[360px] w-full aspect-auto">
               <AreaChart data={stats.byYear} margin={{ top: 12, right: 8, left: 0, bottom: 0 }}>
                 <defs>
@@ -166,12 +163,12 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
           <div className="grid content-start gap-6">
             <MinimalCard>
               <CardHeader>
-                <CardTitle>Consistentie</CardTitle>
-                <CardDescription>Waar het archief zijn tempo toont.</CardDescription>
+                <CardTitle>Records</CardTitle>
+                <CardDescription>Langste reeksen en drukste jaren.</CardDescription>
               </CardHeader>
               <CardContent className="grid">
                 <div className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-chalk pt-4">
-                  <span className="text-gravel">Langste dagelijkse reeks</span>
+                  <span className="text-gravel">Langst elke dag geschreven</span>
                   <span className="font-sans text-body-lg font-medium tabular-nums">
                     {stats.consistency.longestStreak.days} dagen
                   </span>
@@ -181,7 +178,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                   </span>
                 </div>
                 <div className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-chalk pt-4">
-                  <span className="text-gravel">Langste stilte</span>
+                  <span className="text-gravel">Langste pauze</span>
                   <span className="font-sans text-body-lg font-medium tabular-nums">
                     {stats.consistency.longestGap.days} dagen
                   </span>
@@ -201,7 +198,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                   </span>
                 </div>
                 <div className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-chalk pt-4">
-                  <span className="text-gravel">Meest visuele jaar</span>
+                  <span className="text-gravel">Jaar met de meeste foto's</span>
                   <span className="font-sans text-body-lg font-medium tabular-nums">
                     {mostVisualYear?.year}
                   </span>
@@ -216,10 +213,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
         </section>
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <ChartBlock
-            title="Seizoenshartslag"
-            description="Alle jaren samen opgeteld. De lente en zomer domineren de tuinagenda, maar winterposts blijven aanwezig."
-          >
+          <ChartBlock title="Per maand" description="Berichten per maand, alle jaren samen.">
             <ChartContainer config={postChartConfig} className="h-[300px] w-full aspect-auto">
               <BarChart data={stats.byMonth} margin={{ top: 24, right: 8, left: 0, bottom: 0 }}>
                 <CartesianGrid vertical={false} stroke="var(--color-chalk)" />
@@ -239,8 +233,8 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
           </ChartBlock>
 
           <ChartBlock
-            title="Drukste blogdagen"
-            description="Dagen waarop het archief in batches werd aangevuld of meerdere observaties tegelijk online kwamen."
+            title="Drukste dagen"
+            description="Dagen waarop veel berichten tegelijk verschenen."
           >
             <div className="grid gap-1">
               {stats.consistency.busiestDays.map((day) => (
@@ -265,26 +259,17 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
 
         <section>
           <SectionHeader
-            title="Lengte, beeld en gesprek"
-            description="Distributies maken zichtbaar of het archief bestaat uit korte notities, fotoreeksen of lange pomologische essays."
+            title="Per bericht"
+            description="Hoe lang de berichten zijn, en hoeveel foto's en reacties ze hebben."
           />
           <div className="grid gap-6 lg:grid-cols-3">
-            <ChartBlock
-              title="Tekens per bericht"
-              description="Van korte observaties tot lange naslagstukken."
-            >
+            <ChartBlock title="Tekens per bericht" description="Aantal tekens per bericht.">
               <DistributionChart data={stats.distributions.length} />
             </ChartBlock>
-            <ChartBlock
-              title="Beelden per bericht"
-              description="Hoe vaak een post puur tekstueel of uitgesproken visueel is."
-            >
+            <ChartBlock title="Foto's per bericht" description="Aantal foto's per bericht.">
               <DistributionChart data={stats.distributions.images} />
             </ChartBlock>
-            <ChartBlock
-              title="Reacties per bericht"
-              description="De meeste posts zijn stil, enkele worden gesprekspunten."
-            >
+            <ChartBlock title="Reacties per bericht" description="Aantal reacties per bericht.">
               <DistributionChart data={stats.distributions.reactions} />
             </ChartBlock>
           </div>
@@ -292,32 +277,29 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
 
         <section className="mt-10">
           <SectionHeader
-            title="Tempo, beeld, reactie"
-            description="Meer ratio’s dan ruwe volumes: jaren met veel posts per actieve dag, visuele jaargangen en categorieën die relatief veel reactie kregen."
+            title="Gemiddelden"
+            description="Gemiddelden per jaar, onderwerp en weekdag."
           />
           <div className="grid gap-6 lg:grid-cols-2">
             <ChartBlock
-              title="Hoogste blogtempo per jaar"
-              description="Berichten gedeeld door actieve blogdagen. Dit toont batch- of dagritme, niet alleen jaartotaal."
+              title="Berichten per schrijfdag"
+              description="Gemiddeld aantal berichten op een dag waarop er geschreven werd."
             >
               <ValueBarChart data={tempoYears} height={280} labelWidth={48} />
             </ChartBlock>
             <ChartBlock
-              title="Meest visuele jaren"
-              description="Gemiddeld aantal beelden per bericht. Jaren met excursies en fotoreeksen springen eruit."
+              title="Foto's per bericht, per jaar"
+              description="Gemiddeld aantal foto's per bericht."
             >
               <ValueBarChart data={visualYears} height={280} labelWidth={48} />
             </ChartBlock>
             <ChartBlock
-              title="Reactiedichte categorieën"
+              title="Reacties per onderwerp"
               description="Reacties per 100 berichten, volgens de primaire categorie van elk bericht."
             >
               <ValueBarChart data={discussionTopics} height={320} labelWidth={150} />
             </ChartBlock>
-            <ChartBlock
-              title="Weekdagvolume"
-              description="Aantal publicaties per weekdag, inclusief posts zonder specifiek uur."
-            >
+            <ChartBlock title="Per weekdag" description="Berichten per dag van de week.">
               <ValueBarChart
                 data={weekdayTotals}
                 height={220}
@@ -331,19 +313,19 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
         <section className="mt-10 grid gap-x-8 gap-y-10 lg:grid-cols-3">
           <RankingTable
             title="Langste berichten"
-            description="Geordend op aantal auteurstekens, zonder reacties mee te tellen."
+            description="Aantal tekens, zonder de reacties."
             posts={stats.top.longest}
             metric="charCount"
           />
           <RankingTable
-            title="Meeste beelden"
-            description="Posts waar het archief het meest fotografisch wordt."
+            title="Meeste foto's"
+            description="De berichten met de meeste foto's."
             posts={stats.top.imageRich}
             metric="imageCount"
           />
           <RankingTable
             title="Meeste reacties"
-            description="Berichten die het vaakst tot antwoord uitnodigden."
+            description="De berichten met de meeste reacties."
             posts={stats.top.mostDiscussed}
             metric="reactionCount"
           />
@@ -353,8 +335,8 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
 
         <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
           <ChartBlock
-            title="Categorieën als zwaartepunten"
-            description="Elk bericht telt hier in zijn primaire categorie. Balklengte is volume; grijze markering toont beeldintensiteit."
+            title="Berichten per onderwerp"
+            description="Elk bericht telt bij zijn belangrijkste onderwerp."
           >
             <ChartContainer config={topicChartConfig} className="h-[520px] w-full aspect-auto">
               <BarChart
@@ -417,10 +399,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
         </section>
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <ChartBlock
-            title="Tekstdichtheid per jaar"
-            description="Gemiddelde tekens per bericht. Pieken wijzen naar jaren met meer essays of uitgebreide reisverslagen."
-          >
+          <ChartBlock title="Lengte per jaar" description="Gemiddeld aantal tekens per bericht.">
             <ChartContainer config={densityChartConfig} className="h-[300px] w-full aspect-auto">
               <LineChart data={stats.byYear} margin={{ top: 12, right: 8, left: 0, bottom: 0 }}>
                 <CartesianGrid vertical={false} stroke="var(--color-chalk)" />
@@ -448,8 +427,8 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
           </ChartBlock>
 
           <ChartBlock
-            title="Weekritme per uur"
-            description="Een heatmap van publicatiemomenten: donkerder betekent meer berichten op die combinatie van weekdag en uur. Posts op 00:00 worden genegeerd."
+            title="Per weekdag en uur"
+            description="Hoe donkerder, hoe meer berichten op dat uur. Berichten zonder uur tellen niet mee."
           >
             <WeekHeatmap data={stats.weekdayHour} />
           </ChartBlock>
