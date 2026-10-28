@@ -1,6 +1,7 @@
 import { PageHeader } from "@wilhalla/ui/components/page-header";
+import { Section, SectionHeader } from "@wilhalla/ui/components/section";
 import { cn } from "@wilhalla/ui/lib/utils";
-import { layout, typography } from "@wilhalla/ui/lib/typography";
+import { typography } from "@wilhalla/ui/lib/typography";
 import { useEffect, useMemo, useState } from "react";
 import { Download } from "lucide-react";
 
@@ -98,45 +99,44 @@ export default function SemanticPipelineDiagram() {
         title={<span id="semantic-setup-title">Data</span>}
         intro="Hoe het archief gemaakt is. Vervolgberichten vormen samen één verhaal; foto's krijgen een beschrijving en blijven bij hun bericht; tags worden geteld en samengevoegd tot filters; tekstembeddings bepalen verwante verhalen en de plaats in de atlas."
       />
-      <div className={cn(layout.container, "min-w-0")}>
-        <div className="min-w-0 pt-10 pb-10">
-          <div className="max-w-3xl">
-            <div className="rounded-2xl bg-pure-surface p-5 shadow-subtle-2">
-              <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-                <div>
-                  <h2 className={typography.subsection}>Originele blogmirror</h2>
-                  <p className={cn(typography.small, "mt-2 mb-0 text-gravel")}>
-                    Download de volledige mirror-zip van de oorspronkelijke Seniorennet-blogs.
-                    Bestandsgrootte:{" "}
-                    <strong className="font-medium text-obsidian">{mirrorArchiveFileSize}</strong>.
-                  </p>
-                </div>
-                <Button asChild size="lg" className="justify-self-start sm:justify-self-end">
-                  <a
-                    href={mirrorArchiveDownloadUrl}
-                    download="seniorennet-fruit-archive.zip"
-                    aria-label={`Download originele blogmirror (${mirrorArchiveFileSize})`}
-                  >
-                    <Download className="size-4" aria-hidden="true" />
-                    <span>Download zip</span>
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </div>
+      <Section aria-labelledby="pipeline-title">
+        <SectionHeader
+          id="pipeline-title"
+          title="Werkwijze"
+          description="Van de oorspronkelijke blogpagina's naar de atlas, het beeldarchief en de zoekfunctie."
+        />
+        <div className="min-w-0 overflow-x-auto rounded-2xl bg-pure-surface p-6 shadow-subtle-2">
           {svg ? (
             <div
-              className="mt-8 min-w-0 overflow-x-auto pb-2"
+              className="min-w-0"
               dangerouslySetInnerHTML={{ __html: svg }}
-              aria-label="Mermaid diagram van de semantische preprocessing"
+              aria-label="Diagram van de verwerking"
             />
           ) : error ? (
-            <p className="mt-8 border-l border-chalk pl-4 text-gravel">{error}</p>
+            <p className={cn(typography.small, "m-0 text-gravel")}>{error}</p>
           ) : (
-            <div className="mt-8 min-h-64" aria-hidden="true" />
+            <div className="min-h-64" aria-hidden="true" />
           )}
         </div>
-      </div>
+      </Section>
+      <Section aria-labelledby="sources-title">
+        <SectionHeader
+          id="sources-title"
+          title="Bron"
+          description="De volledige kopie van de oorspronkelijke Seniorennet-blogs waaruit dit archief is opgebouwd."
+          action={
+            <Button asChild>
+              <a
+                href={mirrorArchiveDownloadUrl}
+                download="seniorennet-fruit-archive.zip"
+                aria-label={`Download originele blogmirror (${mirrorArchiveFileSize})`}
+              >
+                <Download /> Download zip ({mirrorArchiveFileSize})
+              </a>
+            </Button>
+          }
+        />
+      </Section>
     </section>
   );
 }

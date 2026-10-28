@@ -1,10 +1,11 @@
+import { postListExcerpt, postListTitle } from "../../lib/postMeta";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@wilhalla/ui/components/input-group";
 import { Button } from "@wilhalla/ui/components/button";
 import { PageHeader } from "@wilhalla/ui/components/page-header";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { layout } from "@wilhalla/ui/lib/typography";
 import { useState } from "react";
-import { ArrowRight, ImageIcon, Loader2, Search } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -41,9 +42,15 @@ function highlight(text: string, terms: string[] = []) {
     .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   if (!escaped.length) return text;
   const regex = new RegExp(`(${escaped.join("|")})`, "ig");
-  return text
-    .split(regex)
-    .map((part, index) => (regex.test(part) ? <mark key={index}>{part}</mark> : part));
+  return text.split(regex).map((part, index) =>
+    regex.test(part) ? (
+      <mark key={index} className="rounded-sm bg-ember/15 px-0.5 text-inherit">
+        {part}
+      </mark>
+    ) : (
+      part
+    ),
+  );
 }
 
 export default function SearchApp() {
@@ -139,7 +146,9 @@ export default function SearchApp() {
 
         <div className="grid" aria-live="polite">
           {query.trim().length >= 2 && !loading && !categoryError && results.length === 0 && (
-            <p className="m-0 border-b border-chalk py-10 text-gravel">Geen resultaten.</p>
+            <p className="m-0 border-b border-chalk py-10 font-sans text-body text-gravel">
+              Geen resultaten.
+            </p>
           )}
           {results.map((result) => {
             const terms = result.terms ?? [];
@@ -147,43 +156,22 @@ export default function SearchApp() {
               ? snippet(result.block, terms)
               : "Titelmatch. Laad de volledige tekstindex om in berichtinhoud en fragmenten te zoeken.";
             return (
-              <article
-                className="grid min-w-0 items-start gap-5 border-b border-chalk py-7 md:grid-cols-[minmax(0,1fr)_9rem]"
-                key={result.id}
-              >
-                <div className="min-w-0">
-                  <p className="mb-2 flex min-w-0 flex-wrap items-center gap-2 text-xs leading-snug tracking-tight text-gravel">
-                    {formatArchiveDate(result)}
-                    {typeof result.blockIndex === "number"
-                      ? ` · blok ${result.blockIndex + 1}`
-                      : " · titelindex"}
-                    {typeof result.score === "number" ? ` · score ${Math.round(result.score)}` : ""}
-                  </p>
-                  <h2 className="m-0 break-words font-heading text-3xl font-normal leading-tight tracking-tight text-obsidian [overflow-wrap:anywhere] md:text-4xl">
-                    <a className="text-inherit no-underline hover:underline" href={result.url}>
-                      {highlight(result.title, terms)}
-                    </a>
-                  </h2>
-                  <p className="my-3 max-w-5xl break-words text-gravel [overflow-wrap:anywhere]">
-                    {highlight(text, terms)}
-                  </p>
-                  <p className="m-0 flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gravel">
-                    <span className="inline-flex shrink-0 items-center gap-1.5">
-                      <ImageIcon className="size-3.5" aria-hidden="true" />
-                      {result.imageCount} beelden
-                    </span>
-                    {terms.length > 0 && (
-                      <span className="min-w-0 break-words [overflow-wrap:anywhere]">
-                        {terms.slice(0, 5).join(", ")}
-                      </span>
-                    )}
-                  </p>
-                </div>
+              <article key={result.id} className="border-b border-chalk">
                 <a
-                  className="inline-flex items-center gap-2 justify-self-start text-sm font-medium text-obsidian no-underline hover:underline md:justify-self-end"
+                  className="group block py-5 text-inherit no-underline transition-colors duration-150 hover:bg-powder/60 md:-mx-3 md:rounded-lg md:px-3"
                   href={result.url}
                 >
-                  Lees bericht <ArrowRight className="size-4" />
+                  <p className="m-0 mb-1.5 font-sans text-body leading-body text-gravel">
+                    {[
+                      formatArchiveDate(result),
+                      result.imageCount ? `${result.imageCount} beelden` : null,
+                      typeof result.blockIndex !== "number" ? "gevonden in de titel" : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                  <h2 className={postListTitle}>{highlight(result.title, terms)}</h2>
+                  {result.block && <p className={postListExcerpt}>{highlight(text, terms)}</p>}
                 </a>
               </article>
             );

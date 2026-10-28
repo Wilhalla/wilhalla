@@ -1,4 +1,4 @@
-import { Button } from "@wilhalla/ui/components/button";
+import { Button, buttonVariants } from "@wilhalla/ui/components/button";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { useMemo, useRef, useState } from "react";
@@ -271,10 +271,7 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
     return (
       <main className={cn(layout.container, "py-16 text-obsidian")}>
         <h1 className={typography.display}>Geen beeld gekozen</h1>
-        <a
-          className="mt-6 inline-flex min-h-10 items-center rounded-full border border-obsidian px-4 text-sm font-medium no-underline"
-          href="/gallery/"
-        >
+        <a className={cn(buttonVariants({ variant: "outline" }), "mt-6")} href="/gallery/">
           Naar het beeldarchief
         </a>
       </main>
@@ -300,10 +297,7 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
             ? "We zoeken de foto in het beeldarchief."
             : "Deze link verwijst naar een beeld dat niet in de index staat."}
         </p>
-        <a
-          className="mt-6 inline-flex min-h-10 items-center rounded-full border border-obsidian px-4 text-sm font-medium no-underline"
-          href="/gallery/"
-        >
+        <a className={cn(buttonVariants({ variant: "outline" }), "mt-6")} href="/gallery/">
           Naar het beeldarchief
         </a>
       </main>

@@ -1,6 +1,7 @@
+import { SectionHeader } from "@wilhalla/ui/components/section";
 import { PageHeader } from "@wilhalla/ui/components/page-header";
 import { cn } from "@wilhalla/ui/lib/utils";
-import { layout, typography } from "@wilhalla/ui/lib/typography";
+import { layout } from "@wilhalla/ui/lib/typography";
 import {
   Area,
   AreaChart,
@@ -171,7 +172,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
               <CardContent className="grid">
                 <div className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-chalk pt-4">
                   <span className="text-gravel">Langste dagelijkse reeks</span>
-                  <span className="font-mono text-lg tabular-nums">
+                  <span className="font-sans text-body-lg font-medium tabular-nums">
                     {stats.consistency.longestStreak.days} dagen
                   </span>
                   <span className="col-span-2 text-xs text-gravel">
@@ -181,7 +182,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                 </div>
                 <div className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-chalk pt-4">
                   <span className="text-gravel">Langste stilte</span>
-                  <span className="font-mono text-lg tabular-nums">
+                  <span className="font-sans text-body-lg font-medium tabular-nums">
                     {stats.consistency.longestGap.days} dagen
                   </span>
                   <span className="col-span-2 text-xs text-gravel">
@@ -191,7 +192,9 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                 </div>
                 <div className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-chalk pt-4">
                   <span className="text-gravel">Drukste jaar</span>
-                  <span className="font-mono text-lg tabular-nums">{mostActiveYear?.year}</span>
+                  <span className="font-sans text-body-lg font-medium tabular-nums">
+                    {mostActiveYear?.year}
+                  </span>
                   <span className="col-span-2 text-xs text-gravel">
                     {formatNumber(mostActiveYear?.posts ?? 0)} berichten ·{" "}
                     {formatNumber(mostActiveYear?.activeDays ?? 0)} actieve dagen
@@ -199,7 +202,9 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                 </div>
                 <div className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-chalk pt-4">
                   <span className="text-gravel">Meest visuele jaar</span>
-                  <span className="font-mono text-lg tabular-nums">{mostVisualYear?.year}</span>
+                  <span className="font-sans text-body-lg font-medium tabular-nums">
+                    {mostVisualYear?.year}
+                  </span>
                   <span className="col-span-2 text-xs text-gravel">
                     {formatNumber(mostVisualYear?.images ?? 0)} beelden in{" "}
                     {formatNumber(mostVisualYear?.posts ?? 0)} berichten
@@ -249,7 +254,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                       {formatNumber(day.images)} beelden · {formatNumber(day.reactions)} reacties
                     </div>
                   </div>
-                  <div className="font-mono text-xl tabular-nums">{day.posts}</div>
+                  <div className="font-sans text-heading-sm tabular-nums">{day.posts}</div>
                 </div>
               ))}
             </div>
@@ -259,15 +264,10 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
         <Separator className="my-10" />
 
         <section>
-          <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-            <div>
-              <h2 className={typography.section}>Lengte, beeld en gesprek.</h2>
-            </div>
-            <p className="max-w-xl text-sm leading-6 text-gravel">
-              Distributies maken zichtbaar of het archief bestaat uit korte notities, fotoreeksen of
-              lange pomologische essays.
-            </p>
-          </div>
+          <SectionHeader
+            title="Lengte, beeld en gesprek"
+            description="Distributies maken zichtbaar of het archief bestaat uit korte notities, fotoreeksen of lange pomologische essays."
+          />
           <div className="grid gap-6 lg:grid-cols-3">
             <ChartBlock
               title="Tekens per bericht"
@@ -291,15 +291,10 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
         </section>
 
         <section className="mt-10">
-          <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-            <div>
-              <h2 className={typography.section}>Tempo, beeld, reactie.</h2>
-            </div>
-            <p className="max-w-xl text-sm leading-6 text-gravel">
-              Meer ratio’s dan ruwe volumes: jaren met veel posts per actieve dag, visuele
-              jaargangen en categorieën die relatief veel reactie kregen.
-            </p>
-          </div>
+          <SectionHeader
+            title="Tempo, beeld, reactie"
+            description="Meer ratio’s dan ruwe volumes: jaren met veel posts per actieve dag, visuele jaargangen en categorieën die relatief veel reactie kregen."
+          />
           <div className="grid gap-6 lg:grid-cols-2">
             <ChartBlock
               title="Hoogste blogtempo per jaar"
@@ -403,7 +398,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                   <div className="border-t border-chalk pt-3" key={topic.id}>
                     <div className="flex items-baseline justify-between gap-3">
                       <span className="font-medium">{topic.label}</span>
-                      <span className="font-mono text-sm tabular-nums">
+                      <span className="font-sans text-body tabular-nums">
                         {formatNumber(topic.posts)}
                       </span>
                     </div>
