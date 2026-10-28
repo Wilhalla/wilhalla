@@ -1,22 +1,36 @@
-# Agent Instructions
+# Wilhalla website (`apps/site`)
 
-This is a regular single-checkout repository. Work directly in the repo root (`/home/jp/Code/wilhalla`).
+Public site for www.wilhalla.be: React, TanStack Start (SSR through Nitro), Vite, Tailwind CSS.
+The root `AGENTS.md` applies; this file only adds what is specific to the site.
 
-- Do **not** create or use managed worktrees under `instances/` for normal work.
-- Keep generated/dependency directories (`node_modules/`, `dist/`, `.roam/`) out of git.
-- For risky repository-layout changes, make an out-of-tree backup first.
-- Run `pnpm run build` before landing code changes when practical.
+## Commands
 
-## Common commands
+Run from `apps/site` (or `just site/<recipe>` from the root):
 
 ```bash
-pnpm install
-pnpm run dev
-pnpm run build
-pnpm run test
-just sync-map-overlays
+just dev        # http://localhost:3000
+just check      # typecheck, tests and build, like CI
+just build      # SSR bundle in .output/
 ```
 
-## Commit messages
+## Content and the CMS
 
-Use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) for every commit: `type(scope): summary`, with the scope optional. Use `feat` for features, `fix` for bug fixes, and `!` or a `BREAKING CHANGE:` footer for breaking changes. Other descriptive types such as `docs`, `chore`, and `content` are allowed. Run `just install` in a fresh checkout to enable the tracked `commit-msg` hook. Sveltia CMS writes commits through GitHub; keep its templates in `public/admin/config.yml` conventional as well.
+Page content lives in `src/content/` (Markdown with front matter, `gallery.json`) and is compiled
+by content-collections. Editors change it through Sveltia CMS at `/admin`, which commits straight
+to `main` of `Wilhalla/wilhalla` through the GitHub API. Its config, `public/admin/config.yml`,
+therefore uses paths relative to the **repository root** (`apps/site/src/content/…`,
+`/apps/site/public/gallery`); `src/modules/cms-config.test.ts` fails when a path stops existing.
+When you move or rename a content file, update the config in the same commit.
+
+- CMS commit messages are configured there too; keep them Conventional (`content(cms): …`).
+- The GitHub OAuth handshake runs in this app (`src/routes/api/cms-auth`,
+  `src/modules/sveltia-github-oauth.ts`) and needs `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
+  (and optionally `ALLOWED_DOMAINS`) in the Vercel project.
+
+## Agent skills
+
+- Issues and PRDs: GitHub Issues of `Wilhalla/wilhalla`, see `docs/agents/issue-tracker.md`.
+  Issues opened before the monorepo are still in `Wilhalla/wilhalla-site`.
+- Triage labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`
+  (`docs/agents/triage-labels.md`).
+- Domain docs: `CONTEXT.md` and `docs/adr/` in this directory (`docs/agents/domain.md`).

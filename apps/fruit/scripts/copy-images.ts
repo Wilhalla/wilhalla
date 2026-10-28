@@ -51,15 +51,15 @@ function copyTo(source: string, target: string) {
 }
 
 function thumbnailPath(relative: string) {
-  return join(thumbRoot, relative).replace(/\.[^.\/]+$/, '.webp')
+  return join(thumbRoot, relative).replace(/\.[^./]+$/, '.webp')
 }
 
 function smallThumbnailPath(relative: string) {
-  return join(smallThumbRoot, relative).replace(/\.[^.\/]+$/, '.webp')
+  return join(smallThumbRoot, relative).replace(/\.[^./]+$/, '.webp')
 }
 
 function tinyThumbnailPath(relative: string) {
-  return join(tinyThumbRoot, relative).replace(/\.[^.\/]+$/, '.webp')
+  return join(tinyThumbRoot, relative).replace(/\.[^./]+$/, '.webp')
 }
 
 async function createThumbnail(source: string, target: string, width: number) {

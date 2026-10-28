@@ -1,0 +1,35 @@
+# One job: install once, then format check, lint, and typecheck/test/build of the apps a change
+# touches (tools/ci/check.sh --affected; root config changes check everything).
+# Deployments are not done here: Vercel builds each app from its own root directory.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      # pnpm version from package.json#packageManager; Node from package.json#devEngines.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: tools/ci/check.sh --affected
+        env:
+          CI_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}

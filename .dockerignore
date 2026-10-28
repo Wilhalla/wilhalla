@@ -1,0 +1,14 @@
+# Images build with the repository root as context (apps/<app>/Dockerfile).
+**/node_modules
+**/dist
+**/.output
+**/.astro
+**/.content-collections
+**/.venv
+**/ml-work
+.git
+.worktrees
+**/.env
+**/.env.*
+!**/.env.example
+**/*.log

@@ -1,0 +1,29 @@
+# Git hooks for the whole monorepo (https://prek.j178.dev): `just setup` installs them.
+minimum_prek_version = "0.4.5"
+default_install_hook_types = ["pre-commit", "commit-msg"]
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "gitleaks"
+name = "Secret scan (gitleaks)"
+language = "system"
+entry = "gitleaks git --pre-commit --staged --redact --no-banner"
+stages = ["pre-commit"]
+pass_filenames = false
+
+[[repos.hooks]]
+id = "format"
+name = "Format (oxfmt)"
+language = "system"
+entry = "pnpm exec oxfmt"
+types_or = ["ts", "tsx", "javascript", "jsx", "css"]
+stages = ["pre-commit"]
+
+[[repos.hooks]]
+id = "conventional-commit"
+name = "Conventional Commits subject"
+language = "system"
+entry = "tools/git/commit-msg.sh"
+stages = ["commit-msg"]

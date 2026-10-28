@@ -1,29 +1,37 @@
-set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
+# Wilhalla website (TanStack Start). Run from apps/site; `just site/<recipe>` works from the repo root.
 
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+[private]
 default:
     @just --list
 
-install:
-    pnpm install
-    git config --local core.hooksPath .githooks
+# Install workspace dependencies (idempotent)
+setup:
+    cd ../.. && pnpm install --frozen-lockfile
 
-dev:
-    pnpm run dev -- --host 0.0.0.0
+# Start the dev server on http://localhost:3000 (all interfaces)
+dev: setup
+    jp dev --port 3000 -- pnpm exec vite dev --host 0.0.0.0 --port 3000
 
+# Build the SSR bundle into .output/
+build:
+    pnpm run build
+
+# Serve the production build
 preview:
     HOST=0.0.0.0 pnpm run preview
 
-build:
-    pnpm run build
+# Typecheck, tests and build: what CI runs for this app
+check:
+    cd ../.. && just check site
 
 test:
     pnpm run test
 
-fmt:
-    pnpm run format
-
-check:
-    pnpm run check
+# Build the container image (repository root as context)
+image tag="janpeterd/wilhalla-site:latest":
+    cd ../.. && docker build -f apps/site/Dockerfile -t {{tag}} .
 
 sync-map-overlays source='/home/jp/Downloads/transfer-16' output='public/map-overlays':
     ./scripts/sync-map-overlays.sh "{{source}}" "{{output}}"
@@ -33,3 +41,13 @@ generate-map-hover-overlays input='public/map-overlays/original' output='public/
 
 generate-map-caption-glows output='public/map-overlays/hover':
     ./scripts/generate-map-caption-glows.sh "{{output}}"
+
+# Create a repo-wide worktree under .worktrees/<name>
+worktree-add name *args:
+    jp worktree add {{name}} {{args}}
+
+worktree-rm name *args:
+    jp worktree remove {{name}} {{args}}
+
+clean:
+    rm -rf .output .content-collections
