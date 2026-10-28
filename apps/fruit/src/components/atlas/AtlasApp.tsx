@@ -30,6 +30,7 @@ import {
   atlasCategories,
   atlasCategoryColors,
   buildAtlasBrowse,
+  colorMix,
   formatDate,
   smallThumbImage,
   themeValue,
@@ -37,6 +38,7 @@ import {
   type MapPoint,
   type ScreenPoint,
 } from "../../lib/archiveAtlas";
+import { layoutDistricts } from "../../lib/atlasLayout";
 import { currentBrowserPath, writeBrowserPath } from "../../lib/browserHistory";
 import { useDismissHydrationLoader } from "../gallery/useGracefulLoader";
 import { useAtlasData } from "./useAtlasData";
@@ -60,37 +62,21 @@ const categoryById = new Map(atlasCategories.map((category) => [category.id, cat
 const colorFor = (categoryId: string) =>
   atlasCategoryColors[categoryId] ?? atlasCategoryColors.overig;
 
-/** Plot position (CSS pixels, before pan and zoom) of a point in the unit projection. */
-function plotPosition(point: { x: number; y: number }, size: { width: number; height: number }) {
-  return {
-    x: (INSET + point.x * (1 - 2 * INSET)) * size.width,
-    y: (INSET + point.y * (1 - 2 * INSET)) * size.height,
-  };
-}
+/** Width/height of the plot, rounded so small resizes do not re-run the layout. */
+const aspectOf = (size: { width: number; height: number }) =>
+  size.width && size.height ? Math.round((size.width / size.height) * 10) / 10 : 1;
 
-/**
- * Where to write each category's name: the centre of its densest neighbourhood, not its mean
- * (categories spread across the map, and their mean often lands in someone else's region).
- */
-function categoryAnchors(points: MapPoint[]) {
-  const grid = 14;
-  const cells = new Map<string, Map<string, { count: number; x: number; y: number }>>();
-  for (const point of points) {
-    const key = `${Math.floor(point.x * grid)}:${Math.floor(point.y * grid)}`;
-    const byCell = cells.get(point.topicId) ?? new Map();
-    const cell = byCell.get(key) ?? { count: 0, x: 0, y: 0 };
-    cell.count += 1;
-    cell.x += point.x;
-    cell.y += point.y;
-    byCell.set(key, cell);
-    cells.set(point.topicId, byCell);
-  }
-  return new Map(
-    [...cells.entries()].map(([categoryId, byCell]) => {
-      const densest = [...byCell.values()].sort((a, b) => b.count - a.count)[0];
-      return [categoryId, { x: densest.x / densest.count, y: densest.y / densest.count }];
-    }),
-  );
+/** CSS pixels per layout unit (the layout is `aspect` wide and 1 high). */
+const unitOf = (size: { width: number; height: number }) =>
+  Math.min(size.width / aspectOf(size), size.height) * (1 - 2 * INSET);
+
+/** Plot position (CSS pixels, before pan and zoom) of a point in the layout rectangle. */
+function plotPosition(point: { x: number; y: number }, size: { width: number; height: number }) {
+  const unit = unitOf(size);
+  return {
+    x: (size.width - aspectOf(size) * unit) / 2 + point.x * unit,
+    y: (size.height - unit) / 2 + point.y * unit,
+  };
 }
 
 export default function AtlasApp() {
@@ -124,12 +110,18 @@ export default function AtlasApp() {
       }),
     [points, topics, filters, selectedPoint],
   );
-  const anchors = useMemo(() => categoryAnchors(points), [points]);
+  const aspect = aspectOf(canvasSize);
+  const layout = useMemo(() => layoutDistricts(points, aspect), [points, aspect]);
   const categoryCounts = useMemo(() => {
     const counts = new Map<string, number>();
     for (const point of points)
       for (const id of point.categoryIds ?? [point.topicId])
         counts.set(id, (counts.get(id) ?? 0) + 1);
+    return counts;
+  }, [points]);
+  const primaryCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const point of points) counts.set(point.topicId, (counts.get(point.topicId) ?? 0) + 1);
     return counts;
   }, [points]);
   const pointsById = useMemo(() => new Map(points.map((point) => [point.id, point])), [points]);
@@ -168,8 +160,9 @@ export default function AtlasApp() {
     writeUrl(filters, point);
   };
 
-  const screenOf = (point: { x: number; y: number }) => {
-    const plot = plotPosition(point, canvasSize);
+  /** Screen position of a story (its place in its district) or of a raw unit-square point. */
+  const screenOf = (point: { id?: string; x: number; y: number }) => {
+    const plot = plotPosition((point.id && layout.positions.get(point.id)) || point, canvasSize);
     return { x: plot.x * scale + pan.x, y: plot.y * scale + pan.y };
   };
 
@@ -182,8 +175,21 @@ export default function AtlasApp() {
     context.clearRect(0, 0, width, height);
 
     const focus = filters.topic === "all" ? null : filters.topic;
-    const radius = Math.min(6, 1.8 + Math.sqrt(scale) * 0.9);
+    const radius = Math.min(6, 1.6 + Math.sqrt(scale) * 0.9);
     const muted = themeValue("--color-chalk");
+    const unit = unitOf(canvasSize) * scale;
+
+    // Districts: a soft disc per subject, so the regions read before the dots do.
+    for (const district of layout.districts) {
+      const { x, y } = screenOf(district);
+      context.fillStyle = colorMix(
+        colorFor(district.id),
+        !focus ? 0.07 : district.id === focus ? 0.12 : 0.03,
+      );
+      context.beginPath();
+      context.arc(x, y, district.r * unit + radius * 2, 0, Math.PI * 2);
+      context.fill();
+    }
 
     // Points outside the filters stay as a faint backdrop, so the map keeps its shape.
     context.fillStyle = muted;
@@ -196,14 +202,24 @@ export default function AtlasApp() {
       context.fill();
     }
 
-    context.globalAlpha = selectedPoint ? 0.45 : 0.82;
+    // Stories in their own subject's district are filled. With a subject selected, stories that
+    // only touch on it (it is a secondary subject) stay in their own district as open rings.
+    context.globalAlpha = selectedPoint ? 0.45 : 0.85;
+    context.lineWidth = 1.2;
     for (const point of browse.visible) {
       const { x, y } = screenOf(point);
       if (x < -8 || y < -8 || x > width + 8 || y > height + 8) continue;
-      context.fillStyle = colorFor(focus && point.topicId !== focus ? focus : point.topicId);
+      const color = colorFor(focus ?? point.topicId);
       context.beginPath();
-      context.arc(x, y, radius, 0, Math.PI * 2);
-      context.fill();
+      if (focus && point.topicId !== focus) {
+        context.strokeStyle = color;
+        context.arc(x, y, radius - 0.6, 0, Math.PI * 2);
+        context.stroke();
+      } else {
+        context.fillStyle = color;
+        context.arc(x, y, radius, 0, Math.PI * 2);
+        context.fill();
+      }
     }
     context.globalAlpha = 1;
 
@@ -235,23 +251,25 @@ export default function AtlasApp() {
       context.stroke();
     }
 
-    // Category names, written on the map while zoomed out.
+    // Subject names above their district, while zoomed out.
     if (scale < 2.6 && !selectedPoint) {
-      const fontSize = 17;
-      context.font = `400 ${fontSize}px ${themeValue("--font-heading")}`;
+      context.font = `400 17px ${themeValue("--font-heading")}`;
       context.textAlign = "center";
-      context.textBaseline = "middle";
+      context.textBaseline = "bottom";
       context.lineJoin = "round";
-      for (const [categoryId, anchor] of anchors) {
-        if (categoryId === "overig" || (focus && categoryId !== focus)) continue;
-        const label = categoryById.get(categoryId)?.label;
+      for (const district of layout.districts) {
+        if (focus && district.id !== focus) continue;
+        const label = categoryById.get(district.id)?.label;
         if (!label) continue;
-        const { x, y } = screenOf(anchor);
+        // Too small to carry a name without colliding with its neighbours (phones): zoom in.
+        if (district.r * unit < 34) continue;
+        const { x, y } = screenOf(district);
+        const top = y - district.r * unit - radius * 2 - 4;
         context.lineWidth = 5;
         context.strokeStyle = themeValue("--color-pure-surface");
-        context.strokeText(label, x, y);
+        context.strokeText(label, x, top);
         context.fillStyle = themeValue("--color-obsidian");
-        context.fillText(label, x, y);
+        context.fillText(label, x, top);
       }
     }
   });
@@ -329,8 +347,8 @@ export default function AtlasApp() {
       <header className="grid gap-3 md:grid-cols-[1fr_minmax(0,28rem)] md:items-end">
         <h1 className={typography.display}>Atlas</h1>
         <p className={cn(typography.intro, "m-0")}>
-          Elk punt is een verhaal uit het archief. Verhalen over hetzelfde onderwerp liggen dicht
-          bij elkaar.
+          Elk punt is een verhaal, gegroepeerd per hoofdonderwerp. Binnen een groep liggen verwante
+          verhalen dicht bij elkaar.
         </p>
       </header>
 
@@ -523,6 +541,15 @@ export default function AtlasApp() {
                   <Separator />
                   <p className={cn(typography.small, "m-0 text-cinder")}>
                     {focusCategory.description}
+                  </p>
+                  <p className={cn(typography.small, "m-0 text-cinder")}>
+                    {numberFormat.format(primaryCounts.get(focusCategory.id) ?? 0)} verhalen gaan
+                    vooral hierover (gevulde punten). Nog{" "}
+                    {numberFormat.format(
+                      (categoryCounts.get(focusCategory.id) ?? 0) -
+                        (primaryCounts.get(focusCategory.id) ?? 0),
+                    )}{" "}
+                    raken het aan; zij staan bij hun eigen onderwerp (open rondjes).
                   </p>
                   <a
                     href={`/archive/?category=${encodeURIComponent(focusCategory.id)}`}
