@@ -1,9 +1,6 @@
 import { editorialPages } from "@/config/registries";
 import { getEditorialPage } from "@/content/editorial-pages";
-import {
-  EditorialMarkdownPage,
-  editorialRouteHead,
-} from "@/modules/editorial-page-publishing";
+import { EditorialMarkdownPage, editorialRouteHead } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
 
 const muziektherapiePage = {
@@ -17,10 +14,5 @@ export const Route = createFileRoute("/welzijn/muziektherapie")({
 });
 
 function MuziektherapiePage() {
-  return (
-    <EditorialMarkdownPage
-      page={muziektherapiePage}
-      html={muziektherapiePage.html}
-    />
-  );
+  return <EditorialMarkdownPage page={muziektherapiePage} html={muziektherapiePage.html} />;
 }

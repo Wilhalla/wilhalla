@@ -1,8 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import {
-  handleSveltiaGithubAuth,
-  handleSveltiaGithubCallback,
-} from "./sveltia-github-oauth";
+import { handleSveltiaGithubAuth, handleSveltiaGithubCallback } from "./sveltia-github-oauth";
 
 const env = {
   ALLOWED_DOMAINS: "wilhalla-site.vercel.app",
@@ -29,13 +26,9 @@ describe("Sveltia GitHub OAuth", () => {
     expect(location).toContain("https://github.com/login/oauth/authorize?");
     expect(location).toContain("client_id=github-client-id");
     expect(location).toContain(
-      encodeURIComponent(
-        "https://wilhalla-site.vercel.app/api/cms-auth/callback",
-      ),
+      encodeURIComponent("https://wilhalla-site.vercel.app/api/cms-auth/callback"),
     );
-    expect(response.headers.get("Set-Cookie")).toContain(
-      "sveltia-cms-oauth-csrf=github_",
-    );
+    expect(response.headers.get("Set-Cookie")).toContain("sveltia-cms-oauth-csrf=github_");
   });
 
   it("rejects unconfigured domains", async () => {

@@ -6,4 +6,4 @@ export {
   type Post,
   type PostSeriesDetail,
   type Reaction,
-} from './archivePostReading'
+} from "./archivePostReading";

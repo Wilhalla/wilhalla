@@ -1,5 +1,5 @@
-import { Agentation } from 'agentation'
+import { Agentation } from "agentation";
 
 export default function AgentationIsland() {
-  return <Agentation />
+  return <Agentation />;
 }

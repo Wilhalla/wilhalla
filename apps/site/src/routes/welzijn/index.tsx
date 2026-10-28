@@ -1,9 +1,6 @@
 import { editorialPages } from "@/config/registries";
 import { getEditorialPage } from "@/content/editorial-pages";
-import {
-  EditorialLandingPage,
-  editorialRouteHead,
-} from "@/modules/editorial-page-publishing";
+import { EditorialLandingPage, editorialRouteHead } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
 
 const welzijnPage = {

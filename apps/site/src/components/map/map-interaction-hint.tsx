@@ -50,10 +50,7 @@ function HintCard({
   );
 }
 
-export function MapInteractionHint({
-  mobileDismissed,
-  desktopDismissed,
-}: MapInteractionHintProps) {
+export function MapInteractionHint({ mobileDismissed, desktopDismissed }: MapInteractionHintProps) {
   return (
     <>
       <HintCard

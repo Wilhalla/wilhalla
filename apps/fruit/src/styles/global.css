@@ -1,32 +1,32 @@
-@import 'tailwindcss';
-@import '@fontsource-variable/dm-sans/index.css';
-@import '@fontsource-variable/fraunces/index.css';
-@import '@fontsource-variable/geist/index.css';
-@import '../../theme.css';
-@import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
+@import "tailwindcss";
+@import "@fontsource-variable/dm-sans/index.css";
+@import "@fontsource-variable/fraunces/index.css";
+@import "@fontsource-variable/geist/index.css";
+@import "../../theme.css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
-  font-family: 'IoskeleyMono';
-  src: url('/fonts/ioskeley/IoskeleyMono-Regular.woff2') format('woff2');
+  font-family: "IoskeleyMono";
+  src: url("/fonts/ioskeley/IoskeleyMono-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'IoskeleyMono';
-  src: url('/fonts/ioskeley/IoskeleyMono-Medium.woff2') format('woff2');
+  font-family: "IoskeleyMono";
+  src: url("/fonts/ioskeley/IoskeleyMono-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'IoskeleyMono';
-  src: url('/fonts/ioskeley/IoskeleyMono-Bold.woff2') format('woff2');
+  font-family: "IoskeleyMono";
+  src: url("/fonts/ioskeley/IoskeleyMono-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -34,8 +34,8 @@
 
 :root {
   color-scheme: light;
-  --apple-asset-1: url('/apple-assets/apple-1-160.webp');
-  --apple-asset-2: url('/apple-assets/apple-2-160.webp');
+  --apple-asset-1: url("/apple-assets/apple-1-160.webp");
+  --apple-asset-2: url("/apple-assets/apple-2-160.webp");
   --background: var(--color-eggshell);
   --foreground: var(--color-obsidian);
   --card: var(--color-pure-surface);
@@ -105,22 +105,51 @@
 }
 
 @layer base {
-  * { @apply box-border border-border; }
-  html { @apply scroll-smooth overflow-x-clip bg-eggshell text-obsidian font-sans; scroll-behavior: smooth; }
-  body { @apply m-0 min-h-screen overflow-x-clip bg-eggshell text-obsidian font-sans text-body leading-body tracking-[0.01em]; scroll-behavior: smooth; }
+  * {
+    @apply box-border border-border;
+  }
+  html {
+    @apply scroll-smooth overflow-x-clip bg-eggshell text-obsidian font-sans;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply m-0 min-h-screen overflow-x-clip bg-eggshell text-obsidian font-sans text-body leading-body tracking-[0.01em];
+    scroll-behavior: smooth;
+  }
   html.mobile-menu-open,
   body.mobile-menu-open {
     overflow: hidden;
     overscroll-behavior: none;
     touch-action: none;
   }
-  main { @apply bg-eggshell; }
-  a { @apply text-inherit underline-offset-4 decoration-from-font; }
-  a:hover { @apply text-obsidian; }
-  button, input, textarea, select { font: inherit; letter-spacing: inherit; }
-  code, pre, kbd, samp { @apply font-mono text-[13px] leading-[1.69]; }
-  img { @apply block max-w-full bg-powder; }
-  ::selection { @apply bg-obsidian text-eggshell; }
+  main {
+    @apply bg-eggshell;
+  }
+  a {
+    @apply text-inherit underline-offset-4 decoration-from-font;
+  }
+  a:hover {
+    @apply text-obsidian;
+  }
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    letter-spacing: inherit;
+  }
+  code,
+  pre,
+  kbd,
+  samp {
+    @apply font-mono text-[13px] leading-[1.69];
+  }
+  img {
+    @apply block max-w-full bg-powder;
+  }
+  ::selection {
+    @apply bg-obsidian text-eggshell;
+  }
 }
 
 @utility site-shell {
@@ -178,7 +207,9 @@
     gap: 3rem;
     align-items: start;
     overflow-x: clip;
-    transition: grid-template-columns var(--post-photo-layout-duration) var(--post-photo-ease), gap var(--post-photo-layout-duration) var(--post-photo-ease);
+    transition:
+      grid-template-columns var(--post-photo-layout-duration) var(--post-photo-ease),
+      gap var(--post-photo-layout-duration) var(--post-photo-ease);
   }
 
   .post-reading-grid--with-images {
@@ -197,7 +228,11 @@
     padding-inline-start: 1.25rem;
     opacity: 1;
     transform: translateX(0);
-    transition: padding-inline-start var(--post-photo-layout-duration) var(--post-photo-ease), opacity 360ms ease, transform var(--post-photo-layout-duration) var(--post-photo-ease), visibility 360ms ease;
+    transition:
+      padding-inline-start var(--post-photo-layout-duration) var(--post-photo-ease),
+      opacity 360ms ease,
+      transform var(--post-photo-layout-duration) var(--post-photo-ease),
+      visibility 360ms ease;
   }
 
   .post-reading-layout.is-photo-collapsed {
@@ -228,7 +263,10 @@
     opacity: 1;
     transform: translate3d(0, 0, 0);
     transform-origin: right center;
-    transition: transform var(--post-photo-panel-duration) var(--post-photo-ease), opacity 360ms ease, visibility 0s linear 0s;
+    transition:
+      transform var(--post-photo-panel-duration) var(--post-photo-ease),
+      opacity 360ms ease,
+      visibility 0s linear 0s;
     will-change: transform, opacity;
   }
 
@@ -238,7 +276,10 @@
     transform: translate3d(calc(100% + 1.5rem), 0, 0);
     visibility: hidden;
     pointer-events: none;
-    transition: transform var(--post-photo-panel-duration) var(--post-photo-ease), opacity 320ms ease, visibility 0s linear var(--post-photo-panel-duration);
+    transition:
+      transform var(--post-photo-panel-duration) var(--post-photo-ease),
+      opacity 320ms ease,
+      visibility 0s linear var(--post-photo-panel-duration);
   }
 
   .post-photo-toggle {
@@ -257,7 +298,9 @@
     font-size: 0.875rem;
     font-weight: 500;
     white-space: nowrap;
-    transition: max-inline-size 420ms var(--post-photo-ease), padding-inline 420ms var(--post-photo-ease);
+    transition:
+      max-inline-size 420ms var(--post-photo-ease),
+      padding-inline 420ms var(--post-photo-ease);
   }
 
   .post-photo-toggle__expanded,
@@ -341,7 +384,9 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 220ms ease, visibility 0s linear 220ms;
+    transition:
+      opacity 220ms ease,
+      visibility 0s linear 220ms;
   }
 
   body.is-loading .site-loader,
@@ -368,7 +413,9 @@
     visibility: hidden !important;
     pointer-events: none !important;
     animation: none !important;
-    transition: opacity 220ms ease, visibility 0s linear 220ms !important;
+    transition:
+      opacity 220ms ease,
+      visibility 0s linear 220ms !important;
   }
 
   .site-loader__mark {
@@ -404,7 +451,7 @@
   }
 
   .site-loader__text small::before {
-    content: '';
+    content: "";
     width: 0.85em;
     height: 0.85em;
     flex: 0 0 auto;
@@ -462,24 +509,45 @@
   }
 
   @keyframes site-loader-fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   @keyframes apple-loader-breathe {
-    from { transform: translateY(3px) rotate(-3deg) scale(0.96); }
-    to { transform: translateY(-3px) rotate(3deg) scale(1.03); }
+    from {
+      transform: translateY(3px) rotate(-3deg) scale(0.96);
+    }
+    to {
+      transform: translateY(-3px) rotate(3deg) scale(1.03);
+    }
   }
 
   @keyframes site-loader-spin {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
-  .legacy-content :is(p, h2, h3, h4, ul, ol) { @apply mb-4 mt-0; }
-  .legacy-content :is(h2, h3, h4) { @apply font-heading font-light leading-heading tracking-heading; }
-  .legacy-content img { @apply my-5 h-auto w-full; }
-  .legacy-content table { @apply block max-w-full overflow-x-auto border-collapse; }
-  .legacy-content td, .legacy-content th { @apply border border-chalk p-2; }
+  .legacy-content :is(p, h2, h3, h4, ul, ol) {
+    @apply mb-4 mt-0;
+  }
+  .legacy-content :is(h2, h3, h4) {
+    @apply font-heading font-light leading-heading tracking-heading;
+  }
+  .legacy-content img {
+    @apply my-5 h-auto w-full;
+  }
+  .legacy-content table {
+    @apply block max-w-full overflow-x-auto border-collapse;
+  }
+  .legacy-content td,
+  .legacy-content th {
+    @apply border border-chalk p-2;
+  }
 }
 
 @media (max-width: 767px) {
@@ -489,7 +557,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto !important;
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;

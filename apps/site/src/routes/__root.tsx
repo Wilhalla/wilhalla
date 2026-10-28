@@ -2,13 +2,7 @@ import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { NotFound } from "@/components/not-found";
 import { siteIdentity } from "@/config/registries";
-import {
-  HeadContent,
-  Outlet,
-  Scripts,
-  createRootRoute,
-  useLocation,
-} from "@tanstack/react-router";
+import { HeadContent, Outlet, Scripts, createRootRoute, useLocation } from "@tanstack/react-router";
 import { Analytics } from "@vercel/analytics/react";
 import type { ReactNode } from "react";
 import appCss from "../styles.css?url";

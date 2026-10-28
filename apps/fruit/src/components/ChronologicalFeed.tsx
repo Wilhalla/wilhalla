@@ -1,5 +1,12 @@
 import { archiveAssetUrl } from "../lib/assetUrls";
-import { archiveDayLabel, archiveTimestamp, archiveYear, buildArchiveChronology, displayArchiveYear, formatArchiveDate } from "../lib/archiveDateTime";
+import {
+  archiveDayLabel,
+  archiveTimestamp,
+  archiveYear,
+  buildArchiveChronology,
+  displayArchiveYear,
+  formatArchiveDate,
+} from "../lib/archiveDateTime";
 import type { PostSummary } from "../lib/postIndex";
 import { yearPickerCountClass, yearPickerItemClass } from "./yearPickerStyles";
 
@@ -62,29 +69,29 @@ const activeYearScript = `
 `;
 
 export default function ChronologicalFeed({ posts, limit }: Props) {
-  const { chronologicalItems: chronologicalPosts, yearGroups, monthGroups } = buildArchiveChronology(
-    posts,
-    { limit },
-  );
-  const validPosts = chronologicalPosts.filter((post) =>
-    Number.isFinite(archiveTimestamp(post)),
-  );
+  const {
+    chronologicalItems: chronologicalPosts,
+    yearGroups,
+    monthGroups,
+  } = buildArchiveChronology(posts, { limit });
+  const validPosts = chronologicalPosts.filter((post) => Number.isFinite(archiveTimestamp(post)));
   const firstPost = validPosts[0] ?? chronologicalPosts[0];
   const firstYear = firstPost ? archiveYear(firstPost) : "";
-  const displayTime = (post: PostSummary) =>
-    post.time && post.time !== "00:00" ? post.time : "";
+  const displayTime = (post: PostSummary) => (post.time && post.time !== "00:00" ? post.time : "");
 
   return (
     <section className="w-full pb-24" aria-labelledby="chronology-title" data-chronology-feed>
       <div className="site-shell relative z-10 overflow-x-clip py-16">
         <div className="grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8">
-          <aside className="sticky top-16 self-start pr-2 md:top-16 md:pr-6" aria-label="Tijdlijnnavigatie">
+          <aside
+            className="sticky top-16 self-start pr-2 md:top-16 md:pr-6"
+            aria-label="Tijdlijnnavigatie"
+          >
             <div className="max-h-[calc(100svh-4rem)] overflow-auto border-r border-chalk/80 py-2 pr-2 md:max-h-[calc(100vh-5rem)] md:py-5 md:pr-6">
-              <p className="m-0 border-b border-chalk pb-3 text-body text-gravel max-md:sr-only">Jaren</p>
-              <nav
-                className="grid gap-1 md:gap-0.5"
-                aria-label="Spring naar jaar"
-              >
+              <p className="m-0 border-b border-chalk pb-3 text-body text-gravel max-md:sr-only">
+                Jaren
+              </p>
+              <nav className="grid gap-1 md:gap-0.5" aria-label="Spring naar jaar">
                 {yearGroups.map((group) => (
                   <a
                     className={yearPickerItemClass}
@@ -97,19 +104,14 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                     href={`#year-${group.year}`}
                   >
                     <span>{displayArchiveYear(group.year)}</span>
-                    <span className={yearPickerCountClass}>
-                      {group.count}
-                    </span>
+                    <span className={yearPickerCountClass}>{group.count}</span>
                   </a>
                 ))}
               </nav>
             </div>
           </aside>
 
-          <div
-            className="grid min-w-0 gap-10 md:pl-2"
-            aria-label="Chronologische berichtenindex"
-          >
+          <div className="grid min-w-0 gap-10 md:pl-2" aria-label="Chronologische berichtenindex">
             {monthGroups.map((month) => (
               <section
                 className="grid min-w-0 gap-3 [content-visibility:auto] [contain-intrinsic-size:1px_1200px] md:grid-cols-[3.5rem_minmax(0,1fr)]"
@@ -202,7 +204,9 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                           </div>
                           <div className="min-w-0 self-center">
                             <div className="mb-2.5 flex flex-wrap items-center gap-2 text-xs leading-none tracking-tight text-slate-ink">
-                              {timeLabel && <span title={formatArchiveDate(post)}>{timeLabel}</span>}
+                              {timeLabel && (
+                                <span title={formatArchiveDate(post)}>{timeLabel}</span>
+                              )}
                               <span
                                 className="inline-flex flex-wrap gap-1.5"
                                 aria-label={`${post.imageCount} beelden, ${post.reactionCount} reacties${post.seriesPostCount ? `, samengevoegde reeks van ${post.seriesPostCount} berichten` : ""}`}
@@ -215,10 +219,16 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                                     {post.seriesPostCount} delen
                                   </span>
                                 )}
-                                <span className={`${countPill} bg-powder text-gravel`} title="Beelden">
+                                <span
+                                  className={`${countPill} bg-powder text-gravel`}
+                                  title="Beelden"
+                                >
                                   {post.imageCount} beelden
                                 </span>
-                                <span className={`${countPill} bg-powder text-gravel`} title="Reacties">
+                                <span
+                                  className={`${countPill} bg-powder text-gravel`}
+                                  title="Reacties"
+                                >
                                   {post.reactionCount} reacties
                                 </span>
                               </span>

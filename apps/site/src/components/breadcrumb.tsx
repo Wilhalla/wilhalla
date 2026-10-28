@@ -23,9 +23,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
                 {item.label}
               </Link>
             ) : (
-              <span className="rounded-full bg-powder px-2 py-1 text-obsidian">
-                {item.label}
-              </span>
+              <span className="rounded-full bg-powder px-2 py-1 text-obsidian">{item.label}</span>
             )}
           </li>
         ))}

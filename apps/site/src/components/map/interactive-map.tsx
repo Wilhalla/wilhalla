@@ -25,15 +25,11 @@ import {
 } from "./map-sentinels";
 import { PencilFilter } from "./pencil-filter";
 
-const { height: MAP_HEIGHT, width: MAP_WIDTH } =
-  interactiveMapRegistry.dimensions;
+const { height: MAP_HEIGHT, width: MAP_WIDTH } = interactiveMapRegistry.dimensions;
 const ASPECT_RATIO = MAP_WIDTH / MAP_HEIGHT;
 const MAP_WEBP_SRC_SET = interactiveMapRegistry.assets.webpSrcSet.join(", ");
 
-function clientPointToSvgPoint(
-  svg: SVGSVGElement,
-  point: { x: number; y: number },
-) {
+function clientPointToSvgPoint(svg: SVGSVGElement, point: { x: number; y: number }) {
   const svgPoint = svg.createSVGPoint();
   svgPoint.x = point.x;
   svgPoint.y = point.y;
@@ -97,11 +93,10 @@ function SentinelExplanationCard({
   labelImages: string[];
   visibleViewBoxRect: ViewBoxRect | null;
 }) {
-  const [displayedExplanation, setDisplayedExplanation] =
-    useState<MapSentinelExplanation | null>(null);
-  const [displayedLabelImages, setDisplayedLabelImages] = useState<string[]>(
-    [],
+  const [displayedExplanation, setDisplayedExplanation] = useState<MapSentinelExplanation | null>(
+    null,
   );
+  const [displayedLabelImages, setDisplayedLabelImages] = useState<string[]>([]);
   const [visible, setVisible] = useState(false);
   const hasDisplayedExplanationRef = useRef(false);
   const labelImageKey = labelImages.join("|");
@@ -150,9 +145,7 @@ function SentinelExplanationCard({
   const hasDarkInkLabel = displayedLabelImages.some(hasDarkInkCardLabel);
   const useDarkCard = hasLabelImages && !hasDarkInkLabel;
   const cardClassName = `flex h-full flex-col rounded-[34px] border px-[36px] py-[28px] shadow-[0_14px_34px_rgba(38,27,18,0.16)] backdrop-blur-[2px] transition-[opacity,transform] duration-300 ease-out ${
-    hasLabelImages
-      ? "items-start justify-center gap-[24px]"
-      : "items-start justify-center"
+    hasLabelImages ? "items-start justify-center gap-[24px]" : "items-start justify-center"
   } ${
     useDarkCard
       ? "border-white/15 bg-[#2a2118]/88 text-[#fff8dc]"
@@ -188,9 +181,7 @@ function SentinelExplanationCard({
                   alt=""
                   aria-hidden="true"
                   className={`block h-auto max-w-full object-contain drop-shadow-[0_2px_3px_rgba(0,0,0,0.22)] ${
-                    isVakeTreeLabel
-                      ? "max-h-[164px] min-h-[92px]"
-                      : "max-h-[132px] min-h-[64px]"
+                    isVakeTreeLabel ? "max-h-[164px] min-h-[92px]" : "max-h-[132px] min-h-[64px]"
                   }`}
                   loading="eager"
                   decoding="async"
@@ -199,9 +190,7 @@ function SentinelExplanationCard({
             })}
           </div>
         ) : null}
-        <p className="m-0 font-waldenburg text-[34px] leading-[1.28] tracking-[0.01em]">
-          {text}
-        </p>
+        <p className="m-0 font-waldenburg text-[34px] leading-[1.28] tracking-[0.01em]">{text}</p>
       </div>
     </foreignObject>
   );
@@ -238,14 +227,8 @@ function MapHeroOverlay() {
   );
 }
 
-function FallbackSentinelGlow({
-  activeSentinelId,
-}: {
-  activeSentinelId: string | null;
-}) {
-  const bounds = activeSentinelId
-    ? getSentinelFallbackGlowBounds(activeSentinelId)
-    : null;
+function FallbackSentinelGlow({ activeSentinelId }: { activeSentinelId: string | null }) {
+  const bounds = activeSentinelId ? getSentinelFallbackGlowBounds(activeSentinelId) : null;
   if (!bounds) return null;
 
   const width = bounds.maxX - bounds.minX;
@@ -256,13 +239,7 @@ function FallbackSentinelGlow({
   return (
     <g pointerEvents="none">
       <defs>
-        <filter
-          id="map-fallback-sentinel-glow"
-          x="-70%"
-          y="-70%"
-          width="240%"
-          height="240%"
-        >
+        <filter id="map-fallback-sentinel-glow" x="-70%" y="-70%" width="240%" height="240%">
           <feGaussianBlur stdDeviation="24" />
         </filter>
       </defs>
@@ -300,8 +277,7 @@ function MapScene({
   sizes: string;
 }) {
   const [hiResMapLoaded, setHiResMapLoaded] = useState(false);
-  const [visibleViewBoxRect, setVisibleViewBoxRect] =
-    useState<ViewBoxRect | null>(null);
+  const [visibleViewBoxRect, setVisibleViewBoxRect] = useState<ViewBoxRect | null>(null);
   const hiResMapRef = useRef<HTMLImageElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -340,14 +316,8 @@ function MapScene({
       }
       resizeObserver.disconnect();
       window.removeEventListener("resize", syncVisibleViewBoxRect);
-      window.visualViewport?.removeEventListener(
-        "resize",
-        syncVisibleViewBoxRect,
-      );
-      window.visualViewport?.removeEventListener(
-        "scroll",
-        syncVisibleViewBoxRect,
-      );
+      window.visualViewport?.removeEventListener("resize", syncVisibleViewBoxRect);
+      window.visualViewport?.removeEventListener("scroll", syncVisibleViewBoxRect);
     };
   }, []);
 
@@ -435,9 +405,7 @@ function MapScene({
             y1={sentinel.y1}
             x2={sentinel.x2}
             y2={sentinel.y2}
-            padding={
-              sentinel.padding ?? interactiveMapRegistry.defaultSentinelPadding
-            }
+            padding={sentinel.padding ?? interactiveMapRegistry.defaultSentinelPadding}
           />
         ))}
         <SentinelExplanationCard
@@ -458,20 +426,16 @@ export function InteractiveMap() {
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [mobileHintDismissed, setMobileHintDismissed] = useState(false);
   const [desktopHintDismissed, setDesktopHintDismissed] = useState(false);
-  const [hoveredSentinelId, setHoveredSentinelId] = useState<string | null>(
-    null,
-  );
-  const [introActiveSentinelId, setIntroActiveSentinelId] = useState<
-    string | null
-  >(null);
+  const [hoveredSentinelId, setHoveredSentinelId] = useState<string | null>(null);
+  const [introActiveSentinelId, setIntroActiveSentinelId] = useState<string | null>(null);
   const [introDismissed, setIntroDismissed] = useState(false);
   const [onboardingVisible, setOnboardingVisible] = useState(false);
 
-  const { activeExplanation, activeHoverImages, activeLabelImages } =
-    getActiveMapDiscovery({ hoveredSentinelId, introActiveSentinelId });
-  const introStepMs = isMobileViewport
-    ? MOBILE_INTRO_STEP_MS
-    : DESKTOP_INTRO_STEP_MS;
+  const { activeExplanation, activeHoverImages, activeLabelImages } = getActiveMapDiscovery({
+    hoveredSentinelId,
+    introActiveSentinelId,
+  });
+  const introStepMs = isMobileViewport ? MOBILE_INTRO_STEP_MS : DESKTOP_INTRO_STEP_MS;
   const introOverlayTransitionMs = isMobileViewport
     ? MOBILE_INTRO_OVERLAY_TRANSITION_MS
     : DESKTOP_INTRO_OVERLAY_TRANSITION_MS;
@@ -487,9 +451,7 @@ export function InteractiveMap() {
   };
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(
-      interactiveMapRegistry.mobileMediaQuery,
-    );
+    const mediaQuery = window.matchMedia(interactiveMapRegistry.mobileMediaQuery);
     const syncViewport = () => {
       setIsMobileViewport(mediaQuery.matches);
     };
@@ -545,12 +507,7 @@ export function InteractiveMap() {
       cancelled = true;
       if (timer !== undefined) window.clearTimeout(timer);
     };
-  }, [
-    introDismissed,
-    introOverlayTransitionMs,
-    introStepMs,
-    onboardingVisible,
-  ]);
+  }, [introDismissed, introOverlayTransitionMs, introStepMs, onboardingVisible]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -563,8 +520,7 @@ export function InteractiveMap() {
 
     ignoreNextScrollRef.current = true;
     el.scrollLeft =
-      (el.scrollWidth - el.clientWidth) /
-      interactiveMapRegistry.mobileInitialScrollDivisor;
+      (el.scrollWidth - el.clientWidth) / interactiveMapRegistry.mobileInitialScrollDivisor;
   }, [isMobileViewport]);
 
   return (

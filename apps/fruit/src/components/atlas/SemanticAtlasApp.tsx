@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import {
   ArrowRight,
   ExternalLink,
@@ -81,10 +87,7 @@ type HoverInput = {
   clientY: number;
 };
 
-export default function SemanticAtlasApp({
-  initialPoints = [],
-  initialTopics = [],
-}: Props) {
+export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [] }: Props) {
   const minimapRef = useRef<HTMLCanvasElement | null>(null);
   const mapShellRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -95,10 +98,7 @@ export default function SemanticAtlasApp({
   const suppressNextClickRef = useRef(false);
   const activePointersRef = useRef(new Map<number, ScreenPoint>());
   const pinchGestureRef = useRef<{ center: ScreenPoint; distance: number } | null>(null);
-  const { dataError, loadingData, points, topics } = useAtlasData(
-    initialPoints,
-    initialTopics,
-  );
+  const { dataError, loadingData, points, topics } = useAtlasData(initialPoints, initialTopics);
   useDismissHydrationLoader("atlas-hydration-loader", loadingData);
   const {
     canvasRef,
@@ -121,9 +121,7 @@ export default function SemanticAtlasApp({
   const [viewMode, setViewMode] = useState<ViewMode>("points");
   const [hoverPoint, setHoverPoint] = useState<MapPoint | null>(null);
   const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null);
-  const [selectedClusterId, setSelectedClusterId] = useState<string | null>(
-    null,
-  );
+  const [selectedClusterId, setSelectedClusterId] = useState<string | null>(null);
   const [hoverClusterId, setHoverClusterId] = useState<string | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ left: 0, top: 0 });
   const [dragging, setDragging] = useState(false);
@@ -168,10 +166,7 @@ export default function SemanticAtlasApp({
 
   function colorFor(topicId: string) {
     const category = categoryFor(topicsById.get(topicId));
-    return (
-      atlasCategoryColors[category?.id ?? "overig"] ??
-      atlasCategoryColors.overig
-    );
+    return atlasCategoryColors[category?.id ?? "overig"] ?? atlasCategoryColors.overig;
   }
 
   function labelFor(topicId: string) {
@@ -184,23 +179,12 @@ export default function SemanticAtlasApp({
     rawY: number,
     rect = canvasSize,
   ): ScreenPoint {
-    return macroAtlasCoordinateForBounds(
-      categoryId,
-      rawX,
-      rawY,
-      rect,
-      categoryBounds,
-    );
+    return macroAtlasCoordinateForBounds(categoryId, rawX, rawY, rect, categoryBounds);
   }
 
   function atlasPoint(point: MapPoint, rect = canvasSize): ScreenPoint {
     if (viewMode === "clusters")
-      return macroAtlasCoordinate(
-        categoryIdFor(point.topicId),
-        point.x,
-        point.y,
-        rect,
-      );
+      return macroAtlasCoordinate(categoryIdFor(point.topicId), point.x, point.y, rect);
     return semanticAtlasCoordinate(point.x, point.y, rect);
   }
 
@@ -231,8 +215,7 @@ export default function SemanticAtlasApp({
     else url.searchParams.set("season", nextFilters.season);
     if (nextFilters.imagesOnly) url.searchParams.set("images", "1");
     else url.searchParams.delete("images");
-    if (nextFilters.search.trim())
-      url.searchParams.set("q", nextFilters.search.trim());
+    if (nextFilters.search.trim()) url.searchParams.set("q", nextFilters.search.trim());
     else url.searchParams.delete("q");
 
     if (point) {
@@ -264,10 +247,7 @@ export default function SemanticAtlasApp({
     updateAtlasUrl({
       nextFilters,
       point: options.clearPoint ? null : selectedPoint,
-      clusterId:
-        "clusterId" in options
-          ? (options.clusterId ?? null)
-          : selectedClusterId,
+      clusterId: "clusterId" in options ? (options.clusterId ?? null) : selectedClusterId,
       mode,
     });
   }
@@ -316,8 +296,7 @@ export default function SemanticAtlasApp({
   function fullscreenMap() {
     const element = mapShellRef.current;
     if (!element || typeof document === "undefined") return;
-    if (document.fullscreenElement === element)
-      document.exitFullscreen().catch(() => {});
+    if (document.fullscreenElement === element) document.exitFullscreen().catch(() => {});
     else element.requestFullscreen().catch(() => {});
   }
 
@@ -348,33 +327,17 @@ export default function SemanticAtlasApp({
     const spanX = Math.max(0.001, semanticBounds.maxX - semanticBounds.minX);
     const spanY = Math.max(0.001, semanticBounds.maxY - semanticBounds.minY);
     return {
-      x: clamp(
-        0.025 + ((rawX - semanticBounds.minX) / spanX) * 0.95,
-        0.025,
-        0.975,
-      ),
-      y: clamp(
-        0.045 + ((rawY - semanticBounds.minY) / spanY) * 0.91,
-        0.045,
-        0.955,
-      ),
+      x: clamp(0.025 + ((rawX - semanticBounds.minX) / spanX) * 0.95, 0.025, 0.975),
+      y: clamp(0.045 + ((rawY - semanticBounds.minY) / spanY) * 0.91, 0.045, 0.955),
     };
   }
 
-  function semanticAtlasCoordinate(
-    rawX: number,
-    rawY: number,
-    rect = canvasSize,
-  ): ScreenPoint {
+  function semanticAtlasCoordinate(rawX: number, rawY: number, rect = canvasSize): ScreenPoint {
     const unit = semanticUnitCoordinate(rawX, rawY);
     return { x: unit.x * rect.width, y: unit.y * rect.height };
   }
 
-  function screenAtlasCoordinate(
-    x: number,
-    y: number,
-    rect = canvasSize,
-  ): ScreenPoint {
+  function screenAtlasCoordinate(x: number, y: number, rect = canvasSize): ScreenPoint {
     return screenFromAtlasPoint(rawAtlasCoordinate(x, y, rect), scale, pan);
   }
 
@@ -428,8 +391,7 @@ export default function SemanticAtlasApp({
   );
   const isCompactAtlas =
     canvasSize.width < 720 ||
-    (typeof window !== "undefined" &&
-      (window.matchMedia?.("(pointer: coarse)").matches ?? false));
+    (typeof window !== "undefined" && (window.matchMedia?.("(pointer: coarse)").matches ?? false));
   const drawAtlasAtmosphere = false;
 
   function topicDensityPeaks(
@@ -481,21 +443,14 @@ export default function SemanticAtlasApp({
       const rawX = cell.sumX / cell.count;
       const rawY = cell.sumY / cell.count;
       const p = topicScreenAtlasCoordinate(cell.topicId, rawX, rawY, rect);
-      if (
-        p.x < -120 ||
-        p.y < -120 ||
-        p.x > rect.width + 120 ||
-        p.y > rect.height + 120
-      )
-        continue;
+      if (p.x < -120 || p.y < -120 || p.x > rect.width + 120 || p.y > rect.height + 120) continue;
       const tooClose = peaks.some(
         (peak) =>
           peak.topicId === cell.topicId &&
           (peak.x - p.x) ** 2 + (peak.y - p.y) ** 2 < minScreenDistance ** 2,
       );
       if (tooClose) continue;
-      const selectedBoost =
-        cell.topicId === (selectedPoint?.topicId ?? selectedClusterId) ? 4 : 1;
+      const selectedBoost = cell.topicId === (selectedPoint?.topicId ?? selectedClusterId) ? 4 : 1;
       const topicSize = topicsById.get(cell.topicId)?.postCount ?? cell.count;
       peaks.push({
         topicId: cell.topicId,
@@ -544,17 +499,8 @@ export default function SemanticAtlasApp({
       for (let x = 0; x < 4; x += 1) {
         for (let y = 0; y < 4; y += 1) {
           const p = screenAtlasCoordinate(x / 4 + 0.012, y / 4 + 0.025, rect);
-          if (
-            p.x > 0 &&
-            p.y > 0 &&
-            p.x < rect.width - 20 &&
-            p.y < rect.height - 10
-          )
-            context.fillText(
-              `${String.fromCharCode(65 + x)}${y + 1}`,
-              p.x,
-              p.y,
-            );
+          if (p.x > 0 && p.y > 0 && p.x < rect.width - 20 && p.y < rect.height - 10)
+            context.fillText(`${String.fromCharCode(65 + x)}${y + 1}`, p.x, p.y);
         }
       }
     }
@@ -592,43 +538,24 @@ export default function SemanticAtlasApp({
       let max = 0;
       for (const value of grid) max = Math.max(max, value);
       if (max <= 0) continue;
-      const color =
-        atlasCategoryColors[categoryId] ?? atlasCategoryColors.overig;
+      const color = atlasCategoryColors[categoryId] ?? atlasCategoryColors.overig;
       for (let y = 0; y < gridH; y += 1) {
         for (let x = 0; x < gridW; x += 1) {
           const value = grid[y * gridW + x];
           if (value < Math.max(1.35, max * 0.1)) continue;
           const rawX = (x + 0.5) / gridW;
           const rawY = (y + 0.5) / gridH;
-          const p = screenFromAtlasPoint(
-            semanticAtlasCoordinate(rawX, rawY, rect),
-            scale,
-            pan,
-          );
-          if (
-            p.x < -140 ||
-            p.y < -140 ||
-            p.x > rect.width + 140 ||
-            p.y > rect.height + 140
-          )
+          const p = screenFromAtlasPoint(semanticAtlasCoordinate(rawX, rawY, rect), scale, pan);
+          if (p.x < -140 || p.y < -140 || p.x > rect.width + 140 || p.y > rect.height + 140)
             continue;
           const strength = value / max;
           const radius = clamp(
-            ((rect.width * ATLAS_X_SPREAD) / gridW) *
-              scale *
-              (2.8 + strength * 2.2),
+            ((rect.width * ATLAS_X_SPREAD) / gridW) * scale * (2.8 + strength * 2.2),
             18,
             120,
           );
           const alpha = clamp(strength * 0.095, 0.008, 0.11);
-          const gradient = context.createRadialGradient(
-            p.x,
-            p.y,
-            0,
-            p.x,
-            p.y,
-            radius,
-          );
+          const gradient = context.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius);
           gradient.addColorStop(0, colorMix(color, alpha));
           gradient.addColorStop(0.62, colorMix(color, alpha * 0.38));
           gradient.addColorStop(1, colorMix(color, 0));
@@ -651,19 +578,8 @@ export default function SemanticAtlasApp({
     const color = colorFor(topicId);
     context.save();
     for (const peak of topicDensityPeaks(rect, topicId).slice(0, 8)) {
-      const radius = clamp(
-        Math.sqrt(peak.count) * 18 * Math.sqrt(scale),
-        34,
-        130,
-      );
-      const gradient = context.createRadialGradient(
-        peak.x,
-        peak.y,
-        0,
-        peak.x,
-        peak.y,
-        radius,
-      );
+      const radius = clamp(Math.sqrt(peak.count) * 18 * Math.sqrt(scale), 34, 130);
+      const gradient = context.createRadialGradient(peak.x, peak.y, 0, peak.x, peak.y, radius);
       gradient.addColorStop(0, colorMix(color, 0.18));
       gradient.addColorStop(0.7, colorMix(color, 0.05));
       gradient.addColorStop(1, colorMix(color, 0));
@@ -675,14 +591,8 @@ export default function SemanticAtlasApp({
     context.restore();
   }
 
-  function visibleRenderClusters(rect: {
-    width: number;
-    height: number;
-  }): RenderCluster[] {
-    const groups = new Map<
-      string,
-      { unitX: number; unitY: number; count: number }
-    >();
+  function visibleRenderClusters(rect: { width: number; height: number }): RenderCluster[] {
+    const groups = new Map<string, { unitX: number; unitY: number; count: number }>();
     for (const point of visible) {
       const unit = atlasUnitPoint(point);
       const categoryId = filters.topic === "all" ? point.topicId : filters.topic;
@@ -735,25 +645,13 @@ export default function SemanticAtlasApp({
     context.restore();
   }
 
-  function ellipseRadiusAtAngle(
-    radiusX: number,
-    radiusY: number,
-    angle: number,
-  ) {
+  function ellipseRadiusAtAngle(radiusX: number, radiusY: number, angle: number) {
     const cos = Math.cos(angle);
     const sin = Math.sin(angle);
-    return (
-      1 /
-      Math.sqrt(
-        (cos * cos) / (radiusX * radiusX) + (sin * sin) / (radiusY * radiusY),
-      )
-    );
+    return 1 / Math.sqrt((cos * cos) / (radiusX * radiusX) + (sin * sin) / (radiusY * radiusY));
   }
 
-  function drawSmoothClosedPath(
-    context: CanvasRenderingContext2D,
-    points: ScreenPoint[],
-  ) {
+  function drawSmoothClosedPath(context: CanvasRenderingContext2D, points: ScreenPoint[]) {
     if (!points.length) return;
     context.beginPath();
     for (let i = 0; i < points.length; i += 1) {
@@ -784,9 +682,7 @@ export default function SemanticAtlasApp({
       const ux = Math.cos(angle);
       const uy = Math.sin(angle);
       const wobble =
-        0.92 +
-        0.07 * Math.sin(seed * 0.013 + i * 1.73) +
-        0.035 * Math.sin(seed * 0.031 + i * 3.11);
+        0.92 + 0.07 * Math.sin(seed * 0.013 + i * 1.73) + 0.035 * Math.sin(seed * 0.031 + i * 3.11);
       let boundary = ellipseRadiusAtAngle(radiusX, radiusY, angle) * wobble;
 
       for (const other of clusters) {
@@ -801,8 +697,7 @@ export default function SemanticAtlasApp({
           -boundary * 0.28,
           boundary * 0.28,
         );
-        const neighborBoundary =
-          distanceSq / (2 * projection) + weightBias - gap;
+        const neighborBoundary = distanceSq / (2 * projection) + weightBias - gap;
         if (neighborBoundary > 0)
           boundary = Math.min(boundary, Math.max(minRadius, neighborBoundary));
       }
@@ -817,8 +712,7 @@ export default function SemanticAtlasApp({
 
   function topicSeed(topicId: string) {
     let seed = 0;
-    for (let i = 0; i < topicId.length; i += 1)
-      seed = (seed * 31 + topicId.charCodeAt(i)) % 9973;
+    for (let i = 0; i < topicId.length; i += 1) seed = (seed * 31 + topicId.charCodeAt(i)) % 9973;
     return seed || 1;
   }
 
@@ -845,23 +739,14 @@ export default function SemanticAtlasApp({
       context.lineJoin = "round";
       context.lineCap = "round";
       for (const cluster of renderedClusters) {
-        const focused =
-          cluster.topicId === selectedTopic ||
-          cluster.topicId === hoverClusterId;
-        const mutedBySelection = Boolean(
-          selectedTopic && cluster.topicId !== selectedTopic,
-        );
+        const focused = cluster.topicId === selectedTopic || cluster.topicId === hoverClusterId;
+        const mutedBySelection = Boolean(selectedTopic && cluster.topicId !== selectedTopic);
         const color = colorFor(cluster.topicId);
         const prominence = clamp(cluster.count / maxCount, 0.12, 1);
         const atlasRadius = clamp(58 + Math.sqrt(cluster.count) * 7.2, 78, 240);
-        const radiusX =
-          atlasRadius *
-          scale *
-          (1.08 + 0.16 * Math.sin(topicSeed(cluster.topicId)));
+        const radiusX = atlasRadius * scale * (1.08 + 0.16 * Math.sin(topicSeed(cluster.topicId)));
         const radiusY =
-          atlasRadius *
-          scale *
-          (0.72 + 0.18 * Math.cos(topicSeed(cluster.topicId) * 0.7));
+          atlasRadius * scale * (0.72 + 0.18 * Math.cos(topicSeed(cluster.topicId) * 0.7));
         if (
           cluster.x + radiusX * 1.4 < 0 ||
           cluster.y + radiusY * 1.4 < 0 ||
@@ -870,45 +755,21 @@ export default function SemanticAtlasApp({
         )
           continue;
         const seed = topicSeed(cluster.topicId);
-        const territory = clusterTerritoryPoints(
-          cluster,
-          clusters,
-          radiusX,
-          radiusY,
-          seed,
-        );
-        const outerAlpha = mutedBySelection
-          ? 0.026
-          : focused
-            ? 0.18
-            : 0.07 + prominence * 0.075;
-        const innerAlpha = mutedBySelection
-          ? 0.022
-          : focused
-            ? 0.22
-            : 0.09 + prominence * 0.075;
-        const coreAlpha = mutedBySelection
-          ? 0.026
-          : focused
-            ? 0.24
-            : 0.1 + prominence * 0.09;
+        const territory = clusterTerritoryPoints(cluster, clusters, radiusX, radiusY, seed);
+        const outerAlpha = mutedBySelection ? 0.026 : focused ? 0.18 : 0.07 + prominence * 0.075;
+        const innerAlpha = mutedBySelection ? 0.022 : focused ? 0.22 : 0.09 + prominence * 0.075;
+        const coreAlpha = mutedBySelection ? 0.026 : focused ? 0.24 : 0.1 + prominence * 0.09;
         const outlineAlpha = mutedBySelection ? 0.04 : focused ? 0.28 : 0.1;
 
         if (!drawAtlasAtmosphere) {
           context.fillStyle = colorMix(
             color,
-            focused
-              ? 0.12
-              : mutedBySelection
-                ? 0.018
-                : 0.045 + prominence * 0.035,
+            focused ? 0.12 : mutedBySelection ? 0.018 : 0.045 + prominence * 0.035,
           );
           drawSmoothClosedPath(context, territory);
           context.fill();
           if (focused || viewMode === "clusters") {
-            context.strokeStyle = focused
-              ? "rgba(17, 17, 17, 0.2)"
-              : colorMix(color, outlineAlpha);
+            context.strokeStyle = focused ? "rgba(17, 17, 17, 0.2)" : colorMix(color, outlineAlpha);
             context.lineWidth = focused ? 1.1 : 0.7;
             context.stroke();
           }
@@ -930,13 +791,7 @@ export default function SemanticAtlasApp({
         context.fillStyle = colorMix(color, outerAlpha);
         drawSmoothClosedPath(
           context,
-          clusterTerritoryPoints(
-            cluster,
-            clusters,
-            radiusX * 1.08,
-            radiusY * 1.08,
-            seed + 17,
-          ),
+          clusterTerritoryPoints(cluster, clusters, radiusX * 1.08, radiusY * 1.08, seed + 17),
         );
         context.fill();
 
@@ -944,21 +799,13 @@ export default function SemanticAtlasApp({
         context.fillStyle = colorMix(color, innerAlpha);
         drawSmoothClosedPath(
           context,
-          clusterTerritoryPoints(
-            cluster,
-            clusters,
-            radiusX * 0.82,
-            radiusY * 0.82,
-            seed + 41,
-          ),
+          clusterTerritoryPoints(cluster, clusters, radiusX * 0.82, radiusY * 0.82, seed + 41),
         );
         context.fill();
         context.filter = "none";
 
         if (focused || viewMode === "clusters") {
-          context.strokeStyle = focused
-            ? "rgba(17, 17, 17, 0.18)"
-            : colorMix(color, outlineAlpha);
+          context.strokeStyle = focused ? "rgba(17, 17, 17, 0.18)" : colorMix(color, outlineAlpha);
           context.lineWidth = focused ? 1.15 : 0.75;
           drawSmoothClosedPath(context, territory);
           context.stroke();
@@ -979,10 +826,8 @@ export default function SemanticAtlasApp({
     }> = [];
     const labelLimit = selectedTopic ? 20 : scale > 2 ? 28 : 22;
     const labelCandidates = [...clusters].sort((a, b) => {
-      const aActive =
-        a.topicId === selectedTopic || a.topicId === hoverClusterId ? 1 : 0;
-      const bActive =
-        b.topicId === selectedTopic || b.topicId === hoverClusterId ? 1 : 0;
+      const aActive = a.topicId === selectedTopic || a.topicId === hoverClusterId ? 1 : 0;
+      const bActive = b.topicId === selectedTopic || b.topicId === hoverClusterId ? 1 : 0;
       return bActive - aActive || b.count - a.count;
     });
 
@@ -1001,13 +846,9 @@ export default function SemanticAtlasApp({
         cluster.topicId !== hoverClusterId
       )
         continue;
-      const focused =
-        cluster.topicId === selectedTopic || cluster.topicId === hoverClusterId;
+      const focused = cluster.topicId === selectedTopic || cluster.topicId === hoverClusterId;
       const label = `${shortLabel(labelFor(cluster.topicId), focused ? 28 : 22)} · ${cluster.count.toLocaleString("nl-BE")}`;
-      const width = Math.min(
-        rect.width - 16,
-        context.measureText(label).width + 34,
-      );
+      const width = Math.min(rect.width - 16, context.measureText(label).width + 34);
       const height = focused ? 30 : 26;
       let x = clamp(cluster.x - width / 2, 8, rect.width - width - 8);
       let y = clamp(cluster.y - height / 2 - 8, 8, rect.height - height - 8);
@@ -1040,12 +881,8 @@ export default function SemanticAtlasApp({
       placed.push({ x, y, width, height });
 
       const color = colorFor(cluster.topicId);
-      context.fillStyle = focused
-        ? "rgba(255, 255, 255, 0.92)"
-        : "rgba(255, 255, 255, 0.84)";
-      context.strokeStyle = focused
-        ? "rgba(17, 17, 17, 0.18)"
-        : "rgba(17, 17, 17, 0.095)";
+      context.fillStyle = focused ? "rgba(255, 255, 255, 0.92)" : "rgba(255, 255, 255, 0.84)";
+      context.strokeStyle = focused ? "rgba(17, 17, 17, 0.18)" : "rgba(17, 17, 17, 0.095)";
       context.lineWidth = focused ? 1.1 : 0.8;
       context.beginPath();
       context.roundRect(x, y, width, height, 999);
@@ -1055,9 +892,7 @@ export default function SemanticAtlasApp({
       context.beginPath();
       context.arc(x + 13, y + height / 2, 3, 0, Math.PI * 2);
       context.fill();
-      context.fillStyle = focused
-        ? themeValue("--color-obsidian")
-        : "rgba(17, 17, 17, 0.72)";
+      context.fillStyle = focused ? themeValue("--color-obsidian") : "rgba(17, 17, 17, 0.72)";
       context.fillText(label, x + 23, y + height / 2 + 0.5);
     }
     context.restore();
@@ -1066,16 +901,7 @@ export default function SemanticAtlasApp({
   const hoverClusters = useMemo(() => {
     if (!canvasSize.width || !canvasSize.height) return [];
     return visibleRenderClusters(canvasSize);
-  }, [
-    visible,
-    scale,
-    pan,
-    canvasSize,
-    viewMode,
-    categoryBounds,
-    topicsById,
-    semanticBounds,
-  ]);
+  }, [visible, scale, pan, canvasSize, viewMode, categoryBounds, topicsById, semanticBounds]);
 
   function drawRelatedLinks(
     context: CanvasRenderingContext2D,
@@ -1123,13 +949,7 @@ export default function SemanticAtlasApp({
       for (const point of viewportPoints) {
         if (visibleIds.has(point.id)) continue;
         const p = screenPoint(point, rect);
-        if (
-          p.x < -8 ||
-          p.y < -8 ||
-          p.x > rect.width + 8 ||
-          p.y > rect.height + 8
-        )
-          continue;
+        if (p.x < -8 || p.y < -8 || p.x > rect.width + 8 || p.y > rect.height + 8) continue;
         const radius = clamp(0.9 + scale * 0.1, 1, 2);
         context.fillStyle = "rgba(17, 17, 17, 0.055)";
         context.beginPath();
@@ -1140,21 +960,13 @@ export default function SemanticAtlasApp({
 
     for (const point of visibleViewportPoints) {
       const p = screenPoint(point, rect);
-      if (
-        p.x < -10 ||
-        p.y < -10 ||
-        p.x > rect.width + 10 ||
-        p.y > rect.height + 10
-      )
-        continue;
+      if (p.x < -10 || p.y < -10 || p.x > rect.width + 10 || p.y > rect.height + 10) continue;
       const isSelected = point.id === selectedPoint?.id;
       const isRelated = relatedPointIds.has(point.id);
-      const activeTopic =
-        selectedPoint?.topicId ?? selectedClusterId ?? hoverClusterId;
-      const isSameCluster = activeTopic != null && (point.categoryIds ?? [point.topicId]).includes(activeTopic);
-      const hasFocus = Boolean(
-        selectedPoint || selectedClusterId || hoverClusterId,
-      );
+      const activeTopic = selectedPoint?.topicId ?? selectedClusterId ?? hoverClusterId;
+      const isSameCluster =
+        activeTopic != null && (point.categoryIds ?? [point.topicId]).includes(activeTopic);
+      const hasFocus = Boolean(selectedPoint || selectedClusterId || hoverClusterId);
       const radius = isSelected
         ? 4.3
         : isRelated
@@ -1173,12 +985,7 @@ export default function SemanticAtlasApp({
       context.beginPath();
       context.arc(p.x, p.y, radius, 0, Math.PI * 2);
       context.fill();
-      if (
-        !isCompactAtlas &&
-        point.imageCount > 0 &&
-        scale > 1.45 &&
-        !isSelected
-      ) {
+      if (!isCompactAtlas && point.imageCount > 0 && scale > 1.45 && !isSelected) {
         context.strokeStyle = `rgba(17, 17, 17, ${Math.min(0.32, alpha + 0.08)})`;
         context.lineWidth = 0.65;
         context.beginPath();
@@ -1197,16 +1004,12 @@ export default function SemanticAtlasApp({
       context.beginPath();
       context.arc(p.x, p.y, radius, 0, Math.PI * 2);
       context.fill();
-      context.strokeStyle = selected
-        ? "rgba(17, 17, 17, 0.28)"
-        : "rgba(17, 17, 17, 0.18)";
+      context.strokeStyle = selected ? "rgba(17, 17, 17, 0.28)" : "rgba(17, 17, 17, 0.18)";
       context.lineWidth = selected ? 8 : 5;
       context.beginPath();
       context.arc(p.x, p.y, selected ? 12 : 9, 0, Math.PI * 2);
       context.stroke();
-      context.strokeStyle = selected
-        ? "rgba(17, 17, 17, 0.82)"
-        : "rgba(17, 17, 17, 0.46)";
+      context.strokeStyle = selected ? "rgba(17, 17, 17, 0.82)" : "rgba(17, 17, 17, 0.46)";
       context.lineWidth = selected ? 1.2 : 0.9;
       context.beginPath();
       context.arc(p.x, p.y, selected ? 15 : 11, 0, Math.PI * 2);
@@ -1240,8 +1043,7 @@ export default function SemanticAtlasApp({
 
   useEffect(() => {
     const canvas = minimapRef.current;
-    if (!canvas || !showMiniMap || !canvasSize.width || !canvasSize.height)
-      return;
+    if (!canvas || !showMiniMap || !canvasSize.width || !canvasSize.height) return;
 
     const bounds = canvas.getBoundingClientRect();
     if (!bounds.width || !bounds.height) return;
@@ -1282,13 +1084,7 @@ export default function SemanticAtlasApp({
       context.fillStyle = themeValue("--color-slate-ink");
       context.globalAlpha = visibleIds.has(point.id) ? 0.18 : 0.07;
       context.beginPath();
-      context.arc(
-        p.x,
-        p.y,
-        visibleIds.has(point.id) ? 0.8 : 0.55,
-        0,
-        Math.PI * 2,
-      );
+      context.arc(p.x, p.y, visibleIds.has(point.id) ? 0.8 : 0.55, 0, Math.PI * 2);
       context.fill();
     }
 
@@ -1296,7 +1092,8 @@ export default function SemanticAtlasApp({
       const p = atlasPoint(point, miniRect);
       const isSelected = point.id === selectedPoint?.id;
       const activeCategory = selectedPoint?.topicId ?? selectedClusterId;
-      const isSameCluster = activeCategory != null && (point.categoryIds ?? [point.topicId]).includes(activeCategory);
+      const isSameCluster =
+        activeCategory != null && (point.categoryIds ?? [point.topicId]).includes(activeCategory);
       context.fillStyle = colorFor(point.topicId);
       context.globalAlpha = isSelected ? 1 : isSameCluster ? 0.78 : 0.42;
       context.beginPath();
@@ -1339,10 +1136,8 @@ export default function SemanticAtlasApp({
 
   useEffect(() => {
     return () => {
-      if (hoverFrameRef.current !== null)
-        window.cancelAnimationFrame(hoverFrameRef.current);
-      if (hoverIdleTimerRef.current !== null)
-        window.clearTimeout(hoverIdleTimerRef.current);
+      if (hoverFrameRef.current !== null) window.cancelAnimationFrame(hoverFrameRef.current);
+      if (hoverIdleTimerRef.current !== null) window.clearTimeout(hoverIdleTimerRef.current);
     };
   }, []);
 
@@ -1380,9 +1175,7 @@ export default function SemanticAtlasApp({
     return (
       hoverClusters.find((cluster) => {
         const radius = clamp(56 + Math.sqrt(cluster.count) * 5.5, 72, 170);
-        return (
-          (cluster.x - local.x) ** 2 + (cluster.y - local.y) ** 2 < radius ** 2
-        );
+        return (cluster.x - local.x) ** 2 + (cluster.y - local.y) ** 2 < radius ** 2;
       }) ?? null
     );
   }
@@ -1398,14 +1191,8 @@ export default function SemanticAtlasApp({
     const width = tooltip?.offsetWidth ?? 360;
     const height = tooltip?.offsetHeight ?? 130;
     const nextPosition = {
-      left: Math.min(
-        input.clientX + offset,
-        Math.max(offset, window.innerWidth - width - offset),
-      ),
-      top: Math.min(
-        input.clientY + offset,
-        Math.max(offset, window.innerHeight - height - offset),
-      ),
+      left: Math.min(input.clientX + offset, Math.max(offset, window.innerWidth - width - offset)),
+      top: Math.min(input.clientY + offset, Math.max(offset, window.innerHeight - height - offset)),
     };
     if (tooltip && hoverPoint?.id === point.id) {
       tooltip.style.left = `${nextPosition.left}px`;
@@ -1413,8 +1200,7 @@ export default function SemanticAtlasApp({
       return;
     }
     setTooltipPosition((current) =>
-      Math.abs(current.left - nextPosition.left) < 2 &&
-      Math.abs(current.top - nextPosition.top) < 2
+      Math.abs(current.left - nextPosition.left) < 2 && Math.abs(current.top - nextPosition.top) < 2
         ? current
         : nextPosition,
     );
@@ -1423,8 +1209,7 @@ export default function SemanticAtlasApp({
   function updateHover(event: React.MouseEvent<HTMLCanvasElement>) {
     if (dragging || isCompactAtlas) return;
     if (!hoveringAtlas) setHoveringAtlas(true);
-    if (hoverIdleTimerRef.current !== null)
-      window.clearTimeout(hoverIdleTimerRef.current);
+    if (hoverIdleTimerRef.current !== null) window.clearTimeout(hoverIdleTimerRef.current);
     hoverIdleTimerRef.current = window.setTimeout(() => {
       hoverIdleTimerRef.current = null;
       setHoveringAtlas(false);
@@ -1485,8 +1270,12 @@ export default function SemanticAtlasApp({
         if (!topic) return null;
         const point =
           points.find(
-            (candidate) => (candidate.categoryIds ?? [candidate.topicId]).includes(topic.id) && candidate.image,
-          ) ?? points.find((candidate) => (candidate.categoryIds ?? [candidate.topicId]).includes(topic.id));
+            (candidate) =>
+              (candidate.categoryIds ?? [candidate.topicId]).includes(topic.id) && candidate.image,
+          ) ??
+          points.find((candidate) =>
+            (candidate.categoryIds ?? [candidate.topicId]).includes(topic.id),
+          );
         return { category, topic, point, Icon: category.Icon };
       })
       .filter(Boolean);
@@ -1511,8 +1300,8 @@ export default function SemanticAtlasApp({
           className="mb-4 border-y border-chalk bg-powder px-4 py-3 text-sm text-obsidian"
           role="alert"
         >
-          <strong className="font-medium">Atlasdata niet geladen.</strong>{" "}
-          Controleer of de gegenereerde JSON-bestanden beschikbaar zijn.{" "}
+          <strong className="font-medium">Atlasdata niet geladen.</strong> Controleer of de
+          gegenereerde JSON-bestanden beschikbaar zijn.{" "}
           <span className="font-mono text-xs">{dataError}</span>
         </div>
       )}
@@ -1534,16 +1323,16 @@ export default function SemanticAtlasApp({
                 </p>
                 <ol className="m-0 grid list-none gap-2 p-0">
                   <li>
-                    <strong className="text-obsidian">Punten.</strong> Elke stip
-                    is een verhaal; vervolgdelen staan samen.
+                    <strong className="text-obsidian">Punten.</strong> Elke stip is een verhaal;
+                    vervolgdelen staan samen.
                   </li>
                   <li>
-                    <strong className="text-obsidian">Nabijheid.</strong>{" "}
-                    Dichterbij betekent vaker verwant.
+                    <strong className="text-obsidian">Nabijheid.</strong> Dichterbij betekent vaker
+                    verwant.
                   </li>
                   <li>
-                    <strong className="text-obsidian">Eilanden.</strong> Zachte
-                    velden tonen dichte groepen op dezelfde kaart.
+                    <strong className="text-obsidian">Eilanden.</strong> Zachte velden tonen dichte
+                    groepen op dezelfde kaart.
                   </li>
                 </ol>
               </div>
@@ -1561,10 +1350,7 @@ export default function SemanticAtlasApp({
               className="h-11 w-full rounded-none border-0 border-b border-chalk bg-transparent px-0 pr-9 font-mono text-sm shadow-none placeholder:text-gravel focus-visible:ring-0"
               value={filters.search}
               onChange={(event) =>
-                setFiltersWithUrl(
-                  { ...filters, search: event.target.value },
-                  "replace",
-                )
+                setFiltersWithUrl({ ...filters, search: event.target.value }, "replace")
               }
               type="search"
               placeholder="Zoek archief"
@@ -1640,9 +1426,7 @@ export default function SemanticAtlasApp({
                   Jaar
                   <Select
                     value={filters.year}
-                    onValueChange={(value) =>
-                      setFiltersWithUrl({ ...filters, year: value })
-                    }
+                    onValueChange={(value) => setFiltersWithUrl({ ...filters, year: value })}
                   >
                     <SelectTrigger className="h-8 rounded-none border-0 border-b border-chalk bg-transparent px-0 text-left text-sm shadow-none">
                       <SelectValue />
@@ -1661,9 +1445,7 @@ export default function SemanticAtlasApp({
                   Seizoen
                   <Select
                     value={filters.season}
-                    onValueChange={(value) =>
-                      setFiltersWithUrl({ ...filters, season: value })
-                    }
+                    onValueChange={(value) => setFiltersWithUrl({ ...filters, season: value })}
                   >
                     <SelectTrigger className="h-8 rounded-none border-0 border-b border-chalk bg-transparent px-0 text-left text-sm shadow-none">
                       <SelectValue />
@@ -1688,9 +1470,7 @@ export default function SemanticAtlasApp({
                   }
                 >
                   <span>Beelden</span>
-                  <span className="font-mono text-xs">
-                    {filters.imagesOnly ? "aan" : "alle"}
-                  </span>
+                  <span className="font-mono text-xs">{filters.imagesOnly ? "aan" : "alle"}</span>
                 </button>
                 <Button
                   className="h-8 justify-start rounded-none bg-transparent px-0 text-xs text-gravel shadow-none hover:!bg-transparent hover:text-obsidian"
@@ -1707,10 +1487,7 @@ export default function SemanticAtlasApp({
               <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-gravel">
                 Weergave
               </p>
-              <div
-                className="grid gap-1 font-mono text-sm text-gravel"
-                aria-label="Weergave"
-              >
+              <div className="grid gap-1 font-mono text-sm text-gravel" aria-label="Weergave">
                 {(["points", "clusters"] as ViewMode[]).map((mode) => (
                   <button
                     key={mode}
@@ -1718,16 +1495,12 @@ export default function SemanticAtlasApp({
                     type="button"
                     onClick={() => setViewMode(mode)}
                   >
-                    <span aria-hidden="true">
-                      {viewMode === mode ? "•" : "○"}
-                    </span>
+                    <span aria-hidden="true">{viewMode === mode ? "•" : "○"}</span>
                     {mode === "points" ? "Punten" : "Categorieën"}
                   </button>
                 ))}
               </div>
-              <p className="mt-4 font-mono text-[11px] leading-5 text-gravel">
-                {visibleStatus}
-              </p>
+              <p className="mt-4 font-mono text-[11px] leading-5 text-gravel">{visibleStatus}</p>
             </section>
           </div>
         </aside>
@@ -1895,11 +1668,7 @@ export default function SemanticAtlasApp({
                   <span>Overzicht</span>
                   <span>{scale.toFixed(1)}×</span>
                 </div>
-                <canvas
-                  ref={minimapRef}
-                  className="block h-28 w-full"
-                  aria-hidden="true"
-                />
+                <canvas ref={minimapRef} className="block h-28 w-full" aria-hidden="true" />
               </div>
             ) : (
               <div className="absolute bottom-4 right-4 z-10 bg-eggshell/80 px-3 py-2 font-mono text-[11px] text-gravel backdrop-blur">
@@ -1926,9 +1695,7 @@ export default function SemanticAtlasApp({
                       onError={(event) => {
                         event.currentTarget.onerror = null;
                         event.currentTarget.src =
-                          event.currentTarget.dataset.fallbackSrc ||
-                          hoverPoint.image ||
-                          "";
+                          event.currentTarget.dataset.fallbackSrc || hoverPoint.image || "";
                       }}
                     />
                   ) : (
@@ -1938,15 +1705,11 @@ export default function SemanticAtlasApp({
                   )}
                   <div>
                     <p className="mb-1 text-xs text-gravel">
-                      {formatDate(hoverPoint.date)} ·{" "}
-                      {labelFor(hoverPoint.topicId)}
+                      {formatDate(hoverPoint.date)} · {labelFor(hoverPoint.topicId)}
                     </p>
-                    <strong className="line-clamp-2 font-medium">
-                      {hoverPoint.title}
-                    </strong>
+                    <strong className="line-clamp-2 font-medium">{hoverPoint.title}</strong>
                     <span className="mt-1 inline-flex items-center gap-1 text-xs text-gravel">
-                      Klik voor details{" "}
-                      <ArrowRight className="size-3.5" aria-hidden="true" />
+                      Klik voor details <ArrowRight className="size-3.5" aria-hidden="true" />
                     </span>
                   </div>
                 </div>
@@ -1983,9 +1746,7 @@ export default function SemanticAtlasApp({
                     onError={(event) => {
                       event.currentTarget.onerror = null;
                       event.currentTarget.src =
-                        event.currentTarget.dataset.fallbackSrc ||
-                        selectedPoint.image ||
-                        "";
+                        event.currentTarget.dataset.fallbackSrc || selectedPoint.image || "";
                     }}
                   />
                 ) : (
@@ -1994,23 +1755,19 @@ export default function SemanticAtlasApp({
                   </div>
                 )}
                 <p className="mt-4 text-sm text-gravel">
-                  {formatDate(selectedPoint.date)} ·{" "}
-                  {labelFor(selectedPoint.topicId)}
+                  {formatDate(selectedPoint.date)} · {labelFor(selectedPoint.topicId)}
                 </p>
                 <h2 className="mt-2 font-heading text-3xl font-normal leading-tight">
-                  <a
-                    className="no-underline"
-                    href={`/posts/${selectedPoint.slug}/`}
-                  >
+                  <a className="no-underline" href={`/posts/${selectedPoint.slug}/`}>
                     {selectedPoint.title}
                   </a>
                 </h2>
-                <p className="mt-3 text-sm leading-6 text-gravel">
-                  {selectedPoint.excerpt}
-                </p>
+                <p className="mt-3 text-sm leading-6 text-gravel">{selectedPoint.excerpt}</p>
                 <div className="mt-4 flex flex-wrap gap-2 text-xs text-gravel">
                   {[
-                    ...(selectedPoint.categoryIds ?? [selectedPoint.topicId]).map((id) => topicDisplayLabel(topicsById.get(id))),
+                    ...(selectedPoint.categoryIds ?? [selectedPoint.topicId]).map((id) =>
+                      topicDisplayLabel(topicsById.get(id)),
+                    ),
                     selectedPoint.season,
                     selectedPoint.imageCount ? "met beelden" : "tekst",
                   ].map((tag) => (
@@ -2024,22 +1781,19 @@ export default function SemanticAtlasApp({
                     className="flex min-h-10 items-center justify-between bg-obsidian px-4 text-sm text-eggshell no-underline hover:text-eggshell"
                     href={`/posts/${encodeURIComponent(selectedPoint.slug)}/`}
                   >
-                    Open bericht{" "}
-                    <ExternalLink className="size-4" aria-hidden="true" />
+                    Open bericht <ExternalLink className="size-4" aria-hidden="true" />
                   </a>
                   <button
                     className="flex min-h-10 items-center justify-between bg-transparent px-0 text-left text-sm text-obsidian"
                     type="button"
                     onClick={() =>
-                      setFiltersWithUrl(
-                        { ...filters, topic: selectedPoint.topicId },
-                        "push",
-                        { clearPoint: true, clusterId: selectedPoint.topicId },
-                      )
+                      setFiltersWithUrl({ ...filters, topic: selectedPoint.topicId }, "push", {
+                        clearPoint: true,
+                        clusterId: selectedPoint.topicId,
+                      })
                     }
                   >
-                    Toon verwante berichten{" "}
-                    <ArrowRight className="size-4" aria-hidden="true" />
+                    Toon verwante berichten <ArrowRight className="size-4" aria-hidden="true" />
                   </button>
                 </div>
               </section>
@@ -2058,7 +1812,8 @@ export default function SemanticAtlasApp({
                   </h2>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-gravel">
-                  {selectedCluster.description ?? categoryFor(selectedCluster)?.description ??
+                  {selectedCluster.description ??
+                    categoryFor(selectedCluster)?.description ??
                     "Een groep inhoudelijk verwante berichten uit het archief."}
                 </p>
                 <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 border-y border-chalk py-4 text-sm">
@@ -2071,9 +1826,7 @@ export default function SemanticAtlasApp({
                   <div>
                     <dt className="text-gravel">Beelden</dt>
                     <dd className="m-0 font-mono">
-                      {selectedClusterStats?.imageCount.toLocaleString(
-                        "nl-BE",
-                      ) ?? "—"}
+                      {selectedClusterStats?.imageCount.toLocaleString("nl-BE") ?? "—"}
                     </dd>
                   </div>
                   <div>
@@ -2086,21 +1839,14 @@ export default function SemanticAtlasApp({
                   </div>
                   <div>
                     <dt className="text-gravel">Seizoen</dt>
-                    <dd className="m-0 font-mono">
-                      {selectedClusterStats?.topSeason ?? "—"}
-                    </dd>
+                    <dd className="m-0 font-mono">{selectedClusterStats?.topSeason ?? "—"}</dd>
                   </div>
                 </dl>
                 <div className="mt-4">
-                  <p className="mb-2 text-sm text-gravel">
-                    Onderliggende tags
-                  </p>
+                  <p className="mb-2 text-sm text-gravel">Onderliggende tags</p>
                   <div className="flex flex-wrap gap-2 text-xs text-gravel">
                     {topicKeywords(selectedCluster).map((keyword) => (
-                      <span
-                        className="border-b border-chalk py-1"
-                        key={keyword}
-                      >
+                      <span className="border-b border-chalk py-1" key={keyword}>
                         {keyword}
                       </span>
                     ))}
@@ -2110,9 +1856,7 @@ export default function SemanticAtlasApp({
                   <img
                     className="mt-5 aspect-[16/9] w-full object-cover"
                     src={thumbImage(selectedClusterStats.representative.image)}
-                    data-fallback-src={archiveAssetUrl(
-                      selectedClusterStats.representative.image,
-                    )}
+                    data-fallback-src={archiveAssetUrl(selectedClusterStats.representative.image)}
                     alt=""
                     loading="lazy"
                     onError={(event) => {
@@ -2130,15 +1874,13 @@ export default function SemanticAtlasApp({
                     type="button"
                     onClick={isolateSelectedCluster}
                   >
-                    Toon categorie{" "}
-                    <LocateFixed className="size-4" aria-hidden="true" />
+                    Toon categorie <LocateFixed className="size-4" aria-hidden="true" />
                   </button>
                   <a
                     className="flex min-h-10 items-center justify-between bg-transparent px-0 text-sm text-obsidian no-underline"
                     href={`/archive/?category=${encodeURIComponent(selectedCluster.id)}`}
                   >
-                    Bekijk berichten{" "}
-                    <ArrowRight className="size-4" aria-hidden="true" />
+                    Bekijk berichten <ArrowRight className="size-4" aria-hidden="true" />
                   </a>
                 </div>
               </section>

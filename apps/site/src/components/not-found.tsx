@@ -15,15 +15,13 @@ export function NotFound() {
         404
       </p>
 
-      <h1 className="el-display mt-6 max-w-[620px] text-obsidian">
-        Verdwaald in de tuin
-      </h1>
+      <h1 className="el-display mt-6 max-w-[620px] text-obsidian">Verdwaald in de tuin</h1>
 
       <div className="my-10 w-full max-w-[620px] border-t border-chalk" />
 
       <p className="el-body max-w-[480px] text-gravel">
-        Deze pagina bestaat niet of is verplaatst. Misschien vind je wat je
-        zoekt via de kaart of het menu.
+        Deze pagina bestaat niet of is verplaatst. Misschien vind je wat je zoekt via de kaart of
+        het menu.
       </p>
 
       <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">

@@ -1,9 +1,6 @@
 import { editorialPages } from "@/config/registries";
 import { getEditorialPage } from "@/content/editorial-pages";
-import {
-  EditorialMarkdownPage,
-  editorialRouteHead,
-} from "@/modules/editorial-page-publishing";
+import { EditorialMarkdownPage, editorialRouteHead } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
 
 const samentuinPage = {
@@ -17,7 +14,5 @@ export const Route = createFileRoute("/over-ons/samentuin")({
 });
 
 function SamentuinPage() {
-  return (
-    <EditorialMarkdownPage page={samentuinPage} html={samentuinPage.html} />
-  );
+  return <EditorialMarkdownPage page={samentuinPage} html={samentuinPage.html} />;
 }

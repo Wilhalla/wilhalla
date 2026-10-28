@@ -1,10 +1,4 @@
-export type NavigationIconName =
-  | "calendar"
-  | "flower"
-  | "heart"
-  | "images"
-  | "tent"
-  | "users";
+export type NavigationIconName = "calendar" | "flower" | "heart" | "images" | "tent" | "users";
 
 export type SocialIconName = "facebook" | "instagram";
 
