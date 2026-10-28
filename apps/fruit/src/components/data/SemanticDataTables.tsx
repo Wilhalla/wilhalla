@@ -10,7 +10,7 @@ import {
 
 import { Download } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@wilhalla/ui/components/button";
 import {
   Table,
   TableBody,
