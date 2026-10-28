@@ -1,4 +1,5 @@
-import { layout } from "@wilhalla/ui/lib/typography";
+import { Section, SectionHeader } from "@wilhalla/ui/components/section";
+import { typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -395,55 +396,54 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
     <section
       ref={sectionRef}
       id={definition.id}
-      className="min-w-0 border-t border-chalk py-8"
+      className="min-w-0 border-b border-chalk py-5"
       aria-labelledby={`${definition.id}-title`}
     >
-      <div className="grid min-w-0 gap-4 pb-5 md:grid-cols-[minmax(12rem,1fr)_auto] md:items-end">
-        <div className="min-w-0">
-          <p className="mb-1 font-mono text-xs text-slate">{definition.file}</p>
-          <h2
+      <div className="flex min-w-0 flex-wrap items-center justify-between gap-x-6 gap-y-2">
+        <div className="grid min-w-0 gap-0.5">
+          <h3
             id={`${definition.id}-title`}
-            className="m-0 font-heading text-[clamp(1.7rem,3vw,2.45rem)] font-light leading-none tracking-[-0.04em] text-obsidian"
+            className="m-0 font-sans text-body-lg leading-body-lg font-medium text-obsidian"
           >
             {definition.title}
-          </h2>
-          {!rows && !error && (
-            <p className="mt-2 text-sm text-gravel">
-              Deze dataset wordt pas geladen wanneer je dit blok opent.
-            </p>
+          </h3>
+          <p className={cn(typography.small, "m-0 text-gravel")}>
+            <code className="font-mono text-mono">{definition.file}</code>
+            {rows && ` · ${rows.length.toLocaleString("nl-BE")} rijen`}
+          </p>
+          {error && (
+            <p className={cn(typography.small, "m-0 text-destructive")}>Kon niet laden: {error}</p>
           )}
-          {error && <p className="mt-2 text-sm text-destructive">Kon niet laden: {error}</p>}
         </div>
-        <div className="flex flex-wrap gap-3 md:justify-end">
+        <div className="flex items-center gap-2">
           {!rows && (
-            <Button variant="link" size="inline" onClick={loadDataset} disabled={loading}>
-              {loading ? "laden…" : "laad tabel"}
+            <Button variant="outline" size="sm" onClick={loadDataset} disabled={loading}>
+              {loading ? "Laden…" : "Toon tabel"}
             </Button>
           )}
           {rows && (
             <Button
-              variant="link"
-              size="inline"
+              variant="ghost"
+              size="sm"
               onClick={() => downloadDataset(dataset)}
               aria-label={`Download ${definition.title} als JSON`}
             >
-              <Download className="size-4" aria-hidden="true" />
-              <span>download</span>
+              <Download /> JSON
             </Button>
           )}
         </div>
       </div>
 
       {loading && !rows ? (
-        <div className="grid gap-2 py-5" aria-live="polite">
+        <div className="mt-4 grid gap-2" aria-live="polite">
           {Array.from({ length: 4 }).map((_, index) => (
             <div className="h-9 animate-pulse rounded bg-powder/60" key={index} />
           ))}
         </div>
       ) : rows && rows.length === 0 ? (
-        <p className="py-5 text-gravel">Geen rijen in deze dataset.</p>
+        <p className={cn(typography.small, "m-0 mt-4 text-gravel")}>Geen rijen in deze dataset.</p>
       ) : rows ? (
-        <div className="min-w-0 max-w-full overflow-hidden">
+        <div className="mt-4 min-w-0 max-w-full overflow-hidden rounded-xl bg-pure-surface shadow-subtle-2">
           <Table
             containerClassName="max-h-[78vh] min-w-0 max-w-full overflow-auto"
             className="w-max min-w-full"
@@ -512,13 +512,17 @@ export default function SemanticDataTables() {
   }, []);
 
   return (
-    <section
-      className={cn(layout.container, "grid min-w-0 gap-0 pb-20")}
-      aria-label="Ruwe semantische preprocessing data"
-    >
-      {datasetDefinitions.map((definition) => (
-        <RawDataTable key={definition.id} definition={definition} />
-      ))}
-    </section>
+    <Section aria-labelledby="datasets-title">
+      <SectionHeader
+        id="datasets-title"
+        title="Datasets"
+        description="De bestanden achter de atlas, het beeldarchief en de zoekfunctie. Open er een om de ruwe rijen te bekijken of te downloaden."
+      />
+      <div className="min-w-0 border-t border-chalk">
+        {datasetDefinitions.map((definition) => (
+          <RawDataTable key={definition.id} definition={definition} />
+        ))}
+      </div>
+    </Section>
   );
 }

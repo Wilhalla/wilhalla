@@ -149,9 +149,7 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                 </div>
                 <div className="grid min-w-0">
                   <div className="border-t border-chalk py-3 md:hidden">
-                    <p className="m-0 text-xs font-medium uppercase tracking-[0.16em] text-gravel">
-                      {month.label}
-                    </p>
+                    <p className={typography.eyebrow}>{month.label}</p>
                   </div>
                   {month.items.map((post, index) => {
                     const image = post.images[0];
@@ -184,7 +182,7 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                               <span className="text-sm font-medium leading-none text-obsidian">
                                 {archiveDayLabel(post)}
                               </span>
-                              <span className="text-xs uppercase tracking-[0.14em] text-gravel md:hidden">
+                              <span className="font-sans text-body text-gravel md:hidden">
                                 {month.shortLabel}
                               </span>
                             </time>

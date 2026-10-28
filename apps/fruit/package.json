@@ -51,7 +51,6 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "agentation": "catalog:",
     "babel-plugin-react-compiler": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
