@@ -1,5 +1,5 @@
 import { Calendar, Play, Shuffle, Timer } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@wilhalla/ui/components/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,

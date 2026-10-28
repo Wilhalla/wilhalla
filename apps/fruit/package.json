@@ -39,6 +39,7 @@
     "@tanstack/react-table": "catalog:",
     "@tanstack/react-virtual": "catalog:",
     "@vercel/analytics": "catalog:",
+    "@wilhalla/ui": "workspace:*",
     "astro": "catalog:",
     "cheerio": "catalog:",
     "class-variance-authority": "catalog:",
