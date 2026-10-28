@@ -269,7 +269,7 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
 
   if (!viewerId) {
     return (
-      <main className={cn(layout.shell, "py-16 text-obsidian")}>
+      <main className={cn(layout.container, "py-16 text-obsidian")}>
         <h1 className={typography.display}>Geen beeld gekozen</h1>
         <a
           className="mt-6 inline-flex min-h-10 items-center rounded-full border border-obsidian px-4 text-sm font-medium no-underline"
@@ -291,7 +291,7 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
     }
 
     return (
-      <main className={cn(layout.shell, "py-16 text-obsidian")}>
+      <main className={cn(layout.container, "py-16 text-obsidian")}>
         <h1 className={typography.display}>
           {imagesLoading ? "Beeld laden…" : "Beeld niet gevonden"}
         </h1>

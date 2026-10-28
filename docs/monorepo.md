@@ -61,10 +61,11 @@ Fruit screenshots match the previous build except where links became shared butt
 fruit's `global.css` animations and state-driven layout (site loader, collapsing photo panel,
 view transitions).
 
-Visible differences that remain between the apps, now side by side in the playground, are
-design decisions rather than code: the typefaces (EB Garamond vs Fraunces + DM Sans), the page
-title size (the site's `PageHeader` scales 36 to 48 px; `typography.display` is a fixed 48 px),
-and the page column (`Container`: 16 px gutter; `layout.shell`: 32 px padding).
+Then both apps were standardized on the site's design: one set of typefaces (EB Garamond
+headings, Inter text, Geist Mono; all self-hosted through Fontsource in `tokens.css`, so no
+visitor falls back to a system font), the site's radii, the site's scaling page and section
+titles (`typography.display`, `.section`), and the site's page column (`Container`). Fruit's
+Fraunces/DM Sans/Ioskeley fonts, its cream diagram colours and its padded shell are gone.
 
 ### What CI runs
 

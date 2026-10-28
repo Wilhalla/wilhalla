@@ -61,7 +61,7 @@ export default function SearchApp() {
   const loading = categoryLoading || (fullTextLoaded ? fullTextLoading : titleSearch.loading);
 
   return (
-    <section className={cn(layout.shell, "py-20")} aria-labelledby="search-title">
+    <section className={cn(layout.container, "py-20")} aria-labelledby="search-title">
       <header className="relative grid gap-8 overflow-hidden border-b border-chalk pb-10 md:grid-cols-[minmax(0,0.72fr)_minmax(16rem,0.28fr)]">
         <img
           className="apple-image absolute right-0 top-0 hidden w-24 rotate-6 opacity-80 md:block"

@@ -9,7 +9,7 @@ type Props = { posts: PostSummary[]; title: string; intro?: string; limit?: numb
 export default function PostList({ posts, title, intro, limit }: Props) {
   const visible = limit ? posts.slice(0, limit) : posts;
   return (
-    <section className={cn(layout.shell, "py-14")}>
+    <section className={cn(layout.container, "py-14")}>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 className={typography.section}>{title}</h2>

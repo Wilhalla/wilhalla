@@ -55,7 +55,7 @@ export const tokensStory: Story = {
   title: "Tokens",
   source: "@wilhalla/ui/tokens.css",
   description:
-    "The theme every app imports after Tailwind. Use the tokens through utilities (bg-powder, text-body leading-body, shadow-subtle-2, max-w-page); typefaces come from the app.",
+    "The theme every app imports after Tailwind. Use the tokens through utilities (bg-powder, text-body leading-body, shadow-subtle-2, max-w-page). Typefaces: EB Garamond (font-heading), Inter (font-sans), Geist Mono (font-mono).",
   render: () => (
     <div className="grid gap-12">
       <Examples>

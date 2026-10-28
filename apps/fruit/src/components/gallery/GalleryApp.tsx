@@ -132,7 +132,7 @@ export default function GalleryApp({ initialImages, initialGroups }: Props) {
         </div>
       )}
 
-      <div className={cn(layout.shell, "flex justify-center pt-4")}>
+      <div className={cn(layout.container, "flex justify-center pt-4")}>
         <p
           className="inline-flex max-w-full items-center gap-2 rounded-full border border-amber-200 bg-white/70 px-3 py-1.5 text-xs text-gravel shadow-[0_8px_24px_rgba(31,29,27,0.05)] backdrop-blur"
           role="note"
@@ -147,7 +147,7 @@ export default function GalleryApp({ initialImages, initialGroups }: Props) {
 
       <div
         className={cn(
-          layout.shell,
+          layout.container,
           "grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 pt-6 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8",
         )}
       >

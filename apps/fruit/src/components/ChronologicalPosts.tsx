@@ -34,7 +34,7 @@ export default function ChronologicalPosts({ postId }: Props) {
 
   return (
     <section
-      className={cn(layout.shell, "border-t border-chalk py-14")}
+      className={cn(layout.container, "border-t border-chalk py-14")}
       aria-labelledby="chronological-posts-title"
     >
       <div className="flex items-end justify-between gap-6 max-md:flex-col max-md:items-start">

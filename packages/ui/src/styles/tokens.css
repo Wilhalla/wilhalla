@@ -1,5 +1,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@fontsource-variable/eb-garamond";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/geist-mono";
 
 /*
  * Wilhalla theme for Tailwind CSS v4 and shadcn/ui: tokens only, no component classes.
@@ -11,14 +14,27 @@
  *   @import "tailwindcss";
  *   @import "@wilhalla/ui/tokens.css";
  *
- * (it brings tw-animate-css and shadcn's base styles along) and defines its own typefaces in its @theme: --font-heading (display serif) and --font-sans.
- * The app may override any shadcn variable below in its own :root.
+ * It brings the Wilhalla typefaces, tw-animate-css and shadcn's base styles along. Apps do not
+ * define their own typefaces or colours: every app looks like Wilhalla.
  */
 
 /* Generate the utilities the shared components use, in every app that imports this file. */
 @source "../";
 
 @theme static {
+  /* Typefaces (self-hosted through Fontsource, imported above): EB Garamond for headings,
+     Inter for interface and running text, Geist Mono for code and numbers. */
+  --font-heading: "EB Garamond Variable", "Cormorant Garamond", "Libre Baskerville", Georgia, serif;
+  --font-sans:
+    "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    "Geist Mono Variable", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+  /* Older names still used in the apps */
+  --font-waldenburg: var(--font-heading);
+  --font-inter: var(--font-sans);
+
   /* Warm editorial palette */
   --color-eggshell: #fdfcfc;
   --color-powder: #f5f3f1;
@@ -54,6 +70,15 @@
   --leading-display: 1.08;
   --tracking-display: -0.96px;
 
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-4xl: 30px;
+
   /* Layout: max-w-page, max-w-readable */
   --container-page: 75rem;
   --container-readable: 58ch;
@@ -87,6 +112,7 @@
   --border: var(--color-chalk);
   --input: var(--color-chalk);
   --ring: var(--color-gravel);
+  --hover: var(--color-powder);
 }
 
 @theme inline {
@@ -108,4 +134,12 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-hover: var(--hover);
+}
+
+/* shadcn/ui base: hairlines and focus outlines use the theme instead of currentColor. */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
 }

@@ -16,7 +16,7 @@ export default function Hero({ leadPost, postCount }: Props) {
   return (
     <section
       className={cn(
-        layout.shell,
+        layout.container,
         "relative grid min-h-[32rem] items-end gap-14 overflow-hidden py-14 md:grid-cols-[minmax(0,1fr)_minmax(20rem,0.6fr)]",
       )}
     >

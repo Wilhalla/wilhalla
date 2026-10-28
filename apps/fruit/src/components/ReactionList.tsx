@@ -22,7 +22,7 @@ export default function ReactionList({ reactions }: Props) {
   return (
     <section
       id="reactions"
-      className={cn(layout.shell, "border-t border-chalk py-14 md:py-16")}
+      className={cn(layout.container, "border-t border-chalk py-14 md:py-16")}
       aria-labelledby="reactions-title"
     >
       <div className="mx-auto max-w-5xl">

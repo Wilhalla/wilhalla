@@ -50,17 +50,18 @@ export default function SemanticPipelineDiagram() {
           mermaid.initialize({
             startOnLoad: false,
             securityLevel: "strict",
+            // Wilhalla palette (packages/ui tokens.css): powder, chalk, gravel, obsidian.
             theme: "base",
             themeVariables: {
-              background: "#fbf6ea",
-              mainBkg: "#fbf6ea",
-              primaryColor: "#fbf6ea",
-              primaryTextColor: "#1d1b16",
-              primaryBorderColor: "#d6cdbb",
-              lineColor: "#72695c",
-              secondaryColor: "#fbf6ea",
-              tertiaryColor: "#fbf6ea",
-              fontFamily: "DM Sans, Source Sans 3, sans-serif",
+              background: "#f5f3f1",
+              mainBkg: "#f5f3f1",
+              primaryColor: "#f5f3f1",
+              primaryTextColor: "#000000",
+              primaryBorderColor: "#e5e5e5",
+              lineColor: "#777169",
+              secondaryColor: "#f5f3f1",
+              tertiaryColor: "#f5f3f1",
+              fontFamily: '"Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif',
             },
           });
           return mermaid.render(id, diagram);
@@ -90,7 +91,10 @@ export default function SemanticPipelineDiagram() {
   }, [id]);
 
   return (
-    <section className={cn(layout.shell, "min-w-0 py-12")} aria-labelledby="semantic-setup-title">
+    <section
+      className={cn(layout.container, "min-w-0 py-12")}
+      aria-labelledby="semantic-setup-title"
+    >
       <div className="min-w-0 border-b border-chalk pb-10">
         <div className="max-w-3xl">
           <h1 id="semantic-setup-title" className={typography.display}>

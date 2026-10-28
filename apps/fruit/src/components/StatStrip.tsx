@@ -6,7 +6,7 @@ type Props = { stats: Stat[] };
 export default function StatStrip({ stats }: Props) {
   return (
     <section
-      className={cn(layout.shell, "grid gap-3 py-8 sm:grid-cols-2 lg:grid-cols-4")}
+      className={cn(layout.container, "grid gap-3 py-8 sm:grid-cols-2 lg:grid-cols-4")}
       aria-label="Archief in cijfers"
     >
       {stats.map((item) => (

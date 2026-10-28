@@ -10,11 +10,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "border border-chalk bg-obsidian text-eggshell shadow-subtle-2 hover:-translate-y-0.5",
+          "border border-chalk bg-obsidian text-eggshell shadow-subtle-2 hover:-translate-y-0.5 aria-expanded:-translate-y-0.5",
         destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20",
+          "bg-destructive text-white hover:bg-destructive/90 aria-expanded:bg-destructive/90 focus-visible:ring-destructive/20",
         outline:
-          "border border-chalk bg-pure-surface text-obsidian shadow-subtle-2 hover:-translate-y-0.5 hover:bg-powder aria-expanded:bg-powder",
+          "border border-chalk bg-pure-surface text-obsidian shadow-subtle-2 hover:-translate-y-0.5 hover:bg-powder aria-expanded:-translate-y-0.5 aria-expanded:bg-powder",
         secondary:
           "border border-chalk bg-powder text-obsidian hover:bg-pure-surface aria-expanded:bg-pure-surface",
         ghost: "text-obsidian hover:bg-powder aria-expanded:bg-powder",

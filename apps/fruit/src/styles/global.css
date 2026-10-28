@@ -1,35 +1,7 @@
 @import "tailwindcss";
 @import "@wilhalla/ui/tokens.css";
-@import "@fontsource-variable/dm-sans/index.css";
-@import "@fontsource-variable/fraunces/index.css";
-@import "@fontsource-variable/geist/index.css";
-@import "../../theme.css";
 
 @custom-variant dark (&:is(.dark *));
-
-@font-face {
-  font-family: "IoskeleyMono";
-  src: url("/fonts/ioskeley/IoskeleyMono-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IoskeleyMono";
-  src: url("/fonts/ioskeley/IoskeleyMono-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IoskeleyMono";
-  src: url("/fonts/ioskeley/IoskeleyMono-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
   color-scheme: light;
@@ -39,7 +11,7 @@
 
 @layer base {
   * {
-    @apply box-border border-border;
+    @apply box-border;
   }
   html {
     @apply scroll-smooth overflow-x-clip bg-eggshell text-obsidian font-sans;

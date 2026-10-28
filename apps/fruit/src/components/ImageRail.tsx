@@ -17,7 +17,7 @@ const tileSpan = [
 
 export default function ImageRail({ images }: Props) {
   return (
-    <section id="beelden" className={cn(layout.shell, "py-14")}>
+    <section id="beelden" className={cn(layout.container, "py-14")}>
       <div className="mb-8">
         <h2 className={typography.section}>Boomgaard, serre, tafel.</h2>
         <p className={typography.kicker}>Afbeeldingen bij dit bericht.</p>

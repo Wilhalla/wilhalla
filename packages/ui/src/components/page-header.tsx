@@ -1,3 +1,4 @@
+import { typography } from "../lib/typography";
 import { cn } from "../lib/utils";
 import { Container } from "./container";
 
@@ -13,14 +14,8 @@ export function PageHeader({ title, intro, className }: PageHeaderProps) {
       <header>
         <div className="border-b border-chalk pb-10 md:pb-14">
           <div className="grid gap-6 md:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.75fr)] md:items-end">
-            <h1 className="max-w-[780px] font-heading text-[clamp(2.25rem,6vw,var(--text-display))] leading-display font-light tracking-display text-balance text-obsidian">
-              {title}
-            </h1>
-            {intro && (
-              <p className="max-w-[560px] font-sans text-body-lg leading-body-lg tracking-[0.01em] text-cinder md:pb-1">
-                {intro}
-              </p>
-            )}
+            <h1 className={cn(typography.display, "max-w-[780px] text-balance")}>{title}</h1>
+            {intro && <p className={cn(typography.intro, "max-w-[560px] md:pb-1")}>{intro}</p>}
           </div>
         </div>
       </header>

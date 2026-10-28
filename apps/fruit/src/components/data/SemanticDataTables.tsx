@@ -505,7 +505,7 @@ export default function SemanticDataTables() {
 
   return (
     <section
-      className={cn(layout.shell, "grid min-w-0 gap-0 pb-20")}
+      className={cn(layout.container, "grid min-w-0 gap-0 pb-20")}
       aria-label="Ruwe semantische preprocessing data"
     >
       {datasetDefinitions.map((definition) => (

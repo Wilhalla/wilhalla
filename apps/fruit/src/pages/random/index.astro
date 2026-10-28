@@ -17,7 +17,7 @@ const fallbackPostPath = randomPostPaths[0] ?? sitePath('/archive/')
   <SiteLoader id="random-redirect-loader" label="Willekeurig bericht laden" message="bericht kiezen" />
   <noscript>
     <style>#random-redirect-loader { display: none; }</style>
-    <section class={cn(layout.shell, "relative grid min-h-[55vh] place-items-center overflow-hidden py-16 text-center md:py-24")} aria-live="polite">
+    <section class={cn(layout.container, "relative grid min-h-[55vh] place-items-center overflow-hidden py-16 text-center md:py-24")} aria-live="polite">
       <div class="grid max-w-2xl gap-5">
         <h1 class={typography.display}>Een archiefbericht kiezen…</h1>
         <p class={typography.kicker}>JavaScript is nodig om echt willekeurig te kiezen. Deze knop opent een vast archiefbericht.</p>
