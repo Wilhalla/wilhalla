@@ -1,3 +1,5 @@
+import { buttonVariants } from "@wilhalla/ui/components/button";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { navigationRegistry, siteIdentity } from "@/config/registries";
 import type { NavigationIconName } from "@/types";
 import { Link, useLocation } from "@tanstack/react-router";
@@ -38,7 +40,7 @@ export function Navbar() {
             : "border-b border-chalk bg-eggshell/95 backdrop-blur-sm"
         }`}
       >
-        <nav className="site-container grid h-12 grid-cols-[1fr_auto_1fr] items-center">
+        <nav className="mx-auto w-[calc(100%-2rem)] max-w-page grid h-12 grid-cols-[1fr_auto_1fr] items-center">
           <Link
             to="/"
             className="group inline-flex items-center gap-2 no-underline"
@@ -58,7 +60,7 @@ export function Navbar() {
                 <li key={link.to}>
                   <Link
                     to={link.to as string}
-                    className="eleven-nav-link inline-flex items-center gap-2 font-waldenburg text-[16px] font-normal tracking-[0.01em]"
+                    className="rounded-full px-2.5 py-[7px] text-obsidian no-underline transition-colors duration-150 hover:bg-powder data-[status=active]:bg-powder inline-flex items-center gap-2 font-waldenburg text-[16px] font-normal tracking-[0.01em]"
                   >
                     <Icon className="h-4 w-4 text-slate" strokeWidth={1.5} />
                     {link.label}
@@ -70,7 +72,10 @@ export function Navbar() {
 
           <Link
             to="/contact"
-            className="hidden justify-self-end md:inline-flex eleven-pill font-waldenburg text-[16px] font-normal tracking-[0.01em]"
+            className={cn(
+              buttonVariants(),
+              "hidden justify-self-end has-[>svg]:px-4 md:inline-flex font-waldenburg text-[16px] font-normal tracking-[0.01em]",
+            )}
           >
             <Mail className="h-4 w-4" strokeWidth={1.5} />
             {navigationRegistry.contactLabel}

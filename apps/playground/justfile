@@ -1,0 +1,28 @@
+# Component playground for @wilhalla/ui. Run from apps/playground; `just playground/<recipe>` from the root.
+
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+[private]
+default:
+    @just --list
+
+# Install workspace dependencies (idempotent)
+setup:
+    cd ../.. && pnpm install --frozen-lockfile
+
+# Every shared component in all its variants and states: http://127.0.0.1:4400
+dev: setup
+    jp dev --port 4400 -- pnpm exec vite --host 127.0.0.1 --port 4400
+
+build:
+    pnpm run build
+
+# Typecheck and build, like CI
+check:
+    cd ../.. && just check playground
+
+test:
+    @echo "playground has no tests"
+
+clean:
+    rm -rf dist

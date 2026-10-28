@@ -1,0 +1,29 @@
+{
+  "name": "@wilhalla/playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4400",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4400",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "catalog:",
+    "@fontsource-variable/eb-garamond": "catalog:",
+    "@fontsource-variable/fraunces": "catalog:",
+    "@wilhalla/ui": "workspace:*",
+    "lucide-react": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

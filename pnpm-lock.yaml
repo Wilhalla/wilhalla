@@ -423,6 +423,9 @@ importers:
       '@vercel/analytics':
         specifier: 'catalog:'
         version: 2.0.1(react@19.3.1)
+      '@wilhalla/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       astro:
         specifier: 'catalog:'
         version: 6.4.8(@types/node@25.9.9)(@vercel/functions@3.7.6(ws@8.22.0))(db0@0.3.4)(jiti@2.7.0)(lightningcss@1.33.0)(rollup@4.65.1)(tsx@4.23.15)(yaml@2.9.1)
@@ -506,6 +509,52 @@ importers:
         specifier: 'catalog:'
         version: 4.1.12(@types/node@25.9.9)(jsdom@29.1.1)(vite@7.3.7(@types/node@25.9.9)(jiti@2.7.0)(lightningcss@1.33.0)(tsx@4.23.15)(yaml@2.9.1))
 
+  apps/playground:
+    dependencies:
+      '@fontsource-variable/dm-sans':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource-variable/eb-garamond':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource-variable/fraunces':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@wilhalla/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      lucide-react:
+        specifier: 'catalog:'
+        version: 1.62.0(@types/react@19.3.0)(react@19.3.1)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.3.1(react@19.3.1)
+    devDependencies:
+      '@tailwindcss/vite':
+        specifier: 'catalog:'
+        version: 4.3.3(vite@8.3.5(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.3.0(@types/react@19.3.0)
+      '@vitejs/plugin-react':
+        specifier: 'catalog:'
+        version: 6.1.2(babel-plugin-react-compiler@1.0.0)(vite@8.3.5(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.3.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vite:
+        specifier: 'catalog:'
+        version: 8.3.5(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
+
   apps/site:
     dependencies:
       '@fontsource-variable/eb-garamond':
@@ -535,6 +584,9 @@ importers:
       '@vercel/analytics':
         specifier: 'catalog:'
         version: 2.0.1(react@19.3.1)
+      '@wilhalla/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.1
@@ -617,6 +669,37 @@ importers:
       zod:
         specifier: 'catalog:'
         version: 4.6.7
+
+  packages/ui:
+    dependencies:
+      class-variance-authority:
+        specifier: 'catalog:'
+        version: 0.7.1
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
+      lucide-react:
+        specifier: 'catalog:'
+        version: 1.62.0(@types/react@19.3.0)(react@19.3.1)
+      radix-ui:
+        specifier: 'catalog:'
+        version: 1.8.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      tailwind-merge:
+        specifier: 'catalog:'
+        version: 3.7.0
+    devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
+      react:
+        specifier: 'catalog:'
+        version: 19.3.1
+      shadcn:
+        specifier: 'catalog:'
+        version: 4.23.0
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
 
 packages:
 

@@ -2,10 +2,10 @@ import type * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
 
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium tracking-[0.01em] transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive",
+  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full font-sans text-sm font-medium tracking-[0.01em] transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
@@ -14,9 +14,10 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20",
         outline:
-          "border border-chalk bg-white text-obsidian shadow-subtle-2 hover:-translate-y-0.5 hover:bg-powder",
-        secondary: "border border-chalk bg-powder text-obsidian hover:bg-white",
-        ghost: "text-obsidian hover:bg-powder",
+          "border border-chalk bg-pure-surface text-obsidian shadow-subtle-2 hover:-translate-y-0.5 hover:bg-powder aria-expanded:bg-powder",
+        secondary:
+          "border border-chalk bg-powder text-obsidian hover:bg-pure-surface aria-expanded:bg-pure-surface",
+        ghost: "text-obsidian hover:bg-powder aria-expanded:bg-powder",
         link: "text-obsidian underline-offset-4 hover:underline",
       },
       size: {
@@ -37,16 +38,19 @@ const buttonVariants = cva(
   },
 );
 
+type ButtonProps = React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    /** Render the single child (e.g. a link) with the button's styling instead of a <button>. */
+    asChild?: boolean;
+  };
+
 function Button({
   className,
   variant = "default",
   size = "default",
   asChild = false,
   ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean;
-  }) {
+}: ButtonProps) {
   const Comp = asChild ? Slot.Root : "button";
 
   return (
@@ -60,4 +64,4 @@ function Button({
   );
 }
 
-export { Button, buttonVariants };
+export { Button, buttonVariants, type ButtonProps };

@@ -33,13 +33,13 @@ function HintCard({
               {icon}
             </div>
           </div>
-          <div className="text-nav mb-2 flex items-center justify-center gap-2 text-black/42">
+          <div className="font-sans text-body leading-none tracking-[0.01em] mb-2 flex items-center justify-center gap-2 text-black/42">
             <span className="inline-block h-px w-7 bg-current/30" />
             <span>{eyebrow}</span>
             <span className="inline-block h-px w-7 bg-current/30" />
           </div>
           <p
-            className="text-small m-0 max-w-[26rem] text-black/62"
+            className="font-sans text-body leading-body tracking-[0.01em] m-0 max-w-[26rem] text-black/62"
             style={{ textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}
           >
             {message}

@@ -55,7 +55,9 @@ function AppLayout() {
   const isContact = location.pathname === "/contact";
 
   return (
-    <div className={`min-h-screen flex flex-col ${isHome ? "" : "site-shell"}`}>
+    <div
+      className={`min-h-screen flex flex-col ${isHome ? "" : "bg-eggshell font-sans text-obsidian"}`}
+    >
       <Analytics />
       <Navbar />
       <main className={`flex-1 ${isHome ? "" : "pt-12"}`}>

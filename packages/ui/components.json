@@ -5,19 +5,17 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "src/styles.css",
+    "css": "src/styles/tokens.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
   },
   "iconLibrary": "lucide",
-  "rtl": false,
   "aliases": {
-    "components": "@/components",
-    "utils": "@/lib/utils",
-    "ui": "@/components/ui",
-    "lib": "@/lib",
-    "hooks": "@/hooks"
-  },
-  "registries": {}
+    "components": "@wilhalla/ui/components",
+    "utils": "@wilhalla/ui/lib/utils",
+    "ui": "@wilhalla/ui/components",
+    "lib": "@wilhalla/ui/lib",
+    "hooks": "@wilhalla/ui/hooks"
+  }
 }
