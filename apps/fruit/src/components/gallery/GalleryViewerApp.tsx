@@ -3,9 +3,9 @@ import { cn } from "@wilhalla/ui/lib/utils";
 import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { useMemo, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { ArrowLeft, ExternalLink, X } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { GallerySlideshowOverlay, useGallerySlideshow } from "./GallerySlideshow";
-import ViewerSidebar from "./ViewerSidebar";
+import ViewerSidebar, { FILMSTRIP_ITEM_SIZE } from "./ViewerSidebar";
 import { useGallerySpeciesTags } from "./galleryClientHooks";
 import {
   useCenteredVirtualItem,
@@ -20,7 +20,7 @@ import {
   useViewerKeyboardNavigation,
   type ImageSize,
 } from "./galleryViewerHooks";
-import ViewerImageStage, { isImageScaleMode } from "./ViewerImageStage";
+import ViewerImageStage, { isImageScaleMode, ViewerToolbar } from "./ViewerImageStage";
 import { useDismissHydrationLoader } from "./useGracefulLoader";
 import { useImageZoomPan } from "./useImageZoomPan";
 import { sameOriginReferrer, writeBrowserPath } from "../../lib/browserHistory";
@@ -32,7 +32,6 @@ import {
   galleryViewerPageUrl,
   imageDownloadFilename,
   imageFullSrc,
-  imageNumberLabel,
   type GalleryImageRecord as ImageRecord,
 } from "../../lib/imageGallerySession";
 
@@ -125,7 +124,7 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
   const viewerTimelineVirtualizer = useVirtualizer({
     count: filtered.length,
     getScrollElement: () => viewerTimelineRef.current,
-    estimateSize: () => 188,
+    estimateSize: () => FILMSTRIP_ITEM_SIZE,
     horizontal: true,
     overscan: 12,
     getItemKey: (index) => filtered[index]?.id ?? index,
@@ -256,7 +255,7 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
   useCenteredVirtualItem({
     enabled: Boolean(viewerImage),
     index: viewerIndex,
-    itemSize: 188,
+    itemSize: FILMSTRIP_ITEM_SIZE,
     scrollerRef: viewerTimelineRef,
     virtualizer: viewerTimelineVirtualizer,
   });
@@ -319,77 +318,61 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
     );
   }
 
+  const stageProps = {
+    filteredCount: filtered.length,
+    imageScaleMode: imageScaleMode,
+    imageStyle: viewerImageStyle,
+    imageZoom: imageZoom,
+    imageZoomChanged: imageZoomChanged,
+    imageZoomLabel: imageZoomLabel,
+    nextImage: nextImage,
+    previousImage: previousImage,
+    slideshowMode: slideshow.mode,
+    slideshowSeconds: slideshow.seconds,
+    viewerFullscreen: viewerFullscreen,
+    viewerImage: viewerImage,
+    viewerImageFullSrc: viewerImageFullSrc,
+    viewerImageRef: viewerImageRef,
+    viewerImageStageRef: viewerImageStageRef,
+    zoomEnabled: zoomEnabled,
+    zoomLensRef: zoomLensRef,
+    zoomValue: zoomValue,
+    zoomValueLabel: zoomValueLabel,
+    onCaptureZoomRects: captureZoomRects,
+    onDownload: downloadViewerImage,
+    onFinishPan: finishViewerImagePan,
+    onHideZoomLens: hideZoomLens,
+    onImageDoubleClick: handleViewerImageDoubleClick,
+    onImageLoad: (size: { width: number; height: number }) =>
+      setViewerNaturalSize({ imageId: viewerImage.id, ...size }),
+    onImagePointerDown: handleViewerImagePointerDown,
+    onImagePointerMove: handleViewerImagePointerMove,
+    onImageWheel: handleViewerImageWheel,
+    onOpenImage: replaceViewerImage,
+    onResetZoom: resetImageZoom,
+    onScaleModeChange: setImageScaleMode,
+    onSetImageZoomAt: setImageZoomAt,
+    onSetZoomEnabled: setZoomEnabled,
+    onSetZoomValue: setZoomValue,
+    onSlideshowModeChange: slideshow.setMode,
+    onSlideshowSecondsChange: slideshow.setSeconds,
+    onStartSlideshow: startSlideshow,
+    onToggleFullscreen: toggleViewerFullscreen,
+  };
+
   return (
     <main className="min-h-[calc(100svh-4rem)] w-full overflow-x-hidden bg-eggshell text-obsidian lg:flex lg:h-[calc(100svh-4rem)] lg:max-h-[calc(100svh-4rem)] lg:flex-col lg:overflow-hidden">
-      <header className="sticky top-14 z-40 flex h-14 shrink-0 items-center justify-between gap-3 overflow-hidden border-b border-chalk bg-eggshell/95 px-4 backdrop-blur md:px-6 lg:static">
-        <div className="min-w-0">
-          <p className="m-0 truncate text-sm font-medium text-obsidian">{viewerImage.postTitle}</p>
-          <p className="m-0 text-xs text-gravel">
-            {formatImagePostDateTime(viewerImage)}
-            {imageNumberLabel(viewerImage)}
-          </p>
-        </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <Button variant="outline" size="sm" className="max-md:hidden" onClick={goBackToGallery}>
-            <ArrowLeft /> Terug
-          </Button>
-          <Button asChild size="sm">
-            <a href={`/posts/${viewerImage.postSlug}/`}>
-              Lees het bericht <ExternalLink />
-            </a>
-          </Button>
-          <Button
-            variant="outline"
-            size="icon-sm"
-            onClick={goBackToGallery}
-            aria-label="Sluit beeldviewer"
-          >
-            <X />
-          </Button>
+      <header className="sticky top-14 z-40 flex h-14 shrink-0 items-center gap-3 border-b border-chalk bg-eggshell px-3 md:px-5 lg:static">
+        <Button variant="ghost" size="sm" onClick={goBackToGallery}>
+          <ArrowLeft /> Beeldarchief
+        </Button>
+        <div className="ml-auto">
+          <ViewerToolbar {...stageProps} />
         </div>
       </header>
 
       <div className="block w-full min-w-0 lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[minmax(0,1fr)_24rem] lg:grid-rows-1 lg:overflow-hidden">
-        <ViewerImageStage
-          filteredCount={filtered.length}
-          imageScaleMode={imageScaleMode}
-          imageStyle={viewerImageStyle}
-          imageZoom={imageZoom}
-          imageZoomChanged={imageZoomChanged}
-          imageZoomLabel={imageZoomLabel}
-          nextImage={nextImage}
-          previousImage={previousImage}
-          slideshowMode={slideshow.mode}
-          slideshowSeconds={slideshow.seconds}
-          viewerFullscreen={viewerFullscreen}
-          viewerImage={viewerImage}
-          viewerImageFullSrc={viewerImageFullSrc}
-          viewerImageRef={viewerImageRef}
-          viewerImageStageRef={viewerImageStageRef}
-          zoomEnabled={zoomEnabled}
-          zoomLensRef={zoomLensRef}
-          zoomValue={zoomValue}
-          zoomValueLabel={zoomValueLabel}
-          onCaptureZoomRects={captureZoomRects}
-          onDownload={downloadViewerImage}
-          onFinishPan={finishViewerImagePan}
-          onHideZoomLens={hideZoomLens}
-          onImageDoubleClick={handleViewerImageDoubleClick}
-          onImageLoad={(size) => setViewerNaturalSize({ imageId: viewerImage.id, ...size })}
-          onImagePointerDown={handleViewerImagePointerDown}
-          onImagePointerMove={handleViewerImagePointerMove}
-          onImageWheel={handleViewerImageWheel}
-          onOpenImage={replaceViewerImage}
-          onResetZoom={resetImageZoom}
-          onScaleModeChange={setImageScaleMode}
-          onSetImageZoomAt={setImageZoomAt}
-          onSetZoomEnabled={setZoomEnabled}
-          onSetZoomValue={setZoomValue}
-          onSlideshowModeChange={slideshow.setMode}
-          onSlideshowSecondsChange={slideshow.setSeconds}
-          onStartSlideshow={startSlideshow}
-          onToggleFullscreen={toggleViewerFullscreen}
-        />
+        <ViewerImageStage {...stageProps} />
 
         <ViewerSidebar
           filtered={filtered}
