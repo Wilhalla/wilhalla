@@ -1319,7 +1319,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
                 ?
               </summary>
               <div className="absolute left-0 top-10 w-72 border border-chalk bg-eggshell p-4 text-sm leading-6 text-gravel shadow-[0_24px_70px_rgba(31,29,27,0.14)]">
-                <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-obsidian">
+                <p className="mb-2 font-mono text-label uppercase tracking-caps text-obsidian">
                   Hoe lezen
                 </p>
                 <ol className="m-0 grid list-none gap-2 p-0">
@@ -1377,7 +1377,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
                   style={{ backgroundColor: colorFor(topic.id) }}
                 />
                 <span>{category.label}</span>
-                <span className="font-mono text-[10px] text-gravel/80">
+                <span className="font-mono text-caption text-gravel/80">
                   {(topic.unitCount ?? topic.postCount).toLocaleString("nl-BE")}
                 </span>
               </button>
@@ -1395,7 +1395,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
         >
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-1">
             <section>
-              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-gravel">
+              <p className="mb-3 font-mono text-label uppercase tracking-caps text-gravel">
                 Filters
               </p>
               <div className="grid gap-3">
@@ -1485,7 +1485,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
             </section>
 
             <section>
-              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-gravel">
+              <p className="mb-3 font-mono text-label uppercase tracking-caps text-gravel">
                 Weergave
               </p>
               <div className="grid gap-1 font-mono text-sm text-gravel" aria-label="Weergave">
@@ -1501,7 +1501,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
                   </button>
                 ))}
               </div>
-              <p className="mt-4 font-mono text-[11px] leading-5 text-gravel">{visibleStatus}</p>
+              <p className="mt-4 font-mono text-label leading-5 text-gravel">{visibleStatus}</p>
             </section>
           </div>
         </aside>
@@ -1665,14 +1665,14 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
                 role="img"
                 aria-label="Minikaart met het huidige ingezoomde venster"
               >
-                <div className="mb-1 flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-gravel">
+                <div className="mb-1 flex items-center justify-between gap-2 font-mono text-caption uppercase tracking-[0.14em] text-gravel">
                   <span>Overzicht</span>
                   <span>{scale.toFixed(1)}×</span>
                 </div>
                 <canvas ref={minimapRef} className="block h-28 w-full" aria-hidden="true" />
               </div>
             ) : (
-              <div className="absolute bottom-4 right-4 z-10 bg-eggshell/80 px-3 py-2 font-mono text-[11px] text-gravel backdrop-blur">
+              <div className="absolute bottom-4 right-4 z-10 bg-eggshell/80 px-3 py-2 font-mono text-label text-gravel backdrop-blur">
                 {visibleStatus}
               </div>
             )}
@@ -1734,7 +1734,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
             </button>
             {selectedPoint ? (
               <section>
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gravel">
+                <p className="font-mono text-label uppercase tracking-caps text-gravel">
                   Geselecteerd verhaal
                 </p>
                 {selectedPoint.image ? (
@@ -1800,7 +1800,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
               </section>
             ) : selectedCluster ? (
               <section>
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gravel">
+                <p className="font-mono text-label uppercase tracking-caps text-gravel">
                   Categorie
                 </p>
                 <div className="mt-4 flex items-center gap-3">

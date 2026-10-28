@@ -86,6 +86,23 @@ to `error` rather than adding new exceptions. Each app's `package.json` exposes 
   variants on its wrapper (`[&_a]:underline`), see `apps/site/src/components/markdown-content.tsx`.
 - Components never import a router: links take a `linkComponent` (see `link.tsx`) or use
   `asChild`/`buttonVariants()`.
+- `@shadcn/lint` checks this in `just lint` (registered in `.oxlintrc.json`, settings under
+  `settings.shadcn`). After UI changes, run `just lint` and fix what it reports; its messages
+  say which variant, token or contract to use.
+  - Errors everywhere: `no-raw-colors` (only theme colours), `no-unknown-classes` (classes
+    Tailwind can generate), `require-static-classes` (class values the linter can read).
+  - Errors in `packages/ui` and `apps/playground`, warnings in the apps until they are clean:
+    `no-restyle` (pass only layout classes to shared components; ask for a variant instead),
+    `no-arbitrary-values` (use theme tokens, add one to `tokens.css` when a value recurs),
+    `no-inline-styles` (dynamic values go through CSS custom properties: `style={{"--x": v}}`
+    plus `w-(--x)`).
+  - Exempt: the components themselves (`packages/ui/src/components`) for restyle, arbitrary and
+    static checks, and the site's hand-drawn map (`apps/site/src/components/map`).
+  - The total warning count is capped in `package.json#scripts.lint` (`--max-warnings`). Lower
+    the cap whenever you remove warnings; never raise it. A deliberate exception gets an
+    `// oxlint-disable-next-line shadcn/<rule> -- reason` comment.
+  - `.astro` templates are not linted (oxlint reads only JS/TS); keep markup classes in
+    recipes or React components where possible.
 - Every shared component has a story in `apps/playground/src/stories` showing all variants and
   states; add or extend it in the same commit (`just dev playground`).
 

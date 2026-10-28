@@ -240,7 +240,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                 <LabelList
                   dataKey="posts"
                   position="top"
-                  className="fill-gravel text-[11px]"
+                  className="fill-gravel text-label"
                   formatter={formatLabelCompact}
                 />
               </Bar>
@@ -401,7 +401,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
                 <LabelList
                   dataKey="posts"
                   position="right"
-                  className="fill-gravel text-[11px]"
+                  className="fill-gravel text-label"
                   formatter={formatLabelNumber}
                 />
               </Bar>

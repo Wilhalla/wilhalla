@@ -5,6 +5,7 @@
   "description": "Wilhalla design tokens and React components, shared by every app (consumed as TypeScript source).",
   "exports": {
     "./tokens.css": "./src/styles/tokens.css",
+    "./globals.css": "./src/styles/globals.css",
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx"
   },
@@ -23,6 +24,7 @@
     "recharts": "catalog:",
     "shadcn": "catalog:",
     "tailwind-merge": "catalog:",
+    "tailwindcss": "catalog:",
     "tw-animate-css": "catalog:"
   },
   "peerDependencies": {

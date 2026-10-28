@@ -1,0 +1,8 @@
+/*
+ * Tailwind plus the Wilhalla theme in one import, for a page that has no stylesheet of its own:
+ *   @import "@wilhalla/ui/globals.css";
+ * Apps with their own stylesheet import "tailwindcss" and "@wilhalla/ui/tokens.css" instead.
+ * shadcn (`just ui-add`) and @shadcn/lint read this file as the package's Tailwind entry.
+ */
+@import "tailwindcss";
+@import "./tokens.css";

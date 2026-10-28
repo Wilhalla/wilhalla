@@ -54,7 +54,7 @@ function GalleryPage() {
                 >
                   <a
                     href={image.image}
-                    className="group block overflow-hidden rounded-[18px] no-underline transition duration-300 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-obsidian"
+                    className="group block overflow-hidden rounded-image no-underline transition duration-300 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-obsidian"
                     aria-label={`Open foto ${index + 1} groot: ${alt}`}
                   >
                     <img
@@ -64,7 +64,7 @@ function GalleryPage() {
                       alt={alt}
                       loading={index < 4 ? "eager" : "lazy"}
                       decoding="async"
-                      className="h-auto w-full rounded-[18px] bg-powder object-cover transition duration-500 group-hover:scale-[1.015]"
+                      className="h-auto w-full rounded-image bg-powder object-cover transition duration-500 group-hover:scale-[1.015]"
                     />
                   </a>
                 </li>

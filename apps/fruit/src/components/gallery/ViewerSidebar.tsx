@@ -137,7 +137,7 @@ export default function ViewerSidebar({
                     fetchPriority="low"
                     decoding="async"
                   />
-                  <span className="line-clamp-2 pt-1 text-[10px] leading-3 text-obsidian">
+                  <span className="line-clamp-2 pt-1 text-caption leading-3 text-obsidian">
                     {image.postTitle}
                   </span>
                   <span className="block truncate pt-0.5 font-mono text-[9px] text-gravel">
@@ -178,7 +178,7 @@ export default function ViewerSidebar({
                   <span className="line-clamp-2 text-xs leading-4 text-gravel">
                     {image.postTitle}
                   </span>
-                  <span className="mt-1 block truncate font-mono text-[10px] text-gravel/75">
+                  <span className="mt-1 block truncate font-mono text-caption text-gravel/75">
                     {formatImagePostDateTime(image)}
                   </span>
                 </span>

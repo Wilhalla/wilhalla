@@ -33,7 +33,8 @@ case "$mode" in
 esac
 
 pnpm exec oxfmt --check
-pnpm exec oxlint
+# Lint, including @shadcn/lint. The warning cap in package.json#scripts.lint only goes down.
+pnpm run lint
 for script in typecheck test build; do
   pnpm "${filter[@]}" --workspace-concurrency=1 run --if-present "$script"
 done

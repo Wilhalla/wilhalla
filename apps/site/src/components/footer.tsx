@@ -45,10 +45,10 @@ export function Footer() {
       <div className="mx-auto w-[calc(100%-2rem)] max-w-page py-14">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_0.75fr_1.4fr]">
           <div>
-            <h3 className="font-sans text-body-lg leading-body-lg tracking-[0.01em] mb-4 m-0 text-obsidian">
+            <h3 className="font-sans text-body-lg leading-body-lg tracking-ui mb-4 m-0 text-obsidian">
               Contact
             </h3>
-            <address className="font-sans text-body leading-body tracking-[0.01em] not-italic text-gravel">
+            <address className="font-sans text-body leading-body tracking-ui not-italic text-gravel">
               <span className="text-obsidian">{contactRegistry.name}</span>
               <br />
               <a
@@ -63,10 +63,10 @@ export function Footer() {
             </address>
           </div>
           <div>
-            <h3 className="font-sans text-body-lg leading-body-lg tracking-[0.01em] mb-4 m-0 text-obsidian">
+            <h3 className="font-sans text-body-lg leading-body-lg tracking-ui mb-4 m-0 text-obsidian">
               Volg ons
             </h3>
-            <ul className="m-0 flex list-none flex-col gap-2 p-0 font-sans text-body leading-body tracking-[0.01em] text-gravel">
+            <ul className="m-0 flex list-none flex-col gap-2 p-0 font-sans text-body leading-body tracking-ui text-gravel">
               {socialRegistry.map((link) => {
                 const Icon = socialIconByName[link.icon];
 
@@ -89,7 +89,7 @@ export function Footer() {
           <GoogleMapsEmbed />
         </div>
         <div className="mt-12 border-t border-chalk pt-6">
-          <p className="font-sans text-body leading-body tracking-[0.01em] text-gravel">
+          <p className="font-sans text-body leading-body tracking-ui text-gravel">
             {siteIdentity.footerTagline}
           </p>
         </div>

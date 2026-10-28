@@ -72,11 +72,11 @@ export function EditorialLandingPage({ page, html }: { page: EditorialLandingPag
               to={subPage.to as string}
               className="group flex items-center justify-between gap-6 border-b border-chalk py-5 no-underline transition-colors hover:text-obsidian"
             >
-              <span className="font-sans text-body-lg leading-body-lg tracking-[0.01em] font-normal text-obsidian">
+              <span className="font-sans text-body-lg leading-body-lg tracking-ui font-normal text-obsidian">
                 {subPage.label}
               </span>
               <span
-                className="font-sans text-body leading-body tracking-[0.01em] text-gravel transition-transform group-hover:translate-x-1"
+                className="font-sans text-body leading-body tracking-ui text-gravel transition-transform group-hover:translate-x-1"
                 aria-hidden="true"
               >
                 Lees meer &rarr;

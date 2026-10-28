@@ -14,7 +14,7 @@ import { yearPickerCountClass, yearPickerItemClass } from "./yearPickerStyles";
 
 type Props = { posts: PostSummary[]; limit?: number };
 const countPill =
-  "inline-flex min-h-6 items-center rounded-full px-2.5 font-mono text-[11px] leading-none";
+  "inline-flex min-h-6 items-center rounded-full px-2.5 font-mono text-label leading-none";
 const activeYearScript = `
 (() => {
   const root = document.currentScript?.closest('[data-chronology-feed]')

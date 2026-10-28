@@ -8,6 +8,10 @@ const twMerge = extendTailwindMerge({
     theme: {
       text: [
         "caption",
+        "label",
+        "mono",
+        "display-fluid",
+        "heading-lg-fluid",
         "body",
         "body-lg",
         "subheading",
@@ -18,6 +22,7 @@ const twMerge = extendTailwindMerge({
       ],
       leading: [
         "caption",
+        "mono",
         "body",
         "body-lg",
         "subheading",
@@ -26,8 +31,9 @@ const twMerge = extendTailwindMerge({
         "heading-lg",
         "display",
       ],
-      tracking: ["heading", "heading-lg", "display"],
+      tracking: ["ui", "caps", "heading", "heading-lg", "display"],
       shadow: ["subtle", "subtle-2", "subtle-4", "subtle-7"],
+      radius: ["image"],
     },
   },
 });

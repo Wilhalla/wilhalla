@@ -17,13 +17,13 @@ export function NotFound() {
         404
       </p>
 
-      <h1 className="font-heading text-[clamp(2.25rem,6vw,var(--text-display))] leading-display font-light tracking-display mt-6 max-w-[620px] text-obsidian">
+      <h1 className="font-heading text-display-fluid leading-display font-light tracking-display mt-6 max-w-[620px] text-obsidian">
         Verdwaald in de tuin
       </h1>
 
       <div className="my-10 w-full max-w-[620px] border-t border-chalk" />
 
-      <p className="font-sans text-body-lg leading-body-lg tracking-[0.01em] max-w-[480px] text-gravel">
+      <p className="font-sans text-body-lg leading-body-lg tracking-ui max-w-[480px] text-gravel">
         Deze pagina bestaat niet of is verplaatst. Misschien vind je wat je zoekt via de kaart of
         het menu.
       </p>

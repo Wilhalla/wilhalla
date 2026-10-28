@@ -2,6 +2,8 @@
 @import "@wilhalla/ui/tokens.css";
 
 @custom-variant dark (&:is(.dark *));
+/* The atlas fills the screen in fullscreen mode; Tailwind has no built-in variant for it. */
+@custom-variant fullscreen (&:fullscreen);
 
 :root {
   color-scheme: light;
@@ -18,7 +20,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply m-0 min-h-screen overflow-x-clip bg-eggshell text-obsidian font-sans text-body leading-body tracking-[0.01em];
+    @apply m-0 min-h-screen overflow-x-clip bg-eggshell text-obsidian font-sans text-body leading-body tracking-ui;
     scroll-behavior: smooth;
   }
   html.mobile-menu-open,
@@ -47,7 +49,7 @@
   pre,
   kbd,
   samp {
-    @apply font-mono text-[13px] leading-[1.69];
+    @apply font-mono text-mono leading-mono;
   }
   img {
     @apply block max-w-full bg-powder;

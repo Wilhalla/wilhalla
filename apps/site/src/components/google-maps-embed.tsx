@@ -10,11 +10,11 @@ export function GoogleMapsEmbed() {
         <div>
           <h3
             id="location-map-title"
-            className="font-sans text-body-lg leading-body-lg tracking-[0.01em] m-0 text-obsidian"
+            className="font-sans text-body-lg leading-body-lg tracking-ui m-0 text-obsidian"
           >
             Vind ons
           </h3>
-          <p className="font-sans text-body leading-body tracking-[0.01em] mt-2 mb-0 inline-flex items-center gap-2 text-gravel">
+          <p className="font-sans text-body leading-body tracking-ui mt-2 mb-0 inline-flex items-center gap-2 text-gravel">
             <MapPin className="h-4 w-4 shrink-0 text-slate" strokeWidth={1.5} />
             {locationRegistry.label}
           </p>
@@ -23,7 +23,7 @@ export function GoogleMapsEmbed() {
           href={locationRegistry.googleMapsUrl}
           target="_blank"
           rel="noreferrer"
-          className={cn(buttonVariants({ variant: "outline" }), "h-9 px-3 text-[13px]")}
+          className={cn(buttonVariants({ variant: "outline" }), "h-9 px-3 text-mono")}
         >
           Route
           <ExternalLink className="h-3.5 w-3.5" strokeWidth={1.5} />

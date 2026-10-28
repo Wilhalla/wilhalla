@@ -95,13 +95,13 @@ export function RankingTable({
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="w-8 px-0 text-caption uppercase tracking-[0.18em] text-gravel">
+              <TableHead className="w-8 px-0 text-caption uppercase tracking-caps text-gravel">
                 #
               </TableHead>
-              <TableHead className="px-0 text-caption uppercase tracking-[0.18em] text-gravel">
+              <TableHead className="px-0 text-caption uppercase tracking-caps text-gravel">
                 Bericht
               </TableHead>
-              <TableHead className="px-0 text-right text-caption uppercase tracking-[0.18em] text-gravel">
+              <TableHead className="px-0 text-right text-caption uppercase tracking-caps text-gravel">
                 {metricLabel}
               </TableHead>
             </TableRow>

@@ -46,7 +46,7 @@ export function MapSentinel({
         <text
           x={minX + 4}
           y={minY + 16}
-          fill="black"
+          fill="var(--color-foreground)"
           fontSize={14}
           fontFamily="monospace"
           style={{ pointerEvents: "none", userSelect: "none" }}

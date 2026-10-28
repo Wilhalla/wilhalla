@@ -13,7 +13,7 @@ const editorial = [
   "[&_a]:transition-[background-color,text-decoration-color] [&_a]:duration-150",
   "[&_a:hover]:bg-powder [&_a:hover]:decoration-obsidian",
   "[&_li]:border-t [&_li]:border-chalk [&_li]:py-3",
-  "[&_img]:block [&_img]:h-auto [&_img]:max-h-[720px] [&_img]:w-full [&_img]:rounded-[18px] [&_img]:bg-powder [&_img]:object-cover",
+  "[&_img]:block [&_img]:h-auto [&_img]:max-h-[720px] [&_img]:w-full [&_img]:rounded-image [&_img]:bg-powder [&_img]:object-cover",
 ].join(" ");
 
 export function MarkdownContent({ html }: MarkdownContentProps) {

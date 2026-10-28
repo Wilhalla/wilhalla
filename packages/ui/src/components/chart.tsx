@@ -83,6 +83,7 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   }
 
   return (
+    // oxlint-disable-next-line shadcn/no-inline-styles -- shadcn's chart maps its config to per-chart --color-* variables; there is no static class for that.
     <style
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
@@ -287,10 +288,8 @@ function ChartLegendContent({
                 <itemConfig.icon />
               ) : (
                 <div
-                  className="h-2 w-2 shrink-0 rounded-sm"
-                  style={{
-                    backgroundColor: item.color,
-                  }}
+                  className="h-2 w-2 shrink-0 rounded-sm bg-(--legend-color)"
+                  style={{ "--legend-color": item.color } as React.CSSProperties}
                 />
               )}
               {itemConfig?.label}
