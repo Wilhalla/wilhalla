@@ -38,7 +38,7 @@ export function PrototypeSwitcher({
 
   const variant = variants[index];
   return (
-    <div className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-full bg-signal-blue p-1 font-mono text-label text-pure-surface shadow-subtle-4">
+    <div className="fixed top-16 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-full bg-signal-blue p-1 font-mono text-label text-pure-surface shadow-subtle-4">
       <Button size="icon-sm" variant="ghost" aria-label="Vorige variant" onClick={() => go(-1)}>
         <ChevronLeft />
       </Button>
