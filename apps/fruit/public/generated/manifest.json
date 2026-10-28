@@ -1,0 +1,13 @@
+{
+  "contractVersion": 3,
+  "postCount": 3281,
+  "browseUnitCount": 2678,
+  "tagVocabularyVersion": "archive-tags-1",
+  "tagCount": 54,
+  "categoryMapVersion": "archive-categories-1",
+  "categoryCount": 9,
+  "embeddingModel": "Qwen/Qwen3-Embedding-8B",
+  "projectionMethod": "umap-cosine-v1",
+  "relatedMethod": "exact-cosine-embedding-neighbors",
+  "embeddingInput": "post-text-and-reviewed-image-descriptions"
+}

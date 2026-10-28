@@ -1,0 +1,162 @@
+{
+  "years": [
+    {
+      "id": "2020",
+      "label": "2020",
+      "count": 58
+    },
+    {
+      "id": "2019",
+      "label": "2019",
+      "count": 722
+    },
+    {
+      "id": "2018",
+      "label": "2018",
+      "count": 499
+    },
+    {
+      "id": "2017",
+      "label": "2017",
+      "count": 603
+    },
+    {
+      "id": "2016",
+      "label": "2016",
+      "count": 1131
+    },
+    {
+      "id": "2015",
+      "label": "2015",
+      "count": 1477
+    },
+    {
+      "id": "2014",
+      "label": "2014",
+      "count": 1161
+    },
+    {
+      "id": "2013",
+      "label": "2013",
+      "count": 1199
+    },
+    {
+      "id": "2012",
+      "label": "2012",
+      "count": 1373
+    },
+    {
+      "id": "2011",
+      "label": "2011",
+      "count": 1012
+    },
+    {
+      "id": "2010",
+      "label": "2010",
+      "count": 1397
+    },
+    {
+      "id": "2009",
+      "label": "2009",
+      "count": 1376
+    },
+    {
+      "id": "2008",
+      "label": "2008",
+      "count": 809
+    },
+    {
+      "id": "2007",
+      "label": "2007",
+      "count": 309
+    },
+    {
+      "id": "2006",
+      "label": "2006",
+      "count": 14
+    },
+    {
+      "id": "2005",
+      "label": "2005",
+      "count": 1
+    }
+  ],
+  "seasons": [
+    {
+      "id": "lente",
+      "label": "lente",
+      "count": 3448
+    },
+    {
+      "id": "zomer",
+      "label": "zomer",
+      "count": 3631
+    },
+    {
+      "id": "herfst",
+      "label": "herfst",
+      "count": 4388
+    },
+    {
+      "id": "winter",
+      "label": "winter",
+      "count": 1677
+    }
+  ],
+  "themes": [
+    {
+      "id": "familie",
+      "label": "Familie",
+      "icon": "👪",
+      "count": 193
+    },
+    {
+      "id": "mensen",
+      "label": "Mensen",
+      "icon": "👥",
+      "count": 4975
+    },
+    {
+      "id": "fruit",
+      "label": "Fruit & eten",
+      "icon": "🍐",
+      "count": 2305
+    },
+    {
+      "id": "tuin",
+      "label": "Planten & tuin",
+      "icon": "🌿",
+      "count": 5593
+    },
+    {
+      "id": "dieren",
+      "label": "Dieren",
+      "icon": "🐦",
+      "count": 481
+    },
+    {
+      "id": "landschap",
+      "label": "Landschap & natuur",
+      "icon": "🏞️",
+      "count": 887
+    },
+    {
+      "id": "plaatsen",
+      "label": "Gebouwen & plaatsen",
+      "icon": "🏛️",
+      "count": 2603
+    },
+    {
+      "id": "kunst_documenten",
+      "label": "Kunst & documenten",
+      "icon": "🖼️",
+      "count": 2147
+    },
+    {
+      "id": "overig",
+      "label": "Overig",
+      "icon": "▦",
+      "count": 581
+    }
+  ]
+}

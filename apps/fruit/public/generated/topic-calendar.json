@@ -1,0 +1,3618 @@
+{
+  "generatedAt": "2026-09-28T19:52:23Z",
+  "years": [
+    "2020",
+    "2019",
+    "2018",
+    "2017",
+    "2016",
+    "2015",
+    "2014",
+    "2013",
+    "2012",
+    "2011",
+    "2010",
+    "2009",
+    "2008",
+    "2007",
+    "2006",
+    "2005"
+  ],
+  "months": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "seasons": [
+    "lente",
+    "zomer",
+    "herfst",
+    "winter"
+  ],
+  "maxMonthCount": 240,
+  "maxSeasonCount": 592,
+  "topics": [
+    {
+      "topicId": "fruit",
+      "label": "Fruit & rassen",
+      "generatedLabel": "",
+      "postCount": 1803,
+      "total": 1803,
+      "monthsAllYears": [
+        128,
+        86,
+        102,
+        156,
+        171,
+        154,
+        151,
+        153,
+        205,
+        211,
+        176,
+        110
+      ],
+      "seasonsAllYears": {
+        "lente": 429,
+        "zomer": 458,
+        "herfst": 592,
+        "winter": 324
+      },
+      "years": {
+        "2020": {
+          "total": 12,
+          "months": [
+            2,
+            3,
+            6,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 7,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 5
+          }
+        },
+        "2019": {
+          "total": 43,
+          "months": [
+            5,
+            2,
+            2,
+            3,
+            6,
+            6,
+            3,
+            5,
+            2,
+            5,
+            2,
+            2
+          ],
+          "seasons": {
+            "lente": 11,
+            "zomer": 14,
+            "herfst": 9,
+            "winter": 9
+          }
+        },
+        "2018": {
+          "total": 56,
+          "months": [
+            4,
+            1,
+            4,
+            5,
+            6,
+            4,
+            4,
+            7,
+            9,
+            8,
+            0,
+            4
+          ],
+          "seasons": {
+            "lente": 15,
+            "zomer": 15,
+            "herfst": 17,
+            "winter": 9
+          }
+        },
+        "2017": {
+          "total": 59,
+          "months": [
+            5,
+            1,
+            4,
+            5,
+            1,
+            9,
+            4,
+            3,
+            7,
+            11,
+            8,
+            1
+          ],
+          "seasons": {
+            "lente": 10,
+            "zomer": 16,
+            "herfst": 26,
+            "winter": 7
+          }
+        },
+        "2016": {
+          "total": 80,
+          "months": [
+            5,
+            0,
+            1,
+            4,
+            8,
+            8,
+            9,
+            3,
+            17,
+            9,
+            7,
+            9
+          ],
+          "seasons": {
+            "lente": 13,
+            "zomer": 20,
+            "herfst": 33,
+            "winter": 14
+          }
+        },
+        "2015": {
+          "total": 80,
+          "months": [
+            10,
+            3,
+            7,
+            8,
+            5,
+            7,
+            10,
+            7,
+            8,
+            6,
+            9,
+            0
+          ],
+          "seasons": {
+            "lente": 20,
+            "zomer": 24,
+            "herfst": 23,
+            "winter": 13
+          }
+        },
+        "2014": {
+          "total": 89,
+          "months": [
+            6,
+            5,
+            8,
+            12,
+            11,
+            11,
+            3,
+            5,
+            10,
+            16,
+            2,
+            0
+          ],
+          "seasons": {
+            "lente": 31,
+            "zomer": 19,
+            "herfst": 28,
+            "winter": 11
+          }
+        },
+        "2013": {
+          "total": 117,
+          "months": [
+            3,
+            6,
+            12,
+            4,
+            15,
+            6,
+            10,
+            9,
+            21,
+            9,
+            17,
+            5
+          ],
+          "seasons": {
+            "lente": 31,
+            "zomer": 25,
+            "herfst": 47,
+            "winter": 14
+          }
+        },
+        "2012": {
+          "total": 88,
+          "months": [
+            9,
+            9,
+            5,
+            7,
+            7,
+            6,
+            12,
+            9,
+            4,
+            5,
+            7,
+            8
+          ],
+          "seasons": {
+            "lente": 19,
+            "zomer": 27,
+            "herfst": 16,
+            "winter": 26
+          }
+        },
+        "2011": {
+          "total": 98,
+          "months": [
+            6,
+            3,
+            4,
+            11,
+            12,
+            10,
+            3,
+            10,
+            10,
+            10,
+            5,
+            14
+          ],
+          "seasons": {
+            "lente": 27,
+            "zomer": 23,
+            "herfst": 25,
+            "winter": 23
+          }
+        },
+        "2010": {
+          "total": 116,
+          "months": [
+            7,
+            6,
+            8,
+            7,
+            7,
+            2,
+            10,
+            12,
+            19,
+            19,
+            14,
+            5
+          ],
+          "seasons": {
+            "lente": 22,
+            "zomer": 24,
+            "herfst": 52,
+            "winter": 18
+          }
+        },
+        "2009": {
+          "total": 149,
+          "months": [
+            15,
+            10,
+            8,
+            16,
+            10,
+            10,
+            15,
+            16,
+            17,
+            16,
+            6,
+            10
+          ],
+          "seasons": {
+            "lente": 34,
+            "zomer": 41,
+            "herfst": 39,
+            "winter": 35
+          }
+        },
+        "2008": {
+          "total": 180,
+          "months": [
+            25,
+            18,
+            11,
+            21,
+            16,
+            15,
+            13,
+            11,
+            13,
+            11,
+            15,
+            11
+          ],
+          "seasons": {
+            "lente": 48,
+            "zomer": 39,
+            "herfst": 39,
+            "winter": 54
+          }
+        },
+        "2007": {
+          "total": 248,
+          "months": [
+            16,
+            13,
+            10,
+            14,
+            22,
+            19,
+            28,
+            15,
+            23,
+            31,
+            39,
+            18
+          ],
+          "seasons": {
+            "lente": 46,
+            "zomer": 62,
+            "herfst": 93,
+            "winter": 47
+          }
+        },
+        "2006": {
+          "total": 162,
+          "months": [
+            10,
+            6,
+            12,
+            14,
+            16,
+            16,
+            9,
+            17,
+            14,
+            20,
+            17,
+            11
+          ],
+          "seasons": {
+            "lente": 42,
+            "zomer": 42,
+            "herfst": 51,
+            "winter": 27
+          }
+        },
+        "2005": {
+          "total": 226,
+          "months": [
+            0,
+            0,
+            0,
+            24,
+            29,
+            25,
+            18,
+            24,
+            31,
+            35,
+            28,
+            12
+          ],
+          "seasons": {
+            "lente": 53,
+            "zomer": 67,
+            "herfst": 94,
+            "winter": 12
+          }
+        }
+      }
+    },
+    {
+      "topicId": "reizen",
+      "label": "Reizen & bezoeken",
+      "generatedLabel": "",
+      "postCount": 1590,
+      "total": 1590,
+      "monthsAllYears": [
+        72,
+        61,
+        98,
+        130,
+        177,
+        160,
+        153,
+        115,
+        240,
+        195,
+        116,
+        73
+      ],
+      "seasonsAllYears": {
+        "lente": 405,
+        "zomer": 428,
+        "herfst": 551,
+        "winter": 206
+      },
+      "years": {
+        "2020": {
+          "total": 7,
+          "months": [
+            2,
+            5,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 7
+          }
+        },
+        "2019": {
+          "total": 80,
+          "months": [
+            2,
+            1,
+            2,
+            7,
+            8,
+            13,
+            7,
+            9,
+            11,
+            9,
+            2,
+            9
+          ],
+          "seasons": {
+            "lente": 17,
+            "zomer": 29,
+            "herfst": 22,
+            "winter": 12
+          }
+        },
+        "2018": {
+          "total": 53,
+          "months": [
+            4,
+            0,
+            2,
+            3,
+            6,
+            7,
+            2,
+            3,
+            14,
+            9,
+            2,
+            1
+          ],
+          "seasons": {
+            "lente": 11,
+            "zomer": 12,
+            "herfst": 25,
+            "winter": 5
+          }
+        },
+        "2017": {
+          "total": 76,
+          "months": [
+            4,
+            2,
+            7,
+            6,
+            4,
+            8,
+            3,
+            3,
+            13,
+            12,
+            11,
+            3
+          ],
+          "seasons": {
+            "lente": 17,
+            "zomer": 14,
+            "herfst": 36,
+            "winter": 9
+          }
+        },
+        "2016": {
+          "total": 129,
+          "months": [
+            1,
+            4,
+            0,
+            15,
+            10,
+            16,
+            16,
+            8,
+            22,
+            12,
+            21,
+            4
+          ],
+          "seasons": {
+            "lente": 25,
+            "zomer": 40,
+            "herfst": 55,
+            "winter": 9
+          }
+        },
+        "2015": {
+          "total": 161,
+          "months": [
+            20,
+            3,
+            23,
+            5,
+            25,
+            19,
+            14,
+            10,
+            18,
+            10,
+            8,
+            6
+          ],
+          "seasons": {
+            "lente": 53,
+            "zomer": 43,
+            "herfst": 36,
+            "winter": 29
+          }
+        },
+        "2014": {
+          "total": 123,
+          "months": [
+            3,
+            4,
+            6,
+            12,
+            16,
+            16,
+            6,
+            6,
+            17,
+            24,
+            8,
+            5
+          ],
+          "seasons": {
+            "lente": 34,
+            "zomer": 28,
+            "herfst": 49,
+            "winter": 12
+          }
+        },
+        "2013": {
+          "total": 123,
+          "months": [
+            1,
+            2,
+            7,
+            14,
+            13,
+            9,
+            7,
+            10,
+            26,
+            17,
+            14,
+            3
+          ],
+          "seasons": {
+            "lente": 34,
+            "zomer": 26,
+            "herfst": 57,
+            "winter": 6
+          }
+        },
+        "2012": {
+          "total": 120,
+          "months": [
+            7,
+            5,
+            2,
+            12,
+            16,
+            9,
+            21,
+            20,
+            15,
+            9,
+            2,
+            2
+          ],
+          "seasons": {
+            "lente": 30,
+            "zomer": 50,
+            "herfst": 26,
+            "winter": 14
+          }
+        },
+        "2011": {
+          "total": 107,
+          "months": [
+            3,
+            3,
+            6,
+            6,
+            11,
+            12,
+            16,
+            9,
+            17,
+            13,
+            2,
+            9
+          ],
+          "seasons": {
+            "lente": 23,
+            "zomer": 37,
+            "herfst": 32,
+            "winter": 15
+          }
+        },
+        "2010": {
+          "total": 145,
+          "months": [
+            5,
+            8,
+            10,
+            6,
+            24,
+            14,
+            8,
+            15,
+            19,
+            17,
+            15,
+            4
+          ],
+          "seasons": {
+            "lente": 40,
+            "zomer": 37,
+            "herfst": 51,
+            "winter": 17
+          }
+        },
+        "2009": {
+          "total": 153,
+          "months": [
+            8,
+            8,
+            16,
+            12,
+            9,
+            15,
+            18,
+            7,
+            24,
+            23,
+            5,
+            8
+          ],
+          "seasons": {
+            "lente": 37,
+            "zomer": 40,
+            "herfst": 52,
+            "winter": 24
+          }
+        },
+        "2008": {
+          "total": 81,
+          "months": [
+            1,
+            7,
+            9,
+            10,
+            7,
+            3,
+            8,
+            4,
+            12,
+            7,
+            8,
+            5
+          ],
+          "seasons": {
+            "lente": 26,
+            "zomer": 15,
+            "herfst": 27,
+            "winter": 13
+          }
+        },
+        "2007": {
+          "total": 94,
+          "months": [
+            7,
+            7,
+            3,
+            6,
+            7,
+            6,
+            18,
+            3,
+            13,
+            9,
+            6,
+            9
+          ],
+          "seasons": {
+            "lente": 16,
+            "zomer": 27,
+            "herfst": 28,
+            "winter": 23
+          }
+        },
+        "2006": {
+          "total": 65,
+          "months": [
+            4,
+            2,
+            5,
+            5,
+            12,
+            6,
+            2,
+            5,
+            9,
+            10,
+            4,
+            1
+          ],
+          "seasons": {
+            "lente": 22,
+            "zomer": 13,
+            "herfst": 23,
+            "winter": 7
+          }
+        },
+        "2005": {
+          "total": 73,
+          "months": [
+            0,
+            0,
+            0,
+            11,
+            9,
+            7,
+            7,
+            3,
+            10,
+            14,
+            8,
+            4
+          ],
+          "seasons": {
+            "lente": 20,
+            "zomer": 17,
+            "herfst": 32,
+            "winter": 4
+          }
+        }
+      }
+    },
+    {
+      "topicId": "natuur",
+      "label": "Natuur & seizoenen",
+      "generatedLabel": "",
+      "postCount": 1510,
+      "total": 1510,
+      "monthsAllYears": [
+        99,
+        59,
+        125,
+        179,
+        162,
+        152,
+        136,
+        131,
+        152,
+        112,
+        107,
+        96
+      ],
+      "seasonsAllYears": {
+        "lente": 466,
+        "zomer": 419,
+        "herfst": 371,
+        "winter": 254
+      },
+      "years": {
+        "2020": {
+          "total": 3,
+          "months": [
+            2,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 1,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 2
+          }
+        },
+        "2019": {
+          "total": 68,
+          "months": [
+            1,
+            5,
+            4,
+            10,
+            7,
+            14,
+            5,
+            5,
+            4,
+            8,
+            1,
+            4
+          ],
+          "seasons": {
+            "lente": 21,
+            "zomer": 24,
+            "herfst": 13,
+            "winter": 10
+          }
+        },
+        "2018": {
+          "total": 52,
+          "months": [
+            2,
+            1,
+            3,
+            6,
+            6,
+            7,
+            3,
+            5,
+            3,
+            11,
+            2,
+            3
+          ],
+          "seasons": {
+            "lente": 15,
+            "zomer": 15,
+            "herfst": 16,
+            "winter": 6
+          }
+        },
+        "2017": {
+          "total": 60,
+          "months": [
+            4,
+            2,
+            5,
+            10,
+            5,
+            4,
+            2,
+            2,
+            12,
+            5,
+            6,
+            3
+          ],
+          "seasons": {
+            "lente": 20,
+            "zomer": 8,
+            "herfst": 23,
+            "winter": 9
+          }
+        },
+        "2016": {
+          "total": 91,
+          "months": [
+            3,
+            0,
+            1,
+            15,
+            9,
+            14,
+            14,
+            3,
+            11,
+            4,
+            14,
+            3
+          ],
+          "seasons": {
+            "lente": 25,
+            "zomer": 31,
+            "herfst": 29,
+            "winter": 6
+          }
+        },
+        "2015": {
+          "total": 99,
+          "months": [
+            12,
+            0,
+            4,
+            4,
+            9,
+            14,
+            8,
+            13,
+            14,
+            7,
+            6,
+            8
+          ],
+          "seasons": {
+            "lente": 17,
+            "zomer": 35,
+            "herfst": 27,
+            "winter": 20
+          }
+        },
+        "2014": {
+          "total": 76,
+          "months": [
+            6,
+            2,
+            12,
+            11,
+            6,
+            8,
+            3,
+            5,
+            10,
+            9,
+            2,
+            2
+          ],
+          "seasons": {
+            "lente": 29,
+            "zomer": 16,
+            "herfst": 21,
+            "winter": 10
+          }
+        },
+        "2013": {
+          "total": 87,
+          "months": [
+            3,
+            2,
+            7,
+            15,
+            13,
+            5,
+            11,
+            8,
+            16,
+            2,
+            4,
+            1
+          ],
+          "seasons": {
+            "lente": 35,
+            "zomer": 24,
+            "herfst": 22,
+            "winter": 6
+          }
+        },
+        "2012": {
+          "total": 95,
+          "months": [
+            2,
+            7,
+            8,
+            17,
+            12,
+            3,
+            16,
+            8,
+            2,
+            9,
+            4,
+            7
+          ],
+          "seasons": {
+            "lente": 37,
+            "zomer": 27,
+            "herfst": 15,
+            "winter": 16
+          }
+        },
+        "2011": {
+          "total": 117,
+          "months": [
+            9,
+            3,
+            11,
+            14,
+            10,
+            10,
+            11,
+            11,
+            11,
+            9,
+            5,
+            13
+          ],
+          "seasons": {
+            "lente": 35,
+            "zomer": 32,
+            "herfst": 25,
+            "winter": 25
+          }
+        },
+        "2010": {
+          "total": 92,
+          "months": [
+            7,
+            6,
+            15,
+            5,
+            6,
+            7,
+            6,
+            6,
+            9,
+            8,
+            5,
+            12
+          ],
+          "seasons": {
+            "lente": 26,
+            "zomer": 19,
+            "herfst": 22,
+            "winter": 25
+          }
+        },
+        "2009": {
+          "total": 135,
+          "months": [
+            17,
+            7,
+            13,
+            16,
+            7,
+            8,
+            10,
+            19,
+            13,
+            6,
+            6,
+            13
+          ],
+          "seasons": {
+            "lente": 36,
+            "zomer": 37,
+            "herfst": 25,
+            "winter": 37
+          }
+        },
+        "2008": {
+          "total": 124,
+          "months": [
+            6,
+            12,
+            15,
+            17,
+            11,
+            12,
+            11,
+            10,
+            11,
+            6,
+            10,
+            3
+          ],
+          "seasons": {
+            "lente": 43,
+            "zomer": 33,
+            "herfst": 27,
+            "winter": 21
+          }
+        },
+        "2007": {
+          "total": 143,
+          "months": [
+            17,
+            10,
+            14,
+            13,
+            15,
+            15,
+            13,
+            10,
+            6,
+            10,
+            11,
+            9
+          ],
+          "seasons": {
+            "lente": 42,
+            "zomer": 38,
+            "herfst": 27,
+            "winter": 36
+          }
+        },
+        "2006": {
+          "total": 113,
+          "months": [
+            8,
+            2,
+            13,
+            10,
+            15,
+            13,
+            7,
+            12,
+            10,
+            6,
+            11,
+            6
+          ],
+          "seasons": {
+            "lente": 38,
+            "zomer": 32,
+            "herfst": 27,
+            "winter": 16
+          }
+        },
+        "2005": {
+          "total": 155,
+          "months": [
+            0,
+            0,
+            0,
+            15,
+            31,
+            18,
+            16,
+            14,
+            20,
+            12,
+            20,
+            9
+          ],
+          "seasons": {
+            "lente": 46,
+            "zomer": 48,
+            "herfst": 52,
+            "winter": 9
+          }
+        }
+      }
+    },
+    {
+      "topicId": "erfgoed",
+      "label": "Erfgoed & verhalen",
+      "generatedLabel": "",
+      "postCount": 1305,
+      "total": 1305,
+      "monthsAllYears": [
+        68,
+        46,
+        81,
+        96,
+        130,
+        142,
+        109,
+        97,
+        210,
+        183,
+        79,
+        64
+      ],
+      "seasonsAllYears": {
+        "lente": 307,
+        "zomer": 348,
+        "herfst": 472,
+        "winter": 178
+      },
+      "years": {
+        "2020": {
+          "total": 10,
+          "months": [
+            1,
+            4,
+            2,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 5,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 5
+          }
+        },
+        "2019": {
+          "total": 74,
+          "months": [
+            2,
+            3,
+            1,
+            9,
+            6,
+            12,
+            6,
+            9,
+            8,
+            9,
+            1,
+            8
+          ],
+          "seasons": {
+            "lente": 16,
+            "zomer": 27,
+            "herfst": 18,
+            "winter": 13
+          }
+        },
+        "2018": {
+          "total": 53,
+          "months": [
+            3,
+            0,
+            0,
+            2,
+            5,
+            6,
+            3,
+            2,
+            17,
+            11,
+            2,
+            2
+          ],
+          "seasons": {
+            "lente": 7,
+            "zomer": 11,
+            "herfst": 30,
+            "winter": 5
+          }
+        },
+        "2017": {
+          "total": 61,
+          "months": [
+            2,
+            1,
+            6,
+            1,
+            5,
+            5,
+            1,
+            2,
+            12,
+            12,
+            9,
+            5
+          ],
+          "seasons": {
+            "lente": 12,
+            "zomer": 8,
+            "herfst": 33,
+            "winter": 8
+          }
+        },
+        "2016": {
+          "total": 127,
+          "months": [
+            2,
+            4,
+            4,
+            16,
+            9,
+            15,
+            12,
+            8,
+            25,
+            13,
+            16,
+            3
+          ],
+          "seasons": {
+            "lente": 29,
+            "zomer": 35,
+            "herfst": 54,
+            "winter": 9
+          }
+        },
+        "2015": {
+          "total": 135,
+          "months": [
+            18,
+            3,
+            23,
+            5,
+            17,
+            17,
+            9,
+            8,
+            17,
+            10,
+            3,
+            5
+          ],
+          "seasons": {
+            "lente": 45,
+            "zomer": 34,
+            "herfst": 30,
+            "winter": 26
+          }
+        },
+        "2014": {
+          "total": 96,
+          "months": [
+            4,
+            1,
+            6,
+            2,
+            11,
+            15,
+            4,
+            5,
+            12,
+            24,
+            7,
+            5
+          ],
+          "seasons": {
+            "lente": 19,
+            "zomer": 24,
+            "herfst": 43,
+            "winter": 10
+          }
+        },
+        "2013": {
+          "total": 97,
+          "months": [
+            2,
+            7,
+            2,
+            11,
+            7,
+            7,
+            6,
+            7,
+            22,
+            14,
+            9,
+            3
+          ],
+          "seasons": {
+            "lente": 20,
+            "zomer": 20,
+            "herfst": 45,
+            "winter": 12
+          }
+        },
+        "2012": {
+          "total": 95,
+          "months": [
+            8,
+            4,
+            4,
+            9,
+            8,
+            5,
+            12,
+            15,
+            14,
+            8,
+            1,
+            7
+          ],
+          "seasons": {
+            "lente": 21,
+            "zomer": 32,
+            "herfst": 23,
+            "winter": 19
+          }
+        },
+        "2011": {
+          "total": 87,
+          "months": [
+            2,
+            2,
+            1,
+            3,
+            11,
+            10,
+            13,
+            8,
+            17,
+            13,
+            2,
+            5
+          ],
+          "seasons": {
+            "lente": 15,
+            "zomer": 31,
+            "herfst": 32,
+            "winter": 9
+          }
+        },
+        "2010": {
+          "total": 112,
+          "months": [
+            4,
+            6,
+            9,
+            6,
+            23,
+            15,
+            2,
+            8,
+            18,
+            15,
+            4,
+            2
+          ],
+          "seasons": {
+            "lente": 38,
+            "zomer": 25,
+            "herfst": 37,
+            "winter": 12
+          }
+        },
+        "2009": {
+          "total": 103,
+          "months": [
+            3,
+            4,
+            7,
+            6,
+            5,
+            11,
+            16,
+            8,
+            19,
+            19,
+            0,
+            5
+          ],
+          "seasons": {
+            "lente": 18,
+            "zomer": 35,
+            "herfst": 38,
+            "winter": 12
+          }
+        },
+        "2008": {
+          "total": 83,
+          "months": [
+            10,
+            6,
+            7,
+            10,
+            4,
+            4,
+            5,
+            7,
+            11,
+            6,
+            9,
+            4
+          ],
+          "seasons": {
+            "lente": 21,
+            "zomer": 16,
+            "herfst": 26,
+            "winter": 20
+          }
+        },
+        "2007": {
+          "total": 69,
+          "months": [
+            4,
+            1,
+            9,
+            5,
+            5,
+            9,
+            11,
+            3,
+            4,
+            8,
+            5,
+            5
+          ],
+          "seasons": {
+            "lente": 19,
+            "zomer": 23,
+            "herfst": 17,
+            "winter": 10
+          }
+        },
+        "2006": {
+          "total": 46,
+          "months": [
+            3,
+            0,
+            0,
+            1,
+            6,
+            3,
+            6,
+            3,
+            7,
+            12,
+            2,
+            3
+          ],
+          "seasons": {
+            "lente": 7,
+            "zomer": 12,
+            "herfst": 21,
+            "winter": 6
+          }
+        },
+        "2005": {
+          "total": 57,
+          "months": [
+            0,
+            0,
+            0,
+            7,
+            8,
+            8,
+            3,
+            4,
+            7,
+            9,
+            9,
+            2
+          ],
+          "seasons": {
+            "lente": 15,
+            "zomer": 15,
+            "herfst": 25,
+            "winter": 2
+          }
+        }
+      }
+    },
+    {
+      "topicId": "teelt",
+      "label": "Tuin & teelt",
+      "generatedLabel": "",
+      "postCount": 1234,
+      "total": 1234,
+      "monthsAllYears": [
+        91,
+        58,
+        86,
+        113,
+        130,
+        122,
+        109,
+        107,
+        152,
+        92,
+        94,
+        80
+      ],
+      "seasonsAllYears": {
+        "lente": 329,
+        "zomer": 338,
+        "herfst": 338,
+        "winter": 229
+      },
+      "years": {
+        "2020": {
+          "total": 3,
+          "months": [
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 2,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 1
+          }
+        },
+        "2019": {
+          "total": 27,
+          "months": [
+            2,
+            1,
+            2,
+            1,
+            5,
+            4,
+            2,
+            4,
+            2,
+            1,
+            1,
+            2
+          ],
+          "seasons": {
+            "lente": 8,
+            "zomer": 10,
+            "herfst": 4,
+            "winter": 5
+          }
+        },
+        "2018": {
+          "total": 39,
+          "months": [
+            3,
+            1,
+            3,
+            5,
+            3,
+            4,
+            3,
+            7,
+            5,
+            2,
+            0,
+            3
+          ],
+          "seasons": {
+            "lente": 11,
+            "zomer": 14,
+            "herfst": 7,
+            "winter": 7
+          }
+        },
+        "2017": {
+          "total": 32,
+          "months": [
+            4,
+            1,
+            2,
+            3,
+            1,
+            4,
+            2,
+            3,
+            3,
+            4,
+            4,
+            1
+          ],
+          "seasons": {
+            "lente": 6,
+            "zomer": 9,
+            "herfst": 11,
+            "winter": 6
+          }
+        },
+        "2016": {
+          "total": 70,
+          "months": [
+            3,
+            0,
+            1,
+            10,
+            9,
+            9,
+            8,
+            4,
+            15,
+            1,
+            4,
+            6
+          ],
+          "seasons": {
+            "lente": 20,
+            "zomer": 21,
+            "herfst": 20,
+            "winter": 9
+          }
+        },
+        "2015": {
+          "total": 56,
+          "months": [
+            3,
+            1,
+            6,
+            8,
+            10,
+            4,
+            6,
+            6,
+            4,
+            2,
+            4,
+            2
+          ],
+          "seasons": {
+            "lente": 24,
+            "zomer": 16,
+            "herfst": 10,
+            "winter": 6
+          }
+        },
+        "2014": {
+          "total": 57,
+          "months": [
+            6,
+            4,
+            4,
+            4,
+            9,
+            6,
+            5,
+            1,
+            8,
+            9,
+            1,
+            0
+          ],
+          "seasons": {
+            "lente": 17,
+            "zomer": 12,
+            "herfst": 18,
+            "winter": 10
+          }
+        },
+        "2013": {
+          "total": 89,
+          "months": [
+            2,
+            3,
+            10,
+            8,
+            4,
+            5,
+            8,
+            9,
+            21,
+            10,
+            5,
+            4
+          ],
+          "seasons": {
+            "lente": 22,
+            "zomer": 22,
+            "herfst": 36,
+            "winter": 9
+          }
+        },
+        "2012": {
+          "total": 84,
+          "months": [
+            10,
+            6,
+            2,
+            12,
+            10,
+            6,
+            10,
+            9,
+            6,
+            4,
+            1,
+            8
+          ],
+          "seasons": {
+            "lente": 24,
+            "zomer": 25,
+            "herfst": 11,
+            "winter": 24
+          }
+        },
+        "2011": {
+          "total": 67,
+          "months": [
+            5,
+            3,
+            3,
+            5,
+            11,
+            7,
+            4,
+            8,
+            4,
+            4,
+            1,
+            12
+          ],
+          "seasons": {
+            "lente": 19,
+            "zomer": 19,
+            "herfst": 9,
+            "winter": 20
+          }
+        },
+        "2010": {
+          "total": 85,
+          "months": [
+            8,
+            7,
+            7,
+            4,
+            13,
+            5,
+            6,
+            6,
+            11,
+            5,
+            7,
+            6
+          ],
+          "seasons": {
+            "lente": 24,
+            "zomer": 17,
+            "herfst": 23,
+            "winter": 21
+          }
+        },
+        "2009": {
+          "total": 113,
+          "months": [
+            15,
+            11,
+            10,
+            3,
+            9,
+            6,
+            12,
+            10,
+            18,
+            9,
+            6,
+            4
+          ],
+          "seasons": {
+            "lente": 22,
+            "zomer": 28,
+            "herfst": 33,
+            "winter": 30
+          }
+        },
+        "2008": {
+          "total": 123,
+          "months": [
+            14,
+            12,
+            11,
+            17,
+            7,
+            12,
+            6,
+            7,
+            13,
+            6,
+            12,
+            6
+          ],
+          "seasons": {
+            "lente": 35,
+            "zomer": 25,
+            "herfst": 31,
+            "winter": 32
+          }
+        },
+        "2007": {
+          "total": 141,
+          "months": [
+            8,
+            2,
+            14,
+            12,
+            11,
+            18,
+            16,
+            11,
+            16,
+            12,
+            11,
+            10
+          ],
+          "seasons": {
+            "lente": 37,
+            "zomer": 45,
+            "herfst": 39,
+            "winter": 20
+          }
+        },
+        "2006": {
+          "total": 98,
+          "months": [
+            7,
+            6,
+            9,
+            7,
+            9,
+            14,
+            7,
+            11,
+            6,
+            10,
+            8,
+            4
+          ],
+          "seasons": {
+            "lente": 25,
+            "zomer": 32,
+            "herfst": 24,
+            "winter": 17
+          }
+        },
+        "2005": {
+          "total": 150,
+          "months": [
+            0,
+            0,
+            0,
+            14,
+            19,
+            18,
+            14,
+            11,
+            20,
+            13,
+            29,
+            12
+          ],
+          "seasons": {
+            "lente": 33,
+            "zomer": 43,
+            "herfst": 62,
+            "winter": 12
+          }
+        }
+      }
+    },
+    {
+      "topicId": "plantgezondheid",
+      "label": "Plantenproblemen",
+      "generatedLabel": "",
+      "postCount": 1043,
+      "total": 1043,
+      "monthsAllYears": [
+        68,
+        49,
+        73,
+        100,
+        114,
+        104,
+        86,
+        90,
+        126,
+        88,
+        87,
+        58
+      ],
+      "seasonsAllYears": {
+        "lente": 287,
+        "zomer": 280,
+        "herfst": 301,
+        "winter": 175
+      },
+      "years": {
+        "2020": {
+          "total": 2,
+          "months": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 2,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 0
+          }
+        },
+        "2019": {
+          "total": 22,
+          "months": [
+            1,
+            1,
+            1,
+            4,
+            5,
+            5,
+            1,
+            1,
+            2,
+            0,
+            1,
+            0
+          ],
+          "seasons": {
+            "lente": 10,
+            "zomer": 7,
+            "herfst": 3,
+            "winter": 2
+          }
+        },
+        "2018": {
+          "total": 28,
+          "months": [
+            4,
+            1,
+            0,
+            1,
+            5,
+            4,
+            4,
+            4,
+            1,
+            1,
+            0,
+            3
+          ],
+          "seasons": {
+            "lente": 6,
+            "zomer": 12,
+            "herfst": 2,
+            "winter": 8
+          }
+        },
+        "2017": {
+          "total": 31,
+          "months": [
+            5,
+            1,
+            2,
+            5,
+            2,
+            3,
+            1,
+            4,
+            3,
+            1,
+            3,
+            1
+          ],
+          "seasons": {
+            "lente": 9,
+            "zomer": 8,
+            "herfst": 7,
+            "winter": 7
+          }
+        },
+        "2016": {
+          "total": 47,
+          "months": [
+            4,
+            0,
+            1,
+            6,
+            4,
+            9,
+            7,
+            2,
+            12,
+            0,
+            0,
+            2
+          ],
+          "seasons": {
+            "lente": 11,
+            "zomer": 18,
+            "herfst": 12,
+            "winter": 6
+          }
+        },
+        "2015": {
+          "total": 53,
+          "months": [
+            4,
+            1,
+            1,
+            7,
+            9,
+            5,
+            4,
+            6,
+            4,
+            5,
+            7,
+            0
+          ],
+          "seasons": {
+            "lente": 17,
+            "zomer": 15,
+            "herfst": 16,
+            "winter": 5
+          }
+        },
+        "2014": {
+          "total": 55,
+          "months": [
+            3,
+            4,
+            7,
+            11,
+            7,
+            2,
+            3,
+            3,
+            7,
+            8,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 25,
+            "zomer": 8,
+            "herfst": 15,
+            "winter": 7
+          }
+        },
+        "2013": {
+          "total": 72,
+          "months": [
+            2,
+            2,
+            7,
+            1,
+            2,
+            6,
+            11,
+            7,
+            16,
+            7,
+            5,
+            6
+          ],
+          "seasons": {
+            "lente": 10,
+            "zomer": 24,
+            "herfst": 28,
+            "winter": 10
+          }
+        },
+        "2012": {
+          "total": 86,
+          "months": [
+            8,
+            6,
+            6,
+            9,
+            4,
+            5,
+            8,
+            9,
+            6,
+            12,
+            5,
+            8
+          ],
+          "seasons": {
+            "lente": 19,
+            "zomer": 22,
+            "herfst": 23,
+            "winter": 22
+          }
+        },
+        "2011": {
+          "total": 60,
+          "months": [
+            5,
+            5,
+            1,
+            7,
+            7,
+            5,
+            1,
+            4,
+            4,
+            5,
+            4,
+            12
+          ],
+          "seasons": {
+            "lente": 15,
+            "zomer": 10,
+            "herfst": 13,
+            "winter": 22
+          }
+        },
+        "2010": {
+          "total": 56,
+          "months": [
+            4,
+            5,
+            7,
+            3,
+            5,
+            0,
+            6,
+            5,
+            10,
+            5,
+            3,
+            3
+          ],
+          "seasons": {
+            "lente": 15,
+            "zomer": 11,
+            "herfst": 18,
+            "winter": 12
+          }
+        },
+        "2009": {
+          "total": 73,
+          "months": [
+            6,
+            3,
+            6,
+            8,
+            8,
+            5,
+            7,
+            10,
+            6,
+            4,
+            7,
+            3
+          ],
+          "seasons": {
+            "lente": 22,
+            "zomer": 22,
+            "herfst": 17,
+            "winter": 12
+          }
+        },
+        "2008": {
+          "total": 100,
+          "months": [
+            8,
+            8,
+            11,
+            10,
+            5,
+            11,
+            8,
+            8,
+            13,
+            7,
+            9,
+            2
+          ],
+          "seasons": {
+            "lente": 26,
+            "zomer": 27,
+            "herfst": 29,
+            "winter": 18
+          }
+        },
+        "2007": {
+          "total": 121,
+          "months": [
+            9,
+            8,
+            11,
+            8,
+            12,
+            13,
+            8,
+            6,
+            15,
+            11,
+            14,
+            6
+          ],
+          "seasons": {
+            "lente": 31,
+            "zomer": 27,
+            "herfst": 40,
+            "winter": 23
+          }
+        },
+        "2006": {
+          "total": 90,
+          "months": [
+            5,
+            4,
+            10,
+            7,
+            14,
+            10,
+            3,
+            8,
+            7,
+            7,
+            10,
+            5
+          ],
+          "seasons": {
+            "lente": 31,
+            "zomer": 21,
+            "herfst": 24,
+            "winter": 14
+          }
+        },
+        "2005": {
+          "total": 147,
+          "months": [
+            0,
+            0,
+            0,
+            13,
+            25,
+            21,
+            14,
+            13,
+            20,
+            15,
+            19,
+            7
+          ],
+          "seasons": {
+            "lente": 38,
+            "zomer": 48,
+            "herfst": 54,
+            "winter": 7
+          }
+        }
+      }
+    },
+    {
+      "topicId": "eten",
+      "label": "Eten & gezondheid",
+      "generatedLabel": "",
+      "postCount": 298,
+      "total": 298,
+      "monthsAllYears": [
+        16,
+        15,
+        23,
+        22,
+        18,
+        35,
+        9,
+        21,
+        41,
+        35,
+        34,
+        29
+      ],
+      "seasonsAllYears": {
+        "lente": 63,
+        "zomer": 65,
+        "herfst": 110,
+        "winter": 60
+      },
+      "years": {
+        "2020": {
+          "total": 0,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 0
+          }
+        },
+        "2019": {
+          "total": 3,
+          "months": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "seasons": {
+            "lente": 1,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 2
+          }
+        },
+        "2018": {
+          "total": 6,
+          "months": [
+            0,
+            1,
+            0,
+            1,
+            0,
+            2,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 1,
+            "zomer": 3,
+            "herfst": 1,
+            "winter": 1
+          }
+        },
+        "2017": {
+          "total": 12,
+          "months": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            3,
+            3,
+            0
+          ],
+          "seasons": {
+            "lente": 2,
+            "zomer": 2,
+            "herfst": 7,
+            "winter": 1
+          }
+        },
+        "2016": {
+          "total": 7,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            3,
+            0,
+            0,
+            0,
+            3,
+            0,
+            0,
+            1
+          ],
+          "seasons": {
+            "lente": 3,
+            "zomer": 0,
+            "herfst": 3,
+            "winter": 1
+          }
+        },
+        "2015": {
+          "total": 24,
+          "months": [
+            3,
+            1,
+            1,
+            0,
+            0,
+            7,
+            0,
+            0,
+            3,
+            3,
+            6,
+            0
+          ],
+          "seasons": {
+            "lente": 1,
+            "zomer": 7,
+            "herfst": 12,
+            "winter": 4
+          }
+        },
+        "2014": {
+          "total": 20,
+          "months": [
+            2,
+            2,
+            1,
+            3,
+            1,
+            5,
+            1,
+            0,
+            3,
+            2,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 5,
+            "zomer": 6,
+            "herfst": 5,
+            "winter": 4
+          }
+        },
+        "2013": {
+          "total": 21,
+          "months": [
+            1,
+            0,
+            1,
+            4,
+            0,
+            1,
+            1,
+            1,
+            8,
+            1,
+            1,
+            2
+          ],
+          "seasons": {
+            "lente": 5,
+            "zomer": 3,
+            "herfst": 10,
+            "winter": 3
+          }
+        },
+        "2012": {
+          "total": 16,
+          "months": [
+            1,
+            0,
+            0,
+            5,
+            1,
+            0,
+            2,
+            1,
+            0,
+            1,
+            1,
+            4
+          ],
+          "seasons": {
+            "lente": 6,
+            "zomer": 3,
+            "herfst": 2,
+            "winter": 5
+          }
+        },
+        "2011": {
+          "total": 32,
+          "months": [
+            1,
+            1,
+            0,
+            1,
+            2,
+            5,
+            0,
+            0,
+            6,
+            5,
+            1,
+            10
+          ],
+          "seasons": {
+            "lente": 3,
+            "zomer": 5,
+            "herfst": 12,
+            "winter": 12
+          }
+        },
+        "2010": {
+          "total": 27,
+          "months": [
+            2,
+            4,
+            0,
+            0,
+            2,
+            2,
+            0,
+            4,
+            0,
+            2,
+            7,
+            4
+          ],
+          "seasons": {
+            "lente": 2,
+            "zomer": 6,
+            "herfst": 9,
+            "winter": 10
+          }
+        },
+        "2009": {
+          "total": 12,
+          "months": [
+            0,
+            1,
+            1,
+            1,
+            2,
+            0,
+            0,
+            3,
+            2,
+            0,
+            1,
+            1
+          ],
+          "seasons": {
+            "lente": 4,
+            "zomer": 3,
+            "herfst": 3,
+            "winter": 2
+          }
+        },
+        "2008": {
+          "total": 26,
+          "months": [
+            1,
+            3,
+            1,
+            3,
+            1,
+            1,
+            2,
+            4,
+            3,
+            4,
+            2,
+            1
+          ],
+          "seasons": {
+            "lente": 5,
+            "zomer": 7,
+            "herfst": 9,
+            "winter": 5
+          }
+        },
+        "2007": {
+          "total": 38,
+          "months": [
+            1,
+            1,
+            11,
+            1,
+            3,
+            4,
+            2,
+            1,
+            4,
+            4,
+            6,
+            0
+          ],
+          "seasons": {
+            "lente": 15,
+            "zomer": 7,
+            "herfst": 14,
+            "winter": 2
+          }
+        },
+        "2006": {
+          "total": 25,
+          "months": [
+            3,
+            0,
+            6,
+            1,
+            0,
+            3,
+            1,
+            1,
+            3,
+            5,
+            2,
+            0
+          ],
+          "seasons": {
+            "lente": 7,
+            "zomer": 5,
+            "herfst": 10,
+            "winter": 3
+          }
+        },
+        "2005": {
+          "total": 29,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            3,
+            4,
+            0,
+            4,
+            4,
+            5,
+            4,
+            5
+          ],
+          "seasons": {
+            "lente": 3,
+            "zomer": 8,
+            "herfst": 13,
+            "winter": 5
+          }
+        }
+      }
+    },
+    {
+      "topicId": "familie",
+      "label": "Familie",
+      "generatedLabel": "",
+      "postCount": 168,
+      "total": 168,
+      "monthsAllYears": [
+        13,
+        6,
+        18,
+        32,
+        21,
+        11,
+        16,
+        3,
+        10,
+        16,
+        10,
+        12
+      ],
+      "seasonsAllYears": {
+        "lente": 71,
+        "zomer": 30,
+        "herfst": 36,
+        "winter": 31
+      },
+      "years": {
+        "2020": {
+          "total": 0,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 0
+          }
+        },
+        "2019": {
+          "total": 9,
+          "months": [
+            0,
+            2,
+            0,
+            2,
+            3,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "seasons": {
+            "lente": 5,
+            "zomer": 1,
+            "herfst": 1,
+            "winter": 2
+          }
+        },
+        "2018": {
+          "total": 1,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 0,
+            "herfst": 1,
+            "winter": 0
+          }
+        },
+        "2017": {
+          "total": 5,
+          "months": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "seasons": {
+            "lente": 2,
+            "zomer": 0,
+            "herfst": 2,
+            "winter": 1
+          }
+        },
+        "2016": {
+          "total": 4,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 1,
+            "zomer": 3,
+            "herfst": 0,
+            "winter": 0
+          }
+        },
+        "2015": {
+          "total": 14,
+          "months": [
+            2,
+            0,
+            5,
+            0,
+            0,
+            2,
+            3,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          "seasons": {
+            "lente": 5,
+            "zomer": 5,
+            "herfst": 0,
+            "winter": 4
+          }
+        },
+        "2014": {
+          "total": 21,
+          "months": [
+            0,
+            0,
+            0,
+            8,
+            0,
+            1,
+            4,
+            0,
+            1,
+            5,
+            2,
+            0
+          ],
+          "seasons": {
+            "lente": 8,
+            "zomer": 5,
+            "herfst": 8,
+            "winter": 0
+          }
+        },
+        "2013": {
+          "total": 11,
+          "months": [
+            1,
+            0,
+            0,
+            7,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0
+          ],
+          "seasons": {
+            "lente": 7,
+            "zomer": 0,
+            "herfst": 3,
+            "winter": 1
+          }
+        },
+        "2012": {
+          "total": 11,
+          "months": [
+            0,
+            2,
+            1,
+            0,
+            3,
+            0,
+            0,
+            0,
+            1,
+            4,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 4,
+            "zomer": 0,
+            "herfst": 5,
+            "winter": 2
+          }
+        },
+        "2011": {
+          "total": 17,
+          "months": [
+            1,
+            0,
+            1,
+            3,
+            4,
+            0,
+            2,
+            0,
+            4,
+            2,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 8,
+            "zomer": 2,
+            "herfst": 6,
+            "winter": 1
+          }
+        },
+        "2010": {
+          "total": 8,
+          "months": [
+            1,
+            0,
+            2,
+            1,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          "seasons": {
+            "lente": 3,
+            "zomer": 2,
+            "herfst": 0,
+            "winter": 3
+          }
+        },
+        "2009": {
+          "total": 21,
+          "months": [
+            1,
+            0,
+            7,
+            3,
+            1,
+            1,
+            0,
+            0,
+            1,
+            2,
+            1,
+            4
+          ],
+          "seasons": {
+            "lente": 11,
+            "zomer": 1,
+            "herfst": 4,
+            "winter": 5
+          }
+        },
+        "2008": {
+          "total": 14,
+          "months": [
+            6,
+            1,
+            0,
+            2,
+            0,
+            1,
+            0,
+            2,
+            0,
+            0,
+            1,
+            1
+          ],
+          "seasons": {
+            "lente": 2,
+            "zomer": 3,
+            "herfst": 1,
+            "winter": 8
+          }
+        },
+        "2007": {
+          "total": 14,
+          "months": [
+            1,
+            1,
+            0,
+            2,
+            2,
+            1,
+            3,
+            0,
+            1,
+            0,
+            2,
+            1
+          ],
+          "seasons": {
+            "lente": 4,
+            "zomer": 4,
+            "herfst": 3,
+            "winter": 3
+          }
+        },
+        "2006": {
+          "total": 4,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 3,
+            "herfst": 1,
+            "winter": 0
+          }
+        },
+        "2005": {
+          "total": 14,
+          "months": [
+            0,
+            0,
+            0,
+            4,
+            7,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
+          ],
+          "seasons": {
+            "lente": 11,
+            "zomer": 1,
+            "herfst": 1,
+            "winter": 1
+          }
+        }
+      }
+    },
+    {
+      "topicId": "overig",
+      "label": "Overig",
+      "generatedLabel": "",
+      "postCount": 136,
+      "total": 136,
+      "monthsAllYears": [
+        9,
+        9,
+        11,
+        4,
+        10,
+        7,
+        22,
+        19,
+        13,
+        8,
+        13,
+        11
+      ],
+      "seasonsAllYears": {
+        "lente": 25,
+        "zomer": 48,
+        "herfst": 34,
+        "winter": 29
+      },
+      "years": {
+        "2020": {
+          "total": 0,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 0,
+            "herfst": 0,
+            "winter": 0
+          }
+        },
+        "2019": {
+          "total": 4,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            2
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 1,
+            "herfst": 1,
+            "winter": 2
+          }
+        },
+        "2018": {
+          "total": 3,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 2,
+            "herfst": 1,
+            "winter": 0
+          }
+        },
+        "2017": {
+          "total": 4,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            2,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 1,
+            "herfst": 3,
+            "winter": 0
+          }
+        },
+        "2016": {
+          "total": 6,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0,
+            2
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 4,
+            "herfst": 0,
+            "winter": 2
+          }
+        },
+        "2015": {
+          "total": 6,
+          "months": [
+            0,
+            0,
+            2,
+            0,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0
+          ],
+          "seasons": {
+            "lente": 3,
+            "zomer": 1,
+            "herfst": 2,
+            "winter": 0
+          }
+        },
+        "2014": {
+          "total": 3,
+          "months": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 2,
+            "herfst": 0,
+            "winter": 1
+          }
+        },
+        "2013": {
+          "total": 3,
+          "months": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 1,
+            "zomer": 0,
+            "herfst": 2,
+            "winter": 0
+          }
+        },
+        "2012": {
+          "total": 12,
+          "months": [
+            0,
+            0,
+            2,
+            1,
+            0,
+            0,
+            1,
+            0,
+            2,
+            1,
+            5,
+            0
+          ],
+          "seasons": {
+            "lente": 3,
+            "zomer": 1,
+            "herfst": 8,
+            "winter": 0
+          }
+        },
+        "2011": {
+          "total": 8,
+          "months": [
+            2,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            1,
+            0
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 0,
+            "herfst": 3,
+            "winter": 5
+          }
+        },
+        "2010": {
+          "total": 8,
+          "months": [
+            3,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 1,
+            "zomer": 2,
+            "herfst": 2,
+            "winter": 3
+          }
+        },
+        "2009": {
+          "total": 10,
+          "months": [
+            1,
+            0,
+            1,
+            2,
+            1,
+            0,
+            1,
+            1,
+            1,
+            2,
+            0,
+            0
+          ],
+          "seasons": {
+            "lente": 4,
+            "zomer": 2,
+            "herfst": 3,
+            "winter": 1
+          }
+        },
+        "2008": {
+          "total": 12,
+          "months": [
+            1,
+            3,
+            0,
+            0,
+            0,
+            0,
+            3,
+            4,
+            0,
+            0,
+            0,
+            1
+          ],
+          "seasons": {
+            "lente": 0,
+            "zomer": 7,
+            "herfst": 0,
+            "winter": 5
+          }
+        },
+        "2007": {
+          "total": 41,
+          "months": [
+            0,
+            1,
+            2,
+            1,
+            3,
+            3,
+            12,
+            8,
+            4,
+            0,
+            4,
+            3
+          ],
+          "seasons": {
+            "lente": 6,
+            "zomer": 23,
+            "herfst": 8,
+            "winter": 4
+          }
+        },
+        "2006": {
+          "total": 9,
+          "months": [
+            2,
+            1,
+            2,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+          ],
+          "seasons": {
+            "lente": 2,
+            "zomer": 2,
+            "herfst": 0,
+            "winter": 5
+          }
+        },
+        "2005": {
+          "total": 7,
+          "months": [
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
+          ],
+          "seasons": {
+            "lente": 5,
+            "zomer": 0,
+            "herfst": 1,
+            "winter": 1
+          }
+        }
+      }
+    }
+  ]
+}

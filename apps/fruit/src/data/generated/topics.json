@@ -1,0 +1,194 @@
+[
+  {
+    "id": "fruit",
+    "label": "Fruit & rassen",
+    "generatedLabel": "",
+    "description": "Fruitsoorten, rassen, bloei, bestuiving en oogst",
+    "postCount": 1803,
+    "unitCount": 1564,
+    "representativePostIds": [
+      "2236537",
+      "2186940",
+      "1946744",
+      "1831450",
+      "1413046"
+    ],
+    "textKeywords": [
+      "Appels",
+      "Peren",
+      "Pruimen",
+      "Bessen",
+      "Bramen",
+      "Aardbeien",
+      "Noten",
+      "Overig fruit"
+    ]
+  },
+  {
+    "id": "teelt",
+    "label": "Tuin & teelt",
+    "generatedLabel": "",
+    "description": "Werk in de tuin, bodem, enten en teeltomstandigheden",
+    "postCount": 1234,
+    "unitCount": 1017,
+    "representativePostIds": [
+      "2059158",
+      "2016234",
+      "1932487",
+      "1904455",
+      "1548708"
+    ],
+    "textKeywords": [
+      "Groenten",
+      "Snoeien",
+      "Aanplant en verplanting",
+      "Bodembeheer",
+      "Compost en bemesting",
+      "Biologische teelt",
+      "Tuin en infrastructuur",
+      "Enten"
+    ]
+  },
+  {
+    "id": "plantgezondheid",
+    "label": "Plantenproblemen",
+    "generatedLabel": "",
+    "description": "Schade, ziekten, plagen en bestrijding",
+    "postCount": 1043,
+    "unitCount": 881,
+    "representativePostIds": [
+      "1819408",
+      "598242",
+      "501407",
+      "45367",
+      "620"
+    ],
+    "textKeywords": [
+      "Gewasschade",
+      "Plaagdieren",
+      "Schimmelziekten",
+      "Schadebestrijding",
+      "Pesticiden"
+    ]
+  },
+  {
+    "id": "natuur",
+    "label": "Natuur & seizoenen",
+    "generatedLabel": "",
+    "description": "Weer, vogels, insecten en ander tuinleven",
+    "postCount": 1510,
+    "unitCount": 1218,
+    "representativePostIds": [
+      "2232551",
+      "1903788",
+      "1573668",
+      "1353933",
+      "1318169"
+    ],
+    "textKeywords": [
+      "Weer en seizoenen",
+      "Vogels",
+      "Vlinders",
+      "Bijen",
+      "Overige dieren",
+      "Natuurbeheer",
+      "Kippen"
+    ]
+  },
+  {
+    "id": "reizen",
+    "label": "Reizen & bezoeken",
+    "generatedLabel": "",
+    "description": "Uitstappen, tuinen en publieke evenementen",
+    "postCount": 1590,
+    "unitCount": 1068,
+    "representativePostIds": [
+      "2271003",
+      "2077500",
+      "1976147",
+      "1945280",
+      "1939023"
+    ],
+    "textKeywords": [
+      "Tuinbezoeken",
+      "Reizen en uitstappen",
+      "Tuinevenementen"
+    ]
+  },
+  {
+    "id": "erfgoed",
+    "label": "Erfgoed & verhalen",
+    "generatedLabel": "",
+    "description": "Geschiedenis, kunst, tentoonstellingen en herinneringen",
+    "postCount": 1305,
+    "unitCount": 851,
+    "representativePostIds": [
+      "2180977",
+      "2180131",
+      "2178782",
+      "2075535",
+      "2075250"
+    ],
+    "textKeywords": [
+      "Erfgoed",
+      "Tentoonstellingen",
+      "Kunst",
+      "Herinneringen"
+    ]
+  },
+  {
+    "id": "familie",
+    "label": "Familie",
+    "generatedLabel": "",
+    "description": "Expliciete familieverhalen en vieringen",
+    "postCount": 168,
+    "unitCount": 122,
+    "representativePostIds": [
+      "2232787",
+      "1378516",
+      "1312282",
+      "922649",
+      "616762"
+    ],
+    "textKeywords": [
+      "Familie",
+      "Familiefeesten"
+    ]
+  },
+  {
+    "id": "eten",
+    "label": "Eten & gezondheid",
+    "generatedLabel": "",
+    "description": "Fruitgerechten, voeding en voedselsystemen",
+    "postCount": 298,
+    "unitCount": 232,
+    "representativePostIds": [
+      "1438024",
+      "1284481",
+      "723602",
+      "1173",
+      "1014"
+    ],
+    "textKeywords": [
+      "Fruitgerechten",
+      "Voeding en gezondheid",
+      "Voedselsysteem"
+    ]
+  },
+  {
+    "id": "overig",
+    "label": "Overig",
+    "generatedLabel": "",
+    "description": "Berichten zonder geselecteerd inhoudelijk tag",
+    "postCount": 136,
+    "unitCount": 133,
+    "representativePostIds": [
+      "2289786",
+      "2289681",
+      "2269900",
+      "2247841",
+      "2178508"
+    ],
+    "textKeywords": []
+  }
+]
