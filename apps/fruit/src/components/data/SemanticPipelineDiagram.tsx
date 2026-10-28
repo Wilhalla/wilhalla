@@ -25,8 +25,8 @@ const diagram = `flowchart LR
   G --> H
   E --> I[Tekstembedding\nper verhaal]
   I --> J[Verwante verhalen\ncosinusafstand]
-  I --> K[Atlaspositie\nUMAP projectie]
-  H --> L[JSON voor Atlas\nen beeldarchief]
+  I --> K[Plaats bij Onderwerpen\nUMAP projectie]
+  H --> L[JSON voor Onderwerpen\nen beeldarchief]
   J --> L
   K --> L
 `;
@@ -97,13 +97,13 @@ export default function SemanticPipelineDiagram() {
       <PageHeader
         size="page"
         title={<span id="semantic-setup-title">Data</span>}
-        intro="Hoe het archief gemaakt is. Vervolgberichten vormen samen één verhaal; foto's krijgen een beschrijving en blijven bij hun bericht; tags worden geteld en samengevoegd tot filters; tekstembeddings bepalen verwante verhalen en de plaats in de atlas."
+        intro="Hoe dit archief uit de oude blogpagina's is opgebouwd, en de bestanden die daarbij horen."
       />
       <Section aria-labelledby="pipeline-title">
         <SectionHeader
           id="pipeline-title"
           title="Werkwijze"
-          description="Van de oorspronkelijke blogpagina's naar de atlas, het beeldarchief en de zoekfunctie."
+          description="Van de oude blogpagina's naar de onderwerpen, het beeldarchief en het zoeken."
         />
         <div className="min-w-0 overflow-x-auto rounded-2xl bg-pure-surface p-6 shadow-subtle-2">
           {svg ? (

@@ -12,6 +12,8 @@ const siteUrl =
     : "https://fruit.janpeterdhalle.com");
 
 export default defineConfig({
+  // The "Atlas" page was renamed; keep old links working.
+  redirects: { "/atlas": "/onderwerpen" },
   output: "static",
   adapter: vercel(),
   integrations: [react({ babel: { plugins: ["babel-plugin-react-compiler"] } })],

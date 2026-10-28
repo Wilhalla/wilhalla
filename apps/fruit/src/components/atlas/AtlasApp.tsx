@@ -461,11 +461,11 @@ export default function AtlasApp() {
     <>
       <PageHeader
         size="page"
-        title="Atlas"
+        title="Onderwerpen"
         intro={
           arrangement === "subject"
-            ? "Elk punt is een verhaal, gegroepeerd per hoofdonderwerp. Binnen een groep liggen verwante verhalen dicht bij elkaar."
-            : "Elk punt is een verhaal, geplaatst naar wat er staat: verhalen die op elkaar lijken, liggen dicht bij elkaar, ook over onderwerpen heen."
+            ? "Alle berichten, per onderwerp. Klik op een stip om het bericht te lezen."
+            : "Alle berichten, geordend op inhoud. Berichten die op elkaar lijken, staan dicht bij elkaar."
         }
         actions={
           <ToggleGroup
@@ -482,7 +482,7 @@ export default function AtlasApp() {
             }}
           >
             <ToggleGroupItem value="subject">Per onderwerp</ToggleGroupItem>
-            <ToggleGroupItem value="meaning">Op betekenis</ToggleGroupItem>
+            <ToggleGroupItem value="meaning">Op inhoud</ToggleGroupItem>
           </ToggleGroup>
         }
       />
@@ -493,7 +493,7 @@ export default function AtlasApp() {
               <Search />
             </InputGroupAddon>
             <InputGroupInput
-              placeholder="Zoek een verhaal"
+              placeholder="Zoek een bericht"
               value={filters.search}
               onChange={(event) => updateFilters({ search: event.target.value })}
             />
@@ -553,7 +553,7 @@ export default function AtlasApp() {
           )}
           <p className={cn(typography.small, "m-0 ml-auto text-gravel")}>
             {numberFormat.format(browse.visible.length)} van {numberFormat.format(points.length)}{" "}
-            verhalen
+            berichten
           </p>
         </div>
 
@@ -564,7 +564,7 @@ export default function AtlasApp() {
           >
             <canvas
               ref={canvasRef}
-              aria-label="Kaart van alle verhalen, gegroepeerd per onderwerp"
+              aria-label="Alle berichten als stippen, per onderwerp"
               className="block size-full touch-none data-[dragging=true]:cursor-grabbing data-[hover=true]:cursor-pointer"
               data-dragging={dragging}
               data-hover={Boolean(hover)}
@@ -580,7 +580,7 @@ export default function AtlasApp() {
                   "absolute inset-0 m-0 grid place-items-center text-gravel",
                 )}
               >
-                {dataError ?? "Atlas laden…"}
+                {dataError ?? "Berichten laden…"}
               </p>
             )}
             {hover && !dragging && (
@@ -645,7 +645,7 @@ export default function AtlasApp() {
               />
             ) : (
               <div className="grid gap-4">
-                <h2 className={cn(typography.eyebrow)}>Onderwerpen</h2>
+                <h2 className={cn(typography.eyebrow)}>Kies een onderwerp</h2>
                 <ul className="m-0 grid list-none gap-0.5 p-0">
                   {atlasCategories.map((category) => {
                     const active = filters.topic === category.id;
@@ -679,31 +679,30 @@ export default function AtlasApp() {
                     </p>
                     {arrangement === "meaning" ? (
                       <p className={cn(typography.small, "m-0 text-cinder")}>
-                        De gekleurde waas toont waar de verhalen hierover samenkomen; ze liggen
-                        verspreid, omdat ze ook over andere onderwerpen gaan.
+                        Deze berichten gaan ook over andere dingen en staan daarom verspreid. De
+                        kleur toont waar ze het dichtst bij elkaar staan.
                       </p>
                     ) : (
                       <p className={cn(typography.small, "m-0 text-cinder")}>
-                        {numberFormat.format(primaryCounts.get(focusCategory.id) ?? 0)} verhalen
-                        gaan vooral hierover (gevulde punten). Nog{" "}
+                        {numberFormat.format(primaryCounts.get(focusCategory.id) ?? 0)} berichten
+                        gaan vooral hierover (volle stippen).{" "}
                         {numberFormat.format(
                           (categoryCounts.get(focusCategory.id) ?? 0) -
                             (primaryCounts.get(focusCategory.id) ?? 0),
                         )}{" "}
-                        raken het aan; zij staan bij hun eigen onderwerp (open rondjes).
+                        andere gaan er ook over; die staan bij hun eigen onderwerp (open stippen).
                       </p>
                     )}
                     <a
                       href={`/archive/?category=${encodeURIComponent(focusCategory.id)}`}
                       className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-fit")}
                     >
-                      Alle verhalen over {focusCategory.label.toLowerCase()} <ArrowRight />
+                      Alle berichten over {focusCategory.label.toLowerCase()} <ArrowRight />
                     </a>
                   </>
                 )}
                 <p className={cn(typography.caption, "m-0")}>
-                  Sleep om te verschuiven, scrol of gebruik + en − om te zoomen. Klik op een punt om
-                  het verhaal te openen.
+                  Sleep om te verschuiven en scrol om te zoomen.
                 </p>
               </div>
             )}
@@ -751,12 +750,12 @@ function StoryPanel({
         href={`/posts/${encodeURIComponent(point.slug)}/`}
         className={cn(buttonVariants(), "w-fit")}
       >
-        Lees het verhaal <ArrowRight />
+        Lees het bericht <ArrowRight />
       </a>
       {related.length > 0 && (
         <>
           <Separator />
-          <h3 className={typography.eyebrow}>Verwante verhalen</h3>
+          <h3 className={typography.eyebrow}>Verwante berichten</h3>
           <ul className="m-0 grid list-none gap-0.5 p-0">
             {related.map((item) => (
               <li key={item.id}>
