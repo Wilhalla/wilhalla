@@ -32,12 +32,91 @@
     "jsx-a11y/no-noninteractive-element-interactions": "warn",
     "jsx-a11y/no-autofocus": "warn",
     "jsx-a11y/click-events-have-key-events": "warn",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "shadcn/no-restyle": [
+      "warn",
+      {
+        "allow": [
+          "layout"
+        ]
+      }
+    ],
+    "shadcn/no-raw-colors": "error",
+    "shadcn/no-arbitrary-values": [
+      "warn",
+      {
+        "allow": [
+          "layout"
+        ]
+      }
+    ],
+    "shadcn/no-inline-styles": "warn",
+    "shadcn/no-unknown-classes": "error",
+    "shadcn/require-static-classes": "error"
   },
   "ignorePatterns": [
     "**/dist/**",
     "**/.output/**",
     "**/*.gen.ts",
     "**/generated/**"
+  ],
+  "jsPlugins": [
+    "@shadcn/lint"
+  ],
+  "settings": {
+    "shadcn": {
+      "ui": "@wilhalla/ui/components",
+      "themeImports": [
+        "^@wilhalla/ui/"
+      ],
+      "note": "Wilhalla UI rules: AGENTS.md (\"UI\") and the playground (just dev playground)."
+    }
+  },
+  "overrides": [
+    {
+      "files": [
+        "packages/ui/**",
+        "apps/playground/**"
+      ],
+      "rules": {
+        "shadcn/no-restyle": [
+          "error",
+          {
+            "allow": [
+              "layout"
+            ]
+          }
+        ],
+        "shadcn/no-arbitrary-values": [
+          "error",
+          {
+            "allow": [
+              "layout"
+            ]
+          }
+        ],
+        "shadcn/no-inline-styles": "error"
+      }
+    },
+    {
+      "files": [
+        "packages/ui/src/components/**"
+      ],
+      "rules": {
+        "shadcn/no-restyle": "off",
+        "shadcn/no-arbitrary-values": "off",
+        "shadcn/require-static-classes": "off"
+      }
+    },
+    {
+      "files": [
+        "apps/site/src/components/map/**",
+        "apps/site/src/components/hand-drawn-bg.tsx"
+      ],
+      "rules": {
+        "shadcn/no-arbitrary-values": "off",
+        "shadcn/no-inline-styles": "off"
+      }
+    }
   ]
 }

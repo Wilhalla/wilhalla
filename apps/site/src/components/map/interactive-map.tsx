@@ -190,7 +190,7 @@ function SentinelExplanationCard({
             })}
           </div>
         ) : null}
-        <p className="m-0 font-waldenburg text-[34px] leading-[1.28] tracking-[0.01em]">{text}</p>
+        <p className="m-0 font-waldenburg text-[34px] leading-[1.28] tracking-ui">{text}</p>
       </div>
     </foreignObject>
   );
@@ -214,12 +214,12 @@ function MapHeroOverlay() {
       >
         Wilhalla
       </h1>
-      <p className="m-0 mt-3 max-w-[380px] text-balance font-waldenburg text-[clamp(18px,1.15vw,23px)] leading-[1.22] tracking-[0.01em] text-[#3f3225]">
+      <p className="m-0 mt-3 max-w-[380px] text-balance font-waldenburg text-[clamp(18px,1.15vw,23px)] leading-[1.22] tracking-ui text-[#3f3225]">
         {homepage.tagline}
       </p>
       <Link
         to="/over-ons"
-        className="pointer-events-auto mt-4 inline-flex min-h-[34px] items-center justify-center rounded-full border border-chalk bg-obsidian px-4 font-waldenburg text-[16px] leading-none tracking-[0.01em] text-eggshell no-underline shadow-subtle-2 transition-transform duration-200 hover:-translate-y-px"
+        className="pointer-events-auto mt-4 inline-flex min-h-[34px] items-center justify-center rounded-full border border-chalk bg-obsidian px-4 font-waldenburg text-body-lg leading-none tracking-ui text-eggshell no-underline shadow-subtle-2 transition-transform duration-200 hover:-translate-y-px"
       >
         Ontdek Wilhalla
       </Link>
@@ -248,6 +248,7 @@ function FallbackSentinelGlow({ activeSentinelId }: { activeSentinelId: string |
         cy={cy}
         rx={Math.max(90, width * 0.62)}
         ry={Math.max(70, height * 0.58)}
+        // oxlint-disable-next-line shadcn/no-raw-colors -- warm sunlight glow of the hand-drawn map illustration; not a UI colour.
         fill="#fff1a8"
         opacity={0.34}
         filter="url(#map-fallback-sentinel-glow)"

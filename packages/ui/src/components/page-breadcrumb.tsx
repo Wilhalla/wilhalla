@@ -22,7 +22,7 @@ export function PageBreadcrumb({ items, linkComponent: Link = PlainLink }: PageB
   return (
     <Container asChild className="pt-6">
       <Breadcrumb>
-        <BreadcrumbList className="gap-2 font-sans text-body leading-body tracking-[0.01em] text-gravel sm:gap-2">
+        <BreadcrumbList className="gap-2 font-sans text-body leading-body tracking-ui text-gravel sm:gap-2">
           {items.map((item, i) => (
             <Fragment key={item.label}>
               {i > 0 && <BreadcrumbSeparator className="text-fog">/</BreadcrumbSeparator>}

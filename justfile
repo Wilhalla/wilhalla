@@ -37,9 +37,9 @@ test app="":
 build app="":
     pnpm {{ if app == "" { "-r" } else { "--filter ./apps/" + app } }} run --if-present build
 
-# Lint everything with the shared oxlint config.
+# Lint everything with the shared oxlint config, including @shadcn/lint (capped warnings).
 lint:
-    pnpm exec oxlint
+    pnpm run lint
 
 # Apply the shared formatter (oxfmt) everywhere.
 format:

@@ -150,24 +150,26 @@ export const commandStory: Story = {
   render: () => (
     <Examples>
       <Example label="inline">
-        <Command className="w-full max-w-sm rounded-2xl shadow-subtle-2">
-          <CommandInput placeholder="Zoek een pagina" />
-          <CommandList>
-            <CommandEmpty>Niets gevonden.</CommandEmpty>
-            <CommandGroup heading="Pagina's">
-              <CommandItem>
-                Alle berichten <CommandShortcut>A</CommandShortcut>
-              </CommandItem>
-              <CommandItem>Beeldarchief</CommandItem>
-              <CommandItem disabled>Atlas (laden…)</CommandItem>
-            </CommandGroup>
-            <CommandSeparator />
-            <CommandGroup heading="Jaren">
-              <CommandItem>2012</CommandItem>
-              <CommandItem>2013</CommandItem>
-            </CommandGroup>
-          </CommandList>
-        </Command>
+        <div className="w-full max-w-sm overflow-hidden rounded-2xl shadow-subtle-2">
+          <Command>
+            <CommandInput placeholder="Zoek een pagina" />
+            <CommandList>
+              <CommandEmpty>Niets gevonden.</CommandEmpty>
+              <CommandGroup heading="Pagina's">
+                <CommandItem>
+                  Alle berichten <CommandShortcut>A</CommandShortcut>
+                </CommandItem>
+                <CommandItem>Beeldarchief</CommandItem>
+                <CommandItem disabled>Atlas (laden…)</CommandItem>
+              </CommandGroup>
+              <CommandSeparator />
+              <CommandGroup heading="Jaren">
+                <CommandItem>2012</CommandItem>
+                <CommandItem>2013</CommandItem>
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </div>
       </Example>
     </Examples>
   ),

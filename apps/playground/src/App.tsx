@@ -77,7 +77,7 @@ export function App() {
                   {story.description}
                 </p>
               </div>
-              <Separator className="bg-chalk" />
+              <Separator />
               {story.render()}
             </section>
           ))}

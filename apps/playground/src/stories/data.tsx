@@ -93,7 +93,7 @@ export const feedbackStory: Story = {
     <Examples>
       <Example label="Skeleton (card)">
         <div className="grid w-full max-w-xs gap-3">
-          <Skeleton className="h-32 w-full rounded-2xl" />
+          <Skeleton className="h-32 w-full" />
           <Skeleton className="h-4 w-2/3" />
           <Skeleton className="h-4 w-1/2" />
         </div>
@@ -101,21 +101,23 @@ export const feedbackStory: Story = {
       <Example label="Spinner sizes">
         <Spinner />
         <Spinner className="size-6" />
-        <Spinner className="size-8 text-gravel" />
+        <Spinner className="size-8" />
       </Example>
       <Example label="ScrollArea">
-        <ScrollArea className="h-40 w-full max-w-xs rounded-2xl shadow-subtle-2">
-          <ul className="m-0 list-none p-4">
-            {Array.from({ length: 20 }, (_, i) => (
-              <li
-                key={i}
-                className="border-b border-chalk py-2 text-body text-cinder last:border-0"
-              >
-                Bericht {i + 1}
-              </li>
-            ))}
-          </ul>
-        </ScrollArea>
+        <div className="w-full max-w-xs overflow-hidden rounded-2xl shadow-subtle-2">
+          <ScrollArea className="h-40">
+            <ul className="m-0 list-none p-4">
+              {Array.from({ length: 20 }, (_, i) => (
+                <li
+                  key={i}
+                  className="border-b border-chalk py-2 text-body text-cinder last:border-0"
+                >
+                  Bericht {i + 1}
+                </li>
+              ))}
+            </ul>
+          </ScrollArea>
+        </div>
       </Example>
     </Examples>
   ),

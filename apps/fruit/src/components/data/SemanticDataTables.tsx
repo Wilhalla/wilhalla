@@ -284,11 +284,8 @@ const compactColumnIds = new Set([
 ]);
 const mediumColumnIds = new Set(["slug", "date", "isoDate", "season", "key", "url"]);
 
-const columnWidthClass = (columnId: string) => {
-  if (compactColumnIds.has(columnId)) return "w-20 min-w-20 max-w-28";
-  if (mediumColumnIds.has(columnId)) return "w-40 min-w-32 max-w-52";
-  return "min-w-44 max-w-[32rem]";
-};
+const columnWidth = (columnId: string) =>
+  compactColumnIds.has(columnId) ? "compact" : mediumColumnIds.has(columnId) ? "medium" : "wide";
 
 declare global {
   interface Window {
@@ -458,7 +455,12 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
-                      className={`${columnWidthClass(header.column.id)} border-b border-chalk bg-eggshell/95 px-3 text-xs font-medium uppercase tracking-[0.08em] text-slate`}
+                      className={cn(
+                        columnWidth(header.column.id) === "compact" && "w-20 min-w-20 max-w-28",
+                        columnWidth(header.column.id) === "medium" && "w-40 min-w-32 max-w-52",
+                        columnWidth(header.column.id) === "wide" && "min-w-44 max-w-[32rem]",
+                        "border-b border-chalk bg-eggshell/95 px-3 text-xs font-medium uppercase tracking-[0.08em] text-slate",
+                      )}
                     >
                       {header.isPlaceholder ? null : (
                         <button
@@ -482,7 +484,14 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
                   {row.getVisibleCells().map((cell, cellIndex) => (
                     <TableCell
                       key={cell.id}
-                      className={`${columnWidthClass(cell.column.id)} px-3 py-2 align-top whitespace-normal ${cellIndex === 0 ? "sticky left-0 z-10 bg-eggshell font-mono text-xs text-slate" : ""}`}
+                      className={cn(
+                        columnWidth(cell.column.id) === "compact" && "w-20 min-w-20 max-w-28",
+                        columnWidth(cell.column.id) === "medium" && "w-40 min-w-32 max-w-52",
+                        columnWidth(cell.column.id) === "wide" && "min-w-44 max-w-[32rem]",
+                        "px-3 py-2 align-top whitespace-normal",
+                        cellIndex === 0 &&
+                          "sticky left-0 z-10 bg-eggshell font-mono text-xs text-slate",
+                      )}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>

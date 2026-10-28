@@ -63,7 +63,7 @@ export function MobileMenu({ open, onClose, links, contactLabel }: MobileMenuPro
           <Link
             key={link.to}
             to={link.to as string}
-            className={`font-heading text-[clamp(2rem,4vw,var(--text-heading-lg))] leading-heading-lg font-light tracking-heading-lg inline-flex items-center gap-4 no-underline text-obsidian transition-all duration-400 ease-out hover:text-gravel ${
+            className={`font-heading text-heading-lg-fluid leading-heading-lg font-light tracking-heading-lg inline-flex items-center gap-4 no-underline text-obsidian transition-all duration-400 ease-out hover:text-gravel ${
               open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
             style={{ transitionDelay: open ? `${80 + i * 50}ms` : "0ms" }}

@@ -67,6 +67,23 @@ visitor falls back to a system font), the site's radii, the site's scaling page 
 titles (`typography.display`, `.section`), and the site's page column (`Container`). Fruit's
 Fraunces/DM Sans/Ioskeley fonts, its cream diagram colours and its padded shell are gone.
 
+### Design-system lint
+
+`@shadcn/lint` runs as an oxlint JS plugin (`.oxlintrc.json`: `jsPlugins`, `settings.shadcn.ui`
+= `@wilhalla/ui/components`, `themeImports` = `@wilhalla/ui/`). Each app has a
+`components.json` naming its stylesheet and pointing `ui` at the shared package, so the linter
+reads each app's own Tailwind entry and the shared components; `packages/ui/components.json`
+points at `globals.css` (Tailwind + tokens) for the same reason.
+
+All six rules are on. Setting it up found and fixed real problems: `fullscreen:` classes in
+fruit's atlas that generated no CSS (now a `@custom-variant`), amber palette colours, dynamic
+class strings on table cells, and recurring hand-typed values that became tokens
+(`tracking-ui`, `tracking-caps`, `text-label`, `text-mono`, `text-display-fluid`,
+`text-heading-lg-fluid`, `rounded-image`). What remains is fruit restyling shared components
+(about 315 `no-restyle` warnings, mostly gallery and atlas controls) and some one-off sizes;
+the warning cap keeps that number from growing. Promote a rule to `error` for an app once its
+count reaches zero.
+
 ### What CI runs
 
 `tools/ci/check.sh --affected` compares the commit with the base (the PR's base commit, or the

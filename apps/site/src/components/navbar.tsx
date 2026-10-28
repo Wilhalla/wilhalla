@@ -47,7 +47,7 @@ export function Navbar() {
             aria-label={`${siteIdentity.name} home`}
           >
             <img src={siteIdentity.assets.favicon} alt="" className="h-6 w-6" />
-            <span className="font-waldenburg text-[21px] font-normal leading-none tracking-[0.01em] text-obsidian">
+            <span className="font-waldenburg text-[21px] font-normal leading-none tracking-ui text-obsidian">
               {siteIdentity.name}
             </span>
           </Link>
@@ -60,7 +60,7 @@ export function Navbar() {
                 <li key={link.to}>
                   <Link
                     to={link.to as string}
-                    className="rounded-full px-2.5 py-[7px] text-obsidian no-underline transition-colors duration-150 hover:bg-powder data-[status=active]:bg-powder inline-flex items-center gap-2 font-waldenburg text-[16px] font-normal tracking-[0.01em]"
+                    className="rounded-full px-2.5 py-[7px] text-obsidian no-underline transition-colors duration-150 hover:bg-powder data-[status=active]:bg-powder inline-flex items-center gap-2 font-waldenburg text-body-lg font-normal tracking-ui"
                   >
                     <Icon className="h-4 w-4 text-slate" strokeWidth={1.5} />
                     {link.label}
@@ -74,7 +74,7 @@ export function Navbar() {
             to="/contact"
             className={cn(
               buttonVariants(),
-              "hidden justify-self-end has-[>svg]:px-4 md:inline-flex font-waldenburg text-[16px] font-normal tracking-[0.01em]",
+              "hidden justify-self-end has-[>svg]:px-4 md:inline-flex font-waldenburg text-body-lg font-normal tracking-ui",
             )}
           >
             <Mail className="h-4 w-4" strokeWidth={1.5} />

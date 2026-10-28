@@ -22,13 +22,13 @@ export const cardStory: Story = {
       <Example label="header + content + footer">
         <Card className="w-full max-w-sm">
           <CardHeader>
-            <CardTitle className="font-heading text-heading-sm font-light">
-              Wilhalla Muziekcafé
-            </CardTitle>
+            <CardTitle>Wilhalla Muziekcafé</CardTitle>
             <CardDescription>vr 30 oktober · 20:00</CardDescription>
           </CardHeader>
-          <CardContent className="text-body leading-body text-cinder">
-            Live muziek in de schuur, met soep van de samentuin.
+          <CardContent>
+            <p className="m-0 text-body leading-body text-cinder">
+              Live muziek in de schuur, met soep van de samentuin.
+            </p>
           </CardContent>
           <CardFooter>
             <Button variant="outline">Meer info</Button>
@@ -50,8 +50,10 @@ export const cardStory: Story = {
       </Example>
       <Example label="content only">
         <Card className="w-full max-w-sm">
-          <CardContent className="text-body leading-body text-gravel">
-            Er staan momenteel geen activiteiten gepland.
+          <CardContent>
+            <p className="m-0 text-body leading-body text-gravel">
+              Er staan momenteel geen activiteiten gepland.
+            </p>
           </CardContent>
         </Card>
       </Example>

@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 import { Example, Examples, type Story } from "./story";
 
 const palette = [
@@ -44,7 +46,10 @@ const shadows = ["shadow-subtle", "shadow-subtle-2", "shadow-subtle-4", "shadow-
 function Swatch({ name, value }: { name: string; value: string }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="size-10 shrink-0 rounded-lg shadow-subtle-2" style={{ background: value }} />
+      <span
+        className="size-10 shrink-0 rounded-lg bg-(--swatch) shadow-subtle-2"
+        style={{ "--swatch": value } as CSSProperties}
+      />
       <span className="font-mono text-xs text-cinder">{name}</span>
     </div>
   );

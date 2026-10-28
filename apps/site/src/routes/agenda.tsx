@@ -69,7 +69,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
       <aside className="rounded-2xl bg-card shadow-subtle-7 overflow-hidden">
         <div className="grid bg-white lg:grid-cols-[280px_minmax(0,1fr)]">
           <div className="border-b border-chalk px-5 py-4 lg:border-r lg:border-b-0 lg:px-6 lg:py-5">
-            <p className="font-sans text-body leading-body tracking-[0.01em] m-0 text-gravel">
+            <p className="font-sans text-body leading-body tracking-ui m-0 text-gravel">
               {agendaRegistry.upcomingEyebrow}
             </p>
             <h2 className="font-heading text-heading leading-heading font-light tracking-heading m-0 mt-1 text-obsidian">
@@ -84,14 +84,14 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                     key={event.id}
                     className="rounded-2xl border border-chalk bg-eggshell p-4"
                   >
-                    <p className="font-sans text-body leading-body tracking-[0.01em] m-0 text-gravel">
+                    <p className="font-sans text-body leading-body tracking-ui m-0 text-gravel">
                       {formatAgendaEventDate(event)}
                     </p>
-                    <h3 className="font-sans text-body-lg leading-body-lg tracking-[0.01em] m-0 mt-2 text-obsidian">
+                    <h3 className="font-sans text-body-lg leading-body-lg tracking-ui m-0 mt-2 text-obsidian">
                       {event.title}
                     </h3>
                     {event.location && (
-                      <p className="font-sans text-body leading-body tracking-[0.01em] m-0 mt-2 text-gravel">
+                      <p className="font-sans text-body leading-body tracking-ui m-0 mt-2 text-gravel">
                         {event.location}
                       </p>
                     )}
@@ -109,7 +109,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                 ))}
               </div>
             ) : (
-              <p className="font-sans text-body leading-body tracking-[0.01em] m-0 p-5 text-gravel">
+              <p className="font-sans text-body leading-body tracking-ui m-0 p-5 text-gravel">
                 {agendaRegistry.noUpcomingEventsText}
               </p>
             )}
@@ -169,7 +169,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                 {agendaRegistry.weekdays.map((day) => (
                   <div
                     key={day}
-                    className="font-sans text-body leading-body tracking-[0.01em] px-2 py-3 text-center text-gravel"
+                    className="font-sans text-body leading-body tracking-ui px-2 py-3 text-center text-gravel"
                   >
                     {day}
                   </div>
@@ -192,7 +192,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                     >
                       <div className="mb-2 flex justify-end">
                         <span
-                          className={`font-sans text-body leading-body tracking-[0.01em] grid h-7 min-w-7 place-items-center rounded-full px-2 ${
+                          className={`font-sans text-body leading-body tracking-ui grid h-7 min-w-7 place-items-center rounded-full px-2 ${
                             isToday
                               ? "bg-obsidian text-eggshell"
                               : outsideMonth
@@ -208,7 +208,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                           <EventChip key={`${event.id}-${dayKey}`} event={event} />
                         ))}
                         {dayEvents.length > agendaRegistry.maxEventsPerDay && (
-                          <div className="font-sans text-body leading-body tracking-[0.01em] rounded-full bg-powder px-2 py-1 text-gravel">
+                          <div className="font-sans text-body leading-body tracking-ui rounded-full bg-powder px-2 py-1 text-gravel">
                             +{dayEvents.length - agendaRegistry.maxEventsPerDay}{" "}
                             {agendaRegistry.moreEventsLabel}
                           </div>
@@ -231,12 +231,12 @@ function EventChip({ event }: { event: AgendaEvent }) {
     <div className="rounded-xl border border-chalk bg-eggshell px-2.5 py-2 shadow-subtle-2 md:px-3">
       <div className="flex items-start gap-1.5">
         <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />
-        <span className="min-w-0 break-words font-medium text-[13px] leading-snug text-obsidian md:text-sm">
+        <span className="min-w-0 break-words font-medium text-mono leading-snug text-obsidian md:text-sm">
           {event.title}
         </span>
       </div>
       {!event.allDay && (
-        <p className="font-mono text-[13px] leading-[1.69] m-0 mt-1 text-gravel">
+        <p className="font-mono text-mono leading-mono m-0 mt-1 text-gravel">
           {formatAgendaEventTime(event)}
         </p>
       )}
