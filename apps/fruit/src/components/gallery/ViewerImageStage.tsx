@@ -146,7 +146,7 @@ export default function ViewerImageStage({
         <div
           ref={zoomLensRef}
           className="pointer-events-none absolute left-0 top-0 z-20 rounded-full border border-eggshell/95 bg-no-repeat opacity-0 shadow-[0_18px_60px_rgba(19,24,32,0.34),inset_0_0_0_1px_rgba(19,24,32,0.25)] ring-1 ring-obsidian/20 will-change-transform"
-          style={{ width: ZOOM_LENS_SIZE, height: ZOOM_LENS_SIZE, backgroundImage: `url(\"${viewerImageFullSrc.replace(/\"/g, '\\\"')}\")` }}
+          style={{ width: ZOOM_LENS_SIZE, height: ZOOM_LENS_SIZE, backgroundImage: `url("${viewerImageFullSrc.replace(/"/g, '\\\"')}")` }}
           aria-hidden="true"
         />
       )}

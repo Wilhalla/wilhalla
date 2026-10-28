@@ -1,0 +1,23 @@
+# Dependencies and build output (reproducible; never commit)
+node_modules/
+dist/
+.output/
+.astro/
+.vercel/
+.venv/
+__pycache__/
+*.pyc
+*.tsbuildinfo
+*.log
+
+# Linked worktrees live here, one per branch: see AGENTS.md
+.worktrees/
+
+# Live environment files are symlinks into ~/.config/jpserv/env; templates stay versioned
+.env
+.env.*
+!.env.example
+!.env.*.example
+.envrc
+
+.DS_Store

@@ -1,33 +1,46 @@
-set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
+# Seniorennet fruit archive (Astro). Run from apps/fruit; `just fruit/<recipe>` works from the repo root.
 
-export PATH := env_var("HOME") + "/.nub/bin:" + env_var("HOME") + "/.local/bin:" + env_var("PATH")
+set shell := ["bash", "-euo", "pipefail", "-c"]
 
+[private]
 default:
     @just --list
 
-worktree-add name branch='' start='HEAD':
-    args=(worktree add {{quote(name)}} --start {{quote(start)}}); if [[ -n {{quote(branch)}} ]]; then args+=(--branch {{quote(branch)}}); fi; jp "${args[@]}"
-
-worktree-list:
-    jp worktree list
-
-worktree-rm name force='false':
-    args=(worktree remove {{quote(name)}}); if [[ {{quote(force)}} == "true" ]]; then args+=(--force); fi; jp "${args[@]}"
-
+# Install workspace dependencies and link the ML cache from the state store (idempotent)
 setup:
-    nub install --prefer-frozen-lockfile
-    git config --local core.hooksPath .githooks
+    cd ../.. && pnpm install --frozen-lockfile
+    @state="$(jp state path)/fruit/ml-work"; mkdir -p "$state"; if [[ ! -e ml-work ]]; then ln -s "$state" ml-work; echo "ml-work -> $state"; fi
 
+# Start the dev server on http://127.0.0.1:4321
 dev: setup
-    jp dev --port 4321 -- nub run dev -- --host 127.0.0.1 --port 4321
+    jp dev --port 4321 -- pnpm exec astro dev --host 127.0.0.1 --port 4321
+
+# Build the static site into dist/
+build:
+    pnpm run build
+
+# Preview the production build
+preview:
+    pnpm run preview
+
+# Typecheck (astro check), tests and build: what CI runs for this app
+check:
+    cd ../.. && just check fruit
+    python3 -m unittest discover -s scripts -p 'test_archive_ml.py'
 
 test:
-    nub run test
+    pnpm run test
 
-check:
-    nub run build
-    nub run test
-    python3 -m unittest discover -s scripts -p 'test_archive_ml.py'
+# Python environment for the ML pipeline scripts (ML_PIPELINE.md)
+ml-setup:
+    uv venv .venv && uv pip install --python .venv -r requirements-ml.txt -r requirements-archive-ml.txt
+
+# Create a repo-wide worktree under .worktrees/<name>
+worktree-add name *args:
+    jp worktree add {{name}} {{args}}
+
+worktree-rm name *args:
+    jp worktree remove {{name}} {{args}}
 
 clean:
     rm -rf dist .astro

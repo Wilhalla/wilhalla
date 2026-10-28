@@ -1,0 +1,43 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "oxc",
+    "react",
+    "jsx-a11y",
+    "import",
+    "vitest"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "env": {
+    "builtin": true,
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "import/no-unassigned-import": "off",
+    "react/button-has-type": "error",
+    "react/set-state-in-effect": "warn",
+    "react/refs": "warn",
+    "react/purity": "warn",
+    "react/immutability": "warn",
+    "react/incompatible-library": "warn",
+    "jsx-a11y/prefer-tag-over-role": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    "jsx-a11y/no-autofocus": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/.output/**",
+    "**/*.gen.ts",
+    "**/generated/**"
+  ]
+}
