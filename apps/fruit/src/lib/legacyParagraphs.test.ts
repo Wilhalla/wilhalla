@@ -30,13 +30,13 @@ describe("paragraphizeLegacyHtml", () => {
     const html =
       'Tekst<br><br><img src="a.jpg"><ul><li>a<br>b</li></ul><table><tr><td>x<br>y</td></tr></table>';
     expect(paragraphizeLegacyHtml(html)).toBe(
-      '<p>Tekst</p>\n<p><img src="a.jpg"></p>\n<ul><li>a<br>b</li></ul>\n<table><tbody><tr><td>x<br>y</td></tr></tbody></table>',
+      '<p>Tekst</p>\n<p data-photo><img src="a.jpg"></p>\n<ul><li>a<br>b</li></ul>\n<table><tbody><tr><td>x<br>y</td></tr></tbody></table>',
     );
   });
 
   it("moves a linked photo out of the text it was placed in", () => {
     expect(paragraphizeLegacyHtml('<a href="a.jpg"><img src="a.jpg"></a> Tekst.')).toBe(
-      '<p><a href="a.jpg"><img src="a.jpg"></a></p>\n<p>Tekst.</p>',
+      '<p data-photo><a href="a.jpg"><img src="a.jpg"></a></p>\n<p>Tekst.</p>',
     );
   });
 
