@@ -1,4 +1,6 @@
 ---
+import { cn } from "@wilhalla/ui/lib/utils";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import '../styles/global.css'
 import Analytics from '@vercel/analytics/astro'
 import SiteHeader from '../components/SiteHeader.astro'
@@ -97,7 +99,7 @@ const imageAssetOrigin = (() => {
       <slot />
     </main>
     {!hideFooter && (
-      <footer class="source-note site-shell" aria-label="Bronvermelding">
+      <footer class={cn(typography.caption, layout.shell, "py-8 text-center")} aria-label="Bronvermelding">
         <p>
           Dit blogarchief is geëxtraheerd uit Daniël Willaeys’ oorspronkelijke blogposts op
           <a href="https://blog.seniorennet.be/fruit/" rel="noreferrer" target="_blank">fruit</a>

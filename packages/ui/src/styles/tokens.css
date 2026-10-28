@@ -1,3 +1,6 @@
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
 /*
  * Wilhalla theme for Tailwind CSS v4 and shadcn/ui: tokens only, no component classes.
  * Components style themselves with Tailwind utilities (`bg-powder`, `text-body leading-body`,
@@ -8,12 +11,12 @@
  *   @import "tailwindcss";
  *   @import "@wilhalla/ui/tokens.css";
  *
- * and defines its own typefaces in its @theme: --font-heading (display serif) and --font-sans.
+ * (it brings tw-animate-css and shadcn's base styles along) and defines its own typefaces in its @theme: --font-heading (display serif) and --font-sans.
  * The app may override any shadcn variable below in its own :root.
  */
 
 /* Generate the utilities the shared components use, in every app that imports this file. */
-@source "../components";
+@source "../";
 
 @theme static {
   /* Warm editorial palette */
@@ -51,8 +54,9 @@
   --leading-display: 1.08;
   --tracking-display: -0.96px;
 
-  /* Layout: max-w-page */
+  /* Layout: max-w-page, max-w-readable */
   --container-page: 75rem;
+  --container-readable: 58ch;
 
   /* Hairline elevation */
   --shadow-subtle: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;

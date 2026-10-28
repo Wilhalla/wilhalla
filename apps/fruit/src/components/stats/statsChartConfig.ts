@@ -1,4 +1,4 @@
-import type { ChartConfig } from "@/components/ui/chart";
+import type { ChartConfig } from "@wilhalla/ui/components/chart";
 
 export const yearChartConfig = {
   posts: { label: "Berichten", color: "var(--color-obsidian)" },

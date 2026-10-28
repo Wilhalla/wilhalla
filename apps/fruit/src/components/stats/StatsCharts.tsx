@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 import type { ArchiveStatsData, DistributionBucket } from "@/lib/archiveStats";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@wilhalla/ui/components/chart";
 import { postChartConfig, valueChartConfig } from "./statsChartConfig";
 import { formatLabelCompact, formatLabelMetric, WEEKDAY_LABELS } from "./statsFormat";
 

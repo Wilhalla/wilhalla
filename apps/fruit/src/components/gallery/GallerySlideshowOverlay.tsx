@@ -15,14 +15,14 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@wilhalla/ui/components/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@wilhalla/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@wilhalla/ui/components/select";
 import {
   SLIDESHOW_SECONDS_MAX,
   SLIDESHOW_SECONDS_MIN,

@@ -21,7 +21,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@wilhalla/ui/components/dropdown-menu";
 import { GallerySlideshowControls } from "./GallerySlideshow";
 import {
   IMAGE_ZOOM_MAX,
@@ -232,7 +232,7 @@ export default function ViewerImageStage({
         />
       )}
       {viewerFullscreen && (
-        <div className="pointer-events-none absolute bottom-4 left-4 z-20 max-w-[min(34rem,calc(100%-2rem))] rounded-2xl border border-eggshell/20 bg-obsidian/75 px-4 py-3 text-eggshell shadow-soft backdrop-blur">
+        <div className="pointer-events-none absolute bottom-4 left-4 z-20 max-w-[min(34rem,calc(100%-2rem))] rounded-2xl border border-eggshell/20 bg-obsidian/75 px-4 py-3 text-eggshell shadow-subtle-7 backdrop-blur">
           <p className="m-0 line-clamp-2 text-sm font-medium leading-5">
             {viewerImage.visualDescription || viewerImage.postTitle}
           </p>
@@ -244,7 +244,7 @@ export default function ViewerImageStage({
       )}
       <div className="pointer-events-none absolute inset-x-3 top-3 z-30 flex min-w-0 justify-center lg:inset-x-4 lg:top-4">
         <div
-          className="pointer-events-auto flex max-w-full flex-nowrap items-center justify-start gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap rounded-full border border-chalk bg-eggshell/95 px-3 py-2 text-sm text-obsidian shadow-soft [scrollbar-width:none] backdrop-blur [&::-webkit-scrollbar]:hidden lg:max-w-[min(calc(100vw-12rem),80rem)] [&_svg]:size-4"
+          className="pointer-events-auto flex max-w-full flex-nowrap items-center justify-start gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap rounded-full border border-chalk bg-eggshell/95 px-3 py-2 text-sm text-obsidian shadow-subtle-7 [scrollbar-width:none] backdrop-blur [&::-webkit-scrollbar]:hidden lg:max-w-[min(calc(100vw-12rem),80rem)] [&_svg]:size-4"
           role="toolbar"
           aria-label="Beeldviewer acties"
         >
@@ -417,7 +417,7 @@ export default function ViewerImageStage({
       </div>
       <div className="pointer-events-none absolute inset-y-0 left-0 right-0 z-30 flex items-center justify-between px-3 lg:px-5">
         <button
-          className="pointer-events-auto inline-grid size-11 place-items-center rounded-full border border-chalk bg-eggshell/90 text-obsidian shadow-soft backdrop-blur transition hover:border-slate hover:bg-eggshell disabled:opacity-30"
+          className="pointer-events-auto inline-grid size-11 place-items-center rounded-full border border-chalk bg-eggshell/90 text-obsidian shadow-subtle-7 backdrop-blur transition hover:border-slate hover:bg-eggshell disabled:opacity-30"
           type="button"
           disabled={!previousImage}
           onClick={() => previousImage && onOpenImage(previousImage.id)}
@@ -426,7 +426,7 @@ export default function ViewerImageStage({
           <ArrowLeft className="size-5" aria-hidden="true" />
         </button>
         <button
-          className="pointer-events-auto inline-grid size-11 place-items-center rounded-full border border-chalk bg-eggshell/90 text-obsidian shadow-soft backdrop-blur transition hover:border-slate hover:bg-eggshell disabled:opacity-30"
+          className="pointer-events-auto inline-grid size-11 place-items-center rounded-full border border-chalk bg-eggshell/90 text-obsidian shadow-subtle-7 backdrop-blur transition hover:border-slate hover:bg-eggshell disabled:opacity-30"
           type="button"
           disabled={!nextImage}
           onClick={() => nextImage && onOpenImage(nextImage.id)}

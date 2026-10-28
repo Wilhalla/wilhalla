@@ -1,4 +1,7 @@
 ---
+import { typography } from "@wilhalla/ui/lib/typography";
+import { buttonVariants } from "@wilhalla/ui/components/button";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { Image } from 'astro:assets'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import SiteLoader from '../components/SiteLoader.astro'
@@ -23,7 +26,7 @@ import { aggregatedPostIndex } from '../lib/postIndex'
     <div class="mx-auto grid max-w-page items-center gap-x-12 gap-y-8 md:grid-cols-[minmax(14rem,0.4fr)_minmax(0,0.6fr)] lg:gap-x-16">
       <figure class="order-2 relative mb-0 grid justify-items-center md:order-1 md:row-span-2 md:justify-self-end">
         <div class="relative isolate">
-          <div class="absolute -inset-3 -z-10 rounded-[1.5rem] border border-chalk bg-pure-surface shadow-blue md:-inset-4" aria-hidden="true"></div>
+          <div class="absolute -inset-3 -z-10 rounded-[1.5rem] border border-chalk bg-pure-surface shadow-subtle-2 md:-inset-4" aria-hidden="true"></div>
           <Image
             src={portraitDaniel}
             alt="Portret van Daniël Willaeys"
@@ -44,7 +47,7 @@ import { aggregatedPostIndex } from '../lib/postIndex'
       <div class="order-1 grid justify-items-center text-center md:order-2 md:self-end md:justify-items-start md:text-left">
         <h1
           id="chronology-title"
-          class="display-title max-w-3xl max-md:mx-auto"
+          class={cn(typography.display, "max-w-3xl max-md:mx-auto")}
         >
           Blogarchief Daniël Willaeys
         </h1>
@@ -56,7 +59,7 @@ import { aggregatedPostIndex } from '../lib/postIndex'
         </p>
         <div class="mt-6 flex flex-wrap justify-center gap-2 md:justify-start">
           <a
-            class="button-link gap-2"
+            class={cn(buttonVariants(), "gap-2")}
             href="/search/"
           >
             <svg class="size-4" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -66,7 +69,7 @@ import { aggregatedPostIndex } from '../lib/postIndex'
             Zoeken
           </a>
           <a
-            class="inline-flex min-h-9 items-center gap-2 rounded-full border border-chalk bg-pure-surface px-3 text-body font-medium text-obsidian no-underline shadow-blue hover:text-obsidian"
+            class="inline-flex min-h-9 items-center gap-2 rounded-full border border-chalk bg-pure-surface px-3 text-body font-medium text-obsidian no-underline shadow-subtle-2 hover:text-obsidian"
             href="/gallery/"
           >
             <svg class="size-4" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">

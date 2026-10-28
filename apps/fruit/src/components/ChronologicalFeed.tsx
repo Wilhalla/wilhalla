@@ -1,3 +1,5 @@
+import { layout } from "@wilhalla/ui/lib/typography";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { archiveAssetUrl } from "../lib/assetUrls";
 import {
   archiveDayLabel,
@@ -81,7 +83,7 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
 
   return (
     <section className="w-full pb-24" aria-labelledby="chronology-title" data-chronology-feed>
-      <div className="site-shell relative z-10 overflow-x-clip py-16">
+      <div className={cn(layout.shell, "relative z-10 overflow-x-clip py-16")}>
         <div className="grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8">
           <aside
             className="sticky top-16 self-start pr-2 md:top-16 md:pr-6"
@@ -129,14 +131,14 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                   ></span>
                 )}
                 {month.startsYear && (
-                  <header className="col-span-full mb-4 flex items-end justify-between border-b border-rule pb-3">
-                    <p className="m-0 text-sm text-slate-ink">
+                  <header className="col-span-full mb-4 flex items-end justify-between border-b border-chalk pb-3">
+                    <p className="m-0 text-sm text-gravel">
                       {yearGroups
                         .find((group) => group.year === month.year)
                         ?.count.toLocaleString("nl-BE")}{" "}
                       berichten
                     </p>
-                    <h2 className="m-0 font-heading text-5xl font-normal leading-none tracking-tight text-midnight-navy md:text-7xl">
+                    <h2 className="m-0 font-heading text-5xl font-normal leading-none tracking-tight text-obsidian md:text-7xl">
                       {displayArchiveYear(month.year)}
                     </h2>
                   </header>
@@ -183,7 +185,7 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                               <span className="text-sm font-medium leading-none text-obsidian">
                                 {archiveDayLabel(post)}
                               </span>
-                              <span className="text-xs uppercase tracking-[0.14em] text-slate-ink md:hidden">
+                              <span className="text-xs uppercase tracking-[0.14em] text-gravel md:hidden">
                                 {month.shortLabel}
                               </span>
                             </time>
@@ -203,7 +205,7 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                             )}
                           </div>
                           <div className="min-w-0 self-center">
-                            <div className="mb-2.5 flex flex-wrap items-center gap-2 text-xs leading-none tracking-tight text-slate-ink">
+                            <div className="mb-2.5 flex flex-wrap items-center gap-2 text-xs leading-none tracking-tight text-gravel">
                               {timeLabel && (
                                 <span title={formatArchiveDate(post)}>{timeLabel}</span>
                               )}

@@ -1,3 +1,5 @@
+import { cn } from "@wilhalla/ui/lib/utils";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import {
   Area,
   AreaChart,
@@ -12,10 +14,10 @@ import {
 } from "recharts";
 import { CalendarDays, Image, MessageCircle, Ruler, Sparkles } from "lucide-react";
 import type { ArchiveStatsData } from "@/lib/archiveStats";
-import { Badge } from "@/components/ui/badge";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Separator } from "@/components/ui/separator";
+import { Badge } from "@wilhalla/ui/components/badge";
+import { CardContent, CardDescription, CardHeader, CardTitle } from "@wilhalla/ui/components/card";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@wilhalla/ui/components/chart";
+import { Separator } from "@wilhalla/ui/components/separator";
 import TopicSeasonHeatmap from "@/components/atlas/TopicSeasonHeatmap";
 import { useDismissHydrationLoader } from "@/components/gallery/useGracefulLoader";
 import { ChartBlock, Kpi, MinimalCard, RankingTable } from "./StatsBlocks";
@@ -74,10 +76,10 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
   }));
 
   return (
-    <div className="site-shell pb-20">
+    <div className={cn(layout.shell, "pb-20")}>
       <section className="relative overflow-hidden py-16 md:py-24">
         <div className="max-w-5xl">
-          <h1 className="display-title max-w-4xl">Blogarchiefstatistieken</h1>
+          <h1 className={cn(typography.display, "max-w-4xl")}>Blogarchiefstatistieken</h1>
         </div>
         <div className="mt-10 flex flex-wrap gap-2">
           <Badge variant="secondary" className="rounded-full bg-powder text-gravel">
@@ -274,7 +276,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
       <section>
         <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <h2 className="section-title">Lengte, beeld en gesprek.</h2>
+            <h2 className={typography.section}>Lengte, beeld en gesprek.</h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-gravel">
             Distributies maken zichtbaar of het archief bestaat uit korte notities, fotoreeksen of
@@ -306,7 +308,7 @@ export default function StatsDashboard({ stats }: { stats: ArchiveStatsData }) {
       <section className="mt-10">
         <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <h2 className="section-title">Tempo, beeld, reactie.</h2>
+            <h2 className={typography.section}>Tempo, beeld, reactie.</h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-gravel">
             Meer ratio’s dan ruwe volumes: jaren met veel posts per actieve dag, visuele jaargangen

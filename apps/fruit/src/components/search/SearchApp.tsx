@@ -1,13 +1,15 @@
+import { cn } from "@wilhalla/ui/lib/utils";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { useState } from "react";
 import { ArrowRight, ImageIcon, Loader2, Search, Sparkles } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@wilhalla/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@wilhalla/ui/components/select";
 import { formatArchiveDate } from "../../lib/archiveDateTime";
 import {
   useLazySearchIndex,
@@ -59,7 +61,7 @@ export default function SearchApp() {
   const loading = categoryLoading || (fullTextLoaded ? fullTextLoading : titleSearch.loading);
 
   return (
-    <section className="site-shell py-20" aria-labelledby="search-title">
+    <section className={cn(layout.shell, "py-20")} aria-labelledby="search-title">
       <header className="relative grid gap-8 overflow-hidden border-b border-chalk pb-10 md:grid-cols-[minmax(0,0.72fr)_minmax(16rem,0.28fr)]">
         <img
           className="apple-image absolute right-0 top-0 hidden w-24 rotate-6 opacity-80 md:block"
@@ -70,14 +72,14 @@ export default function SearchApp() {
           decoding="async"
         />
         <div>
-          <h1 id="search-title" className="display-title">
+          <h1 id="search-title" className={typography.display}>
             Zoeken
           </h1>
-          <p className="mt-4 max-w-2xl text-body-lg leading-body-lg text-slate-ink">
+          <p className="mt-4 max-w-2xl text-body-lg leading-body-lg text-gravel">
             Zoek op titel, tekst of trefwoord.
           </p>
         </div>
-        <div className="self-end pr-28 text-sm text-slate-ink max-md:pr-0">
+        <div className="self-end pr-28 text-sm text-gravel max-md:pr-0">
           {fullTextLoading ? (
             <span className="inline-flex items-center gap-1.5">
               <Loader2 className="size-4 animate-spin" /> Volledige index laden…
@@ -93,9 +95,9 @@ export default function SearchApp() {
 
       <div className="min-w-0 border-b border-chalk py-6">
         <label className="flex min-h-14 min-w-0 items-center gap-3 bg-transparent">
-          <Search className="size-5 shrink-0 text-slate-ink" aria-hidden="true" />
+          <Search className="size-5 shrink-0 text-gravel" aria-hidden="true" />
           <Input
-            className="min-w-0 flex-1 border-0 bg-transparent px-0 text-xl shadow-none outline-none placeholder:text-slate-ink/60 focus-visible:ring-0 md:text-2xl"
+            className="min-w-0 flex-1 border-0 bg-transparent px-0 text-xl shadow-none outline-none placeholder:text-gravel/60 focus-visible:ring-0 md:text-2xl"
             autoFocus
             type="search"
             value={query}
@@ -127,7 +129,7 @@ export default function SearchApp() {
             </SelectContent>
           </Select>
         </div>
-        <div className="mt-3 flex flex-wrap justify-between gap-3 text-sm text-slate-ink">
+        <div className="mt-3 flex flex-wrap justify-between gap-3 text-sm text-gravel">
           <span>
             {categoryError
               ? "Categorieën konden niet worden geladen."
@@ -156,7 +158,7 @@ export default function SearchApp() {
 
       <div className="grid" aria-live="polite">
         {query.trim().length >= 2 && !loading && !categoryError && results.length === 0 && (
-          <p className="m-0 border-b border-chalk py-10 text-slate-ink">Geen resultaten.</p>
+          <p className="m-0 border-b border-chalk py-10 text-gravel">Geen resultaten.</p>
         )}
         {results.map((result) => {
           const terms = result.terms ?? [];
@@ -169,22 +171,22 @@ export default function SearchApp() {
               key={result.id}
             >
               <div className="min-w-0">
-                <p className="mb-2 flex min-w-0 flex-wrap items-center gap-2 text-xs leading-snug tracking-tight text-slate-ink">
+                <p className="mb-2 flex min-w-0 flex-wrap items-center gap-2 text-xs leading-snug tracking-tight text-gravel">
                   {formatArchiveDate(result)}
                   {typeof result.blockIndex === "number"
                     ? ` · blok ${result.blockIndex + 1}`
                     : " · titelindex"}
                   {typeof result.score === "number" ? ` · score ${Math.round(result.score)}` : ""}
                 </p>
-                <h2 className="m-0 break-words font-heading text-3xl font-normal leading-tight tracking-tight text-midnight-navy [overflow-wrap:anywhere] md:text-4xl">
+                <h2 className="m-0 break-words font-heading text-3xl font-normal leading-tight tracking-tight text-obsidian [overflow-wrap:anywhere] md:text-4xl">
                   <a className="text-inherit no-underline hover:underline" href={result.url}>
                     {highlight(result.title, terms)}
                   </a>
                 </h2>
-                <p className="my-3 max-w-5xl break-words text-slate-ink [overflow-wrap:anywhere]">
+                <p className="my-3 max-w-5xl break-words text-gravel [overflow-wrap:anywhere]">
                   {highlight(text, terms)}
                 </p>
-                <p className="m-0 flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-ink">
+                <p className="m-0 flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gravel">
                   <span className="inline-flex shrink-0 items-center gap-1.5">
                     <ImageIcon className="size-3.5" aria-hidden="true" />
                     {result.imageCount} beelden

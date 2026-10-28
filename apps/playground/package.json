@@ -15,7 +15,8 @@
     "@wilhalla/ui": "workspace:*",
     "lucide-react": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "recharts": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/vite": "catalog:",
