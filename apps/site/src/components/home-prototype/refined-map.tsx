@@ -6,7 +6,7 @@
 //     and shows its painted highlight and lettering; tapping a place on the map selects it.
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { places, type Place } from "./places";
 import { interactiveMapRegistry } from "@/config/registries";
 import { allHomepages } from "content-collections";
@@ -410,6 +410,25 @@ const tour = [...places].sort(
   (left, right) => left.box.x1 + left.box.x2 - (right.box.x1 + right.box.x2),
 );
 
+/** A pencil-like arrow, drawn to sit with the map's lettering rather than a UI chevron. */
+function SketchArrow({ direction }: { direction: "left" | "right" }) {
+  return (
+    <svg
+      viewBox="0 0 32 24"
+      aria-hidden="true"
+      className="h-6 w-8 data-[direction=left]:-scale-x-100"
+      data-direction={direction}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 12.6c5.2-.6 11.4-.9 16.6-.5 2.6.2 5 .2 8.2-.3" strokeWidth="1.6" />
+      <path d="M20.5 5.2c2.3 2.4 4.6 4.6 7.4 6.6-2.9 1.8-5.1 4-7.1 6.8" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
 function PlaceSwitcher({
   active,
   onStep,
@@ -417,40 +436,39 @@ function PlaceSwitcher({
   active: Place | null;
   onStep: (step: number) => void;
 }) {
+  const arrow =
+    "grid size-12 shrink-0 place-items-center rounded-full text-cinder transition-colors active:text-obsidian";
   return (
     <nav
       aria-label="Plekken op de kaart"
-      className="fixed inset-x-0 bottom-[max(1rem,env(safe-area-inset-bottom))] z-30 flex justify-center px-4 lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 bg-linear-to-t from-eggshell/90 via-eggshell/55 to-transparent px-2 pt-14 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden"
     >
-      <div className="flex max-w-full items-center gap-1 rounded-full bg-eggshell/90 p-1 shadow-subtle-4 backdrop-blur-md">
-        <button
-          type="button"
-          aria-label="Vorige plek"
-          onClick={() => onStep(-1)}
-          className="grid size-10 place-items-center rounded-full text-obsidian active:bg-powder"
-        >
-          <ChevronLeft className="size-5" strokeWidth={1.5} />
+      {/* Arrows stay at the edges; only the name in the middle changes. */}
+      <div className="grid grid-cols-[3rem_1fr_3rem] items-center">
+        <button type="button" aria-label="Vorige plek" onClick={() => onStep(-1)} className={arrow}>
+          <SketchArrow direction="left" />
         </button>
-        {active ? (
-          <a
-            href={active.href}
-            className="flex min-w-0 items-center gap-1.5 px-2 font-sans text-body font-medium whitespace-nowrap text-obsidian no-underline"
-          >
-            <span className="truncate">{active.title}</span>
-            <ArrowRight className="size-4 shrink-0" strokeWidth={1.5} />
-          </a>
-        ) : (
-          <span className="px-2 font-sans text-body whitespace-nowrap text-cinder">
-            Ontdek de plekken
-          </span>
-        )}
+        <div className="min-w-0 text-center" aria-live="polite">
+          {active ? (
+            <a
+              href={active.href}
+              className="inline-block max-w-full truncate font-heading text-[1.6rem] leading-tight text-obsidian underline decoration-fog decoration-1 underline-offset-[6px]"
+            >
+              {active.title}
+            </a>
+          ) : (
+            <span className="font-heading text-[1.35rem] leading-tight text-cinder italic">
+              Wandel over het domein
+            </span>
+          )}
+        </div>
         <button
           type="button"
           aria-label="Volgende plek"
           onClick={() => onStep(1)}
-          className="grid size-10 place-items-center rounded-full text-obsidian active:bg-powder"
+          className={arrow}
         >
-          <ChevronRight className="size-5" strokeWidth={1.5} />
+          <SketchArrow direction="right" />
         </button>
       </div>
     </nav>
