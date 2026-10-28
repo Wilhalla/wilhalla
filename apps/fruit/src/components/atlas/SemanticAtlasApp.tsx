@@ -1,3 +1,4 @@
+import { typography } from "@wilhalla/ui/lib/typography";
 import {
   useEffect,
   useMemo,
@@ -18,14 +19,14 @@ import {
   Search,
 } from "lucide-react";
 import { Button } from "@wilhalla/ui/components/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@wilhalla/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@wilhalla/ui/components/select";
 import { archiveAssetUrl } from "../../lib/assetUrls";
 import { currentBrowserPath, writeBrowserPath } from "../../lib/browserHistory";
 import {
@@ -1081,7 +1082,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
 
     for (const point of points) {
       const p = atlasPoint(point, miniRect);
-      context.fillStyle = themeValue("--color-slate-ink");
+      context.fillStyle = themeValue("--color-gravel");
       context.globalAlpha = visibleIds.has(point.id) ? 0.18 : 0.07;
       context.beginPath();
       context.arc(p.x, p.y, visibleIds.has(point.id) ? 0.8 : 0.55, 0, Math.PI * 2);
@@ -1309,7 +1310,7 @@ export default function SemanticAtlasApp({ initialPoints = [], initialTopics = [
       <header className="grid gap-4 border-b border-chalk pb-3 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-end">
         <div className="min-w-0">
           <div className="flex items-center gap-3">
-            <h1 className="display-title">Atlas</h1>
+            <h1 className={typography.display}>Atlas</h1>
             <details className="group relative z-30">
               <summary
                 className="flex size-8 cursor-pointer list-none items-center justify-center rounded-full border border-chalk bg-eggshell text-xs text-gravel transition-colors hover:border-obsidian hover:text-obsidian [&::-webkit-details-marker]:hidden"

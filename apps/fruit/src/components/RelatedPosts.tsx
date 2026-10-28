@@ -1,3 +1,5 @@
+import { cn } from "@wilhalla/ui/lib/utils";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { ImageIcon, MessageCircle } from "lucide-react";
 import relatedPostsData from "../data/generated/related-posts.json";
 import mapPointsData from "../data/generated/map-points.json";
@@ -17,7 +19,7 @@ type MapPoint = {
 type Topic = { id: string; label: string; generatedLabel: string };
 
 const countPill =
-  "inline-flex min-h-6 items-center gap-1 rounded-full bg-pure-surface px-2 font-mono text-xs text-midnight-navy shadow-soft";
+  "inline-flex min-h-6 items-center gap-1 rounded-full bg-pure-surface px-2 font-mono text-xs text-obsidian shadow-subtle-7";
 const relatedPosts = relatedPostsData as Record<string, string[]>;
 const topicsById = new Map((topicsData as Topic[]).map((topic) => [topic.id, topic]));
 const postsById = new Map<string, PostSummary>(postIndex.map((post) => [post.id, post]));
@@ -43,7 +45,7 @@ export default function RelatedPosts({ postId }: Props) {
 
   return (
     <section
-      className="site-shell border-t border-rule py-14"
+      className={cn(layout.shell, "border-t border-chalk py-14")}
       aria-labelledby="related-atlas-title"
     >
       <div className="relative">
@@ -55,11 +57,11 @@ export default function RelatedPosts({ postId }: Props) {
           loading="lazy"
           decoding="async"
         />
-        <h2 id="related-atlas-title" className="section-title">
+        <h2 id="related-atlas-title" className={typography.section}>
           Nabije berichten
         </h2>
         {categories.length > 0 && (
-          <p className="section-kicker">
+          <p className={typography.kicker}>
             Categorieën:{" "}
             {categories.map((category, index) => (
               <span key={category.id}>
@@ -89,11 +91,11 @@ export default function RelatedPosts({ postId }: Props) {
 
             return (
               <article
-                className="overflow-hidden rounded-2xl bg-pure-surface shadow-soft"
+                className="overflow-hidden rounded-2xl bg-pure-surface shadow-subtle-7"
                 key={post.id}
               >
                 <a
-                  className="group block bg-ghost-canvas no-underline"
+                  className="group block bg-eggshell no-underline"
                   href={`/posts/${post.slug}/`}
                   aria-label={`Lees ${post.title}`}
                 >
@@ -106,18 +108,18 @@ export default function RelatedPosts({ postId }: Props) {
                   />
                 </a>
                 <div className="p-5">
-                  <p className="mb-2 flex flex-wrap items-center gap-2 text-xs leading-none tracking-tight text-slate-ink">
+                  <p className="mb-2 flex flex-wrap items-center gap-2 text-xs leading-none tracking-tight text-gravel">
                     <span>{formatDate(post)}</span>
                     <span
                       className="inline-flex gap-1"
                       aria-label={`${post.imageCount} beelden, ${post.reactionCount} reacties`}
                     >
                       <span className={countPill} title="Beelden">
-                        <ImageIcon className="size-3.5 text-slate-ink" aria-hidden="true" />
+                        <ImageIcon className="size-3.5 text-gravel" aria-hidden="true" />
                         {post.imageCount}
                       </span>
                       <span className={countPill} title="Reacties">
-                        <MessageCircle className="size-3.5 text-slate-ink" aria-hidden="true" />
+                        <MessageCircle className="size-3.5 text-gravel" aria-hidden="true" />
                         {post.reactionCount}
                       </span>
                     </span>
@@ -128,7 +130,7 @@ export default function RelatedPosts({ postId }: Props) {
                     </a>
                   </h3>
                   {post.excerpt && (
-                    <p className="mt-3 text-sm leading-relaxed text-slate-ink">{post.excerpt}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-gravel">{post.excerpt}</p>
                   )}
                 </div>
               </article>

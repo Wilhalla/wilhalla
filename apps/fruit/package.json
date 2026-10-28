@@ -42,21 +42,14 @@
     "@wilhalla/ui": "workspace:*",
     "astro": "catalog:",
     "cheerio": "catalog:",
-    "class-variance-authority": "catalog:",
-    "clsx": "catalog:",
-    "cmdk": "catalog:",
     "lucide-react": "catalog:",
     "mermaid": "catalog:",
     "minisearch": "catalog:",
-    "radix-ui": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "recharts": "catalog:",
-    "shadcn": "catalog:",
     "sharp": "catalog:",
-    "tailwind-merge": "catalog:",
-    "tailwindcss": "catalog:",
-    "tw-animate-css": "catalog:"
+    "tailwindcss": "catalog:"
   },
   "devDependencies": {
     "@astrojs/check": "catalog:",

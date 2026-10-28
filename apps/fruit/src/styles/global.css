@@ -4,8 +4,6 @@
 @import "@fontsource-variable/fraunces/index.css";
 @import "@fontsource-variable/geist/index.css";
 @import "../../theme.css";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -37,72 +35,6 @@
   color-scheme: light;
   --apple-asset-1: url("/apple-assets/apple-1-160.webp");
   --apple-asset-2: url("/apple-assets/apple-2-160.webp");
-  --background: var(--color-eggshell);
-  --foreground: var(--color-obsidian);
-  --card: var(--color-pure-surface);
-  --card-foreground: var(--color-obsidian);
-  --popover: var(--color-pure-surface);
-  --popover-foreground: var(--color-obsidian);
-  --primary: var(--color-obsidian);
-  --primary-foreground: var(--color-eggshell);
-  --secondary: var(--color-powder);
-  --secondary-foreground: var(--color-obsidian);
-  --muted: var(--color-powder);
-  --muted-foreground: var(--color-gravel);
-  --accent: var(--color-powder);
-  --accent-foreground: var(--color-obsidian);
-  --destructive: var(--color-destructive);
-  --border: var(--color-chalk);
-  --input: var(--color-obsidian);
-  --ring: var(--color-obsidian);
-  --chart-1: var(--color-signal-blue);
-  --chart-2: var(--color-ember);
-  --chart-3: var(--color-gravel);
-  --chart-4: var(--color-slate);
-  --chart-5: var(--color-fog);
-  --radius: var(--radius-xl);
-  --sidebar: var(--color-pure-surface);
-  --sidebar-foreground: var(--color-midnight-navy);
-  --sidebar-primary: var(--color-obsidian);
-  --sidebar-primary-foreground: var(--color-midnight-navy);
-  --sidebar-accent: var(--color-ghost-canvas);
-  --sidebar-accent-foreground: var(--color-midnight-navy);
-  --sidebar-border: var(--color-rule);
-  --sidebar-ring: var(--color-blue-glow-radial);
-}
-
-@theme inline {
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
-  --color-background: var(--background);
 }
 
 @layer base {
@@ -151,44 +83,6 @@
   ::selection {
     @apply bg-obsidian text-eggshell;
   }
-}
-
-@utility site-shell {
-  @apply mx-auto w-full max-w-page px-8 max-md:px-4;
-}
-
-@utility eyebrow {
-  @apply m-0 text-body font-normal leading-body tracking-[0.01em] text-gravel;
-}
-
-@utility display-title {
-  @apply m-0 font-heading text-display font-light leading-display tracking-display text-obsidian md:text-display;
-}
-
-@utility section-title {
-  @apply m-0 font-heading text-heading-lg font-light leading-heading-lg tracking-heading-lg text-obsidian;
-}
-
-@utility section-kicker {
-  @apply mt-4 max-w-readable text-body-lg leading-body-lg tracking-[0.01em] text-gravel;
-}
-
-@utility button-link {
-  @apply inline-flex min-h-9 items-center justify-center rounded-full bg-obsidian px-4 text-body font-medium tracking-[0.01em] text-eggshell no-underline shadow-blue transition-colors hover:bg-obsidian hover:text-eggshell focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian;
-}
-
-@utility source-note {
-  @apply py-8 text-center text-caption leading-caption text-gravel;
-}
-
-@layer utilities {
-  .auto-rows-photo {
-    grid-auto-rows: calc(var(--spacing) * 28);
-  }
-}
-
-@utility legacy-content {
-  @apply text-body-lg leading-body-lg text-obsidian;
 }
 
 @layer components {
@@ -531,23 +425,6 @@
     to {
       transform: rotate(360deg);
     }
-  }
-
-  .legacy-content :is(p, h2, h3, h4, ul, ol) {
-    @apply mb-4 mt-0;
-  }
-  .legacy-content :is(h2, h3, h4) {
-    @apply font-heading font-light leading-heading tracking-heading;
-  }
-  .legacy-content img {
-    @apply my-5 h-auto w-full;
-  }
-  .legacy-content table {
-    @apply block max-w-full overflow-x-auto border-collapse;
-  }
-  .legacy-content td,
-  .legacy-content th {
-    @apply border border-chalk p-2;
   }
 }
 

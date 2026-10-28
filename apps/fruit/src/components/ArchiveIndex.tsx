@@ -1,3 +1,5 @@
+import { cn } from "@wilhalla/ui/lib/utils";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { useState } from "react";
 import ArchiveRow from "./ArchiveRow";
 import ArchiveViewToggle, { type ArchiveViewMode } from "./ArchiveViewToggle";
@@ -15,14 +17,17 @@ export default function ArchiveIndex({ aggregatedPosts, allPosts }: Props) {
   return (
     <>
       <section
-        className="site-shell flex items-end justify-between gap-6 border-b border-rule py-6 max-md:flex-col max-md:items-start"
+        className={cn(
+          layout.shell,
+          "flex items-end justify-between gap-6 border-b border-chalk py-6 max-md:flex-col max-md:items-start",
+        )}
         aria-label="Archiefweergave"
       >
         <div>
           <h2 className="m-0 font-heading text-3xl font-normal tracking-tight">
             Reeksen samenvoegen?
           </h2>
-          <p className="section-kicker">
+          <p className={typography.kicker}>
             Samengevoegd toont vervolg-, aanvulling- en deelberichten als één reeks. Losse berichten
             toont de originele import.
           </p>
@@ -34,7 +39,7 @@ export default function ArchiveIndex({ aggregatedPosts, allPosts }: Props) {
           onChange={setMode}
         />
       </section>
-      <section className="site-shell space-y-1 pb-56 pt-6" aria-label="Alle blogberichten">
+      <section className={cn(layout.shell, "space-y-1 pb-56 pt-6")} aria-label="Alle blogberichten">
         {posts.map((post, index) => (
           <ArchiveRow post={post} index={index} total={posts.length} key={`${mode}-${post.id}`} />
         ))}

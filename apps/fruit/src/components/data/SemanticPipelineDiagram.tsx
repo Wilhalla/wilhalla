@@ -1,3 +1,5 @@
+import { cn } from "@wilhalla/ui/lib/utils";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { useEffect, useMemo, useState } from "react";
 import { Download } from "lucide-react";
 
@@ -88,10 +90,10 @@ export default function SemanticPipelineDiagram() {
   }, [id]);
 
   return (
-    <section className="site-shell min-w-0 py-12" aria-labelledby="semantic-setup-title">
+    <section className={cn(layout.shell, "min-w-0 py-12")} aria-labelledby="semantic-setup-title">
       <div className="min-w-0 border-b border-chalk pb-10">
         <div className="max-w-3xl">
-          <h1 id="semantic-setup-title" className="display-title">
+          <h1 id="semantic-setup-title" className={typography.display}>
             Data
           </h1>
           <p className="mt-5 text-body-lg leading-body-lg text-gravel">

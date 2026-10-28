@@ -49,9 +49,22 @@ when a `text-gravel` follows.
 
 The site was moved onto it first (its `el-*`, `eleven-*`, `site-container` and Markdown CSS
 became Tailwind utilities and `buttonVariants()`); screenshots of every route at 1280 and 390 px
-were compared with the build before the change and match within anti-aliasing. Fruit uses the
-shared `Button` and theme; its visual language (Fraunces/DM Sans, its own shadcn set and
-`global.css`) is still app-local and is the next candidate to move.
+were compared with the build before the change and match within anti-aliasing.
+
+Fruit followed: its 19 shadcn components (already styled on the same palette) moved into the
+package, its alias colours (`midnight-navy`, `slate-ink`, `rule`, `shadow-soft`, …) were renamed
+to the shared tokens they pointed at, and its `@utility` classes (`display-title`,
+`section-title`, `section-kicker`, `eyebrow`, `site-shell`, `button-link`, `legacy-content`)
+became the `typography`/`layout` recipes, `buttonVariants()` and a `legacyContent` class list.
+Fruit screenshots match the previous build except where links became shared buttons
+(34 px pills instead of 36 px). What stays app-local on purpose: each app's typefaces, and
+fruit's `global.css` animations and state-driven layout (site loader, collapsing photo panel,
+view transitions).
+
+Visible differences that remain between the apps, now side by side in the playground, are
+design decisions rather than code: the typefaces (EB Garamond vs Fraunces + DM Sans), the page
+title size (the site's `PageHeader` scales 36 to 48 px; `typography.display` is a fixed 48 px),
+and the page column (`Container`: 16 px gutter; `layout.shell`: 32 px padding).
 
 ### What CI runs
 

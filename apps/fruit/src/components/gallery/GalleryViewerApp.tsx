@@ -1,3 +1,5 @@
+import { cn } from "@wilhalla/ui/lib/utils";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { useMemo, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { ArrowLeft, ExternalLink, X } from "lucide-react";
@@ -267,8 +269,8 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
 
   if (!viewerId) {
     return (
-      <main className="site-shell py-16 text-midnight-navy">
-        <h1 className="display-title">Geen beeld gekozen</h1>
+      <main className={cn(layout.shell, "py-16 text-obsidian")}>
+        <h1 className={typography.display}>Geen beeld gekozen</h1>
         <a
           className="mt-6 inline-flex min-h-10 items-center rounded-full border border-obsidian px-4 text-sm font-medium no-underline"
           href="/gallery/"
@@ -289,8 +291,10 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
     }
 
     return (
-      <main className="site-shell py-16 text-midnight-navy">
-        <h1 className="display-title">{imagesLoading ? "Beeld laden…" : "Beeld niet gevonden"}</h1>
+      <main className={cn(layout.shell, "py-16 text-obsidian")}>
+        <h1 className={typography.display}>
+          {imagesLoading ? "Beeld laden…" : "Beeld niet gevonden"}
+        </h1>
         <p className="mt-4 max-w-xl text-sm leading-6 text-gravel">
           {imagesLoading
             ? "We zoeken de foto in het beeldarchief."
@@ -315,7 +319,7 @@ export default function GalleryViewerApp({ initialImages = [] }: Props) {
   }
 
   return (
-    <main className="min-h-[calc(100svh-4rem)] w-full overflow-x-hidden bg-eggshell text-midnight-navy lg:flex lg:h-[calc(100svh-4rem)] lg:max-h-[calc(100svh-4rem)] lg:flex-col lg:overflow-hidden">
+    <main className="min-h-[calc(100svh-4rem)] w-full overflow-x-hidden bg-eggshell text-obsidian lg:flex lg:h-[calc(100svh-4rem)] lg:max-h-[calc(100svh-4rem)] lg:flex-col lg:overflow-hidden">
       <header className="sticky top-14 z-40 flex h-14 shrink-0 items-center justify-between gap-3 overflow-hidden border-b border-chalk bg-eggshell/95 px-4 backdrop-blur md:px-6 lg:static">
         <div className="min-w-0">
           <p className="m-0 truncate text-sm font-medium text-obsidian">{viewerImage.postTitle}</p>

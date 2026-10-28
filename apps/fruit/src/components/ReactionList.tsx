@@ -1,3 +1,6 @@
+import { legacyContent } from "@/lib/legacyContent";
+import { cn } from "@wilhalla/ui/lib/utils";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import type { Reaction } from "../lib/postDetails";
 import { rewriteArchiveAssetUrls } from "../lib/assetUrls";
 
@@ -19,16 +22,16 @@ export default function ReactionList({ reactions }: Props) {
   return (
     <section
       id="reactions"
-      className="site-shell border-t border-rule py-14 md:py-16"
+      className={cn(layout.shell, "border-t border-chalk py-14 md:py-16")}
       aria-labelledby="reactions-title"
     >
       <div className="mx-auto max-w-5xl">
         <header className="grid gap-6 border-b border-chalk pb-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
           <div>
-            <h2 id="reactions-title" className="section-title">
+            <h2 id="reactions-title" className={typography.section}>
               Reacties
             </h2>
-            <p className="section-kicker">
+            <p className={typography.kicker}>
               Bewaarde reacties bij dit bericht, als doorlopende gesprekslaag onder de post.
             </p>
           </div>
@@ -69,7 +72,10 @@ export default function ReactionList({ reactions }: Props) {
                       </h3>
                     </header>
                     <div
-                      className="legacy-content mt-3 max-w-3xl border-l border-chalk pl-4 [overflow-wrap:anywhere]"
+                      className={cn(
+                        legacyContent,
+                        "mt-3 max-w-3xl border-l border-chalk pl-4 [overflow-wrap:anywhere]",
+                      )}
                       dangerouslySetInnerHTML={{ __html: rewriteArchiveAssetUrls(reaction.html) }}
                     />
                   </div>

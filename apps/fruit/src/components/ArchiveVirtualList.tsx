@@ -1,3 +1,5 @@
+import { layout } from "@wilhalla/ui/lib/typography";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { ImageIcon, Layers2, MessageCircle } from "lucide-react";
@@ -7,7 +9,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@wilhalla/ui/components/select";
 import { ACTIVE_YEAR_VIEWPORT_OFFSET, activeYearFromVirtualItems } from "../lib/activeVirtualYear";
 import {
   archiveYear,
@@ -53,7 +55,7 @@ type ArchivePayload = {
 
 const emptyPayload: ArchivePayload = { aggregated: [], all: [] };
 const archiveRow =
-  "group relative grid min-h-[4.75rem] grid-cols-[6ch_12rem_minmax(0,1fr)_13rem] items-center gap-4 rounded-xl border border-transparent px-4 py-3 text-inherit no-underline outline-none transition-[background-color,border-color,box-shadow] duration-150 ease-out before:absolute before:inset-y-3 before:left-0 before:w-px before:rounded-full before:bg-transparent before:transition-colors hover:border-chalk/80 hover:bg-pure-surface/75 hover:shadow-subtle hover:before:bg-obsidian/25 focus-visible:border-obsidian/30 focus-visible:shadow-blue focus-visible:before:bg-obsidian max-md:min-h-[10rem] max-md:grid-cols-1 max-md:items-start max-md:gap-2 max-md:px-0 max-md:py-4";
+  "group relative grid min-h-[4.75rem] grid-cols-[6ch_12rem_minmax(0,1fr)_13rem] items-center gap-4 rounded-xl border border-transparent px-4 py-3 text-inherit no-underline outline-none transition-[background-color,border-color,box-shadow] duration-150 ease-out before:absolute before:inset-y-3 before:left-0 before:w-px before:rounded-full before:bg-transparent before:transition-colors hover:border-chalk/80 hover:bg-pure-surface/75 hover:shadow-subtle hover:before:bg-obsidian/25 focus-visible:border-obsidian/30 focus-visible:shadow-subtle-2 focus-visible:before:bg-obsidian max-md:min-h-[10rem] max-md:grid-cols-1 max-md:items-start max-md:gap-2 max-md:px-0 max-md:py-4";
 const metaText = "font-mono text-xs text-gravel transition-colors group-hover:text-cinder";
 const countPill =
   "inline-flex min-h-6 items-center gap-1.5 rounded-md border border-chalk/70 bg-powder/50 px-2 font-mono text-[11px] leading-none text-gravel transition-colors group-hover:border-chalk group-hover:bg-pure-surface group-hover:text-obsidian";
@@ -166,7 +168,10 @@ export default function ArchiveVirtualList() {
   return (
     <>
       <section
-        className="site-shell flex flex-wrap items-center justify-between gap-4 border-b border-rule py-6"
+        className={cn(
+          layout.shell,
+          "flex flex-wrap items-center justify-between gap-4 border-b border-chalk py-6",
+        )}
         aria-label="Archiefweergave"
       >
         <div className="flex min-w-0 flex-wrap items-center gap-3">
@@ -211,12 +216,17 @@ export default function ArchiveVirtualList() {
         />
       </section>
 
-      <section className="site-shell grid grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 pb-56 pt-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-8">
+      <section
+        className={cn(
+          layout.shell,
+          "grid grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 pb-56 pt-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-8",
+        )}
+      >
         <aside
           className="sticky top-16 self-start border-r border-chalk/80 pr-2 md:top-20 md:border-r-0 md:pr-0"
           aria-label="Archiefjaren"
         >
-          {loading && <div className="text-sm text-slate-ink max-md:sr-only">Laden…</div>}
+          {loading && <div className="text-sm text-gravel max-md:sr-only">Laden…</div>}
           <nav
             className={`${loading ? "mt-4 " : ""}grid max-h-[calc(100svh-4rem)] gap-1 overflow-auto md:max-h-[calc(100vh-5rem)] md:gap-2`}
             aria-label="Spring naar jaar"
@@ -242,7 +252,7 @@ export default function ArchiveVirtualList() {
 
         <section ref={listRef} className="min-w-0 scroll-mt-24" aria-label="Alle blogberichten">
           {!loading && topicFilter && posts.length === 0 && (
-            <div className="rounded-2xl border border-dashed border-chalk bg-powder/40 p-8 text-slate-ink">
+            <div className="rounded-2xl border border-dashed border-chalk bg-powder/40 p-8 text-gravel">
               Geen berichten gevonden in categorie{" "}
               <strong className="text-obsidian">{activeTopicLabel}</strong>.{" "}
               <button

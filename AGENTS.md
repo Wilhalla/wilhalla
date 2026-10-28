@@ -70,11 +70,14 @@ to `error` rather than adding new exceptions. Each app's `package.json` exposes 
   in `packages/ui` (`@wilhalla/ui`); apps import them as
   `@wilhalla/ui/components/<name>` and `cn()` from `@wilhalla/ui/lib/utils`.
 - Add a shadcn component with `just ui-add <component>`: it lands in the shared package with
-  relative imports. Then move any dependency it added onto the catalog. Keep an app-local copy
-  only when the app deliberately customizes it (fruit's own shadcn set is still app-local).
+  relative imports. Then move any dependency it added onto the catalog. Both apps use only the
+  shared set; keep an app-local copy only when an app deliberately customizes a component.
 - The theme is `packages/ui/src/styles/tokens.css`: colours, type scale, shadows, page width and
-  the shadcn semantic variables, all as Tailwind theme tokens. Apps import it right after
-  `tailwindcss` and only add their typefaces (`--font-heading`, `--font-sans`) and overrides.
+  the shadcn semantic variables, all as Tailwind theme tokens (it also brings `tw-animate-css` and
+  shadcn's base CSS). Apps import it right after `tailwindcss` and only add their typefaces
+  (`--font-heading`, `--font-sans`). Type styles for headings and intros are class recipes in
+  `@wilhalla/ui/lib/typography` (`typography.display`, `.section`, `.kicker`, `.eyebrow`), usable
+  from Astro `class` as well as React.
 - No new component classes in CSS (`.my-card { … }`): compose utilities and variants (`cva`)
   instead. Hand-written CSS is for what utilities cannot express, such as complex animations,
   `@font-face` and theme tokens. HTML you do not control (CMS Markdown) is styled with arbitrary

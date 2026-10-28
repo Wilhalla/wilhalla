@@ -1,4 +1,6 @@
 ---
+import { buttonVariants } from "@wilhalla/ui/components/button";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { Archive, ChartNoAxesColumn, Database, House, Images, Map, Menu, Search, Shuffle, X } from '@lucide/astro'
 
 const navLink = 'inline-flex min-h-9 items-center gap-2 rounded-full px-3 text-body font-normal tracking-[0.01em] text-obsidian no-underline transition-colors hover:bg-powder hover:text-obsidian'
@@ -26,7 +28,7 @@ const navItems = [
         <a class={navLink} href={href} data-astro-prefetch><Icon class="size-4 text-slate" aria-hidden="true" />{label}</a>
       ))}
       <a class={randomNavLink} href="/random/" aria-label="Open een willekeurig bericht" title="Willekeurig bericht"><Shuffle class="size-4 text-slate" aria-hidden="true" /></a>
-      <a class="button-link gap-2" href="/search/" data-astro-prefetch><Search class="size-4" aria-hidden="true" />Zoeken</a>
+      <a class={cn(buttonVariants(), "gap-2 has-[>svg]:px-4")} href="/search/" data-astro-prefetch><Search class="size-4" aria-hidden="true" />Zoeken</a>
     </nav>
     <button
       id="site-mobile-menu-button"
@@ -53,7 +55,7 @@ const navItems = [
     <div class="mt-2 h-px w-10 bg-chalk" aria-hidden="true"></div>
     <div class="flex items-center justify-center gap-2">
       <a class={mobileRandomNavLink} href="/random/" aria-label="Open een willekeurig bericht" title="Willekeurig bericht"><Shuffle class="size-5 text-slate" aria-hidden="true" /></a>
-      <a class="inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-obsidian px-7 text-center text-[22px] font-medium leading-none tracking-[-0.035em] text-eggshell no-underline shadow-blue hover:text-eggshell" href="/search/" data-astro-prefetch>
+      <a class="inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-obsidian px-7 text-center text-[22px] font-medium leading-none tracking-[-0.035em] text-eggshell no-underline shadow-subtle-2 hover:text-eggshell" href="/search/" data-astro-prefetch>
         <span>Zoeken</span>
         <Search class="size-5" aria-hidden="true" />
       </a>

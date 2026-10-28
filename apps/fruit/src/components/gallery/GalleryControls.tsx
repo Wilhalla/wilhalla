@@ -1,12 +1,14 @@
+import { typography } from "@wilhalla/ui/lib/typography";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { RotateCcw, Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@wilhalla/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@wilhalla/ui/components/select";
 import type { GalleryGroups } from "../../lib/imageGallerySession";
 
 type GalleryHeaderProps = {
@@ -39,7 +41,7 @@ export function GalleryHeader({
   return (
     <header className="grid gap-6 border-b border-chalk pb-7 lg:grid-cols-[minmax(0,1fr)_auto]">
       <div className="min-w-0">
-        <h1 className="display-title max-w-3xl break-words">Beeldarchief</h1>
+        <h1 className={cn(typography.display, "max-w-3xl break-words")}>Beeldarchief</h1>
         <p className="m-0 mt-3 max-w-2xl text-sm leading-6 text-gravel">
           {filteredCount.toLocaleString("nl-BE")} foto’s · {peopleCount} met personen ·{" "}
           {plantCount.toLocaleString("nl-BE")} met planten

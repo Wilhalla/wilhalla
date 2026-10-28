@@ -1,3 +1,5 @@
+import { layout } from "@wilhalla/ui/lib/typography";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { useMemo, useRef } from "react";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { AlertTriangle } from "lucide-react";
@@ -114,7 +116,7 @@ export default function GalleryApp({ initialImages, initialGroups }: Props) {
   const supplementalLoader = useGracefulLoader(speciesTagsLoading);
 
   return (
-    <section className="relative z-10 bg-eggshell pb-20 text-midnight-navy">
+    <section className="relative z-10 bg-eggshell pb-20 text-obsidian">
       {supplementalLoader.shouldRender && (
         <div
           className={`site-loader site-loader--controlled${supplementalLoader.isVisible ? " site-loader--visible" : ""}`}
@@ -130,7 +132,7 @@ export default function GalleryApp({ initialImages, initialGroups }: Props) {
         </div>
       )}
 
-      <div className="site-shell flex justify-center pt-4">
+      <div className={cn(layout.shell, "flex justify-center pt-4")}>
         <p
           className="inline-flex max-w-full items-center gap-2 rounded-full border border-amber-200 bg-white/70 px-3 py-1.5 text-xs text-gravel shadow-[0_8px_24px_rgba(31,29,27,0.05)] backdrop-blur"
           role="note"
@@ -143,7 +145,12 @@ export default function GalleryApp({ initialImages, initialGroups }: Props) {
         </p>
       </div>
 
-      <div className="site-shell grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 pt-6 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8">
+      <div
+        className={cn(
+          layout.shell,
+          "grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 pt-6 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8",
+        )}
+      >
         <YearSelector
           items={groups.years.map((item) => ({
             year: item.id,

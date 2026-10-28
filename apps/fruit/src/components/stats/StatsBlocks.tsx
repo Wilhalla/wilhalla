@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type { RankPost } from "@/lib/archiveStats";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardDescription, CardHeader, CardTitle } from "@wilhalla/ui/components/card";
 import {
   Table,
   TableBody,
@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@wilhalla/ui/components/table";
 import { formatNumber } from "./statsFormat";
 
 export function MinimalCard({

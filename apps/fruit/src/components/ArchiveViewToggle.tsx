@@ -1,4 +1,9 @@
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@wilhalla/ui/components/tooltip";
 
 export type ArchiveViewMode = "aggregated" | "all";
 
@@ -28,7 +33,7 @@ export default function ArchiveViewToggle({ mode, aggregatedCount, allCount, onC
   return (
     <TooltipProvider>
       <div
-        className="inline-flex rounded-full bg-pure-surface p-1 shadow-soft"
+        className="inline-flex rounded-full bg-pure-surface p-1 shadow-subtle-7"
         role="group"
         aria-label="Kies archiefweergave"
       >
@@ -37,7 +42,7 @@ export default function ArchiveViewToggle({ mode, aggregatedCount, allCount, onC
             <TooltipTrigger asChild>
               <button
                 type="button"
-                className="rounded-full px-4 py-2 text-sm text-slate-ink transition-colors hover:bg-powder hover:text-obsidian aria-pressed:bg-obsidian aria-pressed:text-eggshell aria-pressed:hover:bg-obsidian aria-pressed:hover:text-eggshell"
+                className="rounded-full px-4 py-2 text-sm text-gravel transition-colors hover:bg-powder hover:text-obsidian aria-pressed:bg-obsidian aria-pressed:text-eggshell aria-pressed:hover:bg-obsidian aria-pressed:hover:text-eggshell"
                 aria-pressed={mode === item.value}
                 onClick={() => onChange(item.value)}
               >

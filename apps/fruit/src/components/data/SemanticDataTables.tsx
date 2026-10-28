@@ -1,3 +1,5 @@
+import { layout } from "@wilhalla/ui/lib/typography";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   flexRender,
@@ -18,7 +20,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@wilhalla/ui/components/table";
 
 type RawRow = Record<string, unknown>;
 
@@ -503,7 +505,7 @@ export default function SemanticDataTables() {
 
   return (
     <section
-      className="site-shell grid min-w-0 gap-0 pb-20"
+      className={cn(layout.shell, "grid min-w-0 gap-0 pb-20")}
       aria-label="Ruwe semantische preprocessing data"
     >
       {datasetDefinitions.map((definition) => (
