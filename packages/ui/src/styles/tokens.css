@@ -153,4 +153,41 @@
   * {
     @apply border-border outline-ring/50;
   }
+
+  /*
+   * Everything you can click shows the hand. Tailwind's reset gives buttons the arrow; links,
+   * clickable thumbnails, triggers, toggles and labels of inputs all get the pointer here, and
+   * disabled controls say so.
+   */
+  :is(
+    a[href],
+    button,
+    [role="button"],
+    [role="tab"],
+    [role="option"],
+    [role="menuitem"],
+    [role="menuitemradio"],
+    [role="menuitemcheckbox"],
+    [role="switch"],
+    [role="checkbox"],
+    [role="radio"],
+    [role="slider"],
+    summary,
+    select,
+    label[for],
+    input:is([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="color"])
+  ) {
+    cursor: pointer;
+  }
+  :is(
+    button,
+    [role="button"],
+    [role="option"],
+    [role="menuitem"],
+    [role="switch"],
+    select,
+    input
+  ):is(:disabled, [aria-disabled="true"], [data-disabled]) {
+    cursor: not-allowed;
+  }
 }
