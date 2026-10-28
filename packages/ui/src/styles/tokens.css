@@ -1,0 +1,107 @@
+/*
+ * Wilhalla theme for Tailwind CSS v4 and shadcn/ui: tokens only, no component classes.
+ * Components style themselves with Tailwind utilities (`bg-powder`, `text-body leading-body`,
+ * `shadow-subtle-2`, `max-w-page`, …) built from these tokens.
+ *
+ * An app imports it right after Tailwind:
+ *
+ *   @import "tailwindcss";
+ *   @import "@wilhalla/ui/tokens.css";
+ *
+ * and defines its own typefaces in its @theme: --font-heading (display serif) and --font-sans.
+ * The app may override any shadcn variable below in its own :root.
+ */
+
+/* Generate the utilities the shared components use, in every app that imports this file. */
+@source "../components";
+
+@theme static {
+  /* Warm editorial palette */
+  --color-eggshell: #fdfcfc;
+  --color-powder: #f5f3f1;
+  --color-chalk: #e5e5e5;
+  --color-fog: #b1b0b0;
+  --color-gravel: #777169;
+  --color-slate: #a59f97;
+  --color-cinder: #57534d;
+  --color-obsidian: #000000;
+  --color-pure-surface: #ffffff;
+  --color-signal-blue: #0447ff;
+  --color-ember: #ff4704;
+  --color-voice-spectrum: #3d75d8;
+
+  /* Type scale: text-<step>, leading-<step>, tracking-<step> */
+  --text-caption: 10px;
+  --leading-caption: 1.2;
+  --text-body: 14px;
+  --leading-body: 1.43;
+  --text-body-lg: 16px;
+  --leading-body-lg: 1.5;
+  --text-subheading: 18px;
+  --leading-subheading: 1.44;
+  --text-heading-sm: 20px;
+  --leading-heading-sm: 1.4;
+  --text-heading: 32px;
+  --leading-heading: 1.17;
+  --tracking-heading: -0.64px;
+  --text-heading-lg: 36px;
+  --leading-heading-lg: 1.13;
+  --tracking-heading-lg: -0.72px;
+  --text-display: 48px;
+  --leading-display: 1.08;
+  --tracking-display: -0.96px;
+
+  /* Layout: max-w-page */
+  --container-page: 75rem;
+
+  /* Hairline elevation */
+  --shadow-subtle: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;
+  --shadow-subtle-2:
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+  --shadow-subtle-4: rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 4px 0px;
+  --shadow-subtle-7: rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+}
+
+/* shadcn/ui semantic colors */
+:root {
+  --background: var(--color-eggshell);
+  --foreground: var(--color-obsidian);
+  --card: var(--color-pure-surface);
+  --card-foreground: var(--color-obsidian);
+  --popover: var(--color-pure-surface);
+  --popover-foreground: var(--color-obsidian);
+  --primary: var(--color-obsidian);
+  --primary-foreground: var(--color-eggshell);
+  --secondary: var(--color-powder);
+  --secondary-foreground: var(--color-obsidian);
+  --muted: var(--color-powder);
+  --muted-foreground: var(--color-gravel);
+  --accent: var(--color-powder);
+  --accent-foreground: var(--color-obsidian);
+  --destructive: #c2410c;
+  --border: var(--color-chalk);
+  --input: var(--color-chalk);
+  --ring: var(--color-gravel);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}

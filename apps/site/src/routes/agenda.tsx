@@ -1,5 +1,7 @@
+import { buttonVariants } from "@wilhalla/ui/components/button";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { MarkdownContent } from "@/components/markdown-content";
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@wilhalla/ui/components/page-header";
 import { agendaRegistry } from "@/config/registries";
 import { getEditorialPage } from "@/content/editorial-pages";
 import {
@@ -41,7 +43,7 @@ function AgendaPage() {
     <div>
       <PageHeader title={agendaPage.title} intro={agendaPage.intro} />
 
-      <section className="site-container py-10 md:py-16">
+      <section className="mx-auto w-[calc(100%-2rem)] max-w-page py-10 md:py-16">
         <div className="max-w-[820px]">
           <MarkdownContent html={agendaPage.html} />
         </div>
@@ -64,11 +66,15 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
 
   return (
     <div className="mt-12 flex flex-col gap-6">
-      <aside className="eleven-card overflow-hidden">
+      <aside className="rounded-2xl bg-card shadow-subtle-7 overflow-hidden">
         <div className="grid bg-white lg:grid-cols-[280px_minmax(0,1fr)]">
           <div className="border-b border-chalk px-5 py-4 lg:border-r lg:border-b-0 lg:px-6 lg:py-5">
-            <p className="el-label m-0 text-gravel">{agendaRegistry.upcomingEyebrow}</p>
-            <h2 className="el-heading-sm m-0 mt-1 text-obsidian">{agendaRegistry.upcomingTitle}</h2>
+            <p className="font-sans text-body leading-body tracking-[0.01em] m-0 text-gravel">
+              {agendaRegistry.upcomingEyebrow}
+            </p>
+            <h2 className="font-heading text-heading leading-heading font-light tracking-heading m-0 mt-1 text-obsidian">
+              {agendaRegistry.upcomingTitle}
+            </h2>
           </div>
           <div className="bg-white">
             {upcomingEvents.length > 0 ? (
@@ -78,17 +84,23 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                     key={event.id}
                     className="rounded-2xl border border-chalk bg-eggshell p-4"
                   >
-                    <p className="el-label m-0 text-gravel">{formatAgendaEventDate(event)}</p>
-                    <h3 className="el-body m-0 mt-2 text-obsidian">{event.title}</h3>
+                    <p className="font-sans text-body leading-body tracking-[0.01em] m-0 text-gravel">
+                      {formatAgendaEventDate(event)}
+                    </p>
+                    <h3 className="font-sans text-body-lg leading-body-lg tracking-[0.01em] m-0 mt-2 text-obsidian">
+                      {event.title}
+                    </h3>
                     {event.location && (
-                      <p className="el-body-sm m-0 mt-2 text-gravel">{event.location}</p>
+                      <p className="font-sans text-body leading-body tracking-[0.01em] m-0 mt-2 text-gravel">
+                        {event.location}
+                      </p>
                     )}
                     {event.url && (
                       <a
                         href={event.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="eleven-pill-ghost mt-4"
+                        className={cn(buttonVariants({ variant: "outline" }), "mt-4 px-3")}
                       >
                         {agendaRegistry.moreInfoLabel}
                       </a>
@@ -97,7 +109,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                 ))}
               </div>
             ) : (
-              <p className="el-body-sm m-0 p-5 text-gravel">
+              <p className="font-sans text-body leading-body tracking-[0.01em] m-0 p-5 text-gravel">
                 {agendaRegistry.noUpcomingEventsText}
               </p>
             )}
@@ -105,14 +117,14 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
         </div>
       </aside>
 
-      <div className="eleven-card overflow-hidden">
+      <div className="rounded-2xl bg-card shadow-subtle-7 overflow-hidden">
         <div className="flex flex-col gap-5 border-b border-chalk bg-white px-4 py-4 md:px-6">
           <div className="flex justify-end">
             <a
               href={agendaRegistry.calendarGoogleUrl}
               target="_blank"
               rel="noreferrer"
-              className="eleven-pill-ghost w-fit"
+              className={cn(buttonVariants({ variant: "outline" }), "w-fit px-3")}
             >
               {agendaRegistry.openInGoogleLabel}
             </a>
@@ -122,7 +134,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="eleven-pill-ghost"
+                className={cn(buttonVariants({ variant: "outline" }), "px-3")}
                 onClick={() => setVisibleMonth(startOfMonth(today))}
               >
                 {agendaRegistry.todayLabel}
@@ -144,7 +156,9 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                 →
               </button>
             </div>
-            <h3 className="el-heading-sm m-0 text-obsidian">{formatAgendaMonth(visibleMonth)}</h3>
+            <h3 className="font-heading text-heading leading-heading font-light tracking-heading m-0 text-obsidian">
+              {formatAgendaMonth(visibleMonth)}
+            </h3>
           </div>
         </div>
 
@@ -153,7 +167,10 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
             <div className="min-w-[820px]">
               <div className="grid grid-cols-7 border-b border-chalk bg-eggshell">
                 {agendaRegistry.weekdays.map((day) => (
-                  <div key={day} className="el-label px-2 py-3 text-center text-gravel">
+                  <div
+                    key={day}
+                    className="font-sans text-body leading-body tracking-[0.01em] px-2 py-3 text-center text-gravel"
+                  >
                     {day}
                   </div>
                 ))}
@@ -175,7 +192,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                     >
                       <div className="mb-2 flex justify-end">
                         <span
-                          className={`el-label grid h-7 min-w-7 place-items-center rounded-full px-2 ${
+                          className={`font-sans text-body leading-body tracking-[0.01em] grid h-7 min-w-7 place-items-center rounded-full px-2 ${
                             isToday
                               ? "bg-obsidian text-eggshell"
                               : outsideMonth
@@ -191,7 +208,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                           <EventChip key={`${event.id}-${dayKey}`} event={event} />
                         ))}
                         {dayEvents.length > agendaRegistry.maxEventsPerDay && (
-                          <div className="el-label rounded-full bg-powder px-2 py-1 text-gravel">
+                          <div className="font-sans text-body leading-body tracking-[0.01em] rounded-full bg-powder px-2 py-1 text-gravel">
                             +{dayEvents.length - agendaRegistry.maxEventsPerDay}{" "}
                             {agendaRegistry.moreEventsLabel}
                           </div>
@@ -219,7 +236,9 @@ function EventChip({ event }: { event: AgendaEvent }) {
         </span>
       </div>
       {!event.allDay && (
-        <p className="el-mono m-0 mt-1 text-gravel">{formatAgendaEventTime(event)}</p>
+        <p className="font-mono text-[13px] leading-[1.69] m-0 mt-1 text-gravel">
+          {formatAgendaEventTime(event)}
+        </p>
       )}
     </div>
   );

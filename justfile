@@ -45,6 +45,10 @@ lint:
 format:
     pnpm exec oxfmt .
 
+# Add shadcn/ui components to the shared @wilhalla/ui package, e.g. `just ui-add dialog`.
+ui-add +components:
+    cd packages/ui && pnpm exec shadcn add -y {{components}} && ./normalize-imports.sh && cd ../.. && pnpm exec oxfmt packages/ui
+
 # Create a linked worktree under .worktrees/<name> (env, state and caches set up by `jp`).
 worktree-add name *args:
     jp worktree add {{name}} {{args}}

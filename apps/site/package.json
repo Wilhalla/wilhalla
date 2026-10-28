@@ -26,6 +26,7 @@
     "@tanstack/react-start": "catalog:",
     "@tanstack/router-core": "catalog:",
     "@vercel/analytics": "catalog:",
+    "@wilhalla/ui": "workspace:*",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "lucide-react": "catalog:",

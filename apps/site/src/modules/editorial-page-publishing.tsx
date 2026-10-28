@@ -1,9 +1,10 @@
-import { Breadcrumb } from "@/components/breadcrumb";
 import { MarkdownContent } from "@/components/markdown-content";
-import { PageHeader } from "@/components/page-header";
+import { RouterLink } from "@/components/router-link";
 import { routeHead } from "@/lib/seo";
 import type { PageLink } from "@/types";
 import { Link } from "@tanstack/react-router";
+import { PageBreadcrumb } from "@wilhalla/ui/components/page-breadcrumb";
+import { PageHeader } from "@wilhalla/ui/components/page-header";
 import type { ReactNode } from "react";
 
 type BreadcrumbItem = { label: string; to?: string };
@@ -35,9 +36,14 @@ export function EditorialMarkdownPage({
 }) {
   return (
     <div>
-      {page.breadcrumb && <Breadcrumb items={page.breadcrumb} />}
+      {page.breadcrumb && (
+        <PageBreadcrumb
+          items={page.breadcrumb.map(({ label, to }) => ({ label, href: to }))}
+          linkComponent={RouterLink}
+        />
+      )}
       <PageHeader title={page.title} intro={page.intro} />
-      <section className="site-container py-10 md:py-16">
+      <section className="mx-auto w-[calc(100%-2rem)] max-w-page py-10 md:py-16">
         <div className="max-w-[820px]">
           <MarkdownContent html={html} />
           {children && <div className="mt-12 border-t border-chalk pt-8">{children}</div>}
@@ -51,7 +57,7 @@ export function EditorialLandingPage({ page, html }: { page: EditorialLandingPag
   return (
     <div>
       <PageHeader title={page.title} intro={page.intro} />
-      <section className="site-container py-10 md:py-16">
+      <section className="mx-auto w-[calc(100%-2rem)] max-w-page py-10 md:py-16">
         <div className="max-w-[820px]">
           <MarkdownContent html={html} />
         </div>
@@ -66,9 +72,11 @@ export function EditorialLandingPage({ page, html }: { page: EditorialLandingPag
               to={subPage.to as string}
               className="group flex items-center justify-between gap-6 border-b border-chalk py-5 no-underline transition-colors hover:text-obsidian"
             >
-              <span className="el-body font-medium text-obsidian">{subPage.label}</span>
+              <span className="font-sans text-body-lg leading-body-lg tracking-[0.01em] font-normal text-obsidian">
+                {subPage.label}
+              </span>
               <span
-                className="el-body-sm text-gravel transition-transform group-hover:translate-x-1"
+                className="font-sans text-body leading-body tracking-[0.01em] text-gravel transition-transform group-hover:translate-x-1"
                 aria-hidden="true"
               >
                 Lees meer &rarr;

@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@import "@wilhalla/ui/tokens.css";
+
+@import "@fontsource-variable/eb-garamond";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/dm-sans";
+
+/* The app switcher (App.tsx) sets --app-heading/--app-sans to preview each app's typefaces. */
+@theme inline {
+  --font-heading: var(--app-heading);
+  --font-sans: var(--app-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  body {
+    @apply m-0 bg-background font-sans text-foreground antialiased;
+  }
+}

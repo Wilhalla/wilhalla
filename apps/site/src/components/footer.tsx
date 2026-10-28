@@ -42,11 +42,13 @@ const socialIconByName = {
 export function Footer() {
   return (
     <footer className="mt-16 border-t border-chalk bg-eggshell">
-      <div className="site-container py-14">
+      <div className="mx-auto w-[calc(100%-2rem)] max-w-page py-14">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_0.75fr_1.4fr]">
           <div>
-            <h3 className="el-body mb-4 m-0 text-obsidian">Contact</h3>
-            <address className="el-body-sm not-italic text-gravel">
+            <h3 className="font-sans text-body-lg leading-body-lg tracking-[0.01em] mb-4 m-0 text-obsidian">
+              Contact
+            </h3>
+            <address className="font-sans text-body leading-body tracking-[0.01em] not-italic text-gravel">
               <span className="text-obsidian">{contactRegistry.name}</span>
               <br />
               <a
@@ -61,8 +63,10 @@ export function Footer() {
             </address>
           </div>
           <div>
-            <h3 className="el-body mb-4 m-0 text-obsidian">Volg ons</h3>
-            <ul className="m-0 flex list-none flex-col gap-2 p-0 el-body-sm text-gravel">
+            <h3 className="font-sans text-body-lg leading-body-lg tracking-[0.01em] mb-4 m-0 text-obsidian">
+              Volg ons
+            </h3>
+            <ul className="m-0 flex list-none flex-col gap-2 p-0 font-sans text-body leading-body tracking-[0.01em] text-gravel">
               {socialRegistry.map((link) => {
                 const Icon = socialIconByName[link.icon];
 
@@ -85,7 +89,9 @@ export function Footer() {
           <GoogleMapsEmbed />
         </div>
         <div className="mt-12 border-t border-chalk pt-6">
-          <p className="el-label text-gravel">{siteIdentity.footerTagline}</p>
+          <p className="font-sans text-body leading-body tracking-[0.01em] text-gravel">
+            {siteIdentity.footerTagline}
+          </p>
         </div>
       </div>
     </footer>

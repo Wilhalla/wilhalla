@@ -10,6 +10,7 @@ two frontends need a shared workspace and shared versions, not a build orchestra
 | -------------------- | ---------------------------- | ------------------------------------------------ |
 | JS/TS dependencies   | pnpm 11 workspace + catalog  | `pnpm-workspace.yaml`, `pnpm-lock.yaml`          |
 | Node and pnpm        | pnpm `devEngines`            | `package.json`                                   |
+| UI components, theme | shadcn/ui, Tailwind CSS v4   | `packages/ui`, `apps/playground`                 |
 | Formatting           | oxfmt                        | `.oxfmtrc.json`                                  |
 | Linting              | oxlint                       | `.oxlintrc.json`                                 |
 | Command surface      | just                         | `justfile`, `apps/<app>/justfile`                |
@@ -34,6 +35,23 @@ Exceptions are explicit:
 - **Exact pins** in the catalog (`@tanstack/react-start`, `nitro`, `recharts`) are deliberate;
   the TanStack packages move together, with `@tanstack/start-server-core` held by an override.
 - `trustPolicyExclude` lists the few old releases that lost npm provenance but are known good.
+
+### Shared UI
+
+`@wilhalla/ui` is consumed as TypeScript source (no build step), like shadcn's monorepo layout:
+`packages/ui/components.json` points `shadcn add` at the package, `normalize-imports.sh` turns
+the generated alias imports into relative ones. `tokens.css` carries an `@source` for the
+package's components, so each app's Tailwind build generates the classes they use.
+
+`cn()` is tailwind-merge extended with the theme's custom steps (`text-body`, `leading-body`,
+`shadow-subtle-2`, …). Without that, it treats `text-body` as a colour and silently drops it
+when a `text-gravel` follows.
+
+The site was moved onto it first (its `el-*`, `eleven-*`, `site-container` and Markdown CSS
+became Tailwind utilities and `buttonVariants()`); screenshots of every route at 1280 and 390 px
+were compared with the build before the change and match within anti-aliasing. Fruit uses the
+shared `Button` and theme; its visual language (Fraunces/DM Sans, its own shadcn set and
+`global.css`) is still app-local and is the next candidate to move.
 
 ### What CI runs
 

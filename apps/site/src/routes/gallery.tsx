@@ -1,5 +1,5 @@
 import { MarkdownContent } from "@/components/markdown-content";
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@wilhalla/ui/components/page-header";
 import { galleryRegistry, siteIdentity } from "@/config/registries";
 import galleryContent from "@/content/gallery.json";
 import { getEditorialPage } from "@/content/editorial-pages";
@@ -31,7 +31,7 @@ function GalleryPage() {
     <div>
       <PageHeader title={galleryPage.title} intro={galleryPage.intro} />
 
-      <section className="site-container py-10 md:py-16">
+      <section className="mx-auto w-[calc(100%-2rem)] max-w-page py-10 md:py-16">
         <div className="space-y-12">
           <div className="max-w-[820px]">
             <MarkdownContent html={galleryPage.html} />

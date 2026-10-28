@@ -19,7 +19,7 @@ An app's own `AGENTS.md` adds app-specific rules; it can tighten these rules, ne
 | Path          | What lives there                                                              |
 | ------------- | ----------------------------------------------------------------------------- |
 | `apps/<app>/` | One directory per product. Components inside keep their names.                |
-| `packages/`   | Shared TypeScript packages (`@wilhalla/<name>`), once two apps need the code. |
+| `packages/`   | Shared TypeScript packages: `@wilhalla/ui` (theme + shadcn/ui components).    |
 | `infra/`      | Infrastructure that is not an app (empty for now).                            |
 | `tools/`      | Repo tooling: CI check script, git hooks, the one-time migration script.      |
 | `docs/`       | How the monorepo works (`monorepo.md`).                                       |
@@ -28,6 +28,7 @@ An app's own `AGENTS.md` adds app-specific rules; it can tighten these rules, ne
 | ------------ | --------------------------------------------------------- | ------------------------ | ---------- |
 | `apps/site`  | Public website www.wilhalla.be, with Sveltia CMS          | TanStack Start, Vite     | Vercel     |
 | `apps/fruit` | Seniorennet fruit blog archive (fruit.janpeterdhalle.com) | Astro (static)           | Vercel     |
+| `apps/playground` | Every `@wilhalla/ui` component in all variants and states | Vite, React     | local only |
 
 ## Commands
 
@@ -62,6 +63,26 @@ One config each at the root, never per app: `.oxfmtrc.json` (oxfmt), `.oxlintrc.
 Rules that the imported code still violates are warnings, not errors; fix them and raise them
 to `error` rather than adding new exceptions. Each app's `package.json` exposes `typecheck`,
 `test` and `build`; the check script runs them with `--if-present`.
+
+## UI: shadcn/ui primitives and Tailwind, not custom CSS
+
+- Build interfaces from **shadcn/ui** primitives and **Tailwind** utilities. Shared components live
+  in `packages/ui` (`@wilhalla/ui`); apps import them as
+  `@wilhalla/ui/components/<name>` and `cn()` from `@wilhalla/ui/lib/utils`.
+- Add a shadcn component with `just ui-add <component>`: it lands in the shared package with
+  relative imports. Then move any dependency it added onto the catalog. Keep an app-local copy
+  only when the app deliberately customizes it (fruit's own shadcn set is still app-local).
+- The theme is `packages/ui/src/styles/tokens.css`: colours, type scale, shadows, page width and
+  the shadcn semantic variables, all as Tailwind theme tokens. Apps import it right after
+  `tailwindcss` and only add their typefaces (`--font-heading`, `--font-sans`) and overrides.
+- No new component classes in CSS (`.my-card { … }`): compose utilities and variants (`cva`)
+  instead. Hand-written CSS is for what utilities cannot express, such as complex animations,
+  `@font-face` and theme tokens. HTML you do not control (CMS Markdown) is styled with arbitrary
+  variants on its wrapper (`[&_a]:underline`), see `apps/site/src/components/markdown-content.tsx`.
+- Components never import a router: links take a `linkComponent` (see `link.tsx`) or use
+  `asChild`/`buttonVariants()`.
+- Every shared component has a story in `apps/playground/src/stories` showing all variants and
+  states; add or extend it in the same commit (`just dev playground`).
 
 ## CI and deployment
 
