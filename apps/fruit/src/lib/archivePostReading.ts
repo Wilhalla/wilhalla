@@ -96,7 +96,7 @@ export function archivePostPartLabel(index: number, total: number) {
 }
 
 export function archivePostPartHtml(part: Pick<Post, "html" | "title">) {
-  return paragraphizeLegacyHtml(stripDuplicateTitleFromArchiveHtml(part.html, part.title));
+  return stripDuplicateTitleFromArchiveHtml(paragraphizeLegacyHtml(part.html), part.title).trim();
 }
 
 export type ArchivePostReading = {

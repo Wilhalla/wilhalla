@@ -1,5 +1,4 @@
 ---
-import { LinkList, LinkListItem } from "@wilhalla/ui/components/link-list";
 import { layout, prose, typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { Image } from 'astro:assets'
@@ -15,7 +14,7 @@ type Props = {
 }
 
 const { reading } = Astro.props
-const { displayPost: post, series, currentPostId } = reading
+const { displayPost: post, series } = reading
 const { isSeries, parts, imageEntries, hasImages, sidebarImages } = await buildArchivePostRendering(post, series?.posts)
 ---
 <!-- One grid for the whole post page: the text column, and the photos beside it on wide screens. -->
@@ -35,18 +34,19 @@ const { isSeries, parts, imageEntries, hasImages, sidebarImages } = await buildA
       </p>
     </header>
 
+    <!-- A table of contents: the parts all follow below on this page. -->
     {isSeries && (
       <nav class="max-w-[66ch] pt-8" aria-label="Delen van dit verhaal">
-        <h2 class={cn(typography.eyebrow, "mb-3")}>Dit verhaal bestaat uit {parts.length} berichten</h2>
-        <LinkList>
+        <h2 class={cn(typography.eyebrow, "mb-2")}>In {parts.length} delen</h2>
+        <ol class="m-0 list-none p-0">
           {parts.map((part, index) => (
-            <LinkListItem
-              href={`/posts/${part.slug}/#part-${part.id}`}
-              eyebrow={`${archivePostPartLabel(index, parts.length)} · ${formatArchiveDate(part)}${part.id === currentPostId ? ' · dit bericht' : ''}`}
-              title={part.title}
-            />
+            <li class="grid grid-cols-[2rem_minmax(0,1fr)_auto] items-baseline gap-x-3 py-1">
+              <span class={cn(typography.small, "text-gravel tabular-nums")}>{index + 1}</span>
+              <a class="truncate font-heading text-body-lg text-obsidian no-underline decoration-fog underline-offset-4 hover:underline" href={`#part-${part.id}`}>{part.title}</a>
+              <span class={cn(typography.small, "text-gravel tabular-nums")}>{formatArchiveDate(part)}</span>
+            </li>
           ))}
-        </LinkList>
+        </ol>
       </nav>
     )}
 
@@ -58,15 +58,16 @@ const { isSeries, parts, imageEntries, hasImages, sidebarImages } = await buildA
             <h2 class={cn(typography.heading, "mt-2 text-balance")}>{part.title}</h2>
           </header>
         )}
-        <div class={prose}>
+        <div class={cn(prose, hasImages && "lg:[&_p[data-photo]]:hidden")}>
           <LegacyHtmlImages html={archivePostPartHtml(part)} />
         </div>
       </section>
     ))}
   </div>
 
+  <!-- On phones the photos already sit in the text; this column is for wide screens only. -->
   {hasImages && (
-    <aside class="min-w-0 lg:sticky lg:top-20 lg:max-h-[calc(100svh-6rem)] lg:self-start lg:overflow-y-auto" aria-label="Beelden in dit bericht">
+    <aside class="min-w-0 max-lg:hidden lg:sticky lg:top-20 lg:max-h-[calc(100svh-6rem)] lg:self-start lg:overflow-y-auto" aria-label="Beelden in dit bericht">
       <div class="mb-4 flex items-baseline justify-between gap-4 border-b border-chalk pb-3">
         <h2 class={typography.subsection}>Foto's</h2>
         <p class={cn(typography.small, "m-0 text-gravel")}>{imageEntries.length.toLocaleString('nl-BE')}</p>

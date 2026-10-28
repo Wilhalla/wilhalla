@@ -105,7 +105,9 @@ function paragraphsHtml($: cheerio.CheerioAPI, nodes: AnyNode[]) {
             .trim(),
         )
         .join("<br>");
-      return `<p>${inner}</p>`;
+      // Photos are marked so the post page can leave them to its photo column on wide screens.
+      const photo = paragraph.every((line) => line.image && !line.text);
+      return photo ? `<p data-photo>${inner}</p>` : `<p>${inner}</p>`;
     })
     .join("\n");
 }
