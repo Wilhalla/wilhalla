@@ -16,10 +16,7 @@ export type ViewBoxRect = {
 
 const TEXT_OVERLAY_PATH_SEGMENT = "/map-overlays/text/";
 const CARD_LABEL_PATH_SEGMENT = "/map-overlays/card-labels/";
-const DARK_INK_CARD_LABELS = new Set([
-  "horses.webp",
-  "trek-mee-naar-kameroen.webp",
-]);
+const DARK_INK_CARD_LABELS = new Set(["horses.webp", "trek-mee-naar-kameroen.webp"]);
 export const CARD_VIEWPORT_MARGIN = 64;
 
 export const allMapHoverImages = Array.from(
@@ -62,9 +59,7 @@ export function getActiveMapDiscovery({
       : introActiveSentinelId
         ? getSentinelHoverImages(introActiveSentinelId)
         : [],
-    activeExplanation: hoveredSentinelId
-      ? getSentinelExplanation(hoveredSentinelId)
-      : null,
+    activeExplanation: hoveredSentinelId ? getSentinelExplanation(hoveredSentinelId) : null,
     activeLabelImages: hoveredSentinelId
       ? getSentinelTextImages(hoveredSentinelId).map(getCardLabelImageSrc)
       : [],
@@ -113,8 +108,7 @@ export function getAdjustedExplanationPosition({
   explanation: MapSentinelExplanation;
   visibleViewBoxRect: ViewBoxRect | null;
 }) {
-  const { defaultHeight, defaultWidth } =
-    interactiveMapRegistry.explanationCard;
+  const { defaultHeight, defaultWidth } = interactiveMapRegistry.explanationCard;
   const height = explanation.height ?? defaultHeight;
   const width = explanation.width ?? defaultWidth;
 

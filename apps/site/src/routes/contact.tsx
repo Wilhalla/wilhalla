@@ -51,9 +51,7 @@ const contactLinks: ContactLink[] = [
     icon: { type: "svgl", src: svglIcons.googleMaps },
   },
   ...[...socialRegistry]
-    .sort(
-      (a, b) => Number(b.label === "Facebook") - Number(a.label === "Facebook"),
-    )
+    .sort((a, b) => Number(b.label === "Facebook") - Number(a.label === "Facebook"))
     .map((link) => ({
       label: link.label,
       detail: link.label === "Facebook" ? "Wilhalla Samentuin" : "Instagram",
@@ -120,9 +118,7 @@ function ContactLinkCard({ link }: { link: ContactLink }) {
             {link.label}
           </span>
           {link.detail && (
-            <span className="mt-0.5 block truncate text-sm text-gravel">
-              {link.detail}
-            </span>
+            <span className="mt-0.5 block truncate text-sm text-gravel">{link.detail}</span>
           )}
         </span>
       </span>

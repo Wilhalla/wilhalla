@@ -54,14 +54,8 @@ function AgendaPage() {
 
 function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
   const today = useMemo(() => startOfDay(new Date()), []);
-  const upcomingEvents = useMemo(
-    () => getUpcomingAgendaEvents(events, today),
-    [events, today],
-  );
-  const initialMonth = useMemo(
-    () => getInitialAgendaMonth(events, today),
-    [today, events],
-  );
+  const upcomingEvents = useMemo(() => getUpcomingAgendaEvents(events, today), [events, today]);
+  const initialMonth = useMemo(() => getInitialAgendaMonth(events, today), [today, events]);
   const [visibleMonth, setVisibleMonth] = useState(initialMonth);
   const { days: calendarDays, eventsByDay } = useMemo(
     () => createAgendaMonth(events, visibleMonth),
@@ -73,46 +67,34 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
       <aside className="eleven-card overflow-hidden">
         <div className="grid bg-white lg:grid-cols-[280px_minmax(0,1fr)]">
           <div className="border-b border-chalk px-5 py-4 lg:border-r lg:border-b-0 lg:px-6 lg:py-5">
-            <p className="el-label m-0 text-gravel">
-              {agendaRegistry.upcomingEyebrow}
-            </p>
-            <h2 className="el-heading-sm m-0 mt-1 text-obsidian">
-              {agendaRegistry.upcomingTitle}
-            </h2>
+            <p className="el-label m-0 text-gravel">{agendaRegistry.upcomingEyebrow}</p>
+            <h2 className="el-heading-sm m-0 mt-1 text-obsidian">{agendaRegistry.upcomingTitle}</h2>
           </div>
           <div className="bg-white">
             {upcomingEvents.length > 0 ? (
               <div className="grid gap-3 p-4 md:grid-cols-[repeat(auto-fit,minmax(240px,1fr))] md:p-5">
-                {upcomingEvents
-                  .slice(0, agendaRegistry.maxUpcomingEvents)
-                  .map((event) => (
-                    <article
-                      key={event.id}
-                      className="rounded-2xl border border-chalk bg-eggshell p-4"
-                    >
-                      <p className="el-label m-0 text-gravel">
-                        {formatAgendaEventDate(event)}
-                      </p>
-                      <h3 className="el-body m-0 mt-2 text-obsidian">
-                        {event.title}
-                      </h3>
-                      {event.location && (
-                        <p className="el-body-sm m-0 mt-2 text-gravel">
-                          {event.location}
-                        </p>
-                      )}
-                      {event.url && (
-                        <a
-                          href={event.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="eleven-pill-ghost mt-4"
-                        >
-                          {agendaRegistry.moreInfoLabel}
-                        </a>
-                      )}
-                    </article>
-                  ))}
+                {upcomingEvents.slice(0, agendaRegistry.maxUpcomingEvents).map((event) => (
+                  <article
+                    key={event.id}
+                    className="rounded-2xl border border-chalk bg-eggshell p-4"
+                  >
+                    <p className="el-label m-0 text-gravel">{formatAgendaEventDate(event)}</p>
+                    <h3 className="el-body m-0 mt-2 text-obsidian">{event.title}</h3>
+                    {event.location && (
+                      <p className="el-body-sm m-0 mt-2 text-gravel">{event.location}</p>
+                    )}
+                    {event.url && (
+                      <a
+                        href={event.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="eleven-pill-ghost mt-4"
+                      >
+                        {agendaRegistry.moreInfoLabel}
+                      </a>
+                    )}
+                  </article>
+                ))}
               </div>
             ) : (
               <p className="el-body-sm m-0 p-5 text-gravel">
@@ -162,9 +144,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                 →
               </button>
             </div>
-            <h3 className="el-heading-sm m-0 text-obsidian">
-              {formatAgendaMonth(visibleMonth)}
-            </h3>
+            <h3 className="el-heading-sm m-0 text-obsidian">{formatAgendaMonth(visibleMonth)}</h3>
           </div>
         </div>
 
@@ -173,10 +153,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
             <div className="min-w-[820px]">
               <div className="grid grid-cols-7 border-b border-chalk bg-eggshell">
                 {agendaRegistry.weekdays.map((day) => (
-                  <div
-                    key={day}
-                    className="el-label px-2 py-3 text-center text-gravel"
-                  >
+                  <div key={day} className="el-label px-2 py-3 text-center text-gravel">
                     {day}
                   </div>
                 ))}
@@ -185,8 +162,7 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                 {calendarDays.map((day) => {
                   const dayKey = getDayKey(day);
                   const dayEvents = eventsByDay.get(dayKey) ?? [];
-                  const outsideMonth =
-                    day.getMonth() !== visibleMonth.getMonth();
+                  const outsideMonth = day.getMonth() !== visibleMonth.getMonth();
                   const isToday = isSameDay(day, today);
                   const isEndOfWeek = day.getDay() === 0;
 
@@ -211,14 +187,9 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
                         </span>
                       </div>
                       <div className="space-y-2">
-                        {dayEvents
-                          .slice(0, agendaRegistry.maxEventsPerDay)
-                          .map((event) => (
-                            <EventChip
-                              key={`${event.id}-${dayKey}`}
-                              event={event}
-                            />
-                          ))}
+                        {dayEvents.slice(0, agendaRegistry.maxEventsPerDay).map((event) => (
+                          <EventChip key={`${event.id}-${dayKey}`} event={event} />
+                        ))}
                         {dayEvents.length > agendaRegistry.maxEventsPerDay && (
                           <div className="el-label rounded-full bg-powder px-2 py-1 text-gravel">
                             +{dayEvents.length - agendaRegistry.maxEventsPerDay}{" "}
@@ -248,9 +219,7 @@ function EventChip({ event }: { event: AgendaEvent }) {
         </span>
       </div>
       {!event.allDay && (
-        <p className="el-mono m-0 mt-1 text-gravel">
-          {formatAgendaEventTime(event)}
-        </p>
+        <p className="el-mono m-0 mt-1 text-gravel">{formatAgendaEventTime(event)}</p>
       )}
     </div>
   );

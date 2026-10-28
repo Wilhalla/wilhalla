@@ -1,1 +1,1 @@
-export { formatArchiveDate } from './archiveDateTime'
+export { formatArchiveDate } from "./archiveDateTime";

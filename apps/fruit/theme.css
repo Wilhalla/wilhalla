@@ -30,10 +30,10 @@
   --color-data-chip: var(--color-powder);
 
   /* Fonts: Waldenburg tokens map to available refined substitutes. */
-  --font-waldenburg: 'Fraunces Variable', ui-serif, Georgia, serif;
-  --font-waldenburgfh: 'DM Sans Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-inter: 'DM Sans Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-geist-mono: 'Geist Variable', 'IoskeleyMono', ui-monospace, monospace;
+  --font-waldenburg: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-waldenburgfh: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-inter: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: "Geist Variable", "IoskeleyMono", ui-monospace, monospace;
   --font-sans: var(--font-inter);
   --font-heading: var(--font-waldenburg);
   --font-mono: var(--font-geist-mono);
@@ -75,9 +75,13 @@
 
   /* Hairline elevation */
   --shadow-soft: rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
-  --shadow-blue: rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+  --shadow-blue:
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
   --shadow-inset-ice: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;
   --shadow-subtle: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;
-  --shadow-subtle-2: rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+  --shadow-subtle-2:
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
   --shadow-subtle-4: rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
 }

@@ -34,14 +34,9 @@ describe("Interactive Map discovery", () => {
     });
 
     expect(discovery.activeHoverImages).toEqual(
-      expect.arrayContaining([
-        "/map-overlays/hover/yurt.webp",
-        "/map-overlays/text/yurt.webp",
-      ]),
+      expect.arrayContaining(["/map-overlays/hover/yurt.webp", "/map-overlays/text/yurt.webp"]),
     );
-    expect(discovery.activeLabelImages).toEqual([
-      "/map-overlays/card-labels/yurt.webp",
-    ]);
+    expect(discovery.activeLabelImages).toEqual(["/map-overlays/card-labels/yurt.webp"]);
     expect(discovery.activeExplanation).toMatchObject({
       text: expect.stringContaining("yurt"),
     });
@@ -61,9 +56,7 @@ describe("Interactive Map discovery", () => {
     expect(getCardLabelImageSrc("/map-overlays/text/yurt.webp")).toBe(
       "/map-overlays/card-labels/yurt.webp",
     );
-    expect(hasDarkInkCardLabel("/map-overlays/card-labels/horses.webp")).toBe(
-      true,
-    );
+    expect(hasDarkInkCardLabel("/map-overlays/card-labels/horses.webp")).toBe(true);
     expect(
       getMapOverlayTransitionDurationMs({
         introDismissed: false,

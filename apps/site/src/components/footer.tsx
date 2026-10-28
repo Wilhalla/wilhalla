@@ -1,9 +1,5 @@
 import { GoogleMapsEmbed } from "@/components/google-maps-embed";
-import {
-  contactRegistry,
-  siteIdentity,
-  socialRegistry,
-} from "@/config/registries";
+import { contactRegistry, siteIdentity, socialRegistry } from "@/config/registries";
 import type { SocialIconName } from "@/types";
 import { Mail } from "lucide-react";
 import type { ReactElement, SVGProps } from "react";

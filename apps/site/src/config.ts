@@ -17,8 +17,7 @@ export const siteConfig = {
     lang: "nl",
     locale: "nl_BE",
     themeColor: "#fdfcfc",
-    defaultDescription:
-      "Wilhalla is een plek voor tuin, welzijn, yoga, verhuur en ontmoeting.",
+    defaultDescription: "Wilhalla is een plek voor tuin, welzijn, yoga, verhuur en ontmoeting.",
     footerTagline: "Wilhalla — Velt-ecotuin sinds 1962",
     assets: {
       favicon: "/favicon.png",
@@ -179,8 +178,7 @@ export const siteConfig = {
     moreEventsLabel: "meer",
     upcomingEyebrow: "Eerstvolgende",
     upcomingTitle: "Activiteiten",
-    noUpcomingEventsText:
-      "Er staan momenteel geen komende activiteiten in de kalender.",
+    noUpcomingEventsText: "Er staan momenteel geen komende activiteiten in de kalender.",
     defaultEventTitle: "Activiteit",
     moreInfoLabel: "Meer info",
   },
@@ -189,22 +187,17 @@ export const siteConfig = {
     fallbackAltPrefix: "Sfeerbeeld",
     altTextByOriginalName: {
       "IMG_2801.heic": "Een paard graast in de avondzon",
-      "WhatsApp Image 2026-03-22 at 17.38.34.jpeg":
-        "Paardencoaching met twee paarden",
-      "c3400f04-d7a7-45fc-85bc-954c84c6112a.JPG":
-        "Paardencoaching op het domein",
-      "WhatsApp Image 2026-04-24 at 09.52.33.jpeg":
-        "Wegwijzer naar Wilhalla en de samentuin",
+      "WhatsApp Image 2026-03-22 at 17.38.34.jpeg": "Paardencoaching met twee paarden",
+      "c3400f04-d7a7-45fc-85bc-954c84c6112a.JPG": "Paardencoaching op het domein",
+      "WhatsApp Image 2026-04-24 at 09.52.33.jpeg": "Wegwijzer naar Wilhalla en de samentuin",
       "57361d95-0a45-43c7-9bee-1e721ab9a9c4.jpg": "Welkomsbord aan de ingang",
       "IMG_3043.heic": "Paard in winterlandschap",
       "IMG_4490.JPG": "Tomaten in de serre van de samentuin",
       "WhatsApp Image 2026-03-10 at 21.33.30.jpeg": "Pad door de samentuin",
       "IMG_9842.JPG": "Yoga in de yurt",
       "IMG_5118.JPG": "Rondleiding in de tuin",
-      "WhatsApp Image 2026-03-10 at 21.33.34.jpeg":
-        "Moestuinbedden in de samentuin",
-      "f4921805-7e0d-4faf-bcb8-2536195617d5.JPG":
-        "Verbonden moment met een paard",
+      "WhatsApp Image 2026-03-10 at 21.33.34.jpeg": "Moestuinbedden in de samentuin",
+      "f4921805-7e0d-4faf-bcb8-2536195617d5.JPG": "Verbonden moment met een paard",
       "IMG_5158.JPG": "Paard bij de stallen",
       "IMG_7207.JPG": "Avondlijke bijeenkomst in de yurt",
       "IMG_2812.heic": "Behandeling in de yurt",
@@ -277,10 +270,7 @@ export const siteConfig = {
         y1: 1350,
         x2: 990,
         y2: 1900,
-        hoverImages: [
-          "/map-overlays/hover/horses.webp",
-          "/map-overlays/text/horses.webp",
-        ],
+        hoverImages: ["/map-overlays/hover/horses.webp", "/map-overlays/text/horses.webp"],
         explanation: {
           text: "Onze kudde leeft in vrijheid en nodigt uit tot rustige ontmoeting en paardencoaching.",
           x: 420,
@@ -295,10 +285,7 @@ export const siteConfig = {
         y1: 1550,
         x2: 2250,
         y2: 1685,
-        hoverImages: [
-          "/map-overlays/hover/barn.webp",
-          "/map-overlays/text/barn.webp",
-        ],
+        hoverImages: ["/map-overlays/hover/barn.webp", "/map-overlays/text/barn.webp"],
         explanation: {
           text: "De gerenoveerde schuur biedt plek voor workshops, bijeenkomsten en kleine vieringen.",
           x: 2255,
@@ -313,10 +300,7 @@ export const siteConfig = {
         y1: 1550,
         x2: 2000,
         y2: 1675,
-        hoverImages: [
-          "/map-overlays/hover/vake-tree.webp",
-          "/map-overlays/text/vake-tree.webp",
-        ],
+        hoverImages: ["/map-overlays/hover/vake-tree.webp", "/map-overlays/text/vake-tree.webp"],
         explanation: {
           text: "Een vertrouwde schaduwplek op het erf, dichtbij de dieren en de schuur.",
           x: 1340,
@@ -331,10 +315,7 @@ export const siteConfig = {
         y1: 1085,
         x2: 2935,
         y2: 1440,
-        hoverImages: [
-          "/map-overlays/hover/garden.webp",
-          "/map-overlays/text/garden.webp",
-        ],
+        hoverImages: ["/map-overlays/hover/garden.webp", "/map-overlays/text/garden.webp"],
         explanation: {
           text: "In de samentuin delen vrijwilligers kennis, werk en oogst op het ritme van de seizoenen.",
           x: 2940,
@@ -349,10 +330,7 @@ export const siteConfig = {
         y1: 1517,
         x2: 3085,
         y2: 1740,
-        hoverImages: [
-          "/map-overlays/hover/yurt.webp",
-          "/map-overlays/text/yurt.webp",
-        ],
+        hoverImages: ["/map-overlays/hover/yurt.webp", "/map-overlays/text/yurt.webp"],
         explanation: {
           text: "De yurt is een warme cirkel voor therapie, yoga, muziek en verstilling in het groen.",
           x: 2860,
@@ -379,10 +357,7 @@ export const siteConfig = {
         y1: 1239,
         x2: 2490,
         y2: 1404,
-        hoverImages: [
-          "/map-overlays/hover/kippenhok.webp",
-          "/map-overlays/text/kippenhok.webp",
-        ],
+        hoverImages: ["/map-overlays/hover/kippenhok.webp", "/map-overlays/text/kippenhok.webp"],
         explanation: {
           text: "Hier scharrelen de kippen mee in het levendige ritme van de tuin.",
           x: 2545,
@@ -397,10 +372,7 @@ export const siteConfig = {
         y1: 1258,
         x2: 2301,
         y2: 1330,
-        hoverImages: [
-          "/map-overlays/hover/trampoline.webp",
-          "/map-overlays/text/trampoline.webp",
-        ],
+        hoverImages: ["/map-overlays/hover/trampoline.webp", "/map-overlays/text/trampoline.webp"],
         explanation: {
           text: "Een speelse plek tussen het groen, voor kinderen en lichte pauzes.",
           x: 1580,
@@ -448,10 +420,7 @@ export const siteConfig = {
         y1: 793,
         x2: 1003,
         y2: 1057,
-        hoverImages: [
-          "/map-overlays/text/zoerselbos.webp",
-          "/map-overlays/text/halle-dorp.webp",
-        ],
+        hoverImages: ["/map-overlays/text/zoerselbos.webp", "/map-overlays/text/halle-dorp.webp"],
         explanation: {
           text: "Wilhalla ligt tussen Halle-Dorp en het Zoerselbos: dorps nabij, bos dichtbij.",
           x: 1140,

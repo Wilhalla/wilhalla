@@ -7,12 +7,7 @@ type TeaserBlockProps = {
   linkLabel?: string;
 };
 
-export function TeaserBlock({
-  title,
-  description,
-  to,
-  linkLabel = "Ontdek",
-}: TeaserBlockProps) {
+export function TeaserBlock({ title, description, to, linkLabel = "Ontdek" }: TeaserBlockProps) {
   return (
     <div className="space-y-4">
       <h2 className="el-heading-sm m-0 text-obsidian">{title}</h2>

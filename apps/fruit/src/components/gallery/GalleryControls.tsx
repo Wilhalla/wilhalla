@@ -1,50 +1,63 @@
-import { RotateCcw, Search } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import type { GalleryGroups } from '../../lib/imageGallerySession'
+import { RotateCcw, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { GalleryGroups } from "../../lib/imageGallerySession";
 
 type GalleryHeaderProps = {
-  filteredCount: number
-  plantCount: number
-  peopleCount: number
-  sortNewest: boolean
-  onSortNewestChange: (sortNewest: boolean) => void
-}
+  filteredCount: number;
+  plantCount: number;
+  peopleCount: number;
+  sortNewest: boolean;
+  onSortNewestChange: (sortNewest: boolean) => void;
+};
 
 type GalleryFilterControlsProps = {
-  groups: GalleryGroups
-  hasActiveFilters: boolean
-  query: string
-  season: string
-  theme: string
-  onQueryChange: (query: string) => void
-  onReset: () => void
-  onSeasonChange: (season: string) => void
-  onThemeChange: (theme: string) => void
-}
+  groups: GalleryGroups;
+  hasActiveFilters: boolean;
+  query: string;
+  season: string;
+  theme: string;
+  onQueryChange: (query: string) => void;
+  onReset: () => void;
+  onSeasonChange: (season: string) => void;
+  onThemeChange: (theme: string) => void;
+};
 
-export function GalleryHeader({ filteredCount, peopleCount, plantCount, sortNewest, onSortNewestChange }: GalleryHeaderProps) {
+export function GalleryHeader({
+  filteredCount,
+  peopleCount,
+  plantCount,
+  sortNewest,
+  onSortNewestChange,
+}: GalleryHeaderProps) {
   return (
     <header className="grid gap-6 border-b border-chalk pb-7 lg:grid-cols-[minmax(0,1fr)_auto]">
       <div className="min-w-0">
         <h1 className="display-title max-w-3xl break-words">Beeldarchief</h1>
         <p className="m-0 mt-3 max-w-2xl text-sm leading-6 text-gravel">
-          {filteredCount.toLocaleString('nl-BE')} foto’s · {peopleCount} met personen · {plantCount.toLocaleString('nl-BE')} met planten
+          {filteredCount.toLocaleString("nl-BE")} foto’s · {peopleCount} met personen ·{" "}
+          {plantCount.toLocaleString("nl-BE")} met planten
         </p>
       </div>
       <label className="flex items-center gap-2 self-end text-sm text-gravel">
         Sorteer
         <select
           className="min-h-9 rounded-full border border-chalk bg-transparent px-3 text-sm text-obsidian outline-none"
-          value={sortNewest ? 'new' : 'old'}
-          onChange={(event) => onSortNewestChange(event.target.value === 'new')}
+          value={sortNewest ? "new" : "old"}
+          onChange={(event) => onSortNewestChange(event.target.value === "new")}
         >
           <option value="new">Nieuw → Oud</option>
           <option value="old">Oud → Nieuw</option>
         </select>
       </label>
     </header>
-  )
+  );
 }
 
 export function GalleryFilterControls({
@@ -77,7 +90,9 @@ export function GalleryFilterControls({
           <SelectContent>
             <SelectItem value="all">Alle beeldinhouden</SelectItem>
             {groups.themes.map((item) => (
-              <SelectItem key={item.id} value={item.id}>{item.label}</SelectItem>
+              <SelectItem key={item.id} value={item.id}>
+                {item.label}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -94,11 +109,17 @@ export function GalleryFilterControls({
           </SelectContent>
         </Select>
         {hasActiveFilters && (
-          <button className="inline-grid size-10 place-items-center rounded-full text-gravel hover:bg-powder hover:text-obsidian" type="button" onClick={onReset} aria-label="Filters resetten" title="Filters resetten">
+          <button
+            className="inline-grid size-10 place-items-center rounded-full text-gravel hover:bg-powder hover:text-obsidian"
+            type="button"
+            onClick={onReset}
+            aria-label="Filters resetten"
+            title="Filters resetten"
+          >
             <RotateCcw className="size-4" aria-hidden="true" />
           </button>
         )}
       </div>
     </section>
-  )
+  );
 }

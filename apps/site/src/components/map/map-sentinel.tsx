@@ -20,8 +20,7 @@ export function MapSentinel({
 }: MapSentinelProps) {
   if (!debug) return null;
 
-  const { height: mapHeight, width: mapWidth } =
-    interactiveMapRegistry.dimensions;
+  const { height: mapHeight, width: mapWidth } = interactiveMapRegistry.dimensions;
   const minX = Math.max(0, Math.min(x1, x2) - padding);
   const minY = Math.max(0, Math.min(y1, y2) - padding);
   const maxX = Math.min(mapWidth, Math.max(x1, x2) + padding);

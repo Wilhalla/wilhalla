@@ -1,88 +1,101 @@
-import * as cheerio from 'cheerio'
+import * as cheerio from "cheerio";
 
 function normalizeToken(token: string) {
   return token
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 }
 
 function tokens(value: string) {
-  return Array.from(value.matchAll(/[\p{L}\p{N}]+/gu), (match) => normalizeToken(match[0]))
+  return Array.from(value.matchAll(/[\p{L}\p{N}]+/gu), (match) => normalizeToken(match[0]));
 }
 
 function normalizedText(value: string) {
-  return tokens(value).join(' ')
+  return tokens(value).join(" ");
 }
 
 function isSameOrTokenPrefix(prefix: string, full: string) {
-  return prefix !== '' && (prefix === full || full.startsWith(`${prefix} `))
+  return prefix !== "" && (prefix === full || full.startsWith(`${prefix} `));
 }
 
 function joinNormalized(left: string, right: string) {
-  if (!left) return right
-  if (!right) return left
-  return `${left} ${right}`
+  if (!left) return right;
+  if (!right) return left;
+  return `${left} ${right}`;
 }
 
 function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function hasOnlyElementAndWhitespaceChildren($: cheerio.CheerioAPI, block: cheerio.Cheerio<any>) {
-  const children = block.contents().toArray()
-  return children.length > 0 && children.every((child) => child.type === 'tag' || (child.type === 'text' && $(child).text().trim() === ''))
+  const children = block.contents().toArray();
+  return (
+    children.length > 0 &&
+    children.every(
+      (child) => child.type === "tag" || (child.type === "text" && $(child).text().trim() === ""),
+    )
+  );
 }
 
 function isTransparentLeadingContainer($: cheerio.CheerioAPI, block: cheerio.Cheerio<any>) {
-  const tag = String(block.prop('tagName') ?? '').toLowerCase()
-  return ['article', 'div', 'section'].includes(tag)
-    && block.find('img').length === 0
-    && hasOnlyElementAndWhitespaceChildren($, block)
+  const tag = String(block.prop("tagName") ?? "").toLowerCase();
+  return (
+    ["article", "div", "section"].includes(tag) &&
+    block.find("img").length === 0 &&
+    hasOnlyElementAndWhitespaceChildren($, block)
+  );
 }
 
-function firstElementChild($: cheerio.CheerioAPI, root: cheerio.Cheerio<any>): cheerio.Cheerio<any> | undefined {
+function firstElementChild(
+  $: cheerio.CheerioAPI,
+  root: cheerio.Cheerio<any>,
+): cheerio.Cheerio<any> | undefined {
   for (const child of root.contents().toArray()) {
-    if (child.type === 'text' && $(child).text().trim() === '') continue
-    if (child.type === 'tag') {
-      const element = $(child)
-      if (isTransparentLeadingContainer($, element)) return firstElementChild($, element) ?? element
-      return element
+    if (child.type === "text" && $(child).text().trim() === "") continue;
+    if (child.type === "tag") {
+      const element = $(child);
+      if (isTransparentLeadingContainer($, element))
+        return firstElementChild($, element) ?? element;
+      return element;
     }
-    return undefined
+    return undefined;
   }
-  return undefined
+  return undefined;
 }
 
 function blockText(block: cheerio.Cheerio<any>) {
-  const clone = block.clone()
-  clone.find('br').replaceWith(' ')
-  return clone.text().replace(/\s+/g, ' ').trim()
+  const clone = block.clone();
+  clone.find("br").replaceWith(" ");
+  return clone.text().replace(/\s+/g, " ").trim();
 }
 
 function isTitleLikeBlock(block: cheerio.Cheerio<any>) {
-  const tag = String(block.prop('tagName') ?? '').toLowerCase()
-  return /^h[1-6]$/.test(tag) || block.find('strong,b,em').length > 0
+  const tag = String(block.prop("tagName") ?? "").toLowerCase();
+  return /^h[1-6]$/.test(tag) || block.find("strong,b,em").length > 0;
 }
 
 function isSupportedLeadingBlock(block: cheerio.Cheerio<any>) {
-  const tag = String(block.prop('tagName') ?? '').toLowerCase()
-  return tag === 'p' || tag === 'div' || /^h[1-6]$/.test(tag)
+  const tag = String(block.prop("tagName") ?? "").toLowerCase();
+  return tag === "p" || tag === "div" || /^h[1-6]$/.test(tag);
 }
 
 function textWithoutTokenPrefix(text: string, prefixTokens: string[]) {
-  const textMatches = Array.from(text.matchAll(/[\p{L}\p{N}]+/gu))
-  if (prefixTokens.length === 0 || textMatches.length < prefixTokens.length) return undefined
+  const textMatches = Array.from(text.matchAll(/[\p{L}\p{N}]+/gu));
+  if (prefixTokens.length === 0 || textMatches.length < prefixTokens.length) return undefined;
 
   for (let index = 0; index < prefixTokens.length; index += 1) {
-    if (normalizeToken(textMatches[index][0]) !== prefixTokens[index]) return undefined
+    if (normalizeToken(textMatches[index][0]) !== prefixTokens[index]) return undefined;
   }
 
-  const end = (textMatches[prefixTokens.length - 1].index ?? 0) + textMatches[prefixTokens.length - 1][0].length
-  return text.slice(end).replace(/^[\s:;,.\-–—]+/, '').trim()
+  const end =
+    (textMatches[prefixTokens.length - 1].index ?? 0) +
+    textMatches[prefixTokens.length - 1][0].length;
+  return text
+    .slice(end)
+    .replace(/^[\s:;,.\-–—]+/, "")
+    .trim();
 }
 
 /**
@@ -92,39 +105,39 @@ function textWithoutTokenPrefix(text: string, prefixTokens: string[]) {
  * prose intact.
  */
 export function stripDuplicateTitleFromArchiveHtml(html: string, title: string) {
-  const titleTokens = tokens(title)
-  const titleNorm = titleTokens.join(' ')
-  if (!html || !titleNorm) return html
+  const titleTokens = tokens(title);
+  const titleNorm = titleTokens.join(" ");
+  if (!html || !titleNorm) return html;
 
-  const $ = cheerio.load(`<main>${html}</main>`)
-  const main = $('main')
-  let consumedTitlePrefix = ''
+  const $ = cheerio.load(`<main>${html}</main>`);
+  const main = $("main");
+  let consumedTitlePrefix = "";
 
   for (let attempt = 0; attempt < 5; attempt += 1) {
-    const first = firstElementChild($, main)
-    if (!first || !isSupportedLeadingBlock(first) || first.find('img').length > 0) break
+    const first = firstElementChild($, main);
+    if (!first || !isSupportedLeadingBlock(first) || first.find("img").length > 0) break;
 
-    const text = blockText(first)
-    const blockNorm = normalizedText(text)
-    if (!blockNorm) break
+    const text = blockText(first);
+    const blockNorm = normalizedText(text);
+    if (!blockNorm) break;
 
-    const candidatePrefix = joinNormalized(consumedTitlePrefix, blockNorm)
-    const titleLike = isTitleLikeBlock(first)
+    const candidatePrefix = joinNormalized(consumedTitlePrefix, blockNorm);
+    const titleLike = isTitleLikeBlock(first);
 
     if (blockNorm === titleNorm || (titleLike && isSameOrTokenPrefix(candidatePrefix, titleNorm))) {
-      first.remove()
-      consumedTitlePrefix = candidatePrefix
-      continue
+      first.remove();
+      consumedTitlePrefix = candidatePrefix;
+      continue;
     }
 
     if (titleLike && isSameOrTokenPrefix(titleNorm, candidatePrefix)) {
-      const consumedTokenCount = consumedTitlePrefix ? consumedTitlePrefix.split(' ').length : 0
-      const remainder = textWithoutTokenPrefix(text, titleTokens.slice(consumedTokenCount))
-      if (remainder) first.html(escapeHtml(remainder))
-      else first.remove()
+      const consumedTokenCount = consumedTitlePrefix ? consumedTitlePrefix.split(" ").length : 0;
+      const remainder = textWithoutTokenPrefix(text, titleTokens.slice(consumedTokenCount));
+      if (remainder) first.html(escapeHtml(remainder));
+      else first.remove();
     }
-    break
+    break;
   }
 
-  return main.html() ?? html
+  return main.html() ?? html;
 }

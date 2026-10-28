@@ -35,10 +35,7 @@ export function parseAgendaIcsEvents(ics: string): Array<AgendaEvent> {
   return blocks
     .map(parseIcsEvent)
     .filter((event): event is AgendaEvent => Boolean(event))
-    .sort(
-      (left, right) =>
-        new Date(left.start).getTime() - new Date(right.start).getTime(),
-    );
+    .sort((left, right) => new Date(left.start).getTime() - new Date(right.start).getTime());
 }
 
 export async function fetchGoogleCalendarAgendaEvents(
@@ -62,8 +59,7 @@ export async function fetchGoogleCalendarAgendaEvents(
 
 export function sortAgendaEvents(events: Array<AgendaEvent>) {
   return [...events].sort(
-    (left, right) =>
-      new Date(left.start).getTime() - new Date(right.start).getTime(),
+    (left, right) => new Date(left.start).getTime() - new Date(right.start).getTime(),
   );
 }
 
@@ -76,18 +72,12 @@ export function getUpcomingAgendaEvents(
   );
 }
 
-export function getInitialAgendaMonth(
-  events: Array<AgendaEvent>,
-  today = startOfDay(new Date()),
-) {
+export function getInitialAgendaMonth(events: Array<AgendaEvent>, today = startOfDay(new Date())) {
   const upcomingEvents = getUpcomingAgendaEvents(events, today);
   return startOfMonth(new Date(upcomingEvents[0]?.start ?? today));
 }
 
-export function createAgendaMonth(
-  events: Array<AgendaEvent>,
-  visibleMonth: Date,
-) {
+export function createAgendaMonth(events: Array<AgendaEvent>, visibleMonth: Date) {
   const days = getMonthCalendarDays(visibleMonth);
   return {
     days,
@@ -123,9 +113,7 @@ function parseIcsEvent(lines: Array<string>): AgendaEvent | null {
 
   return {
     id: cleanIcsText(fields.get("UID")?.value ?? start.date.toISOString()),
-    title: cleanIcsText(
-      fields.get("SUMMARY")?.value ?? agendaRegistry.defaultEventTitle,
-    ),
+    title: cleanIcsText(fields.get("SUMMARY")?.value ?? agendaRegistry.defaultEventTitle),
     description,
     location: cleanIcsText(fields.get("LOCATION")?.value ?? ""),
     start: start.date.toISOString(),
@@ -251,9 +239,7 @@ export function addDays(date: Date, days: number) {
 }
 
 export function addMonths(date: Date, months: number) {
-  return startOfMonth(
-    new Date(date.getFullYear(), date.getMonth() + months, 1),
-  );
+  return startOfMonth(new Date(date.getFullYear(), date.getMonth() + months, 1));
 }
 
 export function isSameDay(left: Date, right: Date) {

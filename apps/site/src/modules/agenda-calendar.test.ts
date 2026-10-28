@@ -47,18 +47,15 @@ describe("Agenda calendar intake", () => {
     const events = parseAgendaIcsEvents(ICS);
     const today = startOfDay(new Date(2026, 5, 12));
 
-    expect(
-      getUpcomingAgendaEvents(events, today).map((event) => event.id),
-    ).toEqual(["later@example.com"]);
+    expect(getUpcomingAgendaEvents(events, today).map((event) => event.id)).toEqual([
+      "later@example.com",
+    ]);
     expect(getInitialAgendaMonth(events, today)).toEqual(new Date(2026, 5, 1));
   });
 
   it("groups multi-day calendar cells by day", () => {
     const events = parseAgendaIcsEvents(ICS);
-    const { days, eventsByDay } = createAgendaMonth(
-      events,
-      new Date(2026, 5, 1),
-    );
+    const { days, eventsByDay } = createAgendaMonth(events, new Date(2026, 5, 1));
 
     expect(days[0]).toEqual(new Date(2026, 5, 1));
     expect(eventsByDay.get("2026-06-10")?.[0]?.id).toBe("all-day@example.com");

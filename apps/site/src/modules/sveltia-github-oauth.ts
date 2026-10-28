@@ -1,7 +1,6 @@
 const GITHUB_PROVIDER = "github";
 const CSRF_COOKIE_NAME = "sveltia-cms-oauth-csrf";
-const DEFAULT_ALLOWED_DOMAINS =
-  "wilhalla-site.vercel.app,www.wilhalla.be,wilhalla.be";
+const DEFAULT_ALLOWED_DOMAINS = "wilhalla-site.vercel.app,www.wilhalla.be,wilhalla.be";
 
 type OAuthEnvironment = Partial<{
   ALLOWED_DOMAINS: string;
@@ -14,8 +13,7 @@ type OAuthResult =
   | { provider: string; token: string }
   | { provider: string; error: string; errorCode?: string };
 
-const escapeRegExp = (value: string) =>
-  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 function safeJson(value: OAuthResult) {
   return JSON.stringify(value).replace(/</g, "\\u003c");
@@ -108,9 +106,7 @@ export async function handleSveltiaGithubAuth(
     });
   }
 
-  if (
-    !isAllowedDomain(siteId, env.ALLOWED_DOMAINS ?? DEFAULT_ALLOWED_DOMAINS)
-  ) {
+  if (!isAllowedDomain(siteId, env.ALLOWED_DOMAINS ?? DEFAULT_ALLOWED_DOMAINS)) {
     return outputHTML({
       provider,
       error: "Your domain is not allowed to use the authenticator.",
@@ -118,11 +114,7 @@ export async function handleSveltiaGithubAuth(
     });
   }
 
-  const {
-    GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET,
-    GITHUB_HOSTNAME = "github.com",
-  } = env;
+  const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_HOSTNAME = "github.com" } = env;
 
   if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
     return outputHTML({
@@ -157,8 +149,7 @@ export async function handleSveltiaGithubCallback(
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  const [provider, csrfToken] =
-    getCookie(request.headers, CSRF_COOKIE_NAME)?.split("_") ?? [];
+  const [provider, csrfToken] = getCookie(request.headers, CSRF_COOKIE_NAME)?.split("_") ?? [];
 
   if (provider !== GITHUB_PROVIDER) {
     return outputHTML({
@@ -184,11 +175,7 @@ export async function handleSveltiaGithubCallback(
     });
   }
 
-  const {
-    GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET,
-    GITHUB_HOSTNAME = "github.com",
-  } = env;
+  const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_HOSTNAME = "github.com" } = env;
 
   if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
     return outputHTML({
@@ -201,22 +188,19 @@ export async function handleSveltiaGithubCallback(
   let response: Response;
 
   try {
-    response = await fetch(
-      `https://${GITHUB_HOSTNAME}/login/oauth/access_token`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          code,
-          client_id: GITHUB_CLIENT_ID,
-          client_secret: GITHUB_CLIENT_SECRET,
-          redirect_uri: getCallbackUrl(request),
-        }),
+    response = await fetch(`https://${GITHUB_HOSTNAME}/login/oauth/access_token`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        code,
+        client_id: GITHUB_CLIENT_ID,
+        client_secret: GITHUB_CLIENT_SECRET,
+        redirect_uri: getCallbackUrl(request),
+      }),
+    });
   } catch {
     return outputHTML({
       provider,

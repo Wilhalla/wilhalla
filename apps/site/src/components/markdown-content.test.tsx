@@ -8,9 +8,7 @@ describe("MarkdownContent", () => {
   it("renders build-time compiled markdown HTML", () => {
     render(
       <MarkdownContent
-        html={
-          '<p>Intro text.</p><p><img src="/gallery/gallery-01.webp" alt="Paard in de wei"></p>'
-        }
+        html={'<p>Intro text.</p><p><img src="/gallery/gallery-01.webp" alt="Paard in de wei"></p>'}
       />,
     );
 

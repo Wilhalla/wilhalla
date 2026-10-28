@@ -1,8 +1,5 @@
 import { getEditorialPage } from "@/content/editorial-pages";
-import {
-  EditorialMarkdownPage,
-  editorialRouteHead,
-} from "@/modules/editorial-page-publishing";
+import { EditorialMarkdownPage, editorialRouteHead } from "@/modules/editorial-page-publishing";
 import { createFileRoute } from "@tanstack/react-router";
 
 const verhuurPage = getEditorialPage("verhuur");

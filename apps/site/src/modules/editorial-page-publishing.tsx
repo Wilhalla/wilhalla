@@ -40,22 +40,14 @@ export function EditorialMarkdownPage({
       <section className="site-container py-10 md:py-16">
         <div className="max-w-[820px]">
           <MarkdownContent html={html} />
-          {children && (
-            <div className="mt-12 border-t border-chalk pt-8">{children}</div>
-          )}
+          {children && <div className="mt-12 border-t border-chalk pt-8">{children}</div>}
         </div>
       </section>
     </div>
   );
 }
 
-export function EditorialLandingPage({
-  page,
-  html,
-}: {
-  page: EditorialLandingPage;
-  html: string;
-}) {
+export function EditorialLandingPage({ page, html }: { page: EditorialLandingPage; html: string }) {
   return (
     <div>
       <PageHeader title={page.title} intro={page.intro} />
@@ -74,9 +66,7 @@ export function EditorialLandingPage({
               to={subPage.to as string}
               className="group flex items-center justify-between gap-6 border-b border-chalk py-5 no-underline transition-colors hover:text-obsidian"
             >
-              <span className="el-body font-medium text-obsidian">
-                {subPage.label}
-              </span>
+              <span className="el-body font-medium text-obsidian">{subPage.label}</span>
               <span
                 className="el-body-sm text-gravel transition-transform group-hover:translate-x-1"
                 aria-hidden="true"

@@ -33,14 +33,10 @@ export const locationRegistry = siteConfig.location;
 export const socialRegistry = siteConfig.socialLinks;
 export const navigationRegistry = {
   links: siteConfig.navigation.links.map(resolvePageLink),
-  contactLabel: getEditorialPage(siteConfig.navigation.contactContentPath)
-    .linkLabel,
+  contactLabel: getEditorialPage(siteConfig.navigation.contactContentPath).linkLabel,
 };
 export const editorialPages = Object.fromEntries(
-  Object.entries(siteConfig.pages).map(([key, page]) => [
-    key,
-    resolveEditorialPageConfig(page),
-  ]),
+  Object.entries(siteConfig.pages).map(([key, page]) => [key, resolveEditorialPageConfig(page)]),
 ) as {
   [K in keyof typeof siteConfig.pages]: ReturnType<
     typeof resolveEditorialPageConfig<(typeof siteConfig.pages)[K]>

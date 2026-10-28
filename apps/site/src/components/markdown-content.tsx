@@ -6,9 +6,6 @@ type MarkdownContentProps = {
 
 export function MarkdownContent({ html }: MarkdownContentProps) {
   return (
-    <div
-      className="markdown-editorial space-y-6"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    <div className="markdown-editorial space-y-6" dangerouslySetInnerHTML={{ __html: html }} />
   );
 }
