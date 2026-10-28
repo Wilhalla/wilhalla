@@ -190,4 +190,15 @@
   ):is(:disabled, [aria-disabled="true"], [data-disabled]) {
     cursor: not-allowed;
   }
+
+  /*
+   * Word wrapping everywhere: headings split into even lines, running text avoids a lone word on
+   * its last line. A `text-wrap` utility on an element still overrides this.
+   */
+  :is(h1, h2, h3, h4, h5, h6, caption) {
+    text-wrap: balance;
+  }
+  :is(p, li, dd, dt, blockquote, figcaption, td, th, label) {
+    text-wrap: pretty;
+  }
 }

@@ -100,6 +100,9 @@ const sample = `
 <p>Dit was evenzeer het geval voor de Japanse kwee, sierkwee en dwergkwee, <strong>Chaenomeles japonica</strong>, met zijn schitterende rode tinten. Meer over rassen op <a href="#prose">de rassenlijst</a>.</p>
 <ul><li>Schönbrunner</li><li>Jaintarny, een ras met gele bessen</li><li>Een jonge kerspruim</li></ul>
 <blockquote>Ben benieuwd naar de zetting dit jaar.</blockquote>
+<h3>Bloei per ras</h3>
+<p>Gemeten op de <code>tuin-noord</code> rij.</p>
+<table><thead><tr><th>Ras</th><th align="right">Bloei</th></tr></thead><tbody><tr><td>Schönbrunner</td><td align="right">12 april</td></tr><tr><td>Jaintarny</td><td align="right">18 april</td></tr><tr><td>Kerspruim</td><td align="right">2 april</td></tr></tbody></table>
 `;
 
 export const proseStory: Story = {
@@ -107,7 +110,7 @@ export const proseStory: Story = {
   title: "Prose",
   source: "@wilhalla/ui/lib/typography (prose)",
   description:
-    "Long-form reading text for HTML you do not control: EB Garamond at 20px, a ~66 character measure, Dutch hyphenation.",
+    "Long-form reading text for HTML you do not control, following shadcn/ui typography: EB Garamond at 20px, a ~66 character measure, Dutch hyphenation.",
   render: () => (
     <Examples wide>
       <Example label="prose on legacy blog HTML">
