@@ -4,6 +4,7 @@ import {
   siteIdentity,
   socialRegistry,
 } from "@/config/registries";
+import { NewsletterSignup } from "@/components/newsletter-signup";
 import { getEditorialPage } from "@/content/editorial-pages";
 import { routeHead } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
@@ -91,6 +92,11 @@ function ContactPage() {
             ))}
           </ul>
         </nav>
+
+        <NewsletterSignup
+          headingLevel="h2"
+          className="mt-8 w-full rounded-2xl border border-chalk bg-pure-surface p-5 shadow-subtle-2"
+        />
       </section>
     </main>
   );
