@@ -68,6 +68,20 @@ export const siteConfig = {
     },
   ] satisfies readonly SocialLink[],
 
+  /** Laposta mailing list; the codes and field name come from the form Laposta generates. */
+  newsletter: {
+    action: "https://wilhalla.email-provider.eu/subscribe/post/v2/index.php",
+    protectionScript: "https://wilhalla.email-provider.eu/subscribe/check/validate.js",
+    accountCode: "lmwmk8dmvs",
+    listCode: "7efcjdkkrz",
+    emailFieldName: "xWroYRMtRw",
+    title: "Nieuwsbrief",
+    intro: "Workshops, yoga en nieuws uit de tuin, af en toe in je mailbox.",
+    emailLabel: "E-mailadres",
+    emailPlaceholder: "jij@voorbeeld.be",
+    submitLabel: "Inschrijven",
+  },
+
   navigation: {
     links: [
       { contentPath: "tuin", to: "/over-ons", icon: "users" },
