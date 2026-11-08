@@ -112,3 +112,9 @@ export function getSentinelFallbackGlowBounds(id: string): SentinelBounds | null
 
   return getSentinelBounds(activeSentinel);
 }
+
+export function isExternalLink(
+  to: string,
+): boolean {
+  return /^https?::\/\//.test(to);
+}
