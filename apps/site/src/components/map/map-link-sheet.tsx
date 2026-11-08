@@ -8,8 +8,6 @@ type MapLinkSheetProps = {
   onClose: () => void;
 };
 
-// Mobiel heeft geen hover: een tik op een plek toont deze kaart onderaan het
-// scherm met uitleg en een grote, duidelijke link.
 export function MapLinkSheet({ link, text, onClose }: MapLinkSheetProps) {
   return (
     <div
