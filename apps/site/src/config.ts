@@ -261,7 +261,7 @@ export const siteConfig = {
     hints: {
       mobile: {
         eyebrow: "Verken",
-        message: "Scroll naar links of rechts om over de kaart te bewegen en klik op een plek.",
+        message: "Scroll naar links of rechts om over de kaart te bewegen en tik op een plek om meer te ontdekken.",
       },
       desktop: {
         eyebrow: "Ontdek",
