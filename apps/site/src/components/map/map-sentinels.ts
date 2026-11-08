@@ -95,6 +95,7 @@ export function getSentinelTextImages(id: string): string[] {
   return [...(mapSentinels.find((sentinel) => sentinel.id === id)?.hoverImages ?? [])].filter(
     (image) => image.includes("/map-overlays/text/"),
   );
+}
 
 const explanationsById = new Map<string, MapSentinelExplanation>(
   mapSentinels.flatMap((sentinel) =>
@@ -121,7 +122,15 @@ export function getSentinelLink(id: string): MapLink | null {
   return mapSentinels.find((sentinel) => sentinel.id === id)?.link ?? null;
 }
 
-export function getSentinelFallbackGlowBounds(id: string): SentinelBounds | null {
+export const linkedMapSentinels = mapSentinels.filter(
+  (sentinel, index, all): sentinel is MapSentinelConfig & { link: MapLink } =>
+    Boolean(sentinel.link) &&
+    all.findIndex((other) => other.link?.to === sentinel.link?.to) === index,
+);
+
+export function getSentinelFallbackGlowBounds(
+  id: string,
+): SentinelBounds | null {
   const activeSentinel = mapSentinels.find((sentinel) => sentinel.id === id);
   if (!activeSentinel) return null;
 
@@ -133,8 +142,6 @@ export function getSentinelFallbackGlowBounds(id: string): SentinelBounds | null
   return getSentinelBounds(activeSentinel);
 }
 
-export function isExternalLink(
-  to: string,
-): boolean {
-  return /^https?::\/\//.test(to);
+export function isExternalLink(to: string): boolean {
+  return /^https?:\/\//.test(to);
 }
