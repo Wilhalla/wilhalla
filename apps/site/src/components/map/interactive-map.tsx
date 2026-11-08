@@ -16,11 +16,14 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { hotspots } from "./hotspots";
 import { MapHotspotPath } from "./map-hotspot";
 import { MapInteractionHint } from "./map-interaction-hint";
+import { MapLinkSheet } from "./map-link-sheet";
 import { MapSentinel } from "./map-sentinel";
 import {
   getActiveSentinelId,
+  getSentinelExplanation,
   getSentinelFallbackGlowBounds,
   getSentinelLink,
+  linkedMapSentinels,
   type MapSentinelExplanation,
   mapSentinels,
 } from "./map-sentinels";
@@ -455,16 +458,31 @@ export function InteractiveMap() {
   const [desktopHintDismissed, setDesktopHintDismissed] = useState(false);
   const [hoveredSentinelId, setHoveredSentinelId] = useState<string | null>(null);
   const [introActiveSentinelId, setIntroActiveSentinelId] = useState<string | null>(null);
+  const [selectedSentinelId, setSelectedSentinelId] = useState<string | null>(
+    null,
+  );
   const [introDismissed, setIntroDismissed] = useState(false);
   const [onboardingVisible, setOnboardingVisible] = useState(false);
 
-  const { activeExplanation, activeHoverImages, activeLabelImages } = getActiveMapDiscovery({
-    hoveredSentinelId,
-    introActiveSentinelId,
-  });
+  // Touch heeft geen hover (en pointerleave wist die meteen na tikken), op mobiel blijft de aangetikte plaats daarom geselecteerd tot je elders tikt.
+  const discoverySentinelId =
+    hoveredSentinelId ?? (isMobileViewport ? selectedSentinelId : null);
+  const { activeExplanation, activeHoverImages, activeLabelImages } =
+    getActiveMapDiscovery({
+      hoveredSentinelId: discoverySentinelId,
+      introActiveSentinelId,
+    });
   const isLinkHovered =
-    hoveredSentinel !== null && getSentinelLink(hoveredSentinelId) !== null;
-  const introStepMs = isMobileViewport ? MOBILE_INTRO_STEP_MS : DESKTOP_INTRO_STEP_MS;
+    !isMobileViewport && hoveredSentinelId !== null
+      ? getSentinelLink(hoveredSentinelId) !== null
+      : false;
+  const selectedLink =
+    isMobileViewport && selectedSentinelId
+      ? getSentinelLink(selectedSentinelId)
+      : null;
+  const introStepMs = isMobileViewport
+    ? MOBILE_INTRO_STEP_MS
+    : DESKTOP_INTRO_STEP_MS;
   const introOverlayTransitionMs = isMobileViewport
     ? MOBILE_INTRO_OVERLAY_TRANSITION_MS
     : DESKTOP_INTRO_OVERLAY_TRANSITION_MS;
@@ -481,8 +499,14 @@ export function InteractiveMap() {
 
   const handleSentinelClick = (id: string | null) => {
     if (id && onboardingVisible) {
+      setMobileHintDismissed(true);
       setDesktopHintDismissed(true);
       dismissIntro();
+    }
+
+    if (isMobileViewport) {
+      setSelectedSentinelId(id);
+      return;
     }
 
     const link = id ? getSentinelLink(id) : null;
@@ -563,6 +587,7 @@ export function InteractiveMap() {
   }, [isMobileViewport]);
 
   return (
+    <>
     <div
       ref={scrollRef}
       className="relative h-dvh w-full overflow-x-auto overflow-y-hidden overscroll-x-none bg-black scrollbar-none lg:h-svh lg:overflow-hidden"
@@ -584,7 +609,7 @@ export function InteractiveMap() {
           activeExplanation={activeExplanation}
           activeHoverImages={activeHoverImages}
           activeLabelImages={activeLabelImages}
-          activeSentinelId={hoveredSentinelId}
+          activeSentinelId={discoverySentinelId}
           fetchPriority="high"
           isLinkHovered={isLinkHovered}
           overlayTransitionDurationMs={overlayTransitionDurationMs}
@@ -604,5 +629,29 @@ export function InteractiveMap() {
         desktopDismissed={!onboardingVisible || desktopHintDismissed}
       />
     </div>
+    {selectedLink && selectedSentinelId ? (
+      <MapLinkSheet
+        link={selectedLink}
+        text={getSentinelExplanation(selectedSentinelId)?.text}
+        onClose={() => setSelectedSentinelId(null)}
+      />
+    ) : null}
+    {/* De kaart-SVG is aria-hidden: dit is de toetsenbord- en screenreader-route. */}
+    <nav aria-label="Plekken op de kaart" className="sr-only">
+      <ul>
+        {linkedMapSentinels.map((sentinel) => (
+          <li key={sentinel.id}>
+            <Link
+              to={sentinel.link.to}
+              onFocus={() => setHoveredSentinelId(sentinel.id)}
+              onBlur={() => setHoveredSentinelId(null)}
+            >
+              {sentinel.link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    </>
   );
 }
