@@ -15,6 +15,8 @@ export function MapHotspotPath({ hotspot }: MapHotspotProps) {
       <a
         href={hotspot.route}
         aria-label={hotspot.label}
+        // De kaart-SVG is aria-hidden; toetsenbordgebruikers krijgen dezelfde bestemming via de verborgen linklijst in InteractiveMap.
+        tabIndex={-1}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={(event) => {
