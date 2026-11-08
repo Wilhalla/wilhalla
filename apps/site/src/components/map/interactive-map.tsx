@@ -12,7 +12,7 @@ import {
   mapDiscoveryTimings,
   type ViewBoxRect,
 } from "@/modules/interactive-map-discovery";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { hotspots } from "./hotspots";
 import { MapHotspotPath } from "./map-hotspot";
 import { MapInteractionHint } from "./map-interaction-hint";
@@ -20,6 +20,7 @@ import { MapSentinel } from "./map-sentinel";
 import {
   getActiveSentinelId,
   getSentinelFallbackGlowBounds,
+  getSentinelLink,
   type MapSentinelExplanation,
   mapSentinels,
 } from "./map-sentinels";
@@ -140,12 +141,14 @@ function SentinelExplanationCard({
     explanation: displayedExplanation,
     visibleViewBoxRect,
   });
-  const { text } = displayedExplanation;
+  const { linkLabel, text } = displayedExplanation;
   const hasLabelImages = displayedLabelImages.length > 0;
   const hasDarkInkLabel = displayedLabelImages.some(hasDarkInkCardLabel);
   const useDarkCard = hasLabelImages && !hasDarkInkLabel;
-  const cardClassName = `flex h-full flex-col rounded-[34px] border px-[36px] py-[28px] shadow-[0_14px_34px_rgba(38,27,18,0.16)] backdrop-blur-[2px] transition-[opacity,transform] duration-300 ease-out ${
-    hasLabelImages ? "items-start justify-center gap-[24px]" : "items-start justify-center"
+  const cardClassName = `flex min-h-full flex-col rounded-[34px] border px-[36px] py-[28px] shadow-[0_14px_34px_rgba(38,27,18,0.16)] backdrop-blur-[2px] transition-[opacity,transform] duration-300 ease-out ${
+    hasLabelImages
+      ? "items-start justify-center gap-[24px]"
+      : "items-start justify-center"
   } ${
     useDarkCard
       ? "border-white/15 bg-[#2a2118]/88 text-[#fff8dc]"
@@ -191,6 +194,11 @@ function SentinelExplanationCard({
           </div>
         ) : null}
         <p className="m-0 font-waldenburg text-[34px] leading-[1.28] tracking-ui">{text}</p>
+        {linkLabel ? (
+          <p className="m-0 mt-[18px] font-waldenburg text-[26px] leading-none tracking-[0.01em] underline decoration-1 underline-offset-[8px] opacity-75">
+            {linkLabel} →
+          </p>
+        ) : null}
       </div>
     </foreignObject>
   );
@@ -264,8 +272,10 @@ function MapScene({
   activeLabelImages,
   activeSentinelId,
   fetchPriority,
+  isLinkHovered,
   overlayTransitionDurationMs,
   onHoverChange,
+  onSentinelClick,
   sizes,
 }: {
   activeExplanation: MapSentinelExplanation | null;
@@ -273,8 +283,10 @@ function MapScene({
   activeLabelImages: string[];
   activeSentinelId: string | null;
   fetchPriority?: "auto" | "high" | "low";
+  isLinkHovered: boolean;
   overlayTransitionDurationMs: number;
   onHoverChange: (id: string | null) => void;
+  onSentinelClick: (id: string | null) => void;
   sizes: string;
 }) {
   const [hiResMapLoaded, setHiResMapLoaded] = useState(false);
@@ -393,6 +405,19 @@ function MapScene({
           updateHoveredSentinel(event.clientX, event.clientY);
         }}
         onPointerLeave={() => onHoverChange(null)}
+        onClick={(event) => {
+          // De house-hotspot navigeert zelf en roept preventDefault aan.
+          if (event.defaultPrevented) return;
+
+          const svg = svgRef.current;
+          if (!svg) return;
+
+          const point = clientPointToSvgPoint(svg, {
+            x: event.clientX,
+            y: event.clientY,
+          });
+          onSentinelClick(point ? getActiveSentinelId(point) : null);
+        }}
       >
         <PencilFilter />
         <FallbackSentinelGlow activeSentinelId={activeSentinelId} />
@@ -421,6 +446,7 @@ function MapScene({
 }
 
 export function InteractiveMap() {
+  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
   const ignoreNextScrollRef = useRef(false);
   const shouldPlayInitialSequenceRef = useRef(!hasPlayedInitialMapSequence);
@@ -436,6 +462,8 @@ export function InteractiveMap() {
     hoveredSentinelId,
     introActiveSentinelId,
   });
+  const isLinkHovered =
+    hoveredSentinel !== null && getSentinelLink(hoveredSentinelId) !== null;
   const introStepMs = isMobileViewport ? MOBILE_INTRO_STEP_MS : DESKTOP_INTRO_STEP_MS;
   const introOverlayTransitionMs = isMobileViewport
     ? MOBILE_INTRO_OVERLAY_TRANSITION_MS
@@ -449,6 +477,16 @@ export function InteractiveMap() {
   const dismissIntro = () => {
     setIntroDismissed(true);
     setIntroActiveSentinelId(null);
+  };
+
+  const handleSentinelClick = (id: string | null) => {
+    if (id && onboardingVisible) {
+      setDesktopHintDismissed(true);
+      dismissIntro();
+    }
+
+    const link = id ? getSentinelLink(id) : null;
+    if (link) void navigate({ to: link.to });
   };
 
   useEffect(() => {
@@ -548,8 +586,10 @@ export function InteractiveMap() {
           activeLabelImages={activeLabelImages}
           activeSentinelId={hoveredSentinelId}
           fetchPriority="high"
+          isLinkHovered={isLinkHovered}
           overlayTransitionDurationMs={overlayTransitionDurationMs}
           sizes={interactiveMapRegistry.sceneSizes}
+          onSentinelClick={handleSentinelClick}
           onHoverChange={(id) => {
             if (id && onboardingVisible) {
               if (!isMobileViewport) setDesktopHintDismissed(true);
