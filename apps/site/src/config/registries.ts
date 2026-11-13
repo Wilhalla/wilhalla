@@ -31,6 +31,7 @@ export const siteIdentity = siteConfig.site;
 export const contactRegistry = siteConfig.contact;
 export const locationRegistry = siteConfig.location;
 export const socialRegistry = siteConfig.socialLinks;
+export const newsletterRegistry = siteConfig.newsletter;
 export const navigationRegistry = {
   links: siteConfig.navigation.links.map(resolvePageLink),
   contactLabel: getEditorialPage(siteConfig.navigation.contactContentPath).linkLabel,
