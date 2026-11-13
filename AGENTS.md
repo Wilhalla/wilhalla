@@ -103,6 +103,13 @@ to `error` rather than adding new exceptions. Each app's `package.json` exposes 
     `// oxlint-disable-next-line shadcn/<rule> -- reason` comment.
   - `.astro` templates are not linted (oxlint reads only JS/TS); keep markup classes in
     recipes or React components where possible.
+- Page structure is shared too: every page starts with `PageHeader` (`size="page"` inside an
+  app, the default `hero` on site landing pages), groups its content in `Section` +
+  `SectionHeader`, keeps one page column (`Container` / `layout.container`, also for the site
+  header and footer), and points to other pages with `LinkList` rather than oversized cards.
+  Long-form text uses the `prose` recipe (serif, ~66 characters per line, Dutch hyphenation).
+  Do not add per-page heading sizes, paddings or loaders: if a page needs something new, add it
+  to the shared component and its story.
 - Every shared component has a story in `apps/playground/src/stories` showing all variants and
   states; add or extend it in the same commit (`just dev playground`).
 

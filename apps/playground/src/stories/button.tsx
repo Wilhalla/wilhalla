@@ -4,6 +4,19 @@ import { ArrowRight, Download, Mail, Plus } from "lucide-react";
 import { Example, Examples, type Story } from "./story";
 
 const variants = ["default", "outline", "secondary", "ghost", "link", "destructive"] as const;
+
+/** Shown on a photo-dark backdrop, which is what it is for. */
+const InverseExample = () => (
+  <div className="flex w-full flex-wrap gap-3 rounded-2xl bg-obsidian p-4">
+    <Button variant="inverse">Pauze</Button>
+    <Button variant="inverse" size="icon-lg" aria-label="Volgende">
+      <ArrowRight />
+    </Button>
+    <Button variant="inverse" disabled>
+      Uitgeschakeld
+    </Button>
+  </div>
+);
 const sizes = ["xs", "sm", "default", "lg"] as const;
 const iconSizes = ["icon-xs", "icon-sm", "icon", "icon-lg"] as const;
 
@@ -58,6 +71,18 @@ export const buttonStory: Story = {
             </Button>
           </Example>
         ))}
+        <Example label='variant="inverse" (on photos and dark overlays)'>
+          <InverseExample />
+        </Example>
+        <Example label='variant="link" size="inline" (inside running text)'>
+          <p className="m-0 text-body text-cinder">
+            Geen berichten gevonden.{" "}
+            <Button variant="link" size="inline">
+              Toon alle berichten
+            </Button>
+            .
+          </p>
+        </Example>
         <Example label="asChild (renders the <a>)">
           <Button asChild variant="outline">
             <a href="#button">

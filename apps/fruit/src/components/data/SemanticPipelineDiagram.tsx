@@ -1,5 +1,7 @@
+import { PageHeader } from "@wilhalla/ui/components/page-header";
+import { Section, SectionHeader } from "@wilhalla/ui/components/section";
 import { cn } from "@wilhalla/ui/lib/utils";
-import { layout, typography } from "@wilhalla/ui/lib/typography";
+import { typography } from "@wilhalla/ui/lib/typography";
 import { useEffect, useMemo, useState } from "react";
 import { Download } from "lucide-react";
 
@@ -23,8 +25,8 @@ const diagram = `flowchart LR
   G --> H
   E --> I[Tekstembedding\nper verhaal]
   I --> J[Verwante verhalen\ncosinusafstand]
-  I --> K[Atlaspositie\nUMAP projectie]
-  H --> L[JSON voor Atlas\nen beeldarchief]
+  I --> K[Plaats bij Onderwerpen\nUMAP projectie]
+  H --> L[JSON voor Onderwerpen\nen beeldarchief]
   J --> L
   K --> L
 `;
@@ -91,58 +93,50 @@ export default function SemanticPipelineDiagram() {
   }, [id]);
 
   return (
-    <section
-      className={cn(layout.container, "min-w-0 py-12")}
-      aria-labelledby="semantic-setup-title"
-    >
-      <div className="min-w-0 border-b border-chalk pb-10">
-        <div className="max-w-3xl">
-          <h1 id="semantic-setup-title" className={typography.display}>
-            Data
-          </h1>
-          <p className="mt-5 text-body-lg leading-body-lg text-gravel">
-            Vervolgberichten vormen samen één verhaal. Afbeeldingen krijgen een beschrijving van wat
-            zichtbaar is en blijven gekoppeld aan hun bronbericht. Fijne tags worden geteld en
-            samengevoegd tot filters; tekstembeddings bepalen verwante verhalen en de positie in de
-            Atlas.
-          </p>
-          <div className="mt-7 rounded-2xl border border-chalk bg-pure-surface p-5 shadow-subtle">
-            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-              <div>
-                <h2 className="m-0 font-heading text-2xl font-normal leading-tight tracking-tight text-obsidian">
-                  Originele blogmirror
-                </h2>
-                <p className="mt-2 text-sm leading-6 text-gravel">
-                  Download de volledige mirror-zip van de oorspronkelijke Seniorennet-blogs.
-                  Bestandsgrootte:{" "}
-                  <strong className="font-medium text-obsidian">{mirrorArchiveFileSize}</strong>.
-                </p>
-              </div>
-              <Button asChild size="lg" className="justify-self-start sm:justify-self-end">
-                <a
-                  href={mirrorArchiveDownloadUrl}
-                  download="seniorennet-fruit-archive.zip"
-                  aria-label={`Download originele blogmirror (${mirrorArchiveFileSize})`}
-                >
-                  <Download className="size-4" aria-hidden="true" />
-                  <span>Download zip</span>
-                </a>
-              </Button>
-            </div>
-          </div>
+    <section aria-labelledby="semantic-setup-title">
+      <PageHeader
+        size="page"
+        title={<span id="semantic-setup-title">Data</span>}
+        intro="Hoe dit archief uit de oude blogpagina's is opgebouwd, en de bestanden die daarbij horen."
+      />
+      <Section aria-labelledby="pipeline-title">
+        <SectionHeader
+          id="pipeline-title"
+          title="Werkwijze"
+          description="Van de oude blogpagina's naar de onderwerpen, het beeldarchief en het zoeken."
+        />
+        <div className="min-w-0 overflow-x-auto rounded-2xl bg-pure-surface p-6 shadow-subtle-2">
+          {svg ? (
+            <div
+              className="min-w-0"
+              dangerouslySetInnerHTML={{ __html: svg }}
+              aria-label="Diagram van de verwerking"
+            />
+          ) : error ? (
+            <p className={cn(typography.small, "m-0 text-gravel")}>{error}</p>
+          ) : (
+            <div className="min-h-64" aria-hidden="true" />
+          )}
         </div>
-        {svg ? (
-          <div
-            className="mt-8 min-w-0 overflow-x-auto pb-2"
-            dangerouslySetInnerHTML={{ __html: svg }}
-            aria-label="Mermaid diagram van de semantische preprocessing"
-          />
-        ) : error ? (
-          <p className="mt-8 border-l border-chalk pl-4 text-gravel">{error}</p>
-        ) : (
-          <div className="mt-8 min-h-64" aria-hidden="true" />
-        )}
-      </div>
+      </Section>
+      <Section aria-labelledby="sources-title">
+        <SectionHeader
+          id="sources-title"
+          title="Bron"
+          description="De volledige kopie van de oorspronkelijke Seniorennet-blogs waaruit dit archief is opgebouwd."
+          action={
+            <Button asChild>
+              <a
+                href={mirrorArchiveDownloadUrl}
+                download="seniorennet-fruit-archive.zip"
+                aria-label={`Download originele blogmirror (${mirrorArchiveFileSize})`}
+              >
+                <Download /> Download zip ({mirrorArchiveFileSize})
+              </a>
+            </Button>
+          }
+        />
+      </Section>
     </section>
   );
 }

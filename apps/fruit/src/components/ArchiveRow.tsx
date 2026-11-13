@@ -1,45 +1,30 @@
-import { ImageIcon, Layers2, MessageCircle } from "lucide-react";
-import type { PostSummary } from "../lib/postIndex";
 import { formatArchiveDate } from "../lib/date";
+import { postCounts } from "../lib/postMeta";
 
-type Props = { post: PostSummary; index: number; total?: number };
+type RowPost = Parameters<typeof formatArchiveDate>[0] & {
+  slug: string;
+  title: string;
+  imageCount: number;
+  reactionCount: number;
+  seriesPostCount?: number;
+};
+type Props = { post: RowPost; index?: number };
 
-const archiveRow =
-  "group relative grid min-h-[4.75rem] grid-cols-[6ch_12rem_minmax(0,1fr)_13rem] items-baseline gap-4 rounded-xl border border-transparent px-4 py-3 text-inherit no-underline outline-none transition-[background-color,border-color,box-shadow] duration-150 ease-out before:absolute before:inset-y-3 before:left-0 before:w-px before:rounded-full before:bg-transparent before:transition-colors hover:border-chalk/80 hover:bg-pure-surface/75 hover:shadow-subtle hover:before:bg-obsidian/25 focus-visible:border-obsidian/30 focus-visible:shadow-subtle-2 focus-visible:before:bg-obsidian max-md:grid-cols-1";
-const metaText = "font-mono text-xs text-gravel transition-colors group-hover:text-cinder";
-const countPill =
-  "inline-flex min-h-6 items-center gap-1.5 rounded-md border border-chalk/70 bg-powder/50 px-2 font-mono text-label leading-none text-gravel transition-colors group-hover:border-chalk group-hover:bg-pure-surface group-hover:text-obsidian";
-const countIcon = "size-3.5 text-fog transition-colors group-hover:text-gravel";
-
-export default function ArchiveRow({ post, index, total }: Props) {
-  const displayIndex = total ? total - index : index + 1;
-
+/** One line of the full archive: date, title and counts, aligned in columns on wide screens. */
+export default function ArchiveRow({ post }: Props) {
+  const counts = postCounts(post);
   return (
-    <a className={archiveRow} href={`/posts/${post.slug}/`}>
-      <span className={metaText}>{String(displayIndex).padStart(4, "0")}</span>
-      <span className={metaText}>{formatArchiveDate(post)}</span>
-      <strong className="overflow-hidden text-ellipsis whitespace-nowrap text-base font-medium text-obsidian transition-colors max-md:whitespace-normal">
-        {post.title}
-      </strong>
-      <span
-        className="inline-flex justify-end gap-1 text-right max-md:justify-start"
-        aria-label={`${post.imageCount} beelden, ${post.reactionCount} reacties${post.seriesPostCount ? `, ${post.seriesPostCount} delen` : ""}`}
-      >
-        {post.seriesPostCount && (
-          <span className={countPill} title="Reeks" aria-label={`${post.seriesPostCount} delen`}>
-            <Layers2 className={countIcon} aria-hidden="true" />
-            {post.seriesPostCount}
-          </span>
-        )}
-        <span className={countPill} title="Beelden" aria-label={`${post.imageCount} beelden`}>
-          <ImageIcon className={countIcon} aria-hidden="true" />
-          {post.imageCount}
-        </span>
-        <span className={countPill} title="Reacties" aria-label={`${post.reactionCount} reacties`}>
-          <MessageCircle className={countIcon} aria-hidden="true" />
-          {post.reactionCount}
-        </span>
+    <a
+      className="group grid min-h-16 items-baseline gap-x-6 gap-y-1 border-b border-chalk py-3 text-inherit no-underline outline-none transition-colors duration-150 hover:bg-powder/60 focus-visible:bg-powder/60 md:-mx-3 md:grid-cols-[9rem_minmax(0,1fr)_auto] md:rounded-lg md:px-3"
+      href={`/posts/${post.slug}/`}
+    >
+      <span className="font-sans text-body text-gravel tabular-nums">
+        {formatArchiveDate(post)}
       </span>
+      <span className="truncate font-heading text-heading-sm leading-heading-sm text-obsidian max-md:whitespace-normal">
+        {post.title}
+      </span>
+      <span className="font-sans text-body text-gravel md:text-right">{counts}</span>
     </a>
   );
 }

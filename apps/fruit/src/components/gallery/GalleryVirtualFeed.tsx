@@ -1,3 +1,5 @@
+import { cn } from "@wilhalla/ui/lib/utils";
+import { typography } from "@wilhalla/ui/lib/typography";
 import type { Key, RefObject } from "react";
 import GalleryThumbnail from "./GalleryThumbnail";
 import type {
@@ -102,10 +104,10 @@ function GalleryVirtualRowView({
         className="flex h-full scroll-mt-24 items-end justify-between border-b border-chalk pb-5"
         id={`gallery-year-${row.year}`}
       >
-        <p className="m-0 text-sm text-gravel">
+        <p className={cn(typography.small, "m-0 text-gravel")}>
           {groups.years.find((item) => item.id === row.year)?.count.toLocaleString("nl-BE")} foto’s
         </p>
-        <h2 className="m-0 font-heading text-4xl font-normal leading-none tracking-[-0.04em] text-obsidian md:text-5xl">
+        <h2 className={cn(typography.display, "leading-none")}>
           {row.year === "unknown" ? "Geen datum" : row.year}
         </h2>
       </header>
@@ -115,10 +117,8 @@ function GalleryVirtualRowView({
   if (row.type === "month") {
     return (
       <header className="flex h-full items-center justify-between border-b border-chalk">
-        <h3 className="m-0 font-heading text-xl font-normal text-obsidian md:text-2xl">
-          {row.label}
-        </h3>
-        <p className="m-0 font-mono text-xs text-gravel">{row.count} foto’s</p>
+        <h3 className={typography.subsection}>{row.label}</h3>
+        <p className={cn(typography.small, "m-0 text-gravel tabular-nums")}>{row.count} foto’s</p>
       </header>
     );
   }
