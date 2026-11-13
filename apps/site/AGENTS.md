@@ -26,11 +26,3 @@ When you move or rename a content file, update the config in the same commit.
 - The GitHub OAuth handshake runs in this app (`src/routes/api/cms-auth`,
   `src/modules/sveltia-github-oauth.ts`) and needs `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
   (and optionally `ALLOWED_DOMAINS`) in the Vercel project.
-
-## Agent skills
-
-- Issues and PRDs: GitHub Issues of `Wilhalla/wilhalla`, see `docs/agents/issue-tracker.md`.
-  Issues opened before the monorepo are still in `Wilhalla/wilhalla-site`.
-- Triage labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`
-  (`docs/agents/triage-labels.md`).
-- Domain docs: `CONTEXT.md` and `docs/adr/` in this directory (`docs/agents/domain.md`).

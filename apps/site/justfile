@@ -29,10 +29,6 @@ check:
 test:
     pnpm run test
 
-# Build the container image (repository root as context)
-image tag="janpeterd/wilhalla-site:latest":
-    cd ../.. && docker build -f apps/site/Dockerfile -t {{tag}} .
-
 sync-map-overlays source='/home/jp/Downloads/transfer-16' output='public/map-overlays':
     ./scripts/sync-map-overlays.sh "{{source}}" "{{output}}"
 

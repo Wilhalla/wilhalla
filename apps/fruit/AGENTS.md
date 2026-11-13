@@ -21,4 +21,4 @@ just ml-setup   # .venv for the ML pipeline scripts
   the state store (`jp state path`), so it survives clean checkouts and stays out of git.
 - The `extract`/`copyImages` scripts expect the raw Seniorennet mirror at `../../mirror` relative
   to the app; it is not part of this repository.
-- Domain language: `CONTEXT.md`. Pipelines: `ML_PIPELINE.md`, `IMAGE_ATLAS.md`.
+- Pipelines: `ML_PIPELINE.md`, `IMAGE_ATLAS.md`.

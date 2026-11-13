@@ -324,7 +324,7 @@ export const siteConfig = {
           y: 1380,
           width: 610,
         },
-        link: { label: "Vake's blogarchief", to: "https://fruit.wilhalla.be" },
+        link: { label: "Vakes appelboom", to: "https://fruit.wilhalla.be" },
         padding: 40,
       },
       {
@@ -369,7 +369,7 @@ export const siteConfig = {
           "/map-overlays/hover/swallows.webp",
           "/map-overlays/text/trek-mee-naar-kameroen.webp",
         ],
-        link: { label: "CoZoeGo", to: "https://cozoego.be/" },
+        link: { label: "CoZoeGo", to: "https://cozoego.be/", newTab: true },
         padding: 40,
       },
       {
