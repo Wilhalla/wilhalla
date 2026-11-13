@@ -261,7 +261,8 @@ export const siteConfig = {
     hints: {
       mobile: {
         eyebrow: "Verken",
-        message: "Scroll naar links of rechts om over de kaart te bewegen en tik op een plek om meer te ontdekken.",
+        message:
+          "Scroll naar links of rechts om over de kaart te bewegen en tik op een plek om meer te ontdekken.",
       },
       desktop: {
         eyebrow: "Ontdek",
@@ -291,8 +292,7 @@ export const siteConfig = {
           y: 1030,
           width: 710,
         },
-        label: "Paardencoaching",
-        to: "/welzijn/paardencoaching",
+        link: { label: "Paardencoaching", to: "/welzijn/paardencoaching" },
         padding: 40,
       },
       {
@@ -308,8 +308,7 @@ export const siteConfig = {
           y: 1715,
           width: 650,
         },
-        label: "Schuur",
-        to: "/verhuur",
+        link: { label: "Schuur", to: "/verhuur" },
         padding: 40,
       },
       {
@@ -325,8 +324,7 @@ export const siteConfig = {
           y: 1380,
           width: 610,
         },
-        label: "Vake's blogarchief",
-        to: "https://fruit.wilhalla.be",
+        link: { label: "Vake's blogarchief", to: "https://fruit.wilhalla.be" },
         padding: 40,
       },
       {
@@ -342,8 +340,7 @@ export const siteConfig = {
           y: 1130,
           width: 720,
         },
-        label: "Samentuin",
-        to: "/over-ons/samentuin",
+        link: { label: "Samentuin", to: "/over-ons/samentuin" },
         padding: 40,
       },
       {
@@ -359,8 +356,7 @@ export const siteConfig = {
           y: 1690,
           width: 650,
         },
-        label: "Welzijn in de yurt",
-        to: "/welzijn",
+        link: { label: "Welzijn in de yurt", to: "/welzijn" },
         padding: 40,
       },
       {
@@ -373,8 +369,7 @@ export const siteConfig = {
           "/map-overlays/hover/swallows.webp",
           "/map-overlays/text/trek-mee-naar-kameroen.webp",
         ],
-        label: "CoZoeGo",
-        to: "https://cozoego.be/",
+        link: { label: "CoZoeGo", to: "https://cozoego.be/" },
         padding: 40,
       },
       {
@@ -398,10 +393,7 @@ export const siteConfig = {
         y1: 1258,
         x2: 2301,
         y2: 1330,
-        hoverImages: [
-          "/map-overlays/hover/trampoline.webp",
-          "/map-overlays/text/trampoline.webp",
-        ],
+        hoverImages: ["/map-overlays/hover/trampoline.webp", "/map-overlays/text/trampoline.webp"],
         includeInIntro: false,
       },
       {

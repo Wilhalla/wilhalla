@@ -55,7 +55,7 @@ function Marker({
       title={place.title}
       className={cn(
         "absolute z-10 -translate-x-1/2 -translate-y-1/2 animate-in fade-in zoom-in-90 fill-mode-both",
-        "flex min-h-9 items-center gap-1.5 rounded-full bg-pure-surface/95 p-1 font-sans text-small text-obsidian shadow-subtle-4 data-[title=true]:pr-3",
+        "flex min-h-9 items-center gap-1.5 rounded-full bg-pure-surface/95 p-1 font-sans text-sm text-obsidian shadow-subtle-4 data-[title=true]:pr-3",
         "transition-transform duration-150 hover:scale-105 focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none",
         "aria-pressed:bg-obsidian aria-pressed:text-eggshell",
       )}
