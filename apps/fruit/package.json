@@ -50,13 +50,15 @@
   },
   "devDependencies": {
     "@astrojs/check": "catalog:",
+    "@babel/core": "catalog:",
+    "@rolldown/plugin-babel": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "babel-plugin-react-compiler": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
-    "vite": "catalog:astro",
+    "vite": "catalog:",
     "vitest": "catalog:"
   }
 }

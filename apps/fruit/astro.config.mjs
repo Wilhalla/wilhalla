@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
+import babel from "@rolldown/plugin-babel";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -16,10 +17,10 @@ export default defineConfig({
   redirects: { "/atlas": "/onderwerpen" },
   output: "static",
   adapter: vercel(),
-  integrations: [react({ babel: { plugins: ["babel-plugin-react-compiler"] } })],
+  integrations: [react()],
   prefetch: { prefetchAll: false, defaultStrategy: "hover" },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), babel({ plugins: ["babel-plugin-react-compiler"] })],
     optimizeDeps: {
       include: ["minisearch", "lucide-react"],
     },
