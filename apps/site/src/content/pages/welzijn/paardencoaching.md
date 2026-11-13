@@ -13,4 +13,4 @@ De paardencoaching Eponaquest is een vorm van ervaringsgericht leren met paarden
 
 Op de website [Veerkracht in Beweging](http://www.veerkrachtib.be) vind je het aanbod voor workshops in groep. Ook individuele sessies zijn mogelijk.
 
-Je kunt Tin Willaeys bereiken op [0472 47 11 87](tel:+32472471187).
+Je kunt Tin Willaeys bereiken op 0472 47 11 87.
