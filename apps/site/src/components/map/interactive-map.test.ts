@@ -1,6 +1,11 @@
 import { interactiveMapRegistry } from "@/config/registries";
 import { describe, expect, it } from "vitest";
-import { getSentinelExplanation, getSentinelLink, linkedMapSentinels } from "./map-sentinels";
+import {
+  getSentinelExplanation,
+  getSentinelLink,
+  isExternalLink,
+  linkedMapSentinels,
+} from "./map-sentinels";
 
 describe("Interactive Map registry", () => {
   it("keeps responsive image assets behind the Interactive Map registry seam", () => {
@@ -16,6 +21,20 @@ describe("Interactive Map links", () => {
       label: "Paardencoaching",
       to: "/welzijn/paardencoaching",
     });
+  });
+
+  it("links the birds in a new tab and Vakes appelboom to the blog archive", () => {
+    expect(getSentinelLink("swallows")).toEqual({
+      label: "CoZoeGo",
+      newTab: true,
+      to: "https://cozoego.be/",
+    });
+    expect(getSentinelLink("vake-tree")).toEqual({
+      label: "Vakes appelboom",
+      to: "https://fruit.wilhalla.be",
+    });
+    expect(isExternalLink("https://cozoego.be/")).toBe(true);
+    expect(isExternalLink("https://fruit.wilhalla.be")).toBe(true);
   });
 
   it("leaves sentinels without a destination unlinked", () => {

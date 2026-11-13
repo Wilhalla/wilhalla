@@ -23,6 +23,7 @@ import {
   getSentinelExplanation,
   getSentinelFallbackGlowBounds,
   getSentinelLink,
+  isExternalLink,
   linkedMapSentinels,
   type MapSentinelExplanation,
   mapSentinels,
@@ -277,6 +278,7 @@ function MapScene({
   overlayTransitionDurationMs,
   onHoverChange,
   onSentinelClick,
+  showTextOverlays,
   sizes,
 }: {
   activeExplanation: MapSentinelExplanation | null;
@@ -288,6 +290,7 @@ function MapScene({
   overlayTransitionDurationMs: number;
   onHoverChange: (id: string | null) => void;
   onSentinelClick: (id: string | null) => void;
+  showTextOverlays: boolean;
   sizes: string;
 }) {
   const [hiResMapLoaded, setHiResMapLoaded] = useState(false);
@@ -386,7 +389,7 @@ function MapScene({
             style={{
               opacity:
                 activeHoverImages.includes(hoverImage) &&
-                !(activeExplanation && isTextOverlayImage(hoverImage))
+                (showTextOverlays || !(activeExplanation && isTextOverlayImage(hoverImage)))
                   ? 1
                   : 0,
               transitionDuration: `${overlayTransitionDurationMs}ms`,
@@ -504,7 +507,18 @@ export function InteractiveMap() {
     }
 
     const link = id ? getSentinelLink(id) : null;
-    if (link) void navigate({ to: link.to });
+    if (!link) return;
+
+    if (isExternalLink(link.to)) {
+      if (link.newTab) {
+        window.open(link.to, "_blank", "noopener,noreferrer");
+      } else {
+        window.location.assign(link.to);
+      }
+      return;
+    }
+
+    void navigate({ to: link.to });
   };
 
   useEffect(() => {
@@ -609,6 +623,7 @@ export function InteractiveMap() {
             overlayTransitionDurationMs={overlayTransitionDurationMs}
             sizes={interactiveMapRegistry.sceneSizes}
             onSentinelClick={handleSentinelClick}
+            showTextOverlays={isMobileViewport}
             onHoverChange={(id) => {
               if (id && onboardingVisible) {
                 if (!isMobileViewport) setDesktopHintDismissed(true);
@@ -635,13 +650,25 @@ export function InteractiveMap() {
         <ul>
           {linkedMapSentinels.map((sentinel) => (
             <li key={sentinel.id}>
-              <Link
-                to={sentinel.link.to}
-                onFocus={() => setHoveredSentinelId(sentinel.id)}
-                onBlur={() => setHoveredSentinelId(null)}
-              >
-                {sentinel.link.label}
-              </Link>
+              {isExternalLink(sentinel.link.to) ? (
+                <a
+                  href={sentinel.link.to}
+                  target={sentinel.link.newTab ? "_blank" : undefined}
+                  rel={sentinel.link.newTab ? "noreferrer" : undefined}
+                  onFocus={() => setHoveredSentinelId(sentinel.id)}
+                  onBlur={() => setHoveredSentinelId(null)}
+                >
+                  {sentinel.link.label}
+                </a>
+              ) : (
+                <Link
+                  to={sentinel.link.to}
+                  onFocus={() => setHoveredSentinelId(sentinel.id)}
+                  onBlur={() => setHoveredSentinelId(null)}
+                >
+                  {sentinel.link.label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>

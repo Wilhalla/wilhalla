@@ -41,6 +41,7 @@ export type PageConfig = {
 export type MapLink = {
   label: string;
   to: string;
+  newTab?: boolean;
 };
 
 export type MapHotspotConfig = {
