@@ -9,42 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as YogaRouteImport } from './routes/yoga'
-import { Route as VerhuurRouteImport } from './routes/verhuur'
-import { Route as GalleryRouteImport } from './routes/gallery'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WelzijnIndexRouteImport } from './routes/welzijn/index'
+import { Route as AgendaRouteImport } from './routes/agenda'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as VerhuurRouteImport } from './routes/verhuur'
+import { Route as YogaRouteImport } from './routes/yoga'
 import { Route as OverOnsIndexRouteImport } from './routes/over-ons/index'
-import { Route as WelzijnVeerkrachtRouteImport } from './routes/welzijn/veerkracht'
-import { Route as WelzijnPaardencoachingRouteImport } from './routes/welzijn/paardencoaching'
-import { Route as WelzijnMuziektherapieRouteImport } from './routes/welzijn/muziektherapie'
-import { Route as WelzijnLymfedrainageRouteImport } from './routes/welzijn/lymfedrainage'
-import { Route as WelzijnKcrRouteImport } from './routes/welzijn/kcr'
-import { Route as WelzijnFasciatherapieRouteImport } from './routes/welzijn/fasciatherapie'
 import { Route as OverOnsSamentuinRouteImport } from './routes/over-ons/samentuin'
-import { Route as ApiCmsAuthCallbackRouteImport } from './routes/api/cms-auth/callback'
+import { Route as WelzijnIndexRouteImport } from './routes/welzijn/index'
+import { Route as WelzijnFasciatherapieRouteImport } from './routes/welzijn/fasciatherapie'
+import { Route as WelzijnKcrRouteImport } from './routes/welzijn/kcr'
+import { Route as WelzijnLymfedrainageRouteImport } from './routes/welzijn/lymfedrainage'
+import { Route as WelzijnMuziektherapieRouteImport } from './routes/welzijn/muziektherapie'
+import { Route as WelzijnPaardencoachingRouteImport } from './routes/welzijn/paardencoaching'
+import { Route as WelzijnVeerkrachtRouteImport } from './routes/welzijn/veerkracht'
 import { Route as ApiCmsAuthAuthRouteImport } from './routes/api/cms-auth/auth'
+import { Route as ApiCmsAuthCallbackRouteImport } from './routes/api/cms-auth/callback'
 
-const YogaRoute = YogaRouteImport.update({
-  id: '/yoga',
-  path: '/yoga',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VerhuurRoute = VerhuurRouteImport.update({
-  id: '/verhuur',
-  path: '/verhuur',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GalleryRoute = GalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgendaRoute = AgendaRouteImport.update({
@@ -52,14 +37,24 @@ const AgendaRoute = AgendaRouteImport.update({
   path: '/agenda',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WelzijnIndexRoute = WelzijnIndexRouteImport.update({
-  id: '/welzijn/',
-  path: '/welzijn/',
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerhuurRoute = VerhuurRouteImport.update({
+  id: '/verhuur',
+  path: '/verhuur',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YogaRoute = YogaRouteImport.update({
+  id: '/yoga',
+  path: '/yoga',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OverOnsIndexRoute = OverOnsIndexRouteImport.update({
@@ -67,29 +62,14 @@ const OverOnsIndexRoute = OverOnsIndexRouteImport.update({
   path: '/over-ons/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WelzijnVeerkrachtRoute = WelzijnVeerkrachtRouteImport.update({
-  id: '/welzijn/veerkracht',
-  path: '/welzijn/veerkracht',
+const OverOnsSamentuinRoute = OverOnsSamentuinRouteImport.update({
+  id: '/over-ons/samentuin',
+  path: '/over-ons/samentuin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WelzijnPaardencoachingRoute = WelzijnPaardencoachingRouteImport.update({
-  id: '/welzijn/paardencoaching',
-  path: '/welzijn/paardencoaching',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WelzijnMuziektherapieRoute = WelzijnMuziektherapieRouteImport.update({
-  id: '/welzijn/muziektherapie',
-  path: '/welzijn/muziektherapie',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WelzijnLymfedrainageRoute = WelzijnLymfedrainageRouteImport.update({
-  id: '/welzijn/lymfedrainage',
-  path: '/welzijn/lymfedrainage',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WelzijnKcrRoute = WelzijnKcrRouteImport.update({
-  id: '/welzijn/kcr',
-  path: '/welzijn/kcr',
+const WelzijnIndexRoute = WelzijnIndexRouteImport.update({
+  id: '/welzijn/',
+  path: '/welzijn/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WelzijnFasciatherapieRoute = WelzijnFasciatherapieRouteImport.update({
@@ -97,19 +77,39 @@ const WelzijnFasciatherapieRoute = WelzijnFasciatherapieRouteImport.update({
   path: '/welzijn/fasciatherapie',
   getParentRoute: () => rootRouteImport,
 } as any)
-const OverOnsSamentuinRoute = OverOnsSamentuinRouteImport.update({
-  id: '/over-ons/samentuin',
-  path: '/over-ons/samentuin',
+const WelzijnKcrRoute = WelzijnKcrRouteImport.update({
+  id: '/welzijn/kcr',
+  path: '/welzijn/kcr',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiCmsAuthCallbackRoute = ApiCmsAuthCallbackRouteImport.update({
-  id: '/api/cms-auth/callback',
-  path: '/api/cms-auth/callback',
+const WelzijnLymfedrainageRoute = WelzijnLymfedrainageRouteImport.update({
+  id: '/welzijn/lymfedrainage',
+  path: '/welzijn/lymfedrainage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelzijnMuziektherapieRoute = WelzijnMuziektherapieRouteImport.update({
+  id: '/welzijn/muziektherapie',
+  path: '/welzijn/muziektherapie',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelzijnPaardencoachingRoute = WelzijnPaardencoachingRouteImport.update({
+  id: '/welzijn/paardencoaching',
+  path: '/welzijn/paardencoaching',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelzijnVeerkrachtRoute = WelzijnVeerkrachtRouteImport.update({
+  id: '/welzijn/veerkracht',
+  path: '/welzijn/veerkracht',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiCmsAuthAuthRoute = ApiCmsAuthAuthRouteImport.update({
   id: '/api/cms-auth/auth',
   path: '/api/cms-auth/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCmsAuthCallbackRoute = ApiCmsAuthCallbackRouteImport.update({
+  id: '/api/cms-auth/callback',
+  path: '/api/cms-auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -253,32 +253,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/yoga': {
-      id: '/yoga'
-      path: '/yoga'
-      fullPath: '/yoga'
-      preLoaderRoute: typeof YogaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/verhuur': {
-      id: '/verhuur'
-      path: '/verhuur'
-      fullPath: '/verhuur'
-      preLoaderRoute: typeof VerhuurRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agenda': {
@@ -288,18 +267,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgendaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/welzijn/': {
-      id: '/welzijn/'
-      path: '/welzijn'
-      fullPath: '/welzijn/'
-      preLoaderRoute: typeof WelzijnIndexRouteImport
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verhuur': {
+      id: '/verhuur'
+      path: '/verhuur'
+      fullPath: '/verhuur'
+      preLoaderRoute: typeof VerhuurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yoga': {
+      id: '/yoga'
+      path: '/yoga'
+      fullPath: '/yoga'
+      preLoaderRoute: typeof YogaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/over-ons/': {
@@ -309,39 +302,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OverOnsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/welzijn/veerkracht': {
-      id: '/welzijn/veerkracht'
-      path: '/welzijn/veerkracht'
-      fullPath: '/welzijn/veerkracht'
-      preLoaderRoute: typeof WelzijnVeerkrachtRouteImport
+    '/over-ons/samentuin': {
+      id: '/over-ons/samentuin'
+      path: '/over-ons/samentuin'
+      fullPath: '/over-ons/samentuin'
+      preLoaderRoute: typeof OverOnsSamentuinRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/welzijn/paardencoaching': {
-      id: '/welzijn/paardencoaching'
-      path: '/welzijn/paardencoaching'
-      fullPath: '/welzijn/paardencoaching'
-      preLoaderRoute: typeof WelzijnPaardencoachingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/welzijn/muziektherapie': {
-      id: '/welzijn/muziektherapie'
-      path: '/welzijn/muziektherapie'
-      fullPath: '/welzijn/muziektherapie'
-      preLoaderRoute: typeof WelzijnMuziektherapieRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/welzijn/lymfedrainage': {
-      id: '/welzijn/lymfedrainage'
-      path: '/welzijn/lymfedrainage'
-      fullPath: '/welzijn/lymfedrainage'
-      preLoaderRoute: typeof WelzijnLymfedrainageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/welzijn/kcr': {
-      id: '/welzijn/kcr'
-      path: '/welzijn/kcr'
-      fullPath: '/welzijn/kcr'
-      preLoaderRoute: typeof WelzijnKcrRouteImport
+    '/welzijn/': {
+      id: '/welzijn/'
+      path: '/welzijn'
+      fullPath: '/welzijn/'
+      preLoaderRoute: typeof WelzijnIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/welzijn/fasciatherapie': {
@@ -351,18 +323,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WelzijnFasciatherapieRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/over-ons/samentuin': {
-      id: '/over-ons/samentuin'
-      path: '/over-ons/samentuin'
-      fullPath: '/over-ons/samentuin'
-      preLoaderRoute: typeof OverOnsSamentuinRouteImport
+    '/welzijn/kcr': {
+      id: '/welzijn/kcr'
+      path: '/welzijn/kcr'
+      fullPath: '/welzijn/kcr'
+      preLoaderRoute: typeof WelzijnKcrRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/cms-auth/callback': {
-      id: '/api/cms-auth/callback'
-      path: '/api/cms-auth/callback'
-      fullPath: '/api/cms-auth/callback'
-      preLoaderRoute: typeof ApiCmsAuthCallbackRouteImport
+    '/welzijn/lymfedrainage': {
+      id: '/welzijn/lymfedrainage'
+      path: '/welzijn/lymfedrainage'
+      fullPath: '/welzijn/lymfedrainage'
+      preLoaderRoute: typeof WelzijnLymfedrainageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welzijn/muziektherapie': {
+      id: '/welzijn/muziektherapie'
+      path: '/welzijn/muziektherapie'
+      fullPath: '/welzijn/muziektherapie'
+      preLoaderRoute: typeof WelzijnMuziektherapieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welzijn/paardencoaching': {
+      id: '/welzijn/paardencoaching'
+      path: '/welzijn/paardencoaching'
+      fullPath: '/welzijn/paardencoaching'
+      preLoaderRoute: typeof WelzijnPaardencoachingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welzijn/veerkracht': {
+      id: '/welzijn/veerkracht'
+      path: '/welzijn/veerkracht'
+      fullPath: '/welzijn/veerkracht'
+      preLoaderRoute: typeof WelzijnVeerkrachtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/cms-auth/auth': {
@@ -370,6 +363,13 @@ declare module '@tanstack/react-router' {
       path: '/api/cms-auth/auth'
       fullPath: '/api/cms-auth/auth'
       preLoaderRoute: typeof ApiCmsAuthAuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/cms-auth/callback': {
+      id: '/api/cms-auth/callback'
+      path: '/api/cms-auth/callback'
+      fullPath: '/api/cms-auth/callback'
+      preLoaderRoute: typeof ApiCmsAuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
