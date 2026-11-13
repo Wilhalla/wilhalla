@@ -1,4 +1,5 @@
 import { GoogleMapsEmbed } from "@/components/google-maps-embed";
+import { NewsletterSignup } from "@/components/newsletter-signup";
 import { contactRegistry, siteIdentity, socialRegistry } from "@/config/registries";
 import type { SocialIconName } from "@/types";
 import { Mail } from "lucide-react";
@@ -86,7 +87,10 @@ export function Footer() {
               })}
             </ul>
           </div>
-          <GoogleMapsEmbed />
+          <div className="lg:col-start-3 lg:row-span-2 lg:row-start-1">
+            <GoogleMapsEmbed />
+          </div>
+          <NewsletterSignup className="max-w-readable lg:col-span-2" />
         </div>
         <div className="mt-12 border-t border-chalk pt-6">
           <p className="font-sans text-body leading-body tracking-ui text-gravel">
