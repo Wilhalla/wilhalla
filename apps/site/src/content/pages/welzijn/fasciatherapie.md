@@ -11,4 +11,4 @@ Met trage, manuele technieken en eenvoudige bewegingsoefeningen wordt spanning l
 
 Je kan bij ons terecht met fysieke klachten zoals rug- en nekpijn, vermoeidheid, spanningsklachten of herstel na blessure, maar ook bij stress, chronische pijn of emotionele overbelasting. Bij kinderen kan fasciatherapie helpen bij concentratieproblemen, onrust en stress of moeilijkheden met emotieregulatie.
 
-Tin Willaeys werkt op een rustige en respectvolle manier, afgestemd op jouw tempo, met als doel meer balans, veerkracht en welzijn in je dagelijks leven.
+Tin Willaeys werkt op een rustige en respectvolle manier, afgestemd op jouw tempo, met als doel meer balans, veerkracht en welzijn in je dagelijks leven. Neem contact op via 0472 47 11 87 of tin@wilhalla.be.
