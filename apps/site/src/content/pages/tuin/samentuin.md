@@ -11,4 +11,4 @@ We zijn momenteel met een kleine, enthousiaste groep vrijwilligers en komen weke
 
 Wil je graag aansluiten? Voor €20 per jaar maak je deel uit van de samentuin.
 
-Heb je interesse of wil je eens komen kennismaken? Stuur ons gerust een berichtje via [wilhalla@hotmail.com](mailto:wilhalla@hotmail.com).
+Heb je interesse of wil je eens komen kennismaken? Stuur ons gerust een berichtje via [info@wilhalla.be](mailto:info@wilhalla.be).

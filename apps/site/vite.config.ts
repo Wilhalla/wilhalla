@@ -17,6 +17,7 @@ const config = defineConfig({
     viteReact(),
   ],
   server: {
+    allowedHosts: ["tower.tailcc37.ts.net"],
     watch: {
       ignored: ["**/.dolt/**", "**/.roam/**", "**/.doltcfg/**"],
     },

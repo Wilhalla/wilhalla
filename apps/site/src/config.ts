@@ -24,7 +24,6 @@ export const siteConfig = {
       appleLogo: "/wilhalla-apple-logo.webp",
       ico: "/favicon.ico",
       appleTouchIcon: "/apple-touch-icon.png",
-      manifest: "/manifest.json",
       ogImage: {
         src: "/og-image.png",
         width: 1200,
@@ -37,8 +36,8 @@ export const siteConfig = {
 
   contact: {
     name: "Wilhalla",
-    email: "wilhalla@hotmail.com",
-    mailto: "mailto:wilhalla@hotmail.com",
+    email: "info@wilhalla.be",
+    mailto: "mailto:info@wilhalla.be",
   },
 
   location: {
@@ -417,6 +416,14 @@ export const siteConfig = {
         y1: 1089,
         x2: 3595,
         y2: 1785,
+        activationPolygon: [
+          { x: 2833, y: 1089 },
+          { x: 3595, y: 1089 },
+          { x: 3595, y: 1785 },
+          { x: 3150, y: 1785 },
+          { x: 3100, y: 1500 },
+          { x: 2833, y: 1450 },
+        ],
         hoverImages: [
           "/map-overlays/hover/boomgaard-kleinfruit.webp",
           "/map-overlays/text/boomgaard-kleinfruit.webp",

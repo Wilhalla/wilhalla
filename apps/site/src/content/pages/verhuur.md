@@ -11,4 +11,4 @@ Beide ruimtes zijn te huur voor workshops, kleine evenementen, opleidingen, retr
 
 We ontvangen groepen in een warme, persoonlijke setting en denken graag mee om jouw activiteit tot een fijne ervaring te maken.
 
-Heb je interesse of wil je graag langskomen om de ruimtes te bekijken? Neem gerust contact met ons op via [wilhalla@hotmail.com](mailto:wilhalla@hotmail.com).
+Heb je interesse of wil je graag langskomen om de ruimtes te bekijken? Neem gerust contact met ons op via [info@wilhalla.be](mailto:info@wilhalla.be).

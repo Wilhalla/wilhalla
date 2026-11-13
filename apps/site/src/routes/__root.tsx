@@ -20,7 +20,6 @@ export const Route = createRootRoute({
       { rel: "icon", href: siteIdentity.assets.ico, sizes: "any" },
       { rel: "icon", type: "image/png", href: siteIdentity.assets.favicon },
       { rel: "apple-touch-icon", href: siteIdentity.assets.appleTouchIcon },
-      { rel: "manifest", href: siteIdentity.assets.manifest },
     ],
   }),
   notFoundComponent: NotFound,

@@ -2,6 +2,7 @@ import { interactiveMapRegistry } from "@/config/registries";
 import { describe, expect, it } from "vitest";
 import {
   getSentinelExplanation,
+  getSentinelHoverImages,
   getSentinelLink,
   isExternalLink,
   linkedMapSentinels,
@@ -39,6 +40,12 @@ describe("Interactive Map links", () => {
 
   it("leaves sentinels without a destination unlinked", () => {
     expect(getSentinelLink("caption-kippenhok")).toBeNull();
+  });
+
+  it("does not activate the orchard when the yurt is selected", () => {
+    expect(getSentinelHoverImages("yurt")).not.toContain(
+      "/map-overlays/text/boomgaard-kleinfruit.webp",
+    );
   });
 
   it("only links to existing site routes", () => {

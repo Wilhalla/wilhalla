@@ -1,7 +1,7 @@
 import { interactiveMapRegistry } from "@/config/registries";
-import type { MapLink, MapSentinelConfig, MapSentinelExplanation } from "@/types";
+import type { MapLink, MapPoint, MapSentinelConfig, MapSentinelExplanation } from "@/types";
 
-export type { MapLink, MapSentinelConfig, MapSentinelExplanation };
+export type { MapLink, MapPoint, MapSentinelConfig, MapSentinelExplanation };
 
 export const mapSentinels: readonly MapSentinelConfig[] = interactiveMapRegistry.sentinels;
 
@@ -28,7 +28,32 @@ function getSentinelArea(sentinel: MapSentinelConfig): number {
   return (bounds.maxX - bounds.minX) * (bounds.maxY - bounds.minY);
 }
 
-function containsPoint(sentinel: MapSentinelConfig, point: { x: number; y: number }): boolean {
+function isPointInPolygon(point: MapPoint, polygon: readonly MapPoint[]): boolean {
+  let inside = false;
+
+  for (
+    let index = 0, previousIndex = polygon.length - 1;
+    index < polygon.length;
+    previousIndex = index++
+  ) {
+    const current = polygon[index];
+    const previous = polygon[previousIndex];
+    const crossesHorizontalRay =
+      current.y > point.y !== previous.y > point.y &&
+      point.x <
+        ((previous.x - current.x) * (point.y - current.y)) / (previous.y - current.y) + current.x;
+
+    if (crossesHorizontalRay) inside = !inside;
+  }
+
+  return inside;
+}
+
+function containsPoint(sentinel: MapSentinelConfig, point: MapPoint): boolean {
+  if (sentinel.activationPolygon) {
+    return isPointInPolygon(point, sentinel.activationPolygon);
+  }
+
   const bounds = getSentinelBounds(sentinel);
 
   return (
@@ -41,6 +66,16 @@ function containsPoint(sentinel: MapSentinelConfig, point: { x: number; y: numbe
 
 function containsSentinel(outer: MapSentinelConfig, inner: MapSentinelConfig): boolean {
   if (outer.id === inner.id) return false;
+
+  if (outer.activationPolygon) {
+    const bounds = getSentinelBounds(inner);
+    return [
+      { x: bounds.minX, y: bounds.minY },
+      { x: bounds.maxX, y: bounds.minY },
+      { x: bounds.maxX, y: bounds.maxY },
+      { x: bounds.minX, y: bounds.maxY },
+    ].every((point) => containsPoint(outer, point));
+  }
 
   const outerBounds = getSentinelBounds(outer);
   const innerBounds = getSentinelBounds(inner);

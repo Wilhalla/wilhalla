@@ -61,6 +61,11 @@ export type MapSentinelExplanation = {
   linkLabel?: string;
 };
 
+export type MapPoint = {
+  x: number;
+  y: number;
+};
+
 export type MapSentinelConfig = {
   id: string;
   x1: number;
@@ -72,4 +77,5 @@ export type MapSentinelConfig = {
   link?: MapLink;
   includeInIntro?: boolean;
   padding?: number;
+  activationPolygon?: readonly MapPoint[];
 };

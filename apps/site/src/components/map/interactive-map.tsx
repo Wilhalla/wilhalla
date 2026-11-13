@@ -17,7 +17,9 @@ import { hotspots } from "./hotspots";
 import { MapHotspotPath } from "./map-hotspot";
 import { MapInteractionHint } from "./map-interaction-hint";
 import { MapLinkSheet } from "./map-link-sheet";
+import { MapMobileNavigator, type MapMobileStop } from "./map-mobile-navigator";
 import { MapSentinel } from "./map-sentinel";
+import { MapTapNavigator } from "./map-tap-navigator";
 import {
   getActiveSentinelId,
   getSentinelExplanation,
@@ -33,6 +35,28 @@ import { PencilFilter } from "./pencil-filter";
 const { height: MAP_HEIGHT, width: MAP_WIDTH } = interactiveMapRegistry.dimensions;
 const ASPECT_RATIO = MAP_WIDTH / MAP_HEIGHT;
 const MAP_WEBP_SRC_SET = interactiveMapRegistry.assets.webpSrcSet.join(", ");
+const mobileStops = [
+  { id: "horses", label: "De paarden" },
+  { id: "swallows", label: "De zwaluwen" },
+  { id: "vake-tree", label: "Vakes appelboom" },
+  { id: "garden", label: "De samentuin" },
+  { id: "barn", label: "De schuur" },
+  { id: "yurt", label: "De yurt" },
+  { id: "caption-windroos", label: "Ligging" },
+] satisfies readonly MapMobileStop[];
+
+type MobileFocus = { x: number; y: number; zoom: number };
+
+const mobileFocusBySentinelId: Readonly<Record<string, MobileFocus>> = {
+  horses: { x: 0.23, y: 0.62, zoom: 1.7 },
+  swallows: { x: 0.59, y: 0.36, zoom: 1.2 },
+  "vake-tree": { x: 0.47, y: 0.72, zoom: 1.85 },
+  garden: { x: 0.67, y: 0.59, zoom: 1.3 },
+  barn: { x: 0.6, y: 0.69, zoom: 1.5 },
+  yurt: { x: 0.71, y: 0.69, zoom: 1.55 },
+  "caption-windroos": { x: 0.48, y: 0.74, zoom: 1 },
+};
+const defaultMobileFocus: MobileFocus = { x: 0.5, y: 0.5, zoom: 1 };
 
 function clientPointToSvgPoint(svg: SVGSVGElement, point: { x: number; y: number }) {
   const svgPoint = svg.createSVGPoint();
@@ -455,8 +479,6 @@ function MapScene({
 
 export function InteractiveMap() {
   const navigate = useNavigate();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const ignoreNextScrollRef = useRef(false);
   const shouldPlayInitialSequenceRef = useRef(!hasPlayedInitialMapSequence);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [mobileHintDismissed, setMobileHintDismissed] = useState(false);
@@ -464,6 +486,7 @@ export function InteractiveMap() {
   const [hoveredSentinelId, setHoveredSentinelId] = useState<string | null>(null);
   const [introActiveSentinelId, setIntroActiveSentinelId] = useState<string | null>(null);
   const [selectedSentinelId, setSelectedSentinelId] = useState<string | null>(null);
+  const [showSelectedLink, setShowSelectedLink] = useState(false);
   const [introDismissed, setIntroDismissed] = useState(false);
   const [onboardingVisible, setOnboardingVisible] = useState(false);
 
@@ -478,7 +501,9 @@ export function InteractiveMap() {
       ? getSentinelLink(hoveredSentinelId) !== null
       : false;
   const selectedLink =
-    isMobileViewport && selectedSentinelId ? getSentinelLink(selectedSentinelId) : null;
+    isMobileViewport && showSelectedLink && selectedSentinelId
+      ? getSentinelLink(selectedSentinelId)
+      : null;
   const introStepMs = isMobileViewport ? MOBILE_INTRO_STEP_MS : DESKTOP_INTRO_STEP_MS;
   const introOverlayTransitionMs = isMobileViewport
     ? MOBILE_INTRO_OVERLAY_TRANSITION_MS
@@ -488,6 +513,16 @@ export function InteractiveMap() {
     introOverlayTransitionMs,
     onboardingVisible,
   });
+  const selectedSentinel = selectedSentinelId
+    ? mapSentinels.find((sentinel) => sentinel.id === selectedSentinelId)
+    : null;
+  const mobileFocus = selectedSentinel
+    ? (mobileFocusBySentinelId[selectedSentinel.id] ?? {
+        x: (selectedSentinel.x1 + selectedSentinel.x2) / 2 / MAP_WIDTH,
+        y: (selectedSentinel.y1 + selectedSentinel.y2) / 2 / MAP_HEIGHT,
+        zoom: 1.4,
+      })
+    : defaultMobileFocus;
 
   const dismissIntro = () => {
     setIntroDismissed(true);
@@ -503,6 +538,7 @@ export function InteractiveMap() {
 
     if (isMobileViewport) {
       setSelectedSentinelId(id);
+      setShowSelectedLink(Boolean(id));
       return;
     }
 
@@ -521,6 +557,25 @@ export function InteractiveMap() {
     void navigate({ to: link.to });
   };
 
+  const stepMobileStop = (direction: -1 | 1) => {
+    const currentIndex = mobileStops.findIndex((stop) => stop.id === selectedSentinelId);
+    const nextIndex =
+      currentIndex === -1
+        ? direction === 1
+          ? 0
+          : mobileStops.length - 1
+        : (currentIndex + direction + mobileStops.length) % mobileStops.length;
+
+    const nextStop = mobileStops[nextIndex];
+    setSelectedSentinelId(nextStop.id);
+    setShowSelectedLink(false);
+  };
+
+  const selectMobileStop = (stopId: string) => {
+    setSelectedSentinelId(stopId);
+    setShowSelectedLink(false);
+  };
+
   useEffect(() => {
     const mediaQuery = window.matchMedia(interactiveMapRegistry.mobileMediaQuery);
     const syncViewport = () => {
@@ -537,6 +592,7 @@ export function InteractiveMap() {
 
   useEffect(() => {
     if (!shouldPlayInitialSequenceRef.current) return;
+    if (window.matchMedia(interactiveMapRegistry.mobileMediaQuery).matches) return;
 
     hasPlayedInitialMapSequence = true;
 
@@ -580,38 +636,19 @@ export function InteractiveMap() {
     };
   }, [introDismissed, introOverlayTransitionMs, introStepMs, onboardingVisible]);
 
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    if (!isMobileViewport) {
-      el.scrollLeft = 0;
-      return;
-    }
-
-    ignoreNextScrollRef.current = true;
-    el.scrollLeft =
-      (el.scrollWidth - el.clientWidth) / interactiveMapRegistry.mobileInitialScrollDivisor;
-  }, [isMobileViewport]);
-
   return (
     <>
-      <div
-        ref={scrollRef}
-        className="relative h-dvh w-full overflow-x-auto overflow-y-hidden overscroll-x-none bg-black scrollbar-none lg:h-svh lg:overflow-hidden"
-        onScroll={() => {
-          if (ignoreNextScrollRef.current) {
-            ignoreNextScrollRef.current = false;
-            return;
-          }
-          if (!onboardingVisible) return;
-          setMobileHintDismissed(true);
-          dismissIntro();
-        }}
-      >
+      <div className="relative h-dvh w-full touch-none overflow-hidden overscroll-none bg-eggshell lg:h-svh">
         <div
-          className="relative h-full min-w-[100vw] w-[calc(100dvh*var(--map-aspect-ratio))] lg:absolute lg:inset-0 lg:min-w-0 lg:w-auto lg:origin-center lg:scale-[1.2]"
-          style={{ "--map-aspect-ratio": ASPECT_RATIO } as CSSProperties}
+          className="relative h-full min-w-[100vw] w-[calc(100dvh*var(--map-aspect-ratio))] origin-top-left translate-x-(--map-offset-x) translate-y-(--map-offset-y) scale-(--map-zoom) transition-transform duration-700 ease-out lg:absolute lg:inset-0 lg:min-w-0 lg:w-auto lg:translate-x-0 lg:translate-y-0 lg:scale-[1.2]"
+          style={
+            {
+              "--map-aspect-ratio": ASPECT_RATIO,
+              "--map-zoom": mobileFocus.zoom,
+              "--map-offset-x": `clamp(calc(100vw - ${ASPECT_RATIO * mobileFocus.zoom} * 100dvh), calc(50vw - ${mobileFocus.x * ASPECT_RATIO * mobileFocus.zoom} * 100dvh), 0px)`,
+              "--map-offset-y": `clamp(calc(100dvh - ${mobileFocus.zoom} * 100dvh), calc(44dvh - ${mobileFocus.y * mobileFocus.zoom} * 100dvh), 0px)`,
+            } as CSSProperties
+          }
         >
           <MapScene
             activeExplanation={activeExplanation}
@@ -633,16 +670,26 @@ export function InteractiveMap() {
             }}
           />
         </div>
+        <MapTapNavigator onPrevious={() => stepMobileStop(-1)} onNext={() => stepMobileStop(1)} />
         <MapInteractionHint
           mobileDismissed={!onboardingVisible || mobileHintDismissed}
           desktopDismissed={!onboardingVisible || desktopHintDismissed}
         />
       </div>
+      <MapMobileNavigator
+        activeStopId={selectedSentinelId}
+        stops={mobileStops}
+        onSelect={selectMobileStop}
+        onStep={stepMobileStop}
+      />
       {selectedLink && selectedSentinelId ? (
         <MapLinkSheet
           link={selectedLink}
           text={getSentinelExplanation(selectedSentinelId)?.text}
-          onClose={() => setSelectedSentinelId(null)}
+          onClose={() => {
+            setSelectedSentinelId(null);
+            setShowSelectedLink(false);
+          }}
         />
       ) : null}
       {/* De kaart-SVG is aria-hidden: dit is de toetsenbord- en screenreader-route. */}
