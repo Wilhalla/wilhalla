@@ -1,4 +1,4 @@
-import { buttonVariants } from "@wilhalla/ui/components/button";
+import { Button, buttonVariants } from "@wilhalla/ui/components/button";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { navigationRegistry, siteIdentity } from "@/config/registries";
 import type { NavigationIconName } from "@/types";
@@ -102,9 +102,10 @@ function MobileToggle({
   setMenuOpen: (updater: (value: boolean) => boolean) => void;
 }) {
   return (
-    <button
-      type="button"
-      className="md:hidden fixed top-[0.7rem] right-4 z-[70] flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-obsidian transition-colors hover:bg-obsidian/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
+    <Button
+      variant="ghost"
+      size="icon"
+      className="fixed top-[0.7rem] right-4 z-[70] md:hidden"
       onClick={() => setMenuOpen((v) => !v)}
       aria-label={menuOpen ? "Close menu" : "Open menu"}
     >
@@ -141,6 +142,6 @@ function MobileToggle({
           className="origin-center transition-all duration-300"
         />
       </svg>
-    </button>
+    </Button>
   );
 }

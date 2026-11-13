@@ -17,9 +17,7 @@ export function DistributionChart({ data }: { data: DistributionBucket[] }) {
         <CartesianGrid vertical={false} stroke="var(--color-chalk)" />
         <XAxis dataKey="label" tickLine={false} axisLine={false} />
         <YAxis hide />
-        <ChartTooltip
-          content={<ChartTooltipContent className="border-chalk bg-pure-surface shadow-none" />}
-        />
+        <ChartTooltip content={<ChartTooltipContent />} />
         <Bar dataKey="posts" fill="var(--color-posts)" radius={[2, 2, 0, 0]}>
           <LabelList
             dataKey="posts"
@@ -57,9 +55,7 @@ export function ValueBarChart({
           width={labelWidth}
           className="text-xs"
         />
-        <ChartTooltip
-          content={<ChartTooltipContent className="border-chalk bg-pure-surface shadow-none" />}
-        />
+        <ChartTooltip content={<ChartTooltipContent />} />
         <Bar dataKey="value" fill="var(--color-value)" radius={[0, 2, 2, 0]}>
           <LabelList
             dataKey="value"
@@ -82,13 +78,16 @@ export function WeekHeatmap({ data }: { data: ArchiveStatsData["weekdayHour"] })
       <div className="grid min-w-[760px] grid-cols-[2rem_repeat(24,minmax(1.4rem,1fr))] gap-px text-xs">
         <div />
         {Array.from({ length: 24 }, (_, hour) => (
-          <div className="pb-2 text-center font-mono text-caption text-slate" key={hour}>
+          <div
+            className="pb-2 text-center font-sans text-caption text-gravel tabular-nums"
+            key={hour}
+          >
             {hour % 3 === 0 ? hour : ""}
           </div>
         ))}
         {WEEKDAY_LABELS.map((dayLabel, day) => (
           <div className="contents" key={dayLabel}>
-            <div className="pr-2 pt-1.5 text-right font-mono text-caption uppercase text-gravel">
+            <div className="pr-2 pt-1.5 text-right font-sans text-caption text-gravel">
               {dayLabel}
             </div>
             {Array.from({ length: 24 }, (_, hour) => {

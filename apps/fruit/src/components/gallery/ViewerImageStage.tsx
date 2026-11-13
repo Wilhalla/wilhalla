@@ -1,28 +1,38 @@
+import { Slider } from "@wilhalla/ui/components/slider";
 import type { CSSProperties, MouseEvent, PointerEvent, RefObject, WheelEvent } from "react";
 import {
   ArrowLeft,
   ArrowRight,
-  ChevronDown,
   Download,
   ExternalLink,
   Maximize2,
   Minimize2,
-  RotateCcw,
-  Scaling,
+  MoreHorizontal,
+  Play,
+  Search,
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
+import type * as React from "react";
+import { Separator } from "@wilhalla/ui/components/separator";
+import { Toggle } from "@wilhalla/ui/components/toggle";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@wilhalla/ui/components/tooltip";
 import { Button } from "@wilhalla/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@wilhalla/ui/components/dropdown-menu";
-import { GallerySlideshowControls } from "./GallerySlideshow";
 import {
   IMAGE_ZOOM_MAX,
   IMAGE_ZOOM_MIN,
@@ -33,11 +43,7 @@ import {
   ZOOM_STEP,
   type ImageScaleMode,
 } from "./useImageZoomPan";
-import {
-  formatImagePostDateTime,
-  imageNumberLabel,
-  type GalleryImageRecord as ImageRecord,
-} from "../../lib/imageGallerySession";
+import { type GalleryImageRecord as ImageRecord } from "../../lib/imageGallerySession";
 import type { SlideshowMode } from "./useGallerySlideshow";
 
 export const IMAGE_SCALE_OPTIONS: Array<{
@@ -137,27 +143,18 @@ type Props = {
 };
 
 export default function ViewerImageStage({
-  filteredCount,
   imageScaleMode,
   imageStyle,
   imageZoom,
-  imageZoomChanged,
-  imageZoomLabel,
   nextImage,
   previousImage,
-  slideshowMode,
-  slideshowSeconds,
-  viewerFullscreen,
   viewerImage,
   viewerImageFullSrc,
   viewerImageRef,
   viewerImageStageRef,
   zoomEnabled,
   zoomLensRef,
-  zoomValue,
-  zoomValueLabel,
   onCaptureZoomRects,
-  onDownload,
   onFinishPan,
   onHideZoomLens,
   onImageDoubleClick,
@@ -166,19 +163,7 @@ export default function ViewerImageStage({
   onImagePointerMove,
   onImageWheel,
   onOpenImage,
-  onResetZoom,
-  onScaleModeChange,
-  onSetImageZoomAt,
-  onSetZoomEnabled,
-  onSetZoomValue,
-  onSlideshowModeChange,
-  onSlideshowSecondsChange,
-  onStartSlideshow,
-  onToggleFullscreen,
 }: Props) {
-  const currentScaleOption =
-    IMAGE_SCALE_OPTIONS.find((option) => option.value === imageScaleMode) ?? IMAGE_SCALE_OPTIONS[0];
-
   return (
     <div
       ref={viewerImageStageRef}
@@ -231,210 +216,190 @@ export default function ViewerImageStage({
           aria-hidden="true"
         />
       )}
-      {viewerFullscreen && (
-        <div className="pointer-events-none absolute bottom-4 left-4 z-20 max-w-[min(34rem,calc(100%-2rem))] rounded-2xl border border-eggshell/20 bg-obsidian/75 px-4 py-3 text-eggshell shadow-subtle-7 backdrop-blur">
-          <p className="m-0 line-clamp-2 text-sm font-medium leading-5">
-            {viewerImage.visualDescription || viewerImage.postTitle}
-          </p>
-          <p className="m-0 mt-1 text-xs text-eggshell/70">
-            {formatImagePostDateTime(viewerImage)}
-            {imageNumberLabel(viewerImage)}
-          </p>
-        </div>
-      )}
-      <div className="pointer-events-none absolute inset-x-3 top-3 z-30 flex min-w-0 justify-center lg:inset-x-4 lg:top-4">
-        <div
-          className="pointer-events-auto flex max-w-full flex-nowrap items-center justify-start gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap rounded-full border border-chalk bg-eggshell/95 px-3 py-2 text-sm text-obsidian shadow-subtle-7 [scrollbar-width:none] backdrop-blur [&::-webkit-scrollbar]:hidden lg:max-w-[min(calc(100vw-12rem),80rem)] [&_svg]:size-4"
-          role="toolbar"
-          aria-label="Beeldviewer acties"
-        >
-          <GallerySlideshowControls
-            mode={slideshowMode}
-            seconds={slideshowSeconds}
-            disabled={filteredCount === 0}
-            onModeChange={onSlideshowModeChange}
-            onSecondsChange={onSlideshowSecondsChange}
-            onStart={onStartSlideshow}
-          />
-          <Button
-            className="h-10 w-10 shrink-0 px-0"
-            variant="outline"
-            size="icon"
-            type="button"
-            onClick={onToggleFullscreen}
-            aria-label={viewerFullscreen ? "Verlaat volledig scherm" : "Volledig scherm"}
-            title={viewerFullscreen ? "Verlaat volledig scherm" : "Volledig scherm"}
-          >
-            {viewerFullscreen ? (
-              <Minimize2 className="size-4" aria-hidden="true" />
-            ) : (
-              <Maximize2 className="size-4" aria-hidden="true" />
-            )}
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                className="h-10 shrink-0 gap-2 px-4 max-sm:hidden"
-                variant="outline"
-                size="sm"
-                type="button"
-                title={`Schaal: ${currentScaleOption.label}`}
-              >
-                <Scaling className="size-4" aria-hidden="true" />{" "}
-                <span className="hidden sm:inline">{currentScaleOption.label}</span>
-                <ChevronDown className="size-3" aria-hidden="true" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="center"
-              className="w-72 border border-chalk bg-eggshell text-obsidian"
-            >
-              <DropdownMenuLabel>Afbeelding schalen</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup
-                value={imageScaleMode}
-                onValueChange={(value) => {
-                  if (isImageScaleMode(value)) onScaleModeChange(value);
-                }}
-              >
-                {IMAGE_SCALE_OPTIONS.map((option) => (
-                  <DropdownMenuRadioItem
-                    className="items-start gap-2 px-2 py-2 pr-8"
-                    key={option.value}
-                    value={option.value}
-                  >
-                    <span className="grid gap-0.5">
-                      <span className="text-sm font-medium leading-4">{option.label}</span>
-                      <span className="text-xs leading-4 text-gravel">{option.description}</span>
-                    </span>
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <div
-            className="flex h-10 shrink-0 items-center gap-2 rounded-full border border-chalk bg-pure-surface px-2"
-            role="group"
-            aria-label="Afbeelding in- en uitzoomen"
-          >
-            <Button
-              className="size-8 px-0"
-              variant="ghost"
-              size="icon"
-              type="button"
-              onClick={() => onSetImageZoomAt(imageZoom - IMAGE_ZOOM_STEP)}
-              disabled={imageZoom <= IMAGE_ZOOM_MIN}
-              aria-label="Zoom uit"
-              title="Zoom uit"
-            >
-              <ZoomOut className="size-4" aria-hidden="true" />
-            </Button>
-            <span className="min-w-12 text-center font-mono text-sm text-gravel" aria-live="polite">
-              {imageZoomLabel}
-            </span>
-            <Button
-              className="size-8 px-0"
-              variant="ghost"
-              size="icon"
-              type="button"
-              onClick={() => onSetImageZoomAt(imageZoom + IMAGE_ZOOM_STEP)}
-              disabled={imageZoom >= IMAGE_ZOOM_MAX}
-              aria-label="Zoom in"
-              title="Zoom in"
-            >
-              <ZoomIn className="size-4" aria-hidden="true" />
-            </Button>
-            {imageZoomChanged && (
-              <Button
-                className="size-8 px-0"
-                variant="ghost"
-                size="icon"
-                type="button"
-                onClick={onResetZoom}
-                aria-label="Reset zoom"
-                title="Reset zoom"
-              >
-                <RotateCcw className="size-4" aria-hidden="true" />
-              </Button>
-            )}
-          </div>
-          <Button
-            className="h-10 shrink-0 gap-2 px-4 max-sm:hidden"
-            variant={zoomEnabled ? "default" : "outline"}
-            size="sm"
-            type="button"
-            aria-pressed={zoomEnabled}
-            aria-label="Vergrootglas"
-            title="Vergrootglas"
-            onClick={() =>
-              onSetZoomEnabled((current) => {
-                if (!current) onResetZoom();
-                return !current;
-              })
-            }
-          >
-            <ZoomIn className="size-4" aria-hidden="true" />{" "}
-            <span className="hidden 2xl:inline">Vergrootglas</span>
-          </Button>
-          <Button
-            className="h-10 w-10 shrink-0 px-0"
-            variant="outline"
-            size="icon"
-            type="button"
-            onClick={onDownload}
-            aria-label="Download originele afbeelding"
-            title="Download originele afbeelding"
-          >
-            <Download className="size-4" aria-hidden="true" />
-          </Button>
-          <Button className="h-10 w-10 shrink-0 px-0" variant="outline" size="icon" asChild>
-            <a
-              href={viewerImageFullSrc}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Open afbeelding in nieuw tabblad"
-              title="Open afbeelding in nieuw tabblad"
-            >
-              <ExternalLink className="size-4" aria-hidden="true" />
-            </a>
-          </Button>
-          {zoomEnabled && (
-            <label className="flex shrink-0 items-center gap-2 pl-1">
-              <span className="sr-only">Zoomwaarde</span>
-              <input
-                className="h-1 w-32 accent-obsidian md:w-44"
-                type="range"
-                min={ZOOM_MIN}
-                max={ZOOM_MAX}
-                step={ZOOM_STEP}
-                value={zoomValue}
-                onChange={(event) => onSetZoomValue(Number(event.currentTarget.value))}
-              />
-              <span className="w-10 text-right font-mono text-xs">{zoomValueLabel}×</span>
-            </label>
-          )}
-        </div>
-      </div>
       <div className="pointer-events-none absolute inset-y-0 left-0 right-0 z-30 flex items-center justify-between px-3 lg:px-5">
-        <button
-          className="pointer-events-auto inline-grid size-11 place-items-center rounded-full border border-chalk bg-eggshell/90 text-obsidian shadow-subtle-7 backdrop-blur transition hover:border-slate hover:bg-eggshell disabled:opacity-30"
-          type="button"
+        <Button
+          variant="outline"
+          size="icon-lg"
+          className="pointer-events-auto"
           disabled={!previousImage}
           onClick={() => previousImage && onOpenImage(previousImage.id)}
           aria-label="Vorige afbeelding"
         >
-          <ArrowLeft className="size-5" aria-hidden="true" />
-        </button>
-        <button
-          className="pointer-events-auto inline-grid size-11 place-items-center rounded-full border border-chalk bg-eggshell/90 text-obsidian shadow-subtle-7 backdrop-blur transition hover:border-slate hover:bg-eggshell disabled:opacity-30"
-          type="button"
+          <ArrowLeft />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon-lg"
+          className="pointer-events-auto"
           disabled={!nextImage}
           onClick={() => nextImage && onOpenImage(nextImage.id)}
           aria-label="Volgende afbeelding"
         >
-          <ArrowRight className="size-5" aria-hidden="true" />
-        </button>
+          <ArrowRight />
+        </Button>
       </div>
     </div>
+  );
+}
+
+function ToolButton({
+  label,
+  children,
+  ...props
+}: React.ComponentProps<typeof Button> & { label: string }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="ghost" size="icon-sm" aria-label={label} {...props}>
+          {children}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom">{label}</TooltipContent>
+    </Tooltip>
+  );
+}
+
+/**
+ * The viewer's controls, in its header: zoom, magnifier, full screen and the slideshow up front;
+ * scaling, download and opening the original under "Meer".
+ */
+export function ViewerToolbar({
+  filteredCount,
+  imageScaleMode,
+  imageZoom,
+  imageZoomChanged,
+  imageZoomLabel,
+  viewerFullscreen,
+  viewerImageFullSrc,
+  zoomEnabled,
+  zoomValue,
+  zoomValueLabel,
+  onDownload,
+  onResetZoom,
+  onScaleModeChange,
+  onSetImageZoomAt,
+  onSetZoomEnabled,
+  onSetZoomValue,
+  onStartSlideshow,
+  onToggleFullscreen,
+}: Props) {
+  return (
+    <TooltipProvider delayDuration={400}>
+      <div role="toolbar" aria-label="Beeldviewer" className="flex items-center gap-1">
+        <div className="flex items-center gap-1 max-md:hidden">
+          <ToolButton
+            label="Uitzoomen"
+            onClick={() => onSetImageZoomAt(imageZoom - IMAGE_ZOOM_STEP)}
+            disabled={imageZoom <= IMAGE_ZOOM_MIN}
+          >
+            <ZoomOut />
+          </ToolButton>
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label="Zoom terugzetten"
+            disabled={!imageZoomChanged}
+            onClick={onResetZoom}
+          >
+            <span className="w-10 tabular-nums" aria-live="polite">
+              {imageZoomLabel}
+            </span>
+          </Button>
+          <ToolButton
+            label="Inzoomen"
+            onClick={() => onSetImageZoomAt(imageZoom + IMAGE_ZOOM_STEP)}
+            disabled={imageZoom >= IMAGE_ZOOM_MAX}
+          >
+            <ZoomIn />
+          </ToolButton>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Toggle
+                size="sm"
+                aria-label="Vergrootglas"
+                pressed={zoomEnabled}
+                onPressedChange={(pressed) =>
+                  onSetZoomEnabled(() => {
+                    if (pressed) onResetZoom();
+                    return pressed;
+                  })
+                }
+              >
+                <Search />
+              </Toggle>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Vergrootglas</TooltipContent>
+          </Tooltip>
+          {zoomEnabled && (
+            <div className="flex items-center gap-2 px-2">
+              <Slider
+                className="w-28"
+                aria-label="Sterkte van het vergrootglas"
+                min={ZOOM_MIN}
+                max={ZOOM_MAX}
+                step={ZOOM_STEP}
+                value={[zoomValue]}
+                onValueChange={([value]) => onSetZoomValue(value)}
+              />
+              <span className="w-9 font-sans text-body text-gravel tabular-nums">
+                {zoomValueLabel}×
+              </span>
+            </div>
+          )}
+          <Separator orientation="vertical" className="mx-1 data-[orientation=vertical]:h-5" />
+        </div>
+        <ToolButton
+          label={viewerFullscreen ? "Volledig scherm verlaten" : "Volledig scherm"}
+          onClick={onToggleFullscreen}
+        >
+          {viewerFullscreen ? <Minimize2 /> : <Maximize2 />}
+        </ToolButton>
+        <DropdownMenu>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon-sm" aria-label="Meer">
+                  <MoreHorizontal />
+                </Button>
+              </DropdownMenuTrigger>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Meer</TooltipContent>
+          </Tooltip>
+          <DropdownMenuContent align="end" className="w-64">
+            <DropdownMenuLabel>Schaal</DropdownMenuLabel>
+            <DropdownMenuRadioGroup
+              value={imageScaleMode}
+              onValueChange={(value) => {
+                if (isImageScaleMode(value)) onScaleModeChange(value);
+              }}
+            >
+              {IMAGE_SCALE_OPTIONS.map((option) => (
+                <DropdownMenuRadioItem key={option.value} value={option.value}>
+                  {option.label}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={onDownload}>
+              <Download /> Origineel downloaden
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <a href={viewerImageFullSrc} target="_blank" rel="noreferrer">
+                <ExternalLink /> Openen in nieuw tabblad
+              </a>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Button
+          variant="outline"
+          size="sm"
+          className="ml-1"
+          disabled={filteredCount === 0}
+          onClick={onStartSlideshow}
+        >
+          <Play /> Diashow
+        </Button>
+      </div>
+    </TooltipProvider>
   );
 }

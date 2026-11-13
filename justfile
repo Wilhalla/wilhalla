@@ -48,6 +48,8 @@ format:
 # Add shadcn/ui components to the shared @wilhalla/ui package, e.g. `just ui-add dialog`.
 ui-add +components:
     cd packages/ui && pnpm exec shadcn add -y {{components}} && ./normalize-imports.sh && cd ../.. && pnpm exec oxfmt packages/ui
+    @# shadcn resolves the package's own utils alias to the unrelated npm package "cn"; drop it again.
+    @if grep -q '"cn":' packages/ui/package.json; then pnpm --filter @wilhalla/ui remove cn; fi
 
 # Create a linked worktree under .worktrees/<name> (env, state and caches set up by `jp`).
 worktree-add name *args:

@@ -1,6 +1,5 @@
 import { Calendar, Play, Shuffle, Timer } from "lucide-react";
 import { Button } from "@wilhalla/ui/components/button";
-import { Input } from "@wilhalla/ui/components/input";
 import {
   Select,
   SelectContent,
@@ -23,6 +22,36 @@ type ControlsProps = {
   onStart: () => void;
 };
 
+/** Preset durations instead of a number field; the current value is kept if it is not a preset. */
+export function SlideshowSecondsSelect({
+  seconds,
+  variant,
+  onSecondsChange,
+}: {
+  seconds: number;
+  variant?: "outline" | "inverse";
+  onSecondsChange: (seconds: number) => void;
+}) {
+  const options = [...new Set([3, 5, 8, 12, 20, 30, seconds])]
+    .filter((value) => value >= SLIDESHOW_SECONDS_MIN && value <= SLIDESHOW_SECONDS_MAX)
+    .sort((a, b) => a - b);
+  return (
+    <Select value={String(seconds)} onValueChange={(value) => onSecondsChange(Number(value))}>
+      <SelectTrigger size="sm" variant={variant} className="w-36" aria-label="Seconden per beeld">
+        <Timer />
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent className="z-[250]">
+        {options.map((value) => (
+          <SelectItem key={value} value={String(value)}>
+            {value} sec per beeld
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
 export function GallerySlideshowControls({
   mode,
   seconds,
@@ -36,9 +65,10 @@ export function GallerySlideshowControls({
       <Select value={mode} onValueChange={(value) => onModeChange(value as SlideshowMode)}>
         <SelectTrigger
           size="sm"
-          className="hidden h-10 w-44 shrink-0 border border-chalk px-3 text-sm text-obsidian sm:inline-flex [&_svg]:size-4"
+          variant="outline"
+          className="hidden w-44 shrink-0 sm:flex"
+          aria-label="Diashow volgorde"
         >
-          <span className="sr-only">Diashow volgorde</span>
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="z-[250]">
@@ -50,28 +80,15 @@ export function GallerySlideshowControls({
           </SelectItem>
         </SelectContent>
       </Select>
-      <label className="hidden h-10 shrink-0 items-center gap-2 rounded-full border border-chalk px-3 text-sm text-obsidian sm:inline-flex">
-        <Timer className="size-4" aria-hidden="true" />
-        <span className="sr-only">Seconden per beeld</span>
-        <Input
-          className="h-9 w-9 border-0 bg-transparent p-0 text-right font-mono text-sm"
-          type="number"
-          min={SLIDESHOW_SECONDS_MIN}
-          max={SLIDESHOW_SECONDS_MAX}
-          step="1"
-          value={seconds}
-          onChange={(event) => onSecondsChange(Number(event.currentTarget.value))}
+      <div className="hidden shrink-0 sm:block">
+        <SlideshowSecondsSelect
+          seconds={seconds}
+          variant="outline"
+          onSecondsChange={onSecondsChange}
         />
-        sec
-      </label>
-      <Button
-        className="h-10 shrink-0 gap-2 px-4"
-        size="sm"
-        type="button"
-        disabled={disabled}
-        onClick={onStart}
-      >
-        <Play className="size-4" aria-hidden="true" /> Diashow
+      </div>
+      <Button className="shrink-0" disabled={disabled} onClick={onStart}>
+        <Play /> Diashow
       </Button>
     </>
   );

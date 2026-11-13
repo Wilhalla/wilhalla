@@ -1,3 +1,4 @@
+import { paragraphizeLegacyHtml } from "./legacyParagraphs";
 import postsData from "../data/posts.json";
 import postIndexData from "../data/post-index.json";
 import postSeriesData from "../data/post-series.json";
@@ -95,7 +96,7 @@ export function archivePostPartLabel(index: number, total: number) {
 }
 
 export function archivePostPartHtml(part: Pick<Post, "html" | "title">) {
-  return stripDuplicateTitleFromArchiveHtml(part.html, part.title);
+  return stripDuplicateTitleFromArchiveHtml(paragraphizeLegacyHtml(part.html), part.title).trim();
 }
 
 export type ArchivePostReading = {

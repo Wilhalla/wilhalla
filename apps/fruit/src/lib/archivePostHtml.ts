@@ -130,6 +130,13 @@ export function stripDuplicateTitleFromArchiveHtml(html: string, title: string) 
       continue;
     }
 
+    // A short first line that is a piece of the title ("Afrikaans Tuinfeest" under "Zevende
+    // Afrikaans Tuinfeest", "Keda" under "Keda vervolg 1") is a leftover heading too.
+    if (!consumedTitlePrefix && ` ${titleNorm} `.includes(` ${blockNorm} `)) {
+      first.remove();
+      break;
+    }
+
     if (titleLike && isSameOrTokenPrefix(titleNorm, candidatePrefix)) {
       const consumedTokenCount = consumedTitlePrefix ? consumedTitlePrefix.split(" ").length : 0;
       const remainder = textWithoutTokenPrefix(text, titleTokens.slice(consumedTokenCount));

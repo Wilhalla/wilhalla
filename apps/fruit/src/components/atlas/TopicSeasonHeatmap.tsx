@@ -148,14 +148,14 @@ export default function TopicSeasonHeatmap({ initialData }: Props) {
                 </span>
                 {row.monthsAllYears.map((value, index) => (
                   <span
-                    className={`grid size-7 place-items-center rounded-md font-mono text-xs transition-transform hover:scale-110 ${cellClass(value, max)}`}
+                    className={`grid size-7 place-items-center rounded-md font-sans text-xs tabular-nums transition-transform hover:scale-110 ${cellClass(value, max)}`}
                     key={`${row.topicId}-${index}`}
                     title={`${row.displayLabel} · ${monthLabels[index]} · ${value} berichten`}
                   >
                     {value || ""}
                   </span>
                 ))}
-                <strong className="justify-self-end font-mono text-xs text-obsidian">
+                <strong className="justify-self-end font-sans text-xs text-obsidian tabular-nums">
                   {row.totalInView}
                 </strong>
               </div>
@@ -166,7 +166,9 @@ export default function TopicSeasonHeatmap({ initialData }: Props) {
                 {monthLabels.map((month) => (
                   <span className="size-7 rounded-md bg-powder" key={month} />
                 ))}
-                <strong className="justify-self-end font-mono text-xs text-obsidian">—</strong>
+                <strong className="justify-self-end font-sans text-xs text-obsidian tabular-nums">
+                  —
+                </strong>
               </div>
             ))}
       </div>

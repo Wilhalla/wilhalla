@@ -2,7 +2,6 @@ import { layout } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { useMemo, useRef } from "react";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { AlertTriangle } from "lucide-react";
 import YearSelector from "../YearSelector";
 import { GalleryFilterControls, GalleryHeader } from "./GalleryControls";
 import GalleryVirtualFeed from "./GalleryVirtualFeed";
@@ -132,23 +131,18 @@ export default function GalleryApp({ initialImages, initialGroups }: Props) {
         </div>
       )}
 
-      <div className={cn(layout.container, "flex justify-center pt-4")}>
-        <p
-          className="inline-flex max-w-full items-center gap-2 rounded-full border border-chalk bg-pure-surface/70 px-3 py-1.5 text-xs text-gravel shadow-[0_8px_24px_rgba(31,29,27,0.05)] backdrop-blur"
-          role="note"
-        >
-          <AlertTriangle className="size-3.5 shrink-0 text-ember" aria-hidden="true" />
-          <span>
-            Beeldbeschrijvingen en filters zijn automatisch gemaakt; het bronbericht geeft meer
-            context.
-          </span>
-        </p>
-      </div>
+      <GalleryHeader
+        filteredCount={filtered.length}
+        peopleCount={peopleCount}
+        plantCount={plantCount}
+        sortNewest={sortNewest}
+        onSortNewestChange={(nextSortNewest) => setFilter("sortNewest", nextSortNewest)}
+      />
 
       <div
         className={cn(
           layout.container,
-          "grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 pt-6 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8",
+          "grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 pt-8 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8",
         )}
       >
         <YearSelector
@@ -167,14 +161,6 @@ export default function GalleryApp({ initialImages, initialGroups }: Props) {
         />
 
         <main className="min-w-0 overflow-visible">
-          <GalleryHeader
-            filteredCount={filtered.length}
-            peopleCount={peopleCount}
-            plantCount={plantCount}
-            sortNewest={sortNewest}
-            onSortNewestChange={(nextSortNewest) => setFilter("sortNewest", nextSortNewest)}
-          />
-
           <GalleryFilterControls
             groups={groups}
             hasActiveFilters={hasActiveFilters}

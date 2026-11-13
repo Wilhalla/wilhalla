@@ -1,4 +1,5 @@
-import { layout } from "@wilhalla/ui/lib/typography";
+import { Section, SectionHeader } from "@wilhalla/ui/components/section";
+import { typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -10,7 +11,12 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 
-import { Download } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronRight, Download } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@wilhalla/ui/components/collapsible";
 
 import { Button } from "@wilhalla/ui/components/button";
 import {
@@ -124,7 +130,7 @@ const datasetDefinitions: DatasetDefinition[] = [
   },
   {
     id: "topics",
-    title: "Atlas categorieën",
+    title: "Onderwerpen",
     file: "topics.json",
     url: generated("topics.json"),
     preferredColumns: [
@@ -251,14 +257,19 @@ function RawCell({ value }: { value: unknown }) {
 
   if (isLong) {
     return (
-      <details className="w-[32rem] max-w-[72vw]">
-        <summary className="cursor-pointer whitespace-normal break-words font-mono text-xs leading-relaxed text-obsidian marker:text-slate">
-          {summarizeCell(text)}
-        </summary>
-        <pre className="mt-3 max-h-80 max-w-full overflow-auto border-l border-chalk bg-transparent pl-3 font-mono text-xs leading-relaxed text-obsidian whitespace-pre-wrap">
-          {text}
-        </pre>
-      </details>
+      <Collapsible className="w-[32rem] max-w-[72vw]">
+        <CollapsibleTrigger className="group w-full text-left">
+          <span className="flex items-start gap-1.5 font-mono text-xs leading-relaxed break-words whitespace-normal text-obsidian">
+            <ChevronRight className="mt-0.5 size-3.5 shrink-0 text-gravel transition-transform duration-150 group-data-[state=open]:rotate-90" />
+            {summarizeCell(text)}
+          </span>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <pre className="mt-3 max-h-80 max-w-full overflow-auto border-l border-chalk bg-transparent pl-3 font-mono text-xs leading-relaxed text-obsidian whitespace-pre-wrap">
+            {text}
+          </pre>
+        </CollapsibleContent>
+      </Collapsible>
     );
   }
 
@@ -385,73 +396,62 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
     <section
       ref={sectionRef}
       id={definition.id}
-      className="min-w-0 border-t border-chalk py-8"
+      className="min-w-0 border-b border-chalk py-5"
       aria-labelledby={`${definition.id}-title`}
     >
-      <div className="grid min-w-0 gap-4 pb-5 md:grid-cols-[minmax(12rem,1fr)_auto] md:items-end">
-        <div className="min-w-0">
-          <p className="mb-1 font-mono text-xs text-slate">{definition.file}</p>
-          <h2
+      <div className="flex min-w-0 flex-wrap items-center justify-between gap-x-6 gap-y-2">
+        <div className="grid min-w-0 gap-0.5">
+          <h3
             id={`${definition.id}-title`}
-            className="m-0 font-heading text-[clamp(1.7rem,3vw,2.45rem)] font-light leading-none tracking-[-0.04em] text-obsidian"
+            className="m-0 font-sans text-body-lg leading-body-lg font-medium text-obsidian"
           >
             {definition.title}
-          </h2>
-          {!rows && !error && (
-            <p className="mt-2 text-sm text-gravel">
-              Deze dataset wordt pas geladen wanneer je dit blok opent.
-            </p>
+          </h3>
+          <p className={cn(typography.small, "m-0 text-gravel")}>
+            <code className="font-mono text-mono">{definition.file}</code>
+            {rows && ` · ${rows.length.toLocaleString("nl-BE")} rijen`}
+          </p>
+          {error && (
+            <p className={cn(typography.small, "m-0 text-destructive")}>Kon niet laden: {error}</p>
           )}
-          {error && <p className="mt-2 text-sm text-destructive">Kon niet laden: {error}</p>}
         </div>
-        <div className="flex flex-wrap gap-3 md:justify-end">
+        <div className="flex items-center gap-2">
           {!rows && (
-            <Button
-              className="h-auto justify-self-start rounded-none px-0 py-0 text-sm font-medium text-obsidian hover:bg-transparent hover:text-gravel md:justify-self-end"
-              type="button"
-              variant="ghost"
-              onClick={loadDataset}
-              disabled={loading}
-            >
-              {loading ? "laden…" : "laad tabel"}
+            <Button variant="outline" size="sm" onClick={loadDataset} disabled={loading}>
+              {loading ? "Laden…" : "Toon tabel"}
             </Button>
           )}
           {rows && (
             <Button
-              className="h-auto justify-self-start rounded-none px-0 py-0 text-sm font-medium text-obsidian hover:bg-transparent hover:text-gravel md:justify-self-end"
-              type="button"
               variant="ghost"
+              size="sm"
               onClick={() => downloadDataset(dataset)}
               aria-label={`Download ${definition.title} als JSON`}
             >
-              <Download className="size-4" aria-hidden="true" />
-              <span>download</span>
+              <Download /> JSON
             </Button>
           )}
         </div>
       </div>
 
       {loading && !rows ? (
-        <div className="grid gap-2 py-5" aria-live="polite">
+        <div className="mt-4 grid gap-2" aria-live="polite">
           {Array.from({ length: 4 }).map((_, index) => (
             <div className="h-9 animate-pulse rounded bg-powder/60" key={index} />
           ))}
         </div>
       ) : rows && rows.length === 0 ? (
-        <p className="py-5 text-gravel">Geen rijen in deze dataset.</p>
+        <p className={cn(typography.small, "m-0 mt-4 text-gravel")}>Geen rijen in deze dataset.</p>
       ) : rows ? (
-        <div className="min-w-0 max-w-full overflow-hidden">
+        <div className="mt-4 min-w-0 max-w-full overflow-hidden rounded-xl bg-pure-surface shadow-subtle-2">
           <Table
             containerClassName="max-h-[78vh] min-w-0 max-w-full overflow-auto"
-            className="w-max min-w-full border-separate border-spacing-0"
+            className="w-max min-w-full"
             aria-label={`${definition.title} tabel`}
           >
-            <TableHeader className="sticky top-0 z-20 bg-eggshell/95 backdrop-blur [&_tr]:border-b-0">
+            <TableHeader data-sticky="true">
               {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow
-                  key={headerGroup.id}
-                  className="border-b border-chalk hover:bg-transparent"
-                >
+                <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
@@ -459,19 +459,19 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
                         columnWidth(header.column.id) === "compact" && "w-20 min-w-20 max-w-28",
                         columnWidth(header.column.id) === "medium" && "w-40 min-w-32 max-w-52",
                         columnWidth(header.column.id) === "wide" && "min-w-44 max-w-[32rem]",
-                        "border-b border-chalk bg-eggshell/95 px-3 text-xs font-medium uppercase tracking-[0.08em] text-slate",
                       )}
                     >
                       {header.isPlaceholder ? null : (
-                        <button
-                          className="inline-flex items-center gap-1 text-left disabled:cursor-default"
-                          type="button"
+                        <Button
+                          variant="ghost"
+                          size="xs"
                           disabled={!header.column.getCanSort()}
                           onClick={header.column.getToggleSortingHandler()}
                         >
                           {flexRender(header.column.columnDef.header, header.getContext())}
-                          {{ asc: "↑", desc: "↓" }[header.column.getIsSorted() as string] ?? null}
-                        </button>
+                          {header.column.getIsSorted() === "asc" && <ArrowUp />}
+                          {header.column.getIsSorted() === "desc" && <ArrowDown />}
+                        </Button>
                       )}
                     </TableHead>
                   ))}
@@ -480,7 +480,7 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="border-b border-chalk/80 hover:bg-powder/20">
+                <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell, cellIndex) => (
                     <TableCell
                       key={cell.id}
@@ -488,10 +488,9 @@ function RawDataTable({ definition }: { definition: DatasetDefinition }) {
                         columnWidth(cell.column.id) === "compact" && "w-20 min-w-20 max-w-28",
                         columnWidth(cell.column.id) === "medium" && "w-40 min-w-32 max-w-52",
                         columnWidth(cell.column.id) === "wide" && "min-w-44 max-w-[32rem]",
-                        "px-3 py-2 align-top whitespace-normal",
-                        cellIndex === 0 &&
-                          "sticky left-0 z-10 bg-eggshell font-mono text-xs text-slate",
+                        "align-top whitespace-normal",
                       )}
+                      data-sticky={cellIndex === 0 ? "true" : undefined}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
@@ -513,13 +512,17 @@ export default function SemanticDataTables() {
   }, []);
 
   return (
-    <section
-      className={cn(layout.container, "grid min-w-0 gap-0 pb-20")}
-      aria-label="Ruwe semantische preprocessing data"
-    >
-      {datasetDefinitions.map((definition) => (
-        <RawDataTable key={definition.id} definition={definition} />
-      ))}
-    </section>
+    <Section aria-labelledby="datasets-title">
+      <SectionHeader
+        id="datasets-title"
+        title="Datasets"
+        description="De bestanden achter de onderwerpen, het beeldarchief en het zoeken."
+      />
+      <div className="min-w-0 border-t border-chalk">
+        {datasetDefinitions.map((definition) => (
+          <RawDataTable key={definition.id} definition={definition} />
+        ))}
+      </div>
+    </Section>
   );
 }

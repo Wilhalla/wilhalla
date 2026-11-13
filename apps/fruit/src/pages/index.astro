@@ -1,10 +1,9 @@
 ---
-import { typography } from "@wilhalla/ui/lib/typography";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { buttonVariants } from "@wilhalla/ui/components/button";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { Image } from 'astro:assets'
 import BaseLayout from '../layouts/BaseLayout.astro'
-import SiteLoader from '../components/SiteLoader.astro'
 import ChronologicalFeed from '../components/ChronologicalFeed'
 import portraitDaniel from '../assets/portrait_daniel_willaeys.jpg'
 import { aggregatedPostIndex } from '../lib/postIndex'
@@ -13,35 +12,23 @@ import { aggregatedPostIndex } from '../lib/postIndex'
   title="Chronologische tijdlijn · Blogarchief Daniël Willaeys"
   description="Alle berichten uit het blogarchief van Daniël Willaeys."
 >
-  <SiteLoader id="home-page-loader" label="Tijdlijn laden" message="tijdlijn laden" />
-  <div class="relative w-full overflow-hidden border-b border-chalk bg-eggshell px-8 py-14 max-md:px-4 md:py-18 lg:py-22">
-    <img
-      class="apple-image absolute right-[6vw] top-10 hidden w-24 rotate-6 opacity-80 lg:block"
-      src="/apple-assets/apple-1-160.webp"
-      alt=""
-      aria-hidden="true"
-      loading="eager"
-      decoding="async"
-    />
-    <div class="mx-auto grid max-w-page items-center gap-x-12 gap-y-8 md:grid-cols-[minmax(14rem,0.4fr)_minmax(0,0.6fr)] lg:gap-x-16">
+  <div class="relative w-full overflow-hidden border-b border-chalk bg-eggshell py-14 md:py-18 lg:py-22">
+    <div class={cn(layout.container, "grid items-center gap-x-12 gap-y-8 md:grid-cols-[minmax(14rem,0.4fr)_minmax(0,0.6fr)] lg:gap-x-16")}>
       <figure class="order-2 relative mb-0 grid justify-items-center md:order-1 md:row-span-2 md:justify-self-end">
-        <div class="relative isolate">
-          <div class="absolute -inset-3 -z-10 rounded-[1.5rem] border border-chalk bg-pure-surface shadow-subtle-2 md:-inset-4" aria-hidden="true"></div>
-          <Image
-            src={portraitDaniel}
-            alt="Portret van Daniël Willaeys"
-            width={360}
-            height={540}
-            widths={[180, 240, 320, 360, 480, 640]}
-            sizes="(max-width: 767px) 12rem, (max-width: 1023px) 17rem, 20rem"
-            layout="constrained"
-            format="webp"
-            quality="high"
-            loading="eager"
-            decoding="async"
-            class="relative z-10 h-auto w-48 rounded-[1rem] border border-obsidian/10 bg-powder object-cover shadow-[0_28px_70px_rgba(22,28,45,0.18)] md:w-68 lg:w-80"
-          />
-        </div>
+        <Image
+          src={portraitDaniel}
+          alt="Portret van Daniël Willaeys"
+          width={360}
+          height={540}
+          widths={[180, 240, 320, 360, 480, 640]}
+          sizes="(max-width: 767px) 12rem, (max-width: 1023px) 17rem, 20rem"
+          layout="constrained"
+          format="webp"
+          quality="high"
+          loading="eager"
+          decoding="async"
+          class="h-auto w-48 rounded-image bg-powder object-cover md:w-68 lg:w-80"
+        />
       </figure>
 
       <div class="order-1 grid justify-items-center text-center md:order-2 md:self-end md:justify-items-start md:text-left">
@@ -55,7 +42,7 @@ import { aggregatedPostIndex } from '../lib/postIndex'
 
       <div class="order-3 max-w-2xl justify-self-center text-center md:col-start-2 md:justify-self-start md:self-start md:text-left">
         <p class="m-0 text-body-lg leading-body-lg text-gravel">
-          Bewaarde berichten, foto’s en reacties uit het fruitblogarchief van Daniël Willaeys — nu chronologisch doorzoekbaar en als beeldarchief te verkennen.
+          De berichten, foto’s en reacties uit het fruitblog van Daniël Willaeys, van 2005 tot 2020.
         </p>
         <div class="mt-6 flex flex-wrap justify-center gap-2 md:justify-start">
           <a
@@ -84,22 +71,4 @@ import { aggregatedPostIndex } from '../lib/postIndex'
     </div>
   </div>
   <ChronologicalFeed posts={aggregatedPostIndex} />
-  <script is:inline>
-    (() => {
-      const loader = document.getElementById('home-page-loader')
-      if (!loader) return
-      const showDelayMs = 180
-      const minVisibleMs = 80
-      const fadeMs = 140
-      const now = performance.now()
-      if (now < showDelayMs) {
-        loader.remove()
-        return
-      }
-      window.setTimeout(() => {
-        loader.classList.add('site-loader--dismissed')
-        window.setTimeout(() => loader.remove(), fadeMs)
-      }, Math.max(0, showDelayMs + minVisibleMs - now))
-    })()
-  </script>
 </BaseLayout>

@@ -1,7 +1,7 @@
-import { typography } from "@wilhalla/ui/lib/typography";
-import { cn } from "@wilhalla/ui/lib/utils";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@wilhalla/ui/components/input-group";
+import { Button } from "@wilhalla/ui/components/button";
+import { PageHeader } from "@wilhalla/ui/components/page-header";
 import { RotateCcw, Search } from "lucide-react";
-import { Input } from "@wilhalla/ui/components/input";
 import {
   Select,
   SelectContent,
@@ -39,26 +39,26 @@ export function GalleryHeader({
   onSortNewestChange,
 }: GalleryHeaderProps) {
   return (
-    <header className="grid gap-6 border-b border-chalk pb-7 lg:grid-cols-[minmax(0,1fr)_auto]">
-      <div className="min-w-0">
-        <h1 className={cn(typography.display, "max-w-3xl break-words")}>Beeldarchief</h1>
-        <p className="m-0 mt-3 max-w-2xl text-sm leading-6 text-gravel">
-          {filteredCount.toLocaleString("nl-BE")} foto’s · {peopleCount} met personen ·{" "}
-          {plantCount.toLocaleString("nl-BE")} met planten
-        </p>
-      </div>
-      <label className="flex items-center gap-2 self-end text-sm text-gravel">
-        Sorteer
-        <select
-          className="min-h-9 rounded-full border border-chalk bg-transparent px-3 text-sm text-obsidian outline-none"
+    <PageHeader
+      size="page"
+      title="Beeldarchief"
+      intro="Alle foto's uit het blog, elk met een link naar het bericht waar ze bij horen. Beschrijvingen en filters zijn automatisch gemaakt."
+      meta={`${filteredCount.toLocaleString("nl-BE")} foto's · ${peopleCount} met personen · ${plantCount.toLocaleString("nl-BE")} met planten`}
+      actions={
+        <Select
           value={sortNewest ? "new" : "old"}
-          onChange={(event) => onSortNewestChange(event.target.value === "new")}
+          onValueChange={(value) => onSortNewestChange(value === "new")}
         >
-          <option value="new">Nieuw → Oud</option>
-          <option value="old">Oud → Nieuw</option>
-        </select>
-      </label>
-    </header>
+          <SelectTrigger className="w-44" aria-label="Sorteer">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent align="end">
+            <SelectItem value="new">Nieuwste eerst</SelectItem>
+            <SelectItem value="old">Oudste eerst</SelectItem>
+          </SelectContent>
+        </Select>
+      }
+    />
   );
 }
 
@@ -75,18 +75,20 @@ export function GalleryFilterControls({
 }: GalleryFilterControlsProps) {
   return (
     <section className="border-b border-chalk py-5" aria-label="Beeldarchief filters">
-      <div className="grid gap-3 lg:grid-cols-[minmax(18rem,1.5fr)_repeat(2,minmax(10rem,1fr))_2.5rem]">
-        <label className="flex min-h-10 min-w-0 items-center gap-2 border-b border-chalk px-0 lg:border-b-0 lg:border-r lg:pr-4">
-          <Search className="size-4 shrink-0 text-gravel" aria-hidden="true" />
-          <Input
-            className="h-10 border-0 bg-transparent px-0 text-sm shadow-none outline-none placeholder:text-gravel/70 focus-visible:ring-0"
+      <div className="flex flex-wrap items-center gap-3">
+        <InputGroup className="w-full sm:w-72">
+          <InputGroupAddon>
+            <Search />
+          </InputGroupAddon>
+          <InputGroupInput
+            aria-label="Zoek in het beeldarchief"
             value={query}
             onChange={(event) => onQueryChange(event.target.value)}
-            placeholder="Zoek plaats, persoon, onderwerp…"
+            placeholder="Zoek plaats, persoon, onderwerp"
           />
-        </label>
+        </InputGroup>
         <Select value={theme} onValueChange={onThemeChange}>
-          <SelectTrigger className="h-10 rounded-none border-b border-chalk px-0 lg:border-b-0 lg:border-r lg:px-3">
+          <SelectTrigger className="w-48" aria-label="Beeldinhoud">
             <SelectValue placeholder="Beeldinhoud" />
           </SelectTrigger>
           <SelectContent>
@@ -99,7 +101,7 @@ export function GalleryFilterControls({
           </SelectContent>
         </Select>
         <Select value={season} onValueChange={onSeasonChange}>
-          <SelectTrigger className="h-10 rounded-none border-b border-chalk px-0 lg:border-b-0 lg:px-3">
+          <SelectTrigger className="w-40" aria-label="Seizoen">
             <SelectValue placeholder="Seizoen" />
           </SelectTrigger>
           <SelectContent>
@@ -111,15 +113,9 @@ export function GalleryFilterControls({
           </SelectContent>
         </Select>
         {hasActiveFilters && (
-          <button
-            className="inline-grid size-10 place-items-center rounded-full text-gravel hover:bg-powder hover:text-obsidian"
-            type="button"
-            onClick={onReset}
-            aria-label="Filters resetten"
-            title="Filters resetten"
-          >
-            <RotateCcw className="size-4" aria-hidden="true" />
-          </button>
+          <Button variant="ghost" size="sm" onClick={onReset}>
+            <RotateCcw /> Wis filters
+          </Button>
         )}
       </div>
     </section>

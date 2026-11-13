@@ -1,8 +1,8 @@
+import { Button } from "@wilhalla/ui/components/button";
 import { layout } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { ImageIcon, Layers2, MessageCircle } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -11,12 +11,7 @@ import {
   SelectValue,
 } from "@wilhalla/ui/components/select";
 import { ACTIVE_YEAR_VIEWPORT_OFFSET, activeYearFromVirtualItems } from "../lib/activeVirtualYear";
-import {
-  archiveYear,
-  buildArchiveChronology,
-  displayArchiveYear,
-  formatArchiveDate,
-} from "../lib/archiveDateTime";
+import { archiveYear, buildArchiveChronology, displayArchiveYear } from "../lib/archiveDateTime";
 import {
   activeArchiveTopicFromSearch,
   archiveTopicFilterLabel,
@@ -24,6 +19,7 @@ import {
 } from "../lib/archiveTopicFilter";
 import { fetchJson, isAbortError } from "../lib/clientFetch";
 import { useDismissHydrationLoader } from "./gallery/useGracefulLoader";
+import ArchiveRow from "./ArchiveRow";
 import ArchiveViewToggle, { type ArchiveViewMode } from "./ArchiveViewToggle";
 import { yearPickerCountClass, yearPickerItemClass } from "./yearPickerStyles";
 
@@ -54,12 +50,6 @@ type ArchivePayload = {
 };
 
 const emptyPayload: ArchivePayload = { aggregated: [], all: [] };
-const archiveRow =
-  "group relative grid min-h-[4.75rem] grid-cols-[6ch_12rem_minmax(0,1fr)_13rem] items-center gap-4 rounded-xl border border-transparent px-4 py-3 text-inherit no-underline outline-none transition-[background-color,border-color,box-shadow] duration-150 ease-out before:absolute before:inset-y-3 before:left-0 before:w-px before:rounded-full before:bg-transparent before:transition-colors hover:border-chalk/80 hover:bg-pure-surface/75 hover:shadow-subtle hover:before:bg-obsidian/25 focus-visible:border-obsidian/30 focus-visible:shadow-subtle-2 focus-visible:before:bg-obsidian max-md:min-h-[10rem] max-md:grid-cols-1 max-md:items-start max-md:gap-2 max-md:px-0 max-md:py-4";
-const metaText = "font-mono text-xs text-gravel transition-colors group-hover:text-cinder";
-const countPill =
-  "inline-flex min-h-6 items-center gap-1.5 rounded-md border border-chalk/70 bg-powder/50 px-2 font-mono text-label leading-none text-gravel transition-colors group-hover:border-chalk group-hover:bg-pure-surface group-hover:text-obsidian";
-const countIcon = "size-3.5 text-fog transition-colors group-hover:text-gravel";
 
 function fetchArchive(signal?: AbortSignal): Promise<ArchivePayload> {
   return fetchJson<ArchivePayload>("/generated/archive-posts.client.json", { signal });
@@ -131,7 +121,7 @@ export default function ArchiveVirtualList() {
 
   const virtualizer = useWindowVirtualizer({
     count: posts.length,
-    estimateSize: () => (typeof window !== "undefined" && window.innerWidth < 768 ? 176 : 82),
+    estimateSize: () => (typeof window !== "undefined" && window.innerWidth < 768 ? 120 : 64),
     overscan: 14,
     scrollMargin: listRef.current?.offsetTop ?? 0,
     getItemKey: (index) => posts[index]?.id ?? index,
@@ -179,10 +169,7 @@ export default function ArchiveVirtualList() {
             Categorie
           </label>
           <Select value={topicFilter || "all"} onValueChange={changeCategory}>
-            <SelectTrigger
-              id="archive-category"
-              className="min-w-48 rounded-none border-0 border-b border-chalk bg-transparent px-0 shadow-none"
-            >
+            <SelectTrigger id="archive-category" className="min-w-48">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -255,13 +242,9 @@ export default function ArchiveVirtualList() {
             <div className="rounded-2xl border border-dashed border-chalk bg-powder/40 p-8 text-gravel">
               Geen berichten gevonden in categorie{" "}
               <strong className="text-obsidian">{activeTopicLabel}</strong>.{" "}
-              <button
-                className="font-bold text-obsidian underline decoration-chalk underline-offset-4 hover:decoration-obsidian"
-                type="button"
-                onClick={() => changeCategory("all")}
-              >
+              <Button variant="link" size="inline" onClick={() => changeCategory("all")}>
                 Toon alle berichten
-              </button>
+              </Button>
               .
             </div>
           )}
@@ -286,46 +269,7 @@ export default function ArchiveVirtualList() {
                       transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
                     }}
                   >
-                    <a className={archiveRow} href={`/posts/${post.slug}/`}>
-                      <span className={`${metaText} max-md:hidden`}>
-                        {String(virtualItem.index + 1).padStart(4, "0")}
-                      </span>
-                      <span className={metaText}>{formatArchiveDate(post)}</span>
-                      <strong className="overflow-hidden text-ellipsis whitespace-nowrap text-base font-medium text-obsidian transition-colors max-md:whitespace-normal max-md:text-xl max-md:leading-snug">
-                        {post.title}
-                      </strong>
-                      <span
-                        className="inline-flex flex-wrap justify-end gap-1 text-right max-md:justify-start"
-                        aria-label={`${post.imageCount} beelden, ${post.reactionCount} reacties${post.seriesPostCount ? `, ${post.seriesPostCount} delen` : ""}`}
-                      >
-                        {post.seriesPostCount && (
-                          <span
-                            className={countPill}
-                            title="Reeks"
-                            aria-label={`${post.seriesPostCount} delen`}
-                          >
-                            <Layers2 className={countIcon} aria-hidden="true" />
-                            {post.seriesPostCount}
-                          </span>
-                        )}
-                        <span
-                          className={countPill}
-                          title="Beelden"
-                          aria-label={`${post.imageCount} beelden`}
-                        >
-                          <ImageIcon className={countIcon} aria-hidden="true" />
-                          {post.imageCount}
-                        </span>
-                        <span
-                          className={countPill}
-                          title="Reacties"
-                          aria-label={`${post.reactionCount} reacties`}
-                        >
-                          <MessageCircle className={countIcon} aria-hidden="true" />
-                          {post.reactionCount}
-                        </span>
-                      </span>
-                    </a>
+                    <ArchiveRow post={post} index={virtualItem.index} />
                   </div>
                 );
               })}

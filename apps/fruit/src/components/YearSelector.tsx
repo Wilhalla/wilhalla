@@ -1,3 +1,4 @@
+import { Button } from "@wilhalla/ui/components/button";
 import type { ReactNode } from "react";
 import { yearPickerCountClass, yearPickerItemClass } from "./yearPickerStyles";
 
@@ -50,13 +51,9 @@ export default function YearSelector({
         <div className="flex items-center justify-between gap-3">
           <p className="m-0 text-body text-gravel max-md:sr-only">{title}</p>
           {onClear && (
-            <button
-              className="text-body text-gravel underline decoration-chalk underline-offset-4 hover:text-obsidian max-md:sr-only"
-              type="button"
-              onClick={onClear}
-            >
+            <Button variant="link" size="inline" className="max-md:sr-only" onClick={onClear}>
               {clearLabel}
-            </button>
+            </Button>
           )}
         </div>
         <p className="my-3 text-gravel max-md:sr-only">

@@ -7,15 +7,23 @@ import { cardStory } from "./stories/card";
 import { breadcrumbStory, dividerStory, pageHeaderStory, teaserStory } from "./stories/layout";
 import type { Story } from "./stories/story";
 import { chartStory, feedbackStory, tableStory } from "./stories/data";
-import { inputGroupStory, inputStory, selectStory, switchStory } from "./stories/forms";
+import {
+  inputGroupStory,
+  inputStory,
+  selectStory,
+  sliderStory,
+  switchStory,
+} from "./stories/forms";
 import { commandStory, overlayStory } from "./stories/overlays";
 import { tokensStory } from "./stories/tokens";
 import { typographyStory } from "./stories/typography";
+import { pageHeaderPageStory, proseStory, sectionStory, toggleStory } from "./stories/reading";
 
 // Add a story here when a component joins @wilhalla/ui.
 const stories: Story[] = [
   tokensStory,
   typographyStory,
+  proseStory,
   buttonStory,
   badgeStory,
   cardStory,
@@ -23,12 +31,16 @@ const stories: Story[] = [
   inputGroupStory,
   selectStory,
   switchStory,
+  sliderStory,
   overlayStory,
   commandStory,
   tableStory,
   chartStory,
   feedbackStory,
   pageHeaderStory,
+  pageHeaderPageStory,
+  sectionStory,
+  toggleStory,
   breadcrumbStory,
   teaserStory,
   dividerStory,

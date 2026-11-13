@@ -1,6 +1,13 @@
 import type { LucideIcon } from "lucide-react";
 import type { RankPost } from "@/lib/archiveStats";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@wilhalla/ui/components/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@wilhalla/ui/components/card";
+import { cn } from "@wilhalla/ui/lib/utils";
 import {
   Table,
   TableBody,
@@ -19,7 +26,9 @@ export function MinimalCard({
   className?: string;
 }) {
   return (
-    <section className={`min-w-0 border-t border-chalk pt-5 ${className}`}>{children}</section>
+    <Card variant="flat" className={cn("min-w-0", className)}>
+      {children}
+    </Card>
   );
 }
 
@@ -37,10 +46,10 @@ export function Kpi({
   return (
     <div className="border-t border-chalk pt-4">
       <div className="mb-5 flex items-center justify-between gap-3 text-gravel">
-        <span className="text-caption uppercase tracking-[0.22em]">{label}</span>
+        <span className="font-sans text-body">{label}</span>
         <Icon className="size-4" aria-hidden="true" />
       </div>
-      <div className="font-heading text-[34px] font-light leading-none tracking-[-0.05em] text-obsidian md:text-[42px]">
+      <div className="font-heading text-heading leading-heading font-light tracking-heading text-obsidian tabular-nums md:text-heading-lg md:leading-heading-lg">
         {value}
       </div>
       <p className="mt-3 max-w-[22ch] text-sm leading-5 text-gravel">{detail}</p>
@@ -59,11 +68,11 @@ export function ChartBlock({
 }) {
   return (
     <MinimalCard>
-      <CardHeader className="px-0 pb-4">
+      <CardHeader>
         <CardTitle>{title}</CardTitle>
-        <CardDescription className="max-w-2xl text-gravel">{description}</CardDescription>
+        <CardDescription className="max-w-2xl">{description}</CardDescription>
       </CardHeader>
-      <CardContent className="px-0">{children}</CardContent>
+      <CardContent>{children}</CardContent>
     </MinimalCard>
   );
 }
@@ -87,32 +96,24 @@ export function RankingTable({
 
   return (
     <MinimalCard>
-      <CardHeader className="px-0 pb-4">
+      <CardHeader>
         <CardTitle>{title}</CardTitle>
-        <CardDescription className="text-gravel">{description}</CardDescription>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent className="px-0">
+      <CardContent>
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="w-8 px-0 text-caption uppercase tracking-caps text-gravel">
-                #
-              </TableHead>
-              <TableHead className="px-0 text-caption uppercase tracking-caps text-gravel">
-                Bericht
-              </TableHead>
-              <TableHead className="px-0 text-right text-caption uppercase tracking-caps text-gravel">
-                {metricLabel}
-              </TableHead>
+            <TableRow>
+              <TableHead className="w-8">#</TableHead>
+              <TableHead>Bericht</TableHead>
+              <TableHead className="text-right">{metricLabel}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {posts.map((post, index) => (
-              <TableRow className="hover:bg-powder/40" key={post.id}>
-                <TableCell className="px-0 font-mono text-xs text-slate">
-                  {String(index + 1).padStart(2, "0")}
-                </TableCell>
-                <TableCell className="max-w-[20rem] px-0 whitespace-normal py-3">
+              <TableRow key={post.id}>
+                <TableCell>{String(index + 1).padStart(2, "0")}</TableCell>
+                <TableCell className="max-w-[20rem] whitespace-normal">
                   <a
                     className="line-clamp-2 text-sm font-medium no-underline hover:underline"
                     href={post.url}
@@ -125,9 +126,7 @@ export function RankingTable({
                     <span>{post.topicLabel}</span>
                   </div>
                 </TableCell>
-                <TableCell className="px-0 text-right font-mono text-sm tabular-nums">
-                  {formatNumber(post[metric])}
-                </TableCell>
+                <TableCell className="text-right">{formatNumber(post[metric])}</TableCell>
               </TableRow>
             ))}
           </TableBody>

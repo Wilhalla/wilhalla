@@ -1,4 +1,5 @@
-import { buttonVariants } from "@wilhalla/ui/components/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button, buttonVariants } from "@wilhalla/ui/components/button";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { MarkdownContent } from "@/components/markdown-content";
 import { PageHeader } from "@wilhalla/ui/components/page-header";
@@ -132,29 +133,25 @@ function AgendaCalendar({ events }: { events: Array<AgendaEvent> }) {
 
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-2">
-              <button
-                type="button"
-                className={cn(buttonVariants({ variant: "outline" }), "px-3")}
-                onClick={() => setVisibleMonth(startOfMonth(today))}
-              >
+              <Button variant="outline" onClick={() => setVisibleMonth(startOfMonth(today))}>
                 {agendaRegistry.todayLabel}
-              </button>
-              <button
-                type="button"
-                className="grid h-9 w-9 place-items-center rounded-full border border-chalk bg-white text-obsidian shadow-subtle-2 transition-transform hover:-translate-y-0.5"
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
                 aria-label={agendaRegistry.previousMonthLabel}
                 onClick={() => setVisibleMonth(addMonths(visibleMonth, -1))}
               >
-                ←
-              </button>
-              <button
-                type="button"
-                className="grid h-9 w-9 place-items-center rounded-full border border-chalk bg-white text-obsidian shadow-subtle-2 transition-transform hover:-translate-y-0.5"
+                <ChevronLeft />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
                 aria-label={agendaRegistry.nextMonthLabel}
                 onClick={() => setVisibleMonth(addMonths(visibleMonth, 1))}
               >
-                →
-              </button>
+                <ChevronRight />
+              </Button>
             </div>
             <h3 className="font-heading text-heading leading-heading font-light tracking-heading m-0 text-obsidian">
               {formatAgendaMonth(visibleMonth)}

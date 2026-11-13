@@ -37,6 +37,15 @@ describe("stripDuplicateTitleFromArchiveHtml", () => {
     ).toBe("<p>op het BD/Demeter congres</p><p>Body.</p>");
   });
 
+  it("removes a first line that is part of the title", () => {
+    expect(
+      stripDuplicateTitleFromArchiveHtml(
+        "<p>Afrikaans Tuinfeest</p><p>In de winter kwam Aleide.</p>",
+        "Zevende Afrikaans Tuinfeest",
+      ),
+    ).toBe("<p>In de winter kwam Aleide.</p>");
+  });
+
   it("does not remove ordinary prose that does not repeat the title", () => {
     const html = "<p>Om u de gelegenheid te geven te delen wat Daniël betekend heeft.</p>";
 

@@ -1,13 +1,22 @@
-import { Calendar, ExternalLink, Images } from "lucide-react";
-import type { Key, RefObject } from "react";
-import GalleryThumbnail from "./GalleryThumbnail";
+import { Badge } from "@wilhalla/ui/components/badge";
+import { Button } from "@wilhalla/ui/components/button";
+import { Separator } from "@wilhalla/ui/components/separator";
+import { typography } from "@wilhalla/ui/lib/typography";
+import { cn } from "@wilhalla/ui/lib/utils";
+import { ArrowRight } from "lucide-react";
+import type { CSSProperties, Key, RefObject } from "react";
+
 import galleryGroupsData from "../../data/generated/gallery-groups.json";
 import {
   formatImagePostDateTime,
   type GalleryImageRecord as ImageRecord,
 } from "../../lib/imageGallerySession";
+import GalleryThumbnail from "./GalleryThumbnail";
 
 const categoryLabels = new Map(galleryGroupsData.themes.map((theme) => [theme.id, theme.label]));
+
+/** Width of one item in the filmstrip; the virtualizer in GalleryViewerApp uses the same value. */
+export const FILMSTRIP_ITEM_SIZE = 104;
 
 type TimelineVirtualizer = {
   getTotalSize: () => number;
@@ -25,6 +34,7 @@ type Props = {
   onSelectImage: (imageId: string) => void;
 };
 
+/** About the photo first (what it shows, where it comes from), then where to go next. */
 export default function ViewerSidebar({
   filtered,
   relatedLoading,
@@ -35,79 +45,66 @@ export default function ViewerSidebar({
   viewerIndex,
   onSelectImage,
 }: Props) {
+  const caption = (viewerImage.imageSpecificText ?? []).join(" · ");
   return (
-    <aside className="bg-eggshell lg:min-h-0 lg:overflow-y-auto lg:overscroll-contain">
-      <section className="border-b border-chalk p-4 md:p-5">
-        <h1 className="m-0 text-base font-medium leading-snug text-obsidian">
-          {viewerImage.postTitle}
-        </h1>
+    <aside className="grid content-start gap-6 bg-eggshell p-5 lg:min-h-0 lg:overflow-y-auto lg:overscroll-contain">
+      <section className="grid gap-3">
+        <p className={typography.eyebrow}>
+          {formatImagePostDateTime(viewerImage)}
+          {typeof viewerImage.imageIndex === "number" &&
+            ` · foto ${viewerImage.imageIndex + 1} in dit bericht`}
+        </p>
+        <h1 className={cn(typography.subsection, "text-balance")}>{viewerImage.postTitle}</h1>
         {viewerImage.seriesTitle && (
-          <p className="m-0 mt-1 text-xs text-gravel">Uit de reeks: {viewerImage.seriesTitle}</p>
+          <p className={cn(typography.small, "m-0 text-gravel")}>
+            Uit het verhaal “{viewerImage.seriesTitle}”
+          </p>
         )}
-        <p className="m-0 mt-1 text-xs text-gravel">{formatImagePostDateTime(viewerImage)}</p>
         {viewerImage.visualDescription && (
-          <p className="m-0 mt-3 text-sm leading-6 text-obsidian">
-            <span className="font-medium">Op het beeld:</span> {viewerImage.visualDescription}
+          <p className={cn(typography.small, "m-0 text-cinder")}>{viewerImage.visualDescription}</p>
+        )}
+        {caption && (
+          <p className="m-0 font-heading text-body-lg leading-body-lg text-obsidian italic">
+            “{caption}”
           </p>
         )}
-        {(viewerImage.imageSpecificText ?? []).length > 0 && (
-          <p className="m-0 mt-3 text-sm leading-6 text-gravel">
-            <span className="font-medium text-obsidian">Bijschrift bij dit beeld:</span>{" "}
-            {viewerImage.imageSpecificText?.join(" · ")}
-          </p>
-        )}
-        {viewerImage.excerpt && (
-          <p className="m-0 mt-3 text-sm leading-6 text-gravel">
-            <span className="font-medium text-obsidian">In het bericht:</span> {viewerImage.excerpt}
-          </p>
-        )}
-        <a
-          className="mt-4 inline-flex min-h-9 items-center gap-2 rounded-full border border-obsidian bg-obsidian px-3 text-sm font-medium text-eggshell no-underline hover:text-eggshell"
-          href={`/posts/${viewerImage.postSlug}/`}
-        >
-          Lees het artikel bij deze foto <ExternalLink className="size-4" aria-hidden="true" />
-        </a>
-        <div className="mt-4 flex flex-wrap gap-2" aria-label="Beeldcategorieën">
-          {viewerImage.visualTags.slice(0, 6).map((tag) => (
-            <a
-              className="inline-flex min-h-7 items-center rounded-full border border-chalk px-2.5 text-xs text-obsidian no-underline hover:border-slate hover:text-obsidian"
-              href={`/gallery/?theme=${encodeURIComponent(tag)}`}
-              key={tag}
-            >
-              {categoryLabels.get(tag) ?? tag}
-            </a>
+        <Button asChild className="mt-1 w-fit">
+          <a href={`/posts/${viewerImage.postSlug}/`}>
+            Lees het bericht <ArrowRight />
+          </a>
+        </Button>
+        <div className="flex flex-wrap gap-1.5" aria-label="Over deze foto">
+          {viewerImage.visualTags.slice(0, 5).map((tag) => (
+            <Badge asChild variant="outline" key={tag}>
+              <a href={`/gallery/?theme=${encodeURIComponent(tag)}`}>
+                {categoryLabels.get(tag) ?? tag}
+              </a>
+            </Badge>
           ))}
-          <span className="inline-flex min-h-7 items-center rounded-full border border-chalk px-2.5 font-mono text-xs text-gravel">
-            {viewerImage.season}
-          </span>
-          {viewerImage.year && (
-            <span className="inline-flex min-h-7 items-center rounded-full border border-chalk px-2.5 font-mono text-xs text-gravel">
-              {viewerImage.year}
-            </span>
-          )}
+          {viewerImage.season && <Badge variant="secondary">{viewerImage.season}</Badge>}
         </div>
       </section>
 
-      <section className="border-b border-chalk p-4 md:p-5">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <div>
-            <h2 className="m-0 inline-flex items-center gap-2 text-sm font-medium text-obsidian">
-              <Calendar className="size-4" aria-hidden="true" /> Tijdlijn
-            </h2>
-            <p className="m-0 mt-1 text-xs text-gravel">Scroll door de huidige beeldselectie.</p>
-          </div>
-          <span className="font-mono text-xs text-gravel">
-            {viewerIndex >= 0 ? `${viewerIndex + 1}/${filtered.length}` : ""}
+      <Separator />
+
+      <section className="grid gap-3" aria-labelledby="viewer-filmstrip-title">
+        <div className="flex items-baseline justify-between gap-3">
+          <h2 id="viewer-filmstrip-title" className={typography.eyebrow}>
+            In deze selectie
+          </h2>
+          <span className={cn(typography.small, "text-gravel tabular-nums")}>
+            {viewerIndex >= 0 &&
+              `${(viewerIndex + 1).toLocaleString("nl-BE")} van ${filtered.length.toLocaleString("nl-BE")}`}
           </span>
         </div>
         <div
           ref={timelineRef}
-          className="h-48 overflow-x-auto border border-chalk"
-          aria-label="Chronologische beeldtijdlijn"
+          className="h-20 overflow-x-auto overflow-y-hidden [scrollbar-width:thin]"
+          aria-label="Foto's in de huidige selectie"
         >
           <div
-            className="relative h-full"
-            style={{ width: `${timelineVirtualizer.getTotalSize()}px` }}
+            className="relative h-full w-(--strip-width)"
+            style={{ "--strip-width": `${timelineVirtualizer.getTotalSize()}px` } as CSSProperties}
           >
             {timelineVirtualizer.getVirtualItems().map((virtualItem) => {
               const image = filtered[virtualItem.index];
@@ -115,34 +112,28 @@ export default function ViewerSidebar({
               const active = image.id === viewerImage.id;
               return (
                 <button
-                  className={
-                    active
-                      ? "absolute top-0 h-full border border-obsidian bg-eggshell p-1 text-left"
-                      : "absolute top-0 h-full border-r border-chalk bg-eggshell p-1 text-left hover:bg-powder"
-                  }
+                  className="absolute top-0 h-full w-(--item-width) translate-x-(--item-x) overflow-hidden rounded-md bg-powder ring-obsidian ring-offset-2 ring-offset-eggshell transition-opacity duration-150 hover:opacity-90 aria-[current=true]:ring-2"
                   key={virtualItem.key}
                   type="button"
                   onClick={() => onSelectImage(image.id)}
                   aria-current={active ? "true" : undefined}
-                  style={{
-                    width: `${Math.max(1, virtualItem.size - 6)}px`,
-                    transform: `translateX(${virtualItem.start}px)`,
-                  }}
+                  aria-label={`${image.postTitle}, ${formatImagePostDateTime(image)}`}
+                  title={image.postTitle}
+                  style={
+                    {
+                      "--item-width": `${virtualItem.size - 8}px`,
+                      "--item-x": `${virtualItem.start}px`,
+                    } as CSSProperties
+                  }
                 >
                   <GalleryThumbnail
-                    className="aspect-[4/3] w-full object-cover"
+                    className="size-full object-cover"
                     image={image}
                     alt=""
                     loading="lazy"
                     fetchPriority="low"
                     decoding="async"
                   />
-                  <span className="line-clamp-2 pt-1 text-caption leading-3 text-obsidian">
-                    {image.postTitle}
-                  </span>
-                  <span className="block truncate pt-0.5 font-mono text-[9px] text-gravel">
-                    {formatImagePostDateTime(image)}
-                  </span>
                 </button>
               );
             })}
@@ -150,43 +141,40 @@ export default function ViewerSidebar({
         </div>
       </section>
 
-      <section className="p-4 md:p-5">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="m-0 inline-flex items-center gap-2 text-sm font-medium text-obsidian">
-            <Images className="size-4" aria-hidden="true" /> Visueel gerelateerd
-          </h2>
-          {relatedLoading && <span className="text-xs text-gravel">laden…</span>}
-        </div>
+      <Separator />
+
+      <section className="grid gap-3" aria-labelledby="viewer-related-title">
+        <h2 id="viewer-related-title" className={typography.eyebrow}>
+          Lijkt op deze foto{relatedLoading && " · laden…"}
+        </h2>
         {similarImages.length > 0 ? (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-1.5">
             {similarImages.map((image) => (
               <button
-                className="group grid gap-2 border border-chalk p-1 text-left hover:border-slate"
+                className="aspect-square overflow-hidden rounded-md bg-powder transition-opacity duration-150 hover:opacity-90"
                 key={image.id}
                 type="button"
                 onClick={() => onSelectImage(image.id)}
+                aria-label={`${image.postTitle}, ${formatImagePostDateTime(image)}`}
+                title={image.postTitle}
               >
                 <GalleryThumbnail
-                  className="aspect-[4/3] w-full object-cover"
+                  className="size-full object-cover"
                   image={image}
                   alt=""
                   loading="lazy"
                   fetchPriority="low"
                   decoding="async"
                 />
-                <span className="px-1 pb-1">
-                  <span className="line-clamp-2 text-xs leading-4 text-gravel">
-                    {image.postTitle}
-                  </span>
-                  <span className="mt-1 block truncate font-mono text-caption text-gravel/75">
-                    {formatImagePostDateTime(image)}
-                  </span>
-                </span>
               </button>
             ))}
           </div>
         ) : (
-          <p className="m-0 text-sm leading-6 text-gravel">Geen gerelateerde beelden gevonden.</p>
+          !relatedLoading && (
+            <p className={cn(typography.small, "m-0 text-gravel")}>
+              Geen verwante foto's gevonden.
+            </p>
+          )
         )}
       </section>
     </aside>

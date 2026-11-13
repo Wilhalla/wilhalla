@@ -48,6 +48,17 @@ export const cardStory: Story = {
           </CardHeader>
         </Card>
       </Example>
+      <Example label='variant="flat" (a block under a hairline, e.g. in a dashboard)'>
+        <Card variant="flat" className="w-full max-w-sm">
+          <CardHeader>
+            <CardTitle>Consistentie</CardTitle>
+            <CardDescription>Langste reeks dagelijkse berichten.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="m-0 text-body text-obsidian">14 dagen</p>
+          </CardContent>
+        </Card>
+      </Example>
       <Example label="content only">
         <Card className="w-full max-w-sm">
           <CardContent>

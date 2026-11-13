@@ -24,7 +24,17 @@ function Table({
 }
 
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
-  return <thead data-slot="table-header" className={cn("[&_tr]:border-b", className)} {...props} />;
+  // data-sticky keeps the header in view while a long table scrolls inside its container.
+  return (
+    <thead
+      data-slot="table-header"
+      className={cn(
+        "[&_tr]:border-b data-[sticky=true]:sticky data-[sticky=true]:top-0 data-[sticky=true]:z-20 data-[sticky=true]:bg-background",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
@@ -65,7 +75,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0",
+        "h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0 data-[sticky=true]:sticky data-[sticky=true]:left-0 data-[sticky=true]:z-10 data-[sticky=true]:bg-background",
         className,
       )}
       {...props}
@@ -77,7 +87,10 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   return (
     <td
       data-slot="table-cell"
-      className={cn("p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0", className)}
+      className={cn(
+        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 data-[sticky=true]:sticky data-[sticky=true]:left-0 data-[sticky=true]:z-10 data-[sticky=true]:bg-background",
+        className,
+      )}
       {...props}
     />
   );
