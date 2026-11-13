@@ -149,9 +149,7 @@ function SentinelExplanationCard({
   const hasDarkInkLabel = displayedLabelImages.some(hasDarkInkCardLabel);
   const useDarkCard = hasLabelImages && !hasDarkInkLabel;
   const cardClassName = `flex min-h-full flex-col rounded-[34px] border px-[36px] py-[28px] shadow-[0_14px_34px_rgba(38,27,18,0.16)] backdrop-blur-[2px] transition-[opacity,transform] duration-300 ease-out ${
-    hasLabelImages
-      ? "items-start justify-center gap-[24px]"
-      : "items-start justify-center"
+    hasLabelImages ? "items-start justify-center gap-[24px]" : "items-start justify-center"
   } ${
     useDarkCard
       ? "border-white/15 bg-[#2a2118]/88 text-[#fff8dc]"
@@ -402,7 +400,11 @@ function MapScene({
         ref={svgRef}
         aria-hidden="true"
         viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
-        className="absolute inset-0 h-full w-full"
+        className={
+          isLinkHovered
+            ? "absolute inset-0 h-full w-full cursor-pointer"
+            : "absolute inset-0 h-full w-full"
+        }
         preserveAspectRatio="xMidYMid slice"
         onPointerMove={(event) => {
           updateHoveredSentinel(event.clientX, event.clientY);
@@ -458,31 +460,23 @@ export function InteractiveMap() {
   const [desktopHintDismissed, setDesktopHintDismissed] = useState(false);
   const [hoveredSentinelId, setHoveredSentinelId] = useState<string | null>(null);
   const [introActiveSentinelId, setIntroActiveSentinelId] = useState<string | null>(null);
-  const [selectedSentinelId, setSelectedSentinelId] = useState<string | null>(
-    null,
-  );
+  const [selectedSentinelId, setSelectedSentinelId] = useState<string | null>(null);
   const [introDismissed, setIntroDismissed] = useState(false);
   const [onboardingVisible, setOnboardingVisible] = useState(false);
 
   // Touch heeft geen hover (en pointerleave wist die meteen na tikken), op mobiel blijft de aangetikte plaats daarom geselecteerd tot je elders tikt.
-  const discoverySentinelId =
-    hoveredSentinelId ?? (isMobileViewport ? selectedSentinelId : null);
-  const { activeExplanation, activeHoverImages, activeLabelImages } =
-    getActiveMapDiscovery({
-      hoveredSentinelId: discoverySentinelId,
-      introActiveSentinelId,
-    });
+  const discoverySentinelId = hoveredSentinelId ?? (isMobileViewport ? selectedSentinelId : null);
+  const { activeExplanation, activeHoverImages, activeLabelImages } = getActiveMapDiscovery({
+    hoveredSentinelId: discoverySentinelId,
+    introActiveSentinelId,
+  });
   const isLinkHovered =
     !isMobileViewport && hoveredSentinelId !== null
       ? getSentinelLink(hoveredSentinelId) !== null
       : false;
   const selectedLink =
-    isMobileViewport && selectedSentinelId
-      ? getSentinelLink(selectedSentinelId)
-      : null;
-  const introStepMs = isMobileViewport
-    ? MOBILE_INTRO_STEP_MS
-    : DESKTOP_INTRO_STEP_MS;
+    isMobileViewport && selectedSentinelId ? getSentinelLink(selectedSentinelId) : null;
+  const introStepMs = isMobileViewport ? MOBILE_INTRO_STEP_MS : DESKTOP_INTRO_STEP_MS;
   const introOverlayTransitionMs = isMobileViewport
     ? MOBILE_INTRO_OVERLAY_TRANSITION_MS
     : DESKTOP_INTRO_OVERLAY_TRANSITION_MS;
@@ -588,70 +582,70 @@ export function InteractiveMap() {
 
   return (
     <>
-    <div
-      ref={scrollRef}
-      className="relative h-dvh w-full overflow-x-auto overflow-y-hidden overscroll-x-none bg-black scrollbar-none lg:h-svh lg:overflow-hidden"
-      onScroll={() => {
-        if (ignoreNextScrollRef.current) {
-          ignoreNextScrollRef.current = false;
-          return;
-        }
-        if (!onboardingVisible) return;
-        setMobileHintDismissed(true);
-        dismissIntro();
-      }}
-    >
       <div
-        className="relative h-full min-w-[100vw] w-[calc(100dvh*var(--map-aspect-ratio))] lg:absolute lg:inset-0 lg:min-w-0 lg:w-auto lg:origin-center lg:scale-[1.2]"
-        style={{ "--map-aspect-ratio": ASPECT_RATIO } as CSSProperties}
+        ref={scrollRef}
+        className="relative h-dvh w-full overflow-x-auto overflow-y-hidden overscroll-x-none bg-black scrollbar-none lg:h-svh lg:overflow-hidden"
+        onScroll={() => {
+          if (ignoreNextScrollRef.current) {
+            ignoreNextScrollRef.current = false;
+            return;
+          }
+          if (!onboardingVisible) return;
+          setMobileHintDismissed(true);
+          dismissIntro();
+        }}
       >
-        <MapScene
-          activeExplanation={activeExplanation}
-          activeHoverImages={activeHoverImages}
-          activeLabelImages={activeLabelImages}
-          activeSentinelId={discoverySentinelId}
-          fetchPriority="high"
-          isLinkHovered={isLinkHovered}
-          overlayTransitionDurationMs={overlayTransitionDurationMs}
-          sizes={interactiveMapRegistry.sceneSizes}
-          onSentinelClick={handleSentinelClick}
-          onHoverChange={(id) => {
-            if (id && onboardingVisible) {
-              if (!isMobileViewport) setDesktopHintDismissed(true);
-              dismissIntro();
-            }
-            setHoveredSentinelId(id);
-          }}
+        <div
+          className="relative h-full min-w-[100vw] w-[calc(100dvh*var(--map-aspect-ratio))] lg:absolute lg:inset-0 lg:min-w-0 lg:w-auto lg:origin-center lg:scale-[1.2]"
+          style={{ "--map-aspect-ratio": ASPECT_RATIO } as CSSProperties}
+        >
+          <MapScene
+            activeExplanation={activeExplanation}
+            activeHoverImages={activeHoverImages}
+            activeLabelImages={activeLabelImages}
+            activeSentinelId={discoverySentinelId}
+            fetchPriority="high"
+            isLinkHovered={isLinkHovered}
+            overlayTransitionDurationMs={overlayTransitionDurationMs}
+            sizes={interactiveMapRegistry.sceneSizes}
+            onSentinelClick={handleSentinelClick}
+            onHoverChange={(id) => {
+              if (id && onboardingVisible) {
+                if (!isMobileViewport) setDesktopHintDismissed(true);
+                dismissIntro();
+              }
+              setHoveredSentinelId(id);
+            }}
+          />
+        </div>
+        <MapInteractionHint
+          mobileDismissed={!onboardingVisible || mobileHintDismissed}
+          desktopDismissed={!onboardingVisible || desktopHintDismissed}
         />
       </div>
-      <MapInteractionHint
-        mobileDismissed={!onboardingVisible || mobileHintDismissed}
-        desktopDismissed={!onboardingVisible || desktopHintDismissed}
-      />
-    </div>
-    {selectedLink && selectedSentinelId ? (
-      <MapLinkSheet
-        link={selectedLink}
-        text={getSentinelExplanation(selectedSentinelId)?.text}
-        onClose={() => setSelectedSentinelId(null)}
-      />
-    ) : null}
-    {/* De kaart-SVG is aria-hidden: dit is de toetsenbord- en screenreader-route. */}
-    <nav aria-label="Plekken op de kaart" className="sr-only">
-      <ul>
-        {linkedMapSentinels.map((sentinel) => (
-          <li key={sentinel.id}>
-            <Link
-              to={sentinel.link.to}
-              onFocus={() => setHoveredSentinelId(sentinel.id)}
-              onBlur={() => setHoveredSentinelId(null)}
-            >
-              {sentinel.link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+      {selectedLink && selectedSentinelId ? (
+        <MapLinkSheet
+          link={selectedLink}
+          text={getSentinelExplanation(selectedSentinelId)?.text}
+          onClose={() => setSelectedSentinelId(null)}
+        />
+      ) : null}
+      {/* De kaart-SVG is aria-hidden: dit is de toetsenbord- en screenreader-route. */}
+      <nav aria-label="Plekken op de kaart" className="sr-only">
+        <ul>
+          {linkedMapSentinels.map((sentinel) => (
+            <li key={sentinel.id}>
+              <Link
+                to={sentinel.link.to}
+                onFocus={() => setHoveredSentinelId(sentinel.id)}
+                onBlur={() => setHoveredSentinelId(null)}
+              >
+                {sentinel.link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </>
   );
 }

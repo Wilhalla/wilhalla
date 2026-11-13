@@ -25,9 +25,7 @@ export function MapLinkSheet({ link, text, onClose }: MapLinkSheetProps) {
         <X className="h-5 w-5" strokeWidth={1.5} />
       </button>
       {text ? (
-        <p className="m-0 mb-4 pr-9 font-waldenburg text-[18px] leading-[1.3]">
-          {text}
-        </p>
+        <p className="m-0 mb-4 pr-9 font-waldenburg text-[18px] leading-[1.3]">{text}</p>
       ) : null}
       <Link
         to={link.to}

@@ -1,6 +1,6 @@
 import { interactiveMapRegistry } from "@/config/registries";
 import { describe, expect, it } from "vitest";
-import { getSentinelExplanation, getSentinelLink, linkedMapSentinels, mapSentinels } from "./map-sentinels";
+import { getSentinelExplanation, getSentinelLink, linkedMapSentinels } from "./map-sentinels";
 
 describe("Interactive Map registry", () => {
   it("keeps responsive image assets behind the Interactive Map registry seam", () => {
@@ -19,17 +19,24 @@ describe("Interactive Map links", () => {
   });
 
   it("leaves sentinels without a destination unlinked", () => {
-    expect(getSentinelLink("swallows")).toBeNull();
+    expect(getSentinelLink("caption-kippenhok")).toBeNull();
   });
 
   it("only links to existing site routes", () => {
     const knownRoutes = new Set([
-      "/contact", "/over-ons", "/over-ons/samentuin",
-      "/verhuur", "/welzijn", "/welzijn/paardencoaching",
+      "/contact",
+      "/over-ons",
+      "/over-ons/samentuin",
+      "/verhuur",
+      "/welzijn",
+      "/welzijn/paardencoaching",
     ]);
-    for (const sentinel of mapSentinels) {
-      if (sentinel.link) expect(knownRoutes.has(sentinel.link.to)).toBe(true);
-    }
+    const internalDestinations = linkedMapSentinels
+      .map((sentinel) => sentinel.link.to)
+      .filter((to) => to.startsWith("/"));
+
+    expect(internalDestinations).not.toHaveLength(0);
+    expect(internalDestinations.every((to) => knownRoutes.has(to))).toBe(true);
   });
 
   it("keeps the explanation object identity stable", () => {
@@ -38,7 +45,7 @@ describe("Interactive Map links", () => {
     expect(getSentinelExplanation("garden")).toBe(first);
   });
 
-    it("lists each destination once for assistive technology", () => {
+  it("lists each destination once for assistive technology", () => {
     const destinations = linkedMapSentinels.map((sentinel) => sentinel.link.to);
     expect(new Set(destinations).size).toBe(destinations.length);
   });

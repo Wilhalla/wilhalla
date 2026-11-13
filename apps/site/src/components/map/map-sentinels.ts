@@ -112,9 +112,7 @@ const explanationsById = new Map<string, MapSentinelExplanation>(
   ),
 );
 
-export function getSentinelExplanation(
-  id: string,
-): MapSentinelExplanation | null {
+export function getSentinelExplanation(id: string): MapSentinelExplanation | null {
   return explanationsById.get(id) ?? null;
 }
 
@@ -128,9 +126,7 @@ export const linkedMapSentinels = mapSentinels.filter(
     all.findIndex((other) => other.link?.to === sentinel.link?.to) === index,
 );
 
-export function getSentinelFallbackGlowBounds(
-  id: string,
-): SentinelBounds | null {
+export function getSentinelFallbackGlowBounds(id: string): SentinelBounds | null {
   const activeSentinel = mapSentinels.find((sentinel) => sentinel.id === id);
   if (!activeSentinel) return null;
 
