@@ -24,7 +24,7 @@ allowBuilds:
 
 overrides:
   # site: TanStack Start's server core is held back until the router packages catch up.
-  '@tanstack/start-server-core': 1.169.8
+  '@tanstack/start-server-core': 1.169.45
 
 # Every external version used by any app lives here, once; packages declare `"react": "catalog:"`.
 # Upgrading a version here upgrades every app that uses it. Exact pins are deliberate.
@@ -32,57 +32,59 @@ catalog:
   '@astrojs/check': ^0.9.12
   '@astrojs/react': ^5.0.7
   '@astrojs/vercel': ^10.0.8
-  '@content-collections/core': ^0.15.2
+  '@content-collections/core': ^0.15.3
   '@content-collections/markdown': ^0.1.4
-  '@content-collections/vite': ^0.3.0
+  '@content-collections/vite': ^0.3.1
   '@fontsource-variable/eb-garamond': ^5.3.0
   '@fontsource-variable/geist-mono': ^5.3.0
   '@fontsource-variable/inter': ^5.3.0
-  '@lucide/astro': ^1.61.0
-  '@shadcn/lint': ^0.2.3
-  '@tailwindcss/vite': ^4.3.3
-  '@tanstack/devtools-vite': ^0.7.2
-  '@tanstack/react-devtools': ^0.10.8
-  '@tanstack/react-query': ^5.101.2
-  '@tanstack/react-router': 1.170.10
-  '@tanstack/react-router-devtools': 1.167.0
-  '@tanstack/react-start': 1.168.18
+  '@lucide/astro': ^1.72.0
+  '@shadcn/lint': ^0.2.5
+  '@tailwindcss/vite': ^4.3.5
+  '@tanstack/devtools-vite': ^0.8.6
+  '@tanstack/react-devtools': ^0.10.14
+  '@tanstack/react-query': ^5.107.1
+  '@tanstack/react-router': 1.170.46
+  '@tanstack/react-router-devtools': 1.167.3
+  '@tanstack/react-start': 1.169.5
+  # The fruit archive uses the v8 table API; migrate it before taking the v9 major.
   '@tanstack/react-table': ^8.21.3
-  '@tanstack/react-virtual': ^3.14.22
-  '@tanstack/router-core': 1.171.8
-  '@testing-library/dom': ^10.4.1
-  '@testing-library/react': ^16.3.2
-  '@types/node': ^25.9.9
+  '@tanstack/react-virtual': ^3.14.26
+  '@tanstack/router-core': 1.171.39
+  '@testing-library/dom': ^10.4.2
+  '@testing-library/react': ^16.3.3
+  '@types/node': ^26.6.6
   '@types/react': ^19.3.0
   '@types/react-dom': ^19.3.0
   '@vercel/analytics': ^2.0.1
-  '@vitejs/plugin-react': ^6.0.3
+  '@vitejs/plugin-react': ^6.3.0
   'astro': ^6.4.8
   'babel-plugin-react-compiler': ^1.0.0
   'cheerio': ^1.2.0
-  'domhandler': ^5.0.3
+  'domhandler': ^6.0.1
   'class-variance-authority': ^0.7.1
   'clsx': ^2.1.1
   'cmdk': ^1.1.1
-  'jsdom': ^29.1.1
-  'lucide-react': ^1.61.0
-  'mermaid': ^11.17.2
+  'jsdom': ^31.0.0
+  'lucide-react': ^1.72.0
+  'mermaid': ^12.3.0
   'minisearch': ^7.2.0
-  'nitro': 3.0.260522-beta
+  'nitro': 3.0.261103-rc
   'radix-ui': ^1.8.1
   'react': ^19.3.1
   'react-dom': ^19.3.1
-  'recharts': 3.8.0
-  'shadcn': ^4.22.1
-  'sharp': ^0.34.5
+  'recharts': 3.10.1
+  'shadcn': ^4.23.0
+  'sharp': ^0.35.5
   'tailwind-merge': ^3.7.0
-  'tailwindcss': ^4.3.3
+  'tailwindcss': ^4.3.5
   'tsx': ^4.23.15
   'tw-animate-css': ^1.4.0
+  # Astro 6's checker and Volar integration do not yet support TypeScript 7.
   'typescript': ^6.0.3
   'vite': ^8.1.3
-  'vitest': ^4.1.12
-  'zod': ^4.4.3
+  'vitest': ^5.1.0
+  'zod': ^4.6.7
 
 # Deliberate second majors, until every app can move to the default catalog's version.
 catalogs:
