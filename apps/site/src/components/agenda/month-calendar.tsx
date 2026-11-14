@@ -30,7 +30,7 @@ export function MonthCalendar({ agenda, month }: { agenda: Agenda; month: Month 
   return (
     <section aria-labelledby="agenda-month">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-        <h2 id="agenda-month" className={typography.subsection}>
+        <h2 id="agenda-month" className={cn(typography.subsection, "first-letter:uppercase")}>
           {formatMonth(month)}
         </h2>
         <div className="flex flex-wrap items-center gap-2">
