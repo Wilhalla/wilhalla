@@ -31,7 +31,7 @@ check:
 test:
     pnpm run test
 
-# Python environment for the ML pipeline scripts (ML_PIPELINE.md)
+# Python environment for the ML pipeline scripts
 ml-setup:
     uv venv .venv && uv pip install --python .venv -r requirements-ml.txt -r requirements-archive-ml.txt
 

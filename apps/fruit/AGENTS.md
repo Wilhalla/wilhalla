@@ -21,4 +21,23 @@ just ml-setup   # .venv for the ML pipeline scripts
   the state store (`jp state path`), so it survives clean checkouts and stays out of git.
 - The `extract`/`copyImages` scripts expect the raw Seniorennet mirror at `../../mirror` relative
   to the app; it is not part of this repository.
-- Pipelines: `ML_PIPELINE.md`, `IMAGE_ATLAS.md`.
+
+## Classification and image data
+
+The categories, tags, map positions and image descriptions are generated once and committed as
+static JSON (`src/data/generated/`, `public/generated/`); the site only reads them.
+
+- **Posts:** continuation posts are grouped into stories. Each story is scored against the
+  approved tag vocabulary (`ml/tag-vocabulary.approved.json`) with Jev on OpenRouter, and
+  `ml/category-map.approved.json` groups the tags into the categories of the site. Text
+  embeddings (Qwen3 Embedding 8B) are used only for related stories and the positions on the
+  Onderwerpen map, not for the categories.
+- **Images:** every image gets a short description of what is visible, then Jev scores it
+  against `ml/image-vocabulary.approved.json`; `ml/image-category-map.approved.json` groups
+  those tags into the gallery filters. Species tags come from `speciesAtlas`.
+- **Republish from the cache (free):** `pnpm run semanticAtlas` for posts, `pnpm run imageAtlas`
+  for images. Both read `ml-work/`.
+- **Rescore (paid):** the `tag`, `embed` and image-tag commands of `scripts/archive_ml*.py`
+  need `OPENROUTER_API_KEY` and take `--paid` with a `--max-usd` limit; see their `--help`.
+- The scores are model estimates. Nobody has measured their accuracy against hand-labelled
+  examples (`ml/review-set.json` is prepared for that).
