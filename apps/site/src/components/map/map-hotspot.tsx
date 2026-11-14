@@ -1,59 +1,26 @@
-import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import type { MapHotspot } from "./hotspots";
+import type { MapHotspotConfig } from "@/types";
+import { Link } from "@tanstack/react-router";
 
-type MapHotspotProps = {
-  hotspot: MapHotspot;
-};
-
-export function MapHotspotPath({ hotspot }: MapHotspotProps) {
-  const navigate = useNavigate();
-  const [hovered, setHovered] = useState(false);
-
+/**
+ * An outlined building that links to its page. The map SVG is hidden from assistive technology;
+ * keyboard users reach the same destinations through the place list.
+ */
+export function MapHotspot({ hotspot }: { hotspot: MapHotspotConfig }) {
   return (
-    <g>
-      <a
-        href={hotspot.route}
-        aria-label={hotspot.label}
-        // De kaart-SVG is aria-hidden; toetsenbordgebruikers krijgen dezelfde bestemming via de verborgen linklijst in InteractiveMap.
-        tabIndex={-1}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        onClick={(event) => {
-          event.preventDefault();
-          navigate({ to: hotspot.route });
-        }}
-        onFocus={() => setHovered(true)}
-        onBlur={() => setHovered(false)}
-      >
-        <path
-          d={hotspot.path}
-          fill={hovered ? "rgba(255,255,255,0.12)" : "transparent"}
-          stroke={hovered ? "rgba(0,0,0,0.6)" : "none"}
-          strokeWidth={hovered ? 2 : 0}
-          filter="url(#pencil-stroke)"
-          className="cursor-pointer transition-all duration-300"
-        />
-      </a>
-
-      {/* Label */}
+    <Link to={hotspot.route} aria-label={hotspot.label} tabIndex={-1} className="group">
+      <path
+        d={hotspot.path}
+        filter="url(#pencil-stroke)"
+        className="cursor-pointer fill-transparent stroke-transparent stroke-2 transition-[fill,stroke] duration-hover ease-out group-hover:fill-white/12 group-hover:stroke-black/60"
+      />
       <text
         x={hotspot.labelPosition.x}
         y={hotspot.labelPosition.y}
         textAnchor="middle"
-        className="pointer-events-none select-none transition-opacity duration-300"
-        style={{
-          fontFamily: "'EB Garamond Variable', serif",
-          fontSize: 16,
-          fontWeight: 500,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase" as const,
-          fill: hovered ? "#1a1a1a" : "transparent",
-          opacity: hovered ? 1 : 0,
-        }}
+        className="pointer-events-none fill-obsidian font-heading text-base font-medium tracking-caps uppercase opacity-0 transition-opacity duration-hover ease-out select-none group-hover:opacity-100"
       >
         {hotspot.label}
       </text>
-    </g>
+    </Link>
   );
 }

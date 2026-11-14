@@ -5,16 +5,16 @@ import { Slot } from "radix-ui";
 import { cn } from "../lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full font-sans text-sm font-medium tracking-ui transition-[transform,background-color,color,box-shadow,opacity] duration-150 ease-out active:not-disabled:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive",
+  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full font-sans text-sm font-medium tracking-ui transition-[translate,scale,background-color,color,box-shadow,opacity] duration-hover ease-out motion-safe:active:not-disabled:scale-96 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-3 aria-invalid:ring-destructive/20 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
         default:
-          "border border-chalk bg-obsidian text-eggshell shadow-subtle-2 hover:-translate-y-0.5 aria-expanded:-translate-y-0.5",
+          "border border-chalk bg-obsidian text-eggshell shadow-subtle-2 motion-safe:hover:-translate-y-0.5 motion-safe:aria-expanded:-translate-y-0.5",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 aria-expanded:bg-destructive/90 focus-visible:ring-destructive/20",
         outline:
-          "border border-chalk bg-pure-surface text-obsidian shadow-subtle-2 hover:-translate-y-0.5 hover:bg-powder aria-expanded:-translate-y-0.5 aria-expanded:bg-powder",
+          "border border-chalk bg-pure-surface text-obsidian shadow-subtle-2 hover:bg-powder aria-expanded:bg-powder motion-safe:hover:-translate-y-0.5 motion-safe:aria-expanded:-translate-y-0.5",
         secondary:
           "border border-chalk bg-powder text-obsidian hover:bg-pure-surface aria-expanded:bg-pure-surface",
         ghost: "text-obsidian hover:bg-powder aria-expanded:bg-powder",
@@ -22,9 +22,12 @@ const buttonVariants = cva(
         /** On photos and dark overlays (slideshow, viewer). */
         inverse:
           "border border-eggshell/25 bg-obsidian/55 text-eggshell backdrop-blur hover:bg-obsidian/75 aria-pressed:bg-eggshell/15 disabled:opacity-30",
+        /** Bare light control drawn straight on an illustration (the home map): no surface, a shadow keeps it legible. */
+        overlay:
+          "text-eggshell drop-shadow-on-image hover:bg-obsidian/15 focus-visible:bg-obsidian/15 aria-expanded:bg-obsidian/15",
       },
       size: {
-        default: "h-[34px] px-4 has-[>svg]:px-3",
+        default: "h-8.5 px-4 has-[>svg]:px-3",
         xs: "h-6 gap-1 px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-8 gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 px-6 has-[>svg]:px-4",
@@ -32,6 +35,8 @@ const buttonVariants = cva(
         "icon-xs": "size-6 [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-8",
         "icon-lg": "size-10",
+        /** A 56px target for thumbs: controls along the bottom of a phone screen. */
+        "icon-touch": "size-14",
         /** An action inside running text, e.g. "toon alles" after a sentence. */
         inline: "h-auto gap-1 p-0 align-baseline",
       },

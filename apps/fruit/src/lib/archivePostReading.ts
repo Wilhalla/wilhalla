@@ -54,7 +54,6 @@ type PostSeries = ArchiveSeriesRecord & {
 };
 
 export type PostSeriesDetail = ArchiveSeriesDetail<Post>;
-export type PostSeriesRecord = ArchiveSeriesRecord;
 
 export const posts = postsData as Post[];
 export const postIndex = postIndexData as PostSummary[];
@@ -100,12 +99,10 @@ export function archivePostPartHtml(part: Pick<Post, "html" | "title">) {
 }
 
 export type ArchivePostReading = {
-  requestedPost: Post;
   displayPost: Post;
   series: PostSeriesDetail | undefined;
   isSeries: boolean;
   parts: Post[];
-  currentPostId: string;
   imageEntries: PostGalleryImageEntry[];
   hasImages: boolean;
 };
@@ -117,15 +114,13 @@ export function buildArchivePostReading(slug: string): ArchivePostReading | unde
   const series = getSeriesForPost(requestedPost.id);
   const displayPost = series ? aggregateSeriesPost(series) : requestedPost;
   const isSeries = Boolean(series?.posts.length && series.posts.length > 1);
-  const parts = isSeries ? series!.posts : [displayPost];
+  const parts = series && isSeries ? series.posts : [displayPost];
   const imageEntries = postGalleryImageEntries(parts);
   return {
-    requestedPost,
     displayPost,
     series,
     isSeries,
     parts,
-    currentPostId: requestedPost.id,
     imageEntries,
     hasImages: imageEntries.length > 0,
   };

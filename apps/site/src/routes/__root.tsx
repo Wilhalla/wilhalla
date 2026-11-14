@@ -1,17 +1,19 @@
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
-import { NotFound } from "@/components/not-found";
-import { siteIdentity } from "@/config/registries";
+import { siteConfig } from "@/config";
 import { HeadContent, Outlet, Scripts, createRootRoute, useLocation } from "@tanstack/react-router";
 import { Analytics } from "@vercel/analytics/react";
+import { cn } from "@wilhalla/ui/lib/utils";
 import type { ReactNode } from "react";
 import appCss from "../styles.css?url";
+
+const siteIdentity = siteConfig.site;
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+      { name: "viewport", content: "width=device-width, initial-scale=1.0, viewport-fit=cover" },
       { name: "theme-color", content: siteIdentity.themeColor },
       { name: "application-name", content: siteIdentity.name },
     ],
@@ -22,7 +24,6 @@ export const Route = createRootRoute({
       { rel: "apple-touch-icon", href: siteIdentity.assets.appleTouchIcon },
     ],
   }),
-  notFoundComponent: NotFound,
   component: RootComponent,
 });
 
@@ -48,21 +49,21 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   );
 }
 
+/** The map on the home page fills the screen under a floating navbar; the contact page ends without footer. */
 function AppLayout() {
-  const location = useLocation();
-  const isHome = location.pathname === "/";
-  const isContact = location.pathname === "/contact";
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
 
   return (
     <div
-      className={`min-h-screen flex flex-col ${isHome ? "" : "bg-eggshell font-sans text-obsidian"}`}
+      className={cn("flex min-h-screen flex-col", !isHome && "bg-eggshell font-sans text-obsidian")}
     >
       <Analytics />
-      <Navbar />
-      <main className={`flex-1 ${isHome ? "" : "pt-12"}`}>
+      <Navbar overlay={isHome} />
+      <main className={cn("flex-1", !isHome && "pt-12")}>
         <Outlet />
       </main>
-      {!isHome && !isContact && <Footer />}
+      {!isHome && pathname !== "/contact" && <Footer />}
     </div>
   );
 }

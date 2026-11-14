@@ -24,6 +24,12 @@ export const typographyStory: Story = {
           </p>
         </div>
       </Example>
+      <Example label="typography.display + typography.lead (contact card, home map)">
+        <div className="text-center">
+          <h1 className={typography.display}>Wilhalla</h1>
+          <p className={typography.lead}>Tuin, welzijn, yoga en ontmoeting in Halle-Zoersel.</p>
+        </div>
+      </Example>
       <Example label="typography.caption">
         <p className={typography.caption}>Bron: blog.seniorennet.be, bewaard in 2020.</p>
       </Example>

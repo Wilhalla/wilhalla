@@ -1,4 +1,5 @@
 import orientationFixes from "../data/image-orientation-fixes.json";
+import { envString, withScheme } from "./sitePaths";
 
 const DEFAULT_S3_ASSET_ENDPOINT = "https://objects.janpeterdhalle.com";
 const DEFAULT_S3_ASSET_BUCKET = "wilhalla-vake-blog";
@@ -6,10 +7,6 @@ const ARCHIVE_IMAGE_PREFIX = "/archive-images/";
 const ARCHIVE_THUMB_PREFIX = "/archive-thumbs/";
 const ARCHIVE_SMALL_THUMB_PREFIX = "/archive-thumbs-240/";
 const ARCHIVE_TINY_THUMB_PREFIX = "/archive-thumbs-96/";
-
-function envString(value: unknown) {
-  return typeof value === "string" ? value.trim() : "";
-}
 
 function trimSlashes(value: string) {
   return value.replace(/^\/+|\/+$/g, "");
@@ -19,23 +16,17 @@ function trimTrailingSlash(value: string) {
   return value.replace(/\/+$/g, "");
 }
 
-function withScheme(endpoint: string) {
-  if (!endpoint) return "";
-  return /^https?:\/\//i.test(endpoint) ? endpoint : `https://${endpoint}`;
-}
-
 function joinUrl(...parts: string[]) {
   const [first = "", ...rest] = parts.filter(Boolean);
   return [trimTrailingSlash(first), ...rest.map(trimSlashes)].filter(Boolean).join("/");
 }
 
 const configuredBaseUrl = envString(import.meta.env.PUBLIC_S3_ASSET_BASE_URL);
-export const s3AssetEndpoint = withScheme(
+const s3AssetEndpoint = withScheme(
   envString(import.meta.env.PUBLIC_S3_ASSET_ENDPOINT) || DEFAULT_S3_ASSET_ENDPOINT,
 );
-export const s3AssetBucket =
-  envString(import.meta.env.PUBLIC_S3_ASSET_BUCKET) || DEFAULT_S3_ASSET_BUCKET;
-export const s3AssetPrefix = trimSlashes(envString(import.meta.env.PUBLIC_S3_ASSET_PREFIX));
+const s3AssetBucket = envString(import.meta.env.PUBLIC_S3_ASSET_BUCKET) || DEFAULT_S3_ASSET_BUCKET;
+const s3AssetPrefix = trimSlashes(envString(import.meta.env.PUBLIC_S3_ASSET_PREFIX));
 export const s3AssetBaseUrl = trimTrailingSlash(
   configuredBaseUrl || joinUrl(s3AssetEndpoint, s3AssetBucket, s3AssetPrefix),
 );
@@ -94,26 +85,17 @@ function archiveThumbPath(assetPath: string, prefix: string) {
   return { thumbPath, suffix };
 }
 
-export function archiveThumbUrl(assetPath: string) {
-  if (!assetPath) return assetPath;
-  const { thumbPath, suffix } = archiveThumbPath(assetPath, ARCHIVE_THUMB_PREFIX);
-  if (!thumbPath) return archiveAssetUrl(assetPath);
-  return remoteArchivePath(thumbPath, suffix);
+/** The thumbnail of an archive image at one size; the image itself when it has no thumbnail. */
+function thumbUrl(prefix: string) {
+  return (assetPath: string) => {
+    if (!assetPath) return assetPath;
+    const { thumbPath, suffix } = archiveThumbPath(assetPath, prefix);
+    return thumbPath ? remoteArchivePath(thumbPath, suffix) : archiveAssetUrl(assetPath);
+  };
 }
 
-export function archiveSmallThumbUrl(assetPath: string) {
-  if (!assetPath) return assetPath;
-  const { thumbPath, suffix } = archiveThumbPath(assetPath, ARCHIVE_SMALL_THUMB_PREFIX);
-  if (!thumbPath) return archiveAssetUrl(assetPath);
-  return remoteArchivePath(thumbPath, suffix);
-}
-
-export function archiveTinyThumbUrl(assetPath: string) {
-  if (!assetPath) return assetPath;
-  const { thumbPath, suffix } = archiveThumbPath(assetPath, ARCHIVE_TINY_THUMB_PREFIX);
-  if (!thumbPath) return archiveAssetUrl(assetPath);
-  return remoteArchivePath(thumbPath, suffix);
-}
+export const archiveThumbUrl = thumbUrl(ARCHIVE_THUMB_PREFIX);
+export const archiveSmallThumbUrl = thumbUrl(ARCHIVE_SMALL_THUMB_PREFIX);
 
 export function rewriteArchiveAssetUrls(html: string) {
   if (!html) return html;

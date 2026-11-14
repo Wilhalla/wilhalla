@@ -8,8 +8,8 @@ import { Container } from "./container";
 const pageHeaderVariants = cva("", {
   variants: {
     size: {
-      /** Landing pages of the site: airy, title and intro side by side. */
-      hero: "pt-20 pb-12 md:pt-28 md:pb-16",
+      /** Landing pages of the site: airy, title and intro side by side; the hairline closes it. */
+      hero: "pt-20 md:pt-28",
       /** Pages inside an app (lists, tools, articles): compact, one column. */
       page: "pt-10 pb-8 md:pt-14 md:pb-10",
     },
@@ -31,8 +31,8 @@ export function PageHeader({ title, intro, meta, actions, size, className }: Pag
   if (size === "page") {
     return (
       <Container asChild className={cn(pageHeaderVariants({ size }), className)}>
-        <header className="grid gap-6 border-b border-chalk md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-          <div className="grid max-w-3xl gap-3">
+        <header className="flex flex-col gap-6 border-b border-chalk md:flex-row md:items-end md:justify-between">
+          <div className="grid max-w-3xl min-w-0 gap-3">
             <h1 className={cn(typography.display, "text-balance")}>{title}</h1>
             {intro && <p className={cn(typography.intro, "m-0 max-w-2xl")}>{intro}</p>}
             {meta && <p className={cn(typography.small, "m-0 text-gravel")}>{meta}</p>}
@@ -46,9 +46,11 @@ export function PageHeader({ title, intro, meta, actions, size, className }: Pag
     <Container asChild className={cn(pageHeaderVariants({ size }), className)}>
       <header>
         <div className="border-b border-chalk pb-10 md:pb-14">
-          <div className="grid gap-6 md:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.75fr)] md:items-end">
-            <h1 className={cn(typography.display, "max-w-[780px] text-balance")}>{title}</h1>
-            {intro && <p className={cn(typography.intro, "max-w-[560px] md:pb-1")}>{intro}</p>}
+          <div className="grid gap-6 md:grid-cols-12 md:items-end">
+            <h1 className={cn(typography.display, "text-balance md:col-span-7")}>{title}</h1>
+            {intro && (
+              <p className={cn(typography.intro, "m-0 max-w-xl md:col-span-5 md:pb-1")}>{intro}</p>
+            )}
           </div>
           {(meta || actions) && (
             <div className="mt-6 flex flex-wrap items-center gap-3">

@@ -25,11 +25,29 @@ const pages = defineCollection({
   }),
   transform: async (page, context) => ({
     ...page,
-    slug: page._meta.path,
     html: await compileMarkdown(context, page),
   }),
 });
 
+/** The photo list the CMS edits; every field but `image` is optional there. */
+const gallery = defineCollection({
+  name: "gallery",
+  directory: "src/content",
+  include: "gallery.json",
+  parser: "json",
+  schema: z.object({
+    images: z.array(
+      z.object({
+        image: z.string(),
+        thumbnail: z.string().optional(),
+        alt: z.string().optional(),
+        width: z.number().optional(),
+        height: z.number().optional(),
+      }),
+    ),
+  }),
+});
+
 export default defineConfig({
-  content: [homepage, pages],
+  content: [homepage, pages, gallery],
 });

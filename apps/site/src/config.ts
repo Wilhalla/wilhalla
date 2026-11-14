@@ -1,11 +1,4 @@
-import type {
-  BreadcrumbItemConfig,
-  MapHotspotConfig,
-  MapSentinelConfig,
-  NavigationLinkConfig,
-  PageLinkConfig,
-  SocialLink,
-} from "@/types";
+import type { MapHotspotConfig, MapSentinelConfig, SocialLink } from "@/types";
 
 const HOUSE_HOTSPOT_PATH =
   "m 618.56041,432.7902 -2.82456,1.02344 -0.53396,1.71677 -3.83728,1.58725 -2.4935,1.24335 -1.94866,1.7964 -0.30245,3.01921 -1.24373,2.32962 0.003,3.42365 -0.77095,2.87574 -0.34466,3.00555 -0.74983,2.84452 -0.74534,2.85559 -1.40409,1.86782 -1.40011,3.0477 -0.0235,3.37297 -0.75577,3.02947 -0.70606,2.8743 -0.65203,2.90149 1.48623,2.90561 -2.66699,2.20719 -1.13355,3.454 2.94358,0.39923 4.15907,0.69052 1.43897,0.0503 2.90693,0.28118 2.70801,0.1136 2.77632,0.15204 3.0561,-0.15436 2.90955,0.38957 2.96866,0.47164 2.61917,-0.3433 4.77101,1.02513 1.67263,0.48487 3.08042,0.81779 3.56084,0.48772 0.8921,-0.11179 2.41329,-1.72991 1.22397,-2.99823 1.8934,-1.28966 3.0265,-1.65816 0.62701,-2.03026 3.69238,0.61968 1.98979,0.0419 3.16722,0.2752 2.48965,-0.70189 3.30179,-0.002 2.93317,-0.42212 3.38937,-0.15201 3.15516,-0.76217 3.26946,-0.0238 3.16888,0.57852 5.03588,0.78015 1.70192,0.24861 1.84922,-1.11495 3.49008,0.69718 3.47325,0.87188 2.32409,0.44987 4.11493,0.83682 1.8407,0.39021 4.07989,0.78005 1.71779,0.34078 2.57888,0.23755 4.04263,0.97106 2.4381,0.61826 3.10196,0.80588 3.13984,0.83352 3.62706,0.72507 1.06095,-0.5211 3.55571,1.44635 -0.11943,-3.26287 1.72972,-2.32041 1.63488,-2.5188 0.0904,-3.72598 -0.0877,-2.44828 0.94713,-2.67424 -0.0764,-3.05083 -0.0305,-3.87656 0.11265,-1.64554 0.51654,-2.72778 -0.20582,-3.41895 -0.27428,-2.75228 1.5268,-2.157 -0.48984,-3.62814 -0.44746,-2.74825 -0.1298,-2.58415 -0.0483,-2.81235 0.27432,-2.78514 -3.54513,-0.92875 -2.46608,-0.56077 -1.41392,0.21054 -4.63652,-1.28019 -2.93046,-0.25935 -2.98752,-0.10081 -1.49011,0.28591 -4.74391,-0.3338 -1.6714,0.27511 -4.28031,-0.26026 -3.07476,-1.41229 -3.29762,-0.54969 -0.79602,0.0806 -3.65133,0.17825 -3.80615,0.0429 -2.76862,0.0522 -3.22322,0.0704 -3.22748,-0.0471 -1.69649,0.13055 -3.06903,0.10317 -2.84482,-0.12064 -2.42123,0.0386 -4.528,0.0892 -3.22683,0.0213 -3.44694,-0.20891 -3.05228,-0.37588 -2.21509,0.1979 -3.46521,-0.0588 -3.5957,-0.86533 -2.64811,-0.12588 -2.97721,-0.067 -3.30255,-0.47749 -2.70965,0.0161 -2.83,0.0988 -3.41709,-0.16681 -2.31053,0.25735 -2.97295,0.21281 -2.63379,0.18552 z";
@@ -19,6 +12,7 @@ export const siteConfig = {
     themeColor: "#fdfcfc",
     defaultDescription: "Wilhalla is een plek voor tuin, welzijn, yoga, verhuur en ontmoeting.",
     footerTagline: "Wilhalla — Velt-ecotuin sinds 1962",
+    contactTagline: "Tuin, welzijn, yoga en ontmoeting in Halle-Zoersel.",
     assets: {
       favicon: "/favicon.png",
       appleLogo: "/wilhalla-apple-logo.webp",
@@ -52,16 +46,19 @@ export const siteConfig = {
   socialLinks: [
     {
       label: "The Yurt Wilhalla",
+      detail: "Instagram",
       href: "https://www.instagram.com/theyurt__wilhalla?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
       icon: "instagram",
     },
     {
       label: "Wilhalla Blooms",
+      detail: "Instagram",
       href: "https://www.instagram.com/wilhallablooms?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
       icon: "instagram",
     },
     {
       label: "Facebook",
+      detail: "Wilhalla Samentuin",
       href: "https://www.facebook.com/profile.php?id=61555323344203",
       icon: "facebook",
     },
@@ -81,105 +78,12 @@ export const siteConfig = {
     submitLabel: "Inschrijven",
   },
 
-  navigation: {
-    links: [
-      { contentPath: "tuin", to: "/over-ons", icon: "users" },
-      { contentPath: "welzijn", to: "/welzijn", icon: "heart" },
-      { contentPath: "yoga", to: "/yoga", icon: "flower" },
-      { contentPath: "verhuur", to: "/verhuur", icon: "tent" },
-      { contentPath: "agenda", to: "/agenda", icon: "calendar" },
-      { contentPath: "galerij", to: "/gallery", icon: "images" },
-    ] satisfies readonly NavigationLinkConfig[],
-    contactContentPath: "contact",
-  },
-
-  pages: {
-    tuin: {
-      subPages: [
-        { contentPath: "tuin/samentuin", to: "/over-ons/samentuin" },
-      ] satisfies readonly PageLinkConfig[],
-      subPageNavLabel: "Over ons pagina's",
-    },
-    samentuin: {
-      breadcrumb: [
-        { contentPath: "tuin", to: "/over-ons" },
-        { contentPath: "tuin/samentuin" },
-      ] satisfies readonly BreadcrumbItemConfig[],
-    },
-    welzijn: {
-      subPages: [
-        {
-          contentPath: "welzijn/fasciatherapie",
-          to: "/welzijn/fasciatherapie",
-        },
-        {
-          contentPath: "welzijn/paardencoaching",
-          to: "/welzijn/paardencoaching",
-        },
-        {
-          contentPath: "welzijn/muziektherapie",
-          to: "/welzijn/muziektherapie",
-        },
-        {
-          contentPath: "welzijn/lymfedrainage",
-          to: "/welzijn/lymfedrainage",
-        },
-        { contentPath: "welzijn/kcr", to: "/welzijn/kcr" },
-        { contentPath: "welzijn/veerkracht", to: "/welzijn/veerkracht" },
-      ] satisfies readonly PageLinkConfig[],
-      subPageNavLabel: "Welzijn aanbod",
-    },
-    fasciatherapie: {
-      breadcrumb: [
-        { contentPath: "welzijn", to: "/welzijn" },
-        { contentPath: "welzijn/fasciatherapie" },
-      ] satisfies readonly BreadcrumbItemConfig[],
-    },
-    paardencoaching: {
-      breadcrumb: [
-        { contentPath: "welzijn", to: "/welzijn" },
-        { contentPath: "welzijn/paardencoaching" },
-      ] satisfies readonly BreadcrumbItemConfig[],
-    },
-    muziektherapie: {
-      breadcrumb: [
-        { contentPath: "welzijn", to: "/welzijn" },
-        { contentPath: "welzijn/muziektherapie" },
-      ] satisfies readonly BreadcrumbItemConfig[],
-    },
-    lymfedrainage: {
-      breadcrumb: [
-        { contentPath: "welzijn", to: "/welzijn" },
-        { contentPath: "welzijn/lymfedrainage" },
-      ] satisfies readonly BreadcrumbItemConfig[],
-    },
-    kcr: {
-      breadcrumb: [
-        { contentPath: "welzijn", to: "/welzijn" },
-        { contentPath: "welzijn/kcr" },
-      ] satisfies readonly BreadcrumbItemConfig[],
-    },
-    veerkracht: {
-      breadcrumb: [
-        { contentPath: "welzijn", to: "/welzijn" },
-        { contentPath: "welzijn/veerkracht" },
-      ] satisfies readonly BreadcrumbItemConfig[],
-    },
-  },
-
   agenda: {
-    calendarId:
-      "c07e330204f880b8d0c2301f55cbe9c93c4bd25f811a33670d9c3c4c635cca1c@group.calendar.google.com",
     calendarIcsUrl:
       "https://calendar.google.com/calendar/ical/c07e330204f880b8d0c2301f55cbe9c93c4bd25f811a33670d9c3c4c635cca1c%40group.calendar.google.com/public/basic.ics",
     calendarGoogleUrl:
       "https://calendar.google.com/calendar/u/0?cid=c07e330204f880b8d0c2301f55cbe9c93c4bd25f811a33670d9c3c4c635cca1c%40group.calendar.google.com",
-    googleCalendarSrc:
-      "https://calendar.google.com/calendar/embed?height=620&wkst=2&bgcolor=%23ffffff&ctz=Europe%2FBrussels&showTitle=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&src=c07e330204f880b8d0c2301f55cbe9c93c4bd25f811a33670d9c3c4c635cca1c%40group.calendar.google.com&color=%23000000",
-    calendarTitle: "Wilhalla kalender",
-    calendarDescription: "Live agenda, gesynchroniseerd via Google Calendar.",
     calendarTimezone: "Europe/Brussels",
-    iframeTitle: "Wilhalla agenda",
     openInGoogleLabel: "Open in Google Calendar",
     todayLabel: "Vandaag",
     previousMonthLabel: "Vorige maand",
@@ -198,27 +102,6 @@ export const siteConfig = {
 
   gallery: {
     fallbackAltPrefix: "Sfeerbeeld",
-    altTextByOriginalName: {
-      "IMG_2801.heic": "Een paard graast in de avondzon",
-      "WhatsApp Image 2026-03-22 at 17.38.34.jpeg": "Paardencoaching met twee paarden",
-      "c3400f04-d7a7-45fc-85bc-954c84c6112a.JPG": "Paardencoaching op het domein",
-      "WhatsApp Image 2026-04-24 at 09.52.33.jpeg": "Wegwijzer naar Wilhalla en de samentuin",
-      "57361d95-0a45-43c7-9bee-1e721ab9a9c4.jpg": "Welkomsbord aan de ingang",
-      "IMG_3043.heic": "Paard in winterlandschap",
-      "IMG_4490.JPG": "Tomaten in de serre van de samentuin",
-      "WhatsApp Image 2026-03-10 at 21.33.30.jpeg": "Pad door de samentuin",
-      "IMG_9842.JPG": "Yoga in de yurt",
-      "IMG_5118.JPG": "Rondleiding in de tuin",
-      "WhatsApp Image 2026-03-10 at 21.33.34.jpeg": "Moestuinbedden in de samentuin",
-      "f4921805-7e0d-4faf-bcb8-2536195617d5.JPG": "Verbonden moment met een paard",
-      "IMG_5158.JPG": "Paard bij de stallen",
-      "IMG_7207.JPG": "Avondlijke bijeenkomst in de yurt",
-      "IMG_2812.heic": "Behandeling in de yurt",
-      "IMG_5090.JPG": "Live muziek in de tuin",
-      "IMG_5172.JPG": "Muziekmoment in de yurt",
-      "IMG_5985.JPG": "Houten wegwijzers tussen het groen",
-      "WhatsApp Image 2026-05-11 at 10.01.04.jpeg": "Warme avond bij de kachel",
-    } satisfies Record<string, string>,
   },
 
   map: {
@@ -227,7 +110,8 @@ export const siteConfig = {
     mobileMediaQuery: "(max-width: 1023px)",
     desktopImgSizes: "(min-width: 1024px) 4000px, 171vh",
     sceneSizes: "171vh",
-    mobileInitialScrollDivisor: 1.65,
+    /** The desktop map is drawn enlarged from the middle of its top edge: centred, sky above. */
+    desktopZoom: 1.2,
     assets: {
       placeholderSrc: "/wilhalla_map-640.webp",
       desktopWebpSrc: "/wilhalla_map-4000.webp",
@@ -243,31 +127,16 @@ export const siteConfig = {
       ],
     },
     imageAlt: "Kaart van Wilhalla",
-    defaultSentinelPadding: 40,
-    explanationCard: {
-      defaultWidth: 640,
-      defaultHeight: 300,
+    /** Margin around a sentinel's rectangle that still counts as the place, in map pixels. */
+    sentinelPadding: 40,
+    explanationCardHeight: 300,
+    /** Shown on wide screens until the visitor first points at a place. */
+    hint: {
+      eyebrow: "Ontdek",
+      message: "Beweeg de muis over het landschap en klik op een plek.",
     },
-    timings: {
-      introStartDelayMs: 450,
-      desktopIntroStepMs: 760,
-      mobileIntroStepMs: 560,
-      desktopIntroOverlayTransitionMs: 420,
-      mobileIntroOverlayTransitionMs: 220,
-      onboardingStartDelayMs: 160,
-      desktopOverlayTransitionMs: 1600,
-    },
-    hints: {
-      mobile: {
-        eyebrow: "Verken",
-        message:
-          "Scroll naar links of rechts om over de kaart te bewegen en tik op een plek om meer te ontdekken.",
-      },
-      desktop: {
-        eyebrow: "Ontdek",
-        message: "Beweeg de muis over het landschap en klik op een plek.",
-      },
-    },
+    /** The places the small-screen navigator walks through, in order. */
+    mobileStops: ["horses", "swallows", "vake-tree", "garden", "barn", "yurt", "caption-windroos"],
     hotspots: [
       {
         id: "woning",
@@ -280,27 +149,31 @@ export const siteConfig = {
     sentinels: [
       {
         id: "horses",
+        stop: { label: "De paarden", focus: { x: 0.23, y: 0.62, zoom: 1.7 } },
         x1: 400,
         y1: 1350,
         x2: 990,
         y2: 1900,
-        hoverImages: ["/map-overlays/hover/horses.webp", "/map-overlays/text/horses.webp"],
+        overlay: "horses",
+        captions: ["horses"],
         explanation: {
           text: "Onze kleine kudde nodigt uit tot rustige ontmoeting en paardencoaching.",
           x: 420,
           y: 1030,
           width: 710,
+          labelInk: "dark",
         },
         link: { label: "Paardencoaching", to: "/welzijn/paardencoaching" },
-        padding: 40,
       },
       {
         id: "barn",
+        stop: { label: "De schuur", focus: { x: 0.6, y: 0.69, zoom: 1.5 } },
         x1: 2050,
         y1: 1550,
         x2: 2250,
         y2: 1685,
-        hoverImages: ["/map-overlays/hover/barn.webp", "/map-overlays/text/barn.webp"],
+        overlay: "barn",
+        captions: ["barn"],
         explanation: {
           text: "De gerenoveerde schuur biedt plek voor workshops, bijeenkomsten en kleine vieringen.",
           x: 2255,
@@ -308,31 +181,33 @@ export const siteConfig = {
           width: 650,
         },
         link: { label: "Schuur", to: "/verhuur" },
-        padding: 40,
       },
       {
         id: "vake-tree",
+        stop: { label: "Vakes appelboom", focus: { x: 0.47, y: 0.72, zoom: 1.85 } },
         x1: 1900,
         y1: 1550,
         x2: 2000,
         y2: 1675,
-        hoverImages: ["/map-overlays/hover/vake-tree.webp", "/map-overlays/text/vake-tree.webp"],
+        overlay: "vake-tree",
+        captions: ["vake-tree"],
         explanation: {
           text: "Ontdek het rijke blogarchief van Daniel Willaeys.",
           x: 1340,
           y: 1380,
           width: 610,
         },
-        link: { label: "Vakes appelboom", to: "https://fruit.wilhalla.be" },
-        padding: 40,
+        link: { label: "Vakes appelboom", href: "https://fruit.wilhalla.be" },
       },
       {
         id: "garden",
+        stop: { label: "De samentuin", focus: { x: 0.67, y: 0.59, zoom: 1.3 } },
         x1: 2460,
         y1: 1085,
         x2: 2935,
         y2: 1440,
-        hoverImages: ["/map-overlays/hover/garden.webp", "/map-overlays/text/garden.webp"],
+        overlay: "garden",
+        captions: ["garden"],
         explanation: {
           text: "In de samentuin delen vrijwilligers kennis, werk en oogst op het ritme van de seizoenen.",
           x: 2940,
@@ -340,15 +215,16 @@ export const siteConfig = {
           width: 720,
         },
         link: { label: "Samentuin", to: "/over-ons/samentuin" },
-        padding: 40,
       },
       {
         id: "yurt",
+        stop: { label: "De yurt", focus: { x: 0.71, y: 0.69, zoom: 1.55 } },
         x1: 2850,
         y1: 1517,
         x2: 3085,
         y2: 1740,
-        hoverImages: ["/map-overlays/hover/yurt.webp", "/map-overlays/text/yurt.webp"],
+        overlay: "yurt",
+        captions: ["yurt"],
         explanation: {
           text: "De yurt is een warme cirkel voor therapie, yoga, muziek en verstilling in het groen.",
           x: 2860,
@@ -356,20 +232,17 @@ export const siteConfig = {
           width: 650,
         },
         link: { label: "Welzijn in de yurt", to: "/welzijn" },
-        padding: 40,
       },
       {
         id: "swallows",
+        stop: { label: "De zwaluwen", focus: { x: 0.59, y: 0.36, zoom: 1.2 } },
         x1: 1855,
         y1: 830,
         x2: 2745,
         y2: 1030,
-        hoverImages: [
-          "/map-overlays/hover/swallows.webp",
-          "/map-overlays/text/trek-mee-naar-kameroen.webp",
-        ],
-        link: { label: "CoZoeGo", to: "https://cozoego.be/", newTab: true },
-        padding: 40,
+        overlay: "swallows",
+        captions: ["trek-mee-naar-kameroen"],
+        link: { label: "CoZoeGo", href: "https://cozoego.be/", newTab: true },
       },
       {
         id: "caption-kippenhok",
@@ -377,7 +250,8 @@ export const siteConfig = {
         y1: 1239,
         x2: 2490,
         y2: 1404,
-        hoverImages: ["/map-overlays/hover/kippenhok.webp", "/map-overlays/text/kippenhok.webp"],
+        overlay: "kippenhok",
+        captions: ["kippenhok"],
         explanation: {
           text: "Hier scharrelen de kippen mee in het levendige ritme van de tuin.",
           x: 2545,
@@ -392,7 +266,8 @@ export const siteConfig = {
         y1: 1258,
         x2: 2301,
         y2: 1330,
-        hoverImages: ["/map-overlays/hover/trampoline.webp", "/map-overlays/text/trampoline.webp"],
+        overlay: "trampoline",
+        captions: ["trampoline"],
         includeInIntro: false,
       },
       {
@@ -401,7 +276,7 @@ export const siteConfig = {
         y1: 1517,
         x2: 1942,
         y2: 1639,
-        hoverImages: ["/map-overlays/text/parking.webp"],
+        captions: ["parking"],
         explanation: {
           text: "Parkeer hier en ga te voet verder het domein in.",
           x: 1150,
@@ -424,10 +299,8 @@ export const siteConfig = {
           { x: 3100, y: 1500 },
           { x: 2833, y: 1450 },
         ],
-        hoverImages: [
-          "/map-overlays/hover/boomgaard-kleinfruit.webp",
-          "/map-overlays/text/boomgaard-kleinfruit.webp",
-        ],
+        overlay: "boomgaard-kleinfruit",
+        captions: ["boomgaard-kleinfruit"],
         explanation: {
           text: "De boomgaard en fruitkooien brengen appels, peren, pruimen en kleinfruit samen.",
           x: 3070,
@@ -438,11 +311,12 @@ export const siteConfig = {
       },
       {
         id: "caption-windroos",
+        stop: { label: "Ligging", focus: { x: 0.48, y: 0.74, zoom: 1 } },
         x1: 691,
         y1: 793,
         x2: 1003,
         y2: 1057,
-        hoverImages: ["/map-overlays/text/zoerselbos.webp", "/map-overlays/text/halle-dorp.webp"],
+        captions: ["zoerselbos", "halle-dorp"],
         explanation: {
           text: "Wilhalla ligt buiten het centrum van Halle-Dorp aan de rand van het Zoerselbos.",
           x: 1140,
@@ -457,7 +331,7 @@ export const siteConfig = {
         y1: 1413,
         x2: 3575,
         y2: 1589,
-        hoverImages: ["/map-overlays/text/bijen.webp"],
+        captions: ["bijen"],
         explanation: {
           text: "Onze honingbijen helpen de tuin mee bloeien en geven ons zoets.",
           x: 3080,

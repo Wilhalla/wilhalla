@@ -1,4 +1,4 @@
-import type { MapPoint } from "./archiveAtlas";
+import type { MapPoint } from "./generatedTypes";
 
 /**
  * District layout for the atlas.
@@ -93,7 +93,7 @@ export function layoutDistricts(points: readonly MapPoint[], aspect = 1): AtlasL
     const cy = group.reduce((sum, point) => sum + point.y, 0) / group.length;
     const ranked = group
       .map((point) => ({ point, distance: Math.hypot(point.x - cx, point.y - cy) }))
-      .sort((a, b) => a.distance - b.distance);
+      .toSorted((a, b) => a.distance - b.distance);
     ranked.forEach(({ point }, rank) => {
       const angle = Math.atan2(point.y - cy, point.x - cx);
       const radius = district.r * 0.94 * Math.sqrt((rank + 0.5) / ranked.length);

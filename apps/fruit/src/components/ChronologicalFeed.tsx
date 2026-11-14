@@ -1,4 +1,4 @@
-import { layout, typography } from "@wilhalla/ui/lib/typography";
+import { layout, media, typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { archiveAssetUrl } from "../lib/assetUrls";
 import {
@@ -9,9 +9,16 @@ import {
   displayArchiveYear,
   formatArchiveDate,
 } from "../lib/archiveDateTime";
+import { formatNumber } from "../lib/format";
 import type { PostSummary } from "../lib/postIndex";
 import { postCounts, postListExcerpt, postListTitle } from "../lib/postMeta";
-import { yearPickerCountClass, yearPickerItemClass } from "./yearPickerStyles";
+import {
+  yearPickerAsideClass,
+  yearPickerCountClass,
+  yearPickerItemClass,
+  yearPickerScrollClass,
+  yearPickerTitleClass,
+} from "./yearPickerStyles";
 
 type Props = { posts: PostSummary[]; limit?: number };
 const activeYearScript = `
@@ -69,6 +76,8 @@ const activeYearScript = `
 })()
 `;
 
+const displayTime = (post: PostSummary) => (post.time && post.time !== "00:00" ? post.time : "");
+
 export default function ChronologicalFeed({ posts, limit }: Props) {
   const {
     chronologicalItems: chronologicalPosts,
@@ -78,20 +87,14 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
   const validPosts = chronologicalPosts.filter((post) => Number.isFinite(archiveTimestamp(post)));
   const firstPost = validPosts[0] ?? chronologicalPosts[0];
   const firstYear = firstPost ? archiveYear(firstPost) : "";
-  const displayTime = (post: PostSummary) => (post.time && post.time !== "00:00" ? post.time : "");
 
   return (
     <section className="w-full pb-24" aria-labelledby="chronology-title" data-chronology-feed>
       <div className={cn(layout.container, "relative z-10 overflow-x-clip py-16")}>
-        <div className="grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8">
-          <aside
-            className="sticky top-16 self-start pr-2 md:top-16 md:pr-6"
-            aria-label="Tijdlijnnavigatie"
-          >
-            <div className="max-h-[calc(100svh-4rem)] overflow-auto border-r border-chalk/80 py-2 pr-2 md:max-h-[calc(100vh-5rem)] md:py-5 md:pr-6">
-              <p className="m-0 border-b border-chalk pb-3 text-body text-gravel max-md:sr-only">
-                Jaren
-              </p>
+        <div className="grid min-w-0 grid-cols-rail items-start gap-4 md:grid-cols-sidebar md:gap-8">
+          <aside className={yearPickerAsideClass} aria-label="Tijdlijnnavigatie">
+            <div className={yearPickerScrollClass}>
+              <p className={cn(yearPickerTitleClass, "mb-3")}>Jaren</p>
               <nav className="grid gap-1 md:gap-0.5" aria-label="Spring naar jaar">
                 {yearGroups.map((group) => (
                   <a
@@ -112,10 +115,10 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
             </div>
           </aside>
 
-          <div className="grid min-w-0 gap-10 md:pl-2" aria-label="Chronologische berichtenindex">
+          <div className="grid min-w-0 gap-10" aria-label="Chronologische berichtenindex">
             {monthGroups.map((month) => (
               <section
-                className="grid min-w-0 gap-3 [content-visibility:auto] [contain-intrinsic-size:1px_1200px] md:grid-cols-[3.5rem_minmax(0,1fr)]"
+                className="flex min-w-0 flex-col gap-3 [content-visibility:auto] [contain-intrinsic-size:1px_1200px] md:flex-row md:flex-wrap md:gap-x-3"
                 id={month.key}
                 data-chronology-month
                 data-year={month.year}
@@ -123,18 +126,14 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                 key={month.key}
               >
                 {month.startsYear && (
-                  <span
-                    id={`year-${month.year}`}
-                    className="scroll-mt-24"
-                    aria-hidden="true"
-                  ></span>
+                  <span id={`year-${month.year}`} className="basis-full" aria-hidden="true"></span>
                 )}
                 {month.startsYear && (
-                  <header className="col-span-full mb-4 flex items-end justify-between border-b border-chalk pb-3">
-                    <p className="m-0 text-sm text-gravel">
-                      {yearGroups
-                        .find((group) => group.year === month.year)
-                        ?.count.toLocaleString("nl-BE")}{" "}
+                  <header className="mb-4 flex basis-full items-end justify-between border-b border-chalk pb-5">
+                    <p className={cn(typography.small, "m-0 text-gravel")}>
+                      {formatNumber(
+                        yearGroups.find((group) => group.year === month.year)?.count ?? 0,
+                      )}{" "}
                       berichten
                     </p>
                     <h2 className={cn(typography.display, "leading-none")}>
@@ -142,12 +141,17 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                     </h2>
                   </header>
                 )}
-                <div className="pt-3 max-md:hidden" aria-hidden="true">
-                  <span className="sticky top-24 block pt-3 text-sm font-medium lowercase text-gravel">
+                <div className="w-14 shrink-0 pt-3 max-md:hidden" aria-hidden="true">
+                  <span
+                    className={cn(
+                      typography.small,
+                      "sticky top-navbar block pt-6 font-medium text-gravel lowercase",
+                    )}
+                  >
                     {month.shortLabel}
                   </span>
                 </div>
-                <div className="grid min-w-0">
+                <div className="grid min-w-0 flex-1">
                   <div className="border-t border-chalk py-3 md:hidden">
                     <p className={typography.eyebrow}>{month.label}</p>
                   </div>
@@ -157,19 +161,27 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                     const timeLabel = displayTime(post);
                     return (
                       <article
-                        className={`group min-w-0 py-6 transition-colors [content-visibility:auto] [contain-intrinsic-size:1px_9rem] ${month.startsYear && index === 0 ? "" : "border-t border-chalk hover:border-slate/70"}`}
+                        className={cn(
+                          "group min-w-0 py-6 [content-visibility:auto] [contain-intrinsic-size:1px_9rem]",
+                          !(month.startsYear && index === 0) &&
+                            "border-t border-chalk transition-colors duration-hover ease-out hover:border-slate",
+                        )}
                         key={post.id}
                       >
                         <a
-                          className={
-                            image
-                              ? "grid min-w-0 gap-4 text-inherit no-underline md:grid-cols-[13rem_minmax(0,1fr)] md:items-center md:gap-8"
-                              : "grid min-w-0 gap-4 text-inherit no-underline md:grid-cols-[2.75rem_minmax(0,1fr)] md:gap-4"
-                          }
+                          className={cn(
+                            "flex min-w-0 flex-col gap-4 text-inherit no-underline md:flex-row",
+                            image ? "md:items-center md:gap-8" : "md:gap-4",
+                          )}
                           href={`/posts/${post.slug}/`}
                           aria-label={`Lees ${post.title}`}
                         >
-                          <div className={image ? "grid gap-3 self-start" : "self-start"}>
+                          <div
+                            className={cn(
+                              "self-start md:shrink-0",
+                              image ? "grid gap-3 md:w-52" : "md:w-11",
+                            )}
+                          >
                             <time
                               className={
                                 image
@@ -179,7 +191,7 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                               dateTime={dateId}
                               aria-label={formatArchiveDate(post)}
                             >
-                              <span className="text-sm font-medium leading-none text-obsidian">
+                              <span className="font-sans text-body leading-none font-medium text-obsidian">
                                 {archiveDayLabel(post)}
                               </span>
                               <span className="font-sans text-body text-gravel md:hidden">
@@ -188,11 +200,11 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                             </time>
                             {image && (
                               <div
-                                className="relative aspect-4/3 overflow-hidden rounded-lg bg-powder"
+                                className="relative aspect-4/3 overflow-hidden rounded-lg"
                                 aria-hidden="true"
                               >
                                 <img
-                                  className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02] motion-reduce:transition-none"
+                                  className={cn(media.image, media.zoom, "size-full rounded-lg")}
                                   src={archiveAssetUrl(image)}
                                   alt=""
                                   loading="lazy"
@@ -201,13 +213,13 @@ export default function ChronologicalFeed({ posts, limit }: Props) {
                               </div>
                             )}
                           </div>
-                          <div className="min-w-0 self-center">
+                          <div className="min-w-0 flex-1 self-center">
                             {(timeLabel || postCounts(post)) && (
                               <p className="m-0 mb-1.5 font-sans text-body leading-body text-gravel">
                                 {[timeLabel, postCounts(post)].filter(Boolean).join(" · ")}
                               </p>
                             )}
-                            <h4 className={postListTitle}>{post.title}</h4>
+                            <h3 className={postListTitle}>{post.title}</h3>
                             {post.excerpt && <p className={postListExcerpt}>{post.excerpt}</p>}
                           </div>
                         </a>

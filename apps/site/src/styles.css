@@ -3,10 +3,34 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme inline {
+  /*
+   * Intro of the home map: one place after another lights up for 760ms, fading in and out over
+   * 420ms, starting 610ms after load. Each overlay image sets its place in line as --map-intro-step,
+   * which only resolves on the image itself: hence `inline`.
+   */
+  --animate-map-intro: map-intro 1180ms ease-out calc(610ms + var(--map-intro-step) * 760ms) both;
+
+  @keyframes map-intro {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    36%,
+    64% {
+      opacity: 1;
+    }
+  }
+}
+
 @layer base {
   html,
   body {
     @apply overscroll-none scroll-smooth;
+  }
+  /* Anchored headings land below the fixed navbar (h-12) with some air. */
+  html {
+    @apply scroll-pt-16;
   }
   body {
     @apply m-0 bg-background font-heading text-foreground antialiased;

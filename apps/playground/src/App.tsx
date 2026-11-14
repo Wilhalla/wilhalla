@@ -1,10 +1,17 @@
 import { Separator } from "@wilhalla/ui/components/separator";
+import { layout, typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 
 import { badgeStory } from "./stories/badge";
 import { buttonStory } from "./stories/button";
 import { cardStory } from "./stories/card";
-import { breadcrumbStory, dividerStory, pageHeaderStory, teaserStory } from "./stories/layout";
+import {
+  breadcrumbStory,
+  dividerStory,
+  pageBodyStory,
+  pageHeaderStory,
+  teaserStory,
+} from "./stories/layout";
 import type { Story } from "./stories/story";
 import { chartStory, feedbackStory, tableStory } from "./stories/data";
 import {
@@ -39,6 +46,7 @@ const stories: Story[] = [
   feedbackStory,
   pageHeaderStory,
   pageHeaderPageStory,
+  pageBodyStory,
   sectionStory,
   toggleStory,
   breadcrumbStory,
@@ -50,7 +58,7 @@ export function App() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <header className="sticky top-0 z-10 border-b border-chalk bg-eggshell/90 backdrop-blur">
-        <div className="mx-auto flex w-[calc(100%-2rem)] max-w-page items-center justify-between gap-4 py-3">
+        <div className={cn(layout.container, "flex items-center justify-between gap-4 py-3")}>
           <div className="flex items-baseline gap-3">
             <span className="font-heading text-heading-sm text-obsidian">Wilhalla UI</span>
             <span className="hidden font-mono text-xs text-gravel sm:inline">@wilhalla/ui</span>
@@ -58,7 +66,7 @@ export function App() {
         </div>
       </header>
 
-      <div className="mx-auto grid w-[calc(100%-2rem)] max-w-page gap-10 py-10 lg:grid-cols-[12rem_1fr]">
+      <div className={cn(layout.container, "grid gap-10 py-10 lg:grid-cols-sidebar")}>
         <nav aria-label="Components" className="lg:sticky lg:top-24 lg:self-start">
           <ul className="m-0 flex list-none flex-wrap gap-1 p-0 lg:flex-col">
             {stories.map((story) => (
@@ -67,7 +75,7 @@ export function App() {
                   href={`#${story.id}`}
                   className={cn(
                     "block rounded-full px-3 py-1.5 text-body leading-body text-gravel no-underline",
-                    "transition-colors hover:bg-powder hover:text-obsidian",
+                    "transition-colors duration-hover ease-out hover:bg-powder hover:text-obsidian",
                   )}
                 >
                   {story.title}
@@ -81,11 +89,9 @@ export function App() {
           {stories.map((story) => (
             <section key={story.id} id={story.id} className="grid scroll-mt-24 gap-6">
               <div className="grid gap-2">
-                <h2 className="m-0 font-heading text-heading leading-heading font-light tracking-heading text-obsidian">
-                  {story.title}
-                </h2>
+                <h2 className={typography.heading}>{story.title}</h2>
                 <code className="font-mono text-xs text-gravel">{story.source}</code>
-                <p className="m-0 max-w-[65ch] text-body leading-body text-cinder">
+                <p className="m-0 max-w-readable text-body leading-body text-cinder">
                   {story.description}
                 </p>
               </div>

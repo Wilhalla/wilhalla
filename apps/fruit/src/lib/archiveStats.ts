@@ -4,27 +4,19 @@ import topicsData from "../data/generated/topics.json";
 import mapPointsData from "../data/generated/map-points.json";
 import topicCalendarData from "../data/generated/topic-calendar.json";
 
+import { MONTH_LABELS, WEEKDAY_LABELS, formatDay } from "./format";
+import type { MapPoint } from "./generatedTypes";
+import { pointsByPostId } from "./postCategories";
 import type {
   ArchiveStatsData,
+  BarDatum,
   CalendarBurst,
   HeatmapCell,
   RankPost,
+  StatsHighlights,
   StatsPost,
   TopicCalendarData,
   TopicStat,
-  YearStat,
-} from "./archiveStatsTypes";
-export type {
-  ArchiveStatsData,
-  CalendarBurst,
-  DistributionBucket,
-  HeatmapCell,
-  MonthStat,
-  RankPost,
-  StatsPost,
-  TopicCalendarData,
-  TopicStat,
-  WeekdayStat,
   YearStat,
 } from "./archiveStatsTypes";
 
@@ -54,24 +46,15 @@ type TopicRecord = {
   label?: string;
   generatedLabel?: string;
 };
-type AtlasPointRecord = { id: string; postIds?: string[]; topicId: string };
+type AtlasPointRecord = Pick<MapPoint, "id" | "postIds" | "topicId">;
 
-const MONTH_LABELS = [
-  "jan",
-  "feb",
-  "mrt",
-  "apr",
-  "mei",
-  "jun",
-  "jul",
-  "aug",
-  "sep",
-  "okt",
-  "nov",
-  "dec",
-];
-const WEEKDAY_LABELS = ["zo", "ma", "di", "wo", "do", "vr", "za"];
 const MS_PER_DAY = 86_400_000;
+
+// Build-time data: the JSON modules are checked against these types here, where they enter.
+const indexedPosts: IndexedPost[] = postIndexData;
+const topicRecords: TopicRecord[] = topicsData;
+const generatedPosts: GeneratedPost[] = generatedPostsData;
+const topicCalendar: TopicCalendarData = topicCalendarData;
 
 function normalizeWhitespace(value: string) {
   return value.replace(/\s+/g, " ").trim();
@@ -105,14 +88,6 @@ function toIsoDay(date: Date) {
 
 function daysBetween(a: string, b: string) {
   return Math.round((Date.parse(b) - Date.parse(a)) / MS_PER_DAY);
-}
-
-function formatDateLabel(date: string) {
-  return new Intl.DateTimeFormat("nl-BE", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
 }
 
 function emptyYearStat(year: number): YearStat {
@@ -157,32 +132,27 @@ function bucketCount(
   }));
 }
 
+function topTen(data: BarDatum[]) {
+  return data.toSorted((a, b) => b.value - a.value).slice(0, 10);
+}
+
 function buildPosts(): StatsPost[] {
   const reactionsById = new Map(
-    (postIndexData as IndexedPost[]).map((post) => [String(post.id), post.reactionCount ?? 0]),
+    indexedPosts.map((post) => [String(post.id), post.reactionCount ?? 0]),
   );
   const fallbackImageCountById = new Map(
-    (postIndexData as IndexedPost[]).map((post) => [String(post.id), post.imageCount ?? 0]),
+    indexedPosts.map((post) => [String(post.id), post.imageCount ?? 0]),
   );
   const topicLabelById = new Map(
-    (topicsData as TopicRecord[]).map((topic) => [
-      topic.id,
-      topic.label || topic.generatedLabel || topic.id,
-    ]),
+    topicRecords.map((topic) => [topic.id, topic.label || topic.generatedLabel || topic.id]),
   );
-  const categoryByPostId = new Map(
-    (mapPointsData as AtlasPointRecord[]).flatMap((point) =>
-      (point.postIds?.length ? point.postIds : [point.id]).map(
-        (id) => [id, point.topicId] as const,
-      ),
-    ),
-  );
+  const storyByPostId = pointsByPostId<AtlasPointRecord>(mapPointsData);
 
-  return (generatedPostsData as GeneratedPost[]).map((post) => {
+  return generatedPosts.map((post) => {
     const text = authorText(post.cleanedText || post.excerpt || post.title);
     const date = new Date(post.isoDate);
     const day = post.isoDate.slice(0, 10);
-    const topicId = categoryByPostId.get(String(post.id)) || post.topicId || "unknown";
+    const topicId = storyByPostId.get(String(post.id))?.topicId || post.topicId || "unknown";
     return {
       id: String(post.id),
       slug: post.slug,
@@ -208,13 +178,13 @@ function buildPosts(): StatsPost[] {
 
 export function buildArchiveStatsData(): ArchiveStatsData {
   const posts = buildPosts();
-  const orderedAscending = [...posts].sort((a, b) => a.isoDate.localeCompare(b.isoDate));
-  const orderedDays = Array.from(new Set(orderedAscending.map((post) => post.day))).sort();
+  const orderedAscending = [...posts].toSorted((a, b) => a.isoDate.localeCompare(b.isoDate));
+  const orderedDays = Array.from(new Set(orderedAscending.map((post) => post.day))).toSorted();
   const totalImages = posts.reduce((sum, post) => sum + post.imageCount, 0);
   const totalReactions = posts.reduce((sum, post) => sum + post.reactionCount, 0);
   const totalWords = posts.reduce((sum, post) => sum + post.wordCount, 0);
   const totalChars = posts.reduce((sum, post) => sum + post.charCount, 0);
-  const sortedChars = posts.map((post) => post.charCount).sort((a, b) => a - b);
+  const sortedChars = posts.map((post) => post.charCount).toSorted((a, b) => a - b);
   const firstDay = orderedDays[0] || "";
   const lastDay = orderedDays.at(-1) || "";
 
@@ -236,7 +206,7 @@ export function buildArchiveStatsData(): ArchiveStatsData {
   }
 
   const byYear = Array.from(yearMap.values())
-    .sort((a, b) => a.year - b.year)
+    .toSorted((a, b) => a.year - b.year)
     .map((stat) => {
       const activeDays = yearDays.get(stat.year)?.size ?? 0;
       const activeMonths = yearMonths.get(stat.year)?.size ?? 0;
@@ -308,7 +278,7 @@ export function buildArchiveStatsData(): ArchiveStatsData {
       avgWords: Math.round(topic.words / topic.posts),
       illustratedShare: Number((topic.images / topic.posts).toFixed(2)),
     }))
-    .sort((a, b) => b.posts - a.posts)
+    .toSorted((a, b) => b.posts - a.posts)
     .slice(0, 14);
 
   let longestStreak = { start: firstDay, end: firstDay, days: orderedDays.length ? 1 : 0 };
@@ -339,7 +309,7 @@ export function buildArchiveStatsData(): ArchiveStatsData {
   for (const post of posts) {
     const stat = dayMap.get(post.day) || {
       date: post.day,
-      label: formatDateLabel(post.day),
+      label: formatDay(post.day),
       posts: 0,
       images: 0,
       reactions: 0,
@@ -350,19 +320,44 @@ export function buildArchiveStatsData(): ArchiveStatsData {
     dayMap.set(post.day, stat);
   }
 
-  const byLongest = [...posts].sort((a, b) => b.charCount - a.charCount);
-  const byImages = [...posts].sort(
+  const byLongest = [...posts].toSorted((a, b) => b.charCount - a.charCount);
+  const byImages = [...posts].toSorted(
     (a, b) => b.imageCount - a.imageCount || b.charCount - a.charCount,
   );
-  const byReactions = [...posts].sort(
+  const byReactions = [...posts].toSorted(
     (a, b) => b.reactionCount - a.reactionCount || b.charCount - a.charCount,
   );
-  const quietLongreads = [...posts]
-    .filter((post) => post.reactionCount === 0 && post.charCount >= percentile(sortedChars, 80))
-    .sort((a, b) => b.charCount - a.charCount);
+  const highlights: StatsHighlights = {
+    mostActiveYear: byYear.toSorted((a, b) => b.posts - a.posts)[0],
+    mostVisualYear: byYear.toSorted((a, b) => b.images - a.images)[0],
+    tempoYears: topTen(
+      byYear
+        .filter((year) => year.activeDays > 0)
+        .map((year) => ({
+          label: String(year.year),
+          value: Number((year.posts / year.activeDays).toFixed(2)),
+          detail: `${year.posts} berichten · ${year.activeDays} dagen`,
+        })),
+    ),
+    visualYears: topTen(
+      byYear.map((year) => ({
+        label: String(year.year),
+        value: year.avgImages,
+        detail: `${year.images} beelden`,
+      })),
+    ),
+    discussionTopics: topTen(
+      topics
+        .filter((topic) => topic.reactions > 0)
+        .map((topic) => ({
+          label: topic.label,
+          value: Number(((topic.reactions / topic.posts) * 100).toFixed(1)),
+          detail: `${topic.reactions} reacties`,
+        })),
+    ),
+  };
 
   return {
-    generatedAt: new Date().toISOString(),
     totals: {
       posts: posts.length,
       images: totalImages,
@@ -416,15 +411,15 @@ export function buildArchiveStatsData(): ArchiveStatsData {
       longest: byLongest.slice(0, 10).map(rankPost),
       imageRich: byImages.slice(0, 10).map(rankPost),
       mostDiscussed: byReactions.slice(0, 10).map(rankPost),
-      quietLongreads: quietLongreads.slice(0, 10).map(rankPost),
     },
     consistency: {
       longestStreak,
       longestGap,
       busiestDays: Array.from(dayMap.values())
-        .sort((a, b) => b.posts - a.posts || b.images - a.images)
+        .toSorted((a, b) => b.posts - a.posts || b.images - a.images)
         .slice(0, 8),
     },
-    topicCalendar: topicCalendarData as TopicCalendarData,
+    highlights,
+    topicCalendar,
   };
 }

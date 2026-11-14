@@ -1,50 +1,45 @@
-import { fetchGalleryJson, type GalleryImageRecord } from "./imageGallerySession";
-import type { FetchPriority } from "./clientFetch";
+import { z } from "zod";
+import { fetchJsonValue, type FetchPriority } from "./clientFetch";
+import { galleryImage, galleryIndexManifest, type GalleryImageRecord } from "./generatedTypes";
+import { generatedDataUrl } from "./sitePaths";
 
-type ImageIndexChunkManifest = {
-  imageCount: number;
-  chunks: Array<{ file: string; imageCount: number }>;
-};
+const imageList = z.array(galleryImage);
+const BATCH_SIZE = 4;
 
-// Fetch a few years at once, then commit one batch to React instead of
-// rebuilding and sorting the full gallery after every individual year.
+async function fetchGenerated<T>(file: string, schema: z.ZodType<T>, priority: FetchPriority) {
+  return schema.parse(await fetchJsonValue(generatedDataUrl(file), { priority }));
+}
+
+/**
+ * Loads the whole image index year by year, a few files at a time, and reports the growing
+ * list after each batch (one render per batch instead of one per year). Resolves when every
+ * year is in; rejects when the manifest or a year cannot be read.
+ */
 export async function loadGalleryIndexChunks({
-  initialImages,
+  seed,
   onBatch,
   priority,
-  signal,
 }: {
-  initialImages: GalleryImageRecord[];
+  /** The photos the page was built with; the index adds to and replaces them. */
+  seed: readonly GalleryImageRecord[];
   onBatch: (images: GalleryImageRecord[]) => void;
   priority: FetchPriority;
-  signal: AbortSignal;
 }) {
-  const manifest = await fetchGalleryJson<ImageIndexChunkManifest>(
-    "/generated/image-index-chunks.json",
-    priority,
-    signal,
-  );
-  if (!manifest.chunks?.length) throw new Error("Geen beeldarchief-chunks gevonden");
+  const manifest = await fetchGenerated("image-index-chunks.json", galleryIndexManifest, priority);
+  const imagesById = new Map(seed.map((image) => [image.id, image]));
 
-  const imagesById = new Map(initialImages.map((image) => [image.id, image]));
-  let loadedCount = 0;
-  const batchSize = 4;
-
-  for (let index = 0; index < manifest.chunks.length; index += batchSize) {
-    const chunks = manifest.chunks.slice(index, index + batchSize);
+  for (let index = 0; index < manifest.chunks.length; index += BATCH_SIZE) {
     const batches = await Promise.all(
-      chunks.map((chunk) =>
-        fetchGalleryJson<GalleryImageRecord[]>(`/generated/${chunk.file}`, priority, signal),
-      ),
+      manifest.chunks
+        .slice(index, index + BATCH_SIZE)
+        .map((chunk) => fetchGenerated(chunk.file, imageList, priority)),
     );
-    if (signal.aborted) return false;
-
-    for (const images of batches) {
-      loadedCount += images.length;
-      for (const image of images) imagesById.set(image.id, image);
-    }
+    for (const image of batches.flat()) imagesById.set(image.id, image);
     onBatch([...imagesById.values()]);
   }
+}
 
-  return loadedCount >= manifest.imageCount;
+/** The whole index in one file: the fallback when the year files fail. */
+export function loadGalleryIndexFile(priority: FetchPriority) {
+  return fetchGenerated("image-index.client.json", imageList, priority);
 }

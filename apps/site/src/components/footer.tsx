@@ -1,103 +1,61 @@
 import { GoogleMapsEmbed } from "@/components/google-maps-embed";
 import { NewsletterSignup } from "@/components/newsletter-signup";
-import { contactRegistry, siteIdentity, socialRegistry } from "@/config/registries";
-import type { SocialIconName } from "@/types";
+import { SocialIcon } from "@/components/social-icon";
+import { siteConfig } from "@/config";
+import { Container } from "@wilhalla/ui/components/container";
+import { typography } from "@wilhalla/ui/lib/typography";
+import { cn } from "@wilhalla/ui/lib/utils";
 import { Mail } from "lucide-react";
-import type { ReactElement, SVGProps } from "react";
 
-type SocialIconProps = SVGProps<SVGSVGElement> & { strokeWidth?: number };
-type SocialIcon = (props: SocialIconProps) => ReactElement;
-
-function FacebookIcon(props: SocialIconProps) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" {...props}>
-      <path d="M14 8.8V7.1c0-.8.5-1 1-1h1.8V3h-2.5C11.5 3 10 4.7 10 7v1.8H7.8V12H10v9h3.4v-9h2.8l.5-3.2h-3.3Z" />
-    </svg>
-  );
-}
-
-function InstagramIcon({ strokeWidth = 1.5, ...props }: SocialIconProps) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={strokeWidth}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <rect x="4" y="4" width="16" height="16" rx="4" />
-      <circle cx="12" cy="12" r="3.2" />
-      <circle cx="17" cy="7" r="0.7" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-const socialIconByName = {
-  facebook: FacebookIcon,
-  instagram: InstagramIcon,
-} satisfies Record<SocialIconName, SocialIcon>;
+/** Every footer link: underlined in a light rule that darkens with the text under the pointer. */
+const footerLink =
+  "inline-flex items-center gap-2 underline decoration-fog underline-offset-4 transition-colors duration-hover ease-out hover:text-obsidian hover:decoration-obsidian";
 
 export function Footer() {
   return (
-    <footer className="mt-16 border-t border-chalk bg-eggshell">
-      <div className="mx-auto w-[calc(100%-2rem)] max-w-page py-14">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_0.75fr_1.4fr]">
-          <div>
-            <h3 className="font-sans text-body-lg leading-body-lg tracking-ui mb-4 m-0 text-obsidian">
-              Contact
-            </h3>
-            <address className="font-sans text-body leading-body tracking-ui not-italic text-gravel">
-              <span className="text-obsidian">{contactRegistry.name}</span>
+    <footer className="mt-16 border-t border-chalk bg-eggshell py-14">
+      <Container>
+        <div className="grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-3">
+            <h3 className={cn(typography.body, "m-0 mb-4 text-obsidian")}>Contact</h3>
+            <address className={cn(typography.small, "not-italic text-gravel")}>
+              <span className="text-obsidian">{siteConfig.contact.name}</span>
               <br />
               <a
-                href={contactRegistry.mailto}
+                href={siteConfig.contact.mailto}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 underline underline-offset-4"
+                className={footerLink}
               >
-                <Mail className="h-4 w-4 text-slate" strokeWidth={1.5} />
-                {contactRegistry.email}
+                <Mail className="size-4 text-slate" strokeWidth={1.5} />
+                {siteConfig.contact.email}
               </a>
             </address>
           </div>
-          <div>
-            <h3 className="font-sans text-body-lg leading-body-lg tracking-ui mb-4 m-0 text-obsidian">
-              Volg ons
-            </h3>
-            <ul className="m-0 flex list-none flex-col gap-2 p-0 font-sans text-body leading-body tracking-ui text-gravel">
-              {socialRegistry.map((link) => {
-                const Icon = socialIconByName[link.icon];
-
-                return (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 underline underline-offset-4 hover:bg-powder"
-                    >
-                      <Icon className="h-4 w-4 text-slate" strokeWidth={1.5} />
-                      {link.label}
-                    </a>
-                  </li>
-                );
-              })}
+          <div className="lg:col-span-3">
+            <h3 className={cn(typography.body, "m-0 mb-4 text-obsidian")}>Volg ons</h3>
+            <ul
+              className={cn(typography.small, "m-0 flex list-none flex-col gap-2 p-0 text-gravel")}
+            >
+              {siteConfig.socialLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} target="_blank" rel="noreferrer" className={footerLink}>
+                    <SocialIcon name={link.icon} className="size-4 text-slate" />
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
-          <div className="lg:col-start-3 lg:row-span-2 lg:row-start-1">
+          <div className="lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1">
             <GoogleMapsEmbed />
           </div>
-          <NewsletterSignup className="max-w-readable lg:col-span-2" />
+          <NewsletterSignup className="max-w-readable lg:col-span-6" />
         </div>
         <div className="mt-12 border-t border-chalk pt-6">
-          <p className="font-sans text-body leading-body tracking-ui text-gravel">
-            {siteIdentity.footerTagline}
-          </p>
+          <p className={cn(typography.small, "m-0 text-gravel")}>{siteConfig.site.footerTagline}</p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

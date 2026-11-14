@@ -30,7 +30,6 @@
   "dependencies": {
     "@astrojs/react": "catalog:",
     "@astrojs/vercel": "catalog:",
-    "@lucide/astro": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@tanstack/react-table": "catalog:",
     "@tanstack/react-virtual": "catalog:",
@@ -44,9 +43,11 @@
     "minisearch": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-error-boundary": "catalog:",
     "recharts": "catalog:",
     "sharp": "catalog:",
-    "tailwindcss": "catalog:"
+    "tailwindcss": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@astrojs/check": "catalog:",

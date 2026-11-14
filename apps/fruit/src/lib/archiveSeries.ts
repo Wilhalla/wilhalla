@@ -85,9 +85,14 @@ export function buildArchiveSeries<T extends ArchiveSeriesPost>(
   function getSeriesForPost(postId: string): ArchiveSeriesDetail<T> | undefined {
     const record = seriesByPostId.get(postId);
     if (!record) return undefined;
-    const posts = partsFor(record);
-    if (posts.length < 2) return undefined;
-    return { id: record.id, primaryPostId: record.primaryPostId, postIds: record.postIds, posts };
+    const parts = partsFor(record);
+    if (parts.length < 2) return undefined;
+    return {
+      id: record.id,
+      primaryPostId: record.primaryPostId,
+      postIds: record.postIds,
+      posts: parts,
+    };
   }
 
   function aggregateSeriesPost(series: ArchiveSeriesDetail<T>) {

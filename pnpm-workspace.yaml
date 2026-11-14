@@ -48,20 +48,14 @@ catalog:
   '@fontsource-variable/eb-garamond': ^5.3.0
   '@fontsource-variable/geist-mono': ^5.3.0
   '@fontsource-variable/inter': ^5.3.0
-  '@lucide/astro': ^1.72.0
   '@rolldown/plugin-babel': ^0.3.1
   '@shadcn/lint': ^0.2.5
   '@tailwindcss/vite': ^4.3.5
-  '@tanstack/devtools-vite': ^0.8.6
-  '@tanstack/react-devtools': ^0.10.14
-  '@tanstack/react-query': ^5.107.1
   '@tanstack/react-router': 1.170.46
-  '@tanstack/react-router-devtools': 1.167.3
   '@tanstack/react-start': 1.169.5
   # The fruit archive uses the v8 table API; migrate it before taking the v9 major.
   '@tanstack/react-table': ^8.21.3
   '@tanstack/react-virtual': ^3.14.26
-  '@tanstack/router-core': 1.171.39
   '@testing-library/dom': ^10.4.2
   '@testing-library/react': ^16.3.3
   '@types/node': ^26.6.6
@@ -84,6 +78,7 @@ catalog:
   'radix-ui': ^1.8.1
   'react': ^19.3.1
   'react-dom': ^19.3.1
+  'react-error-boundary': ^6.1.6
   'recharts': 3.10.1
   'shadcn': ^4.23.0
   'sharp': ^0.35.5

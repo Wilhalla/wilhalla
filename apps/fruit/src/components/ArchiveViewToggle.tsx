@@ -5,6 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@wilhalla/ui/components/tooltip";
+import { formatNumber } from "../lib/format";
 
 export type ArchiveViewMode = "aggregated" | "all";
 
@@ -47,9 +48,7 @@ export default function ArchiveViewToggle({ mode, aggregatedCount, allCount, onC
               <ToggleGroupItem value={item.value}>
                 {item.label}
                 <span className="text-gravel tabular-nums">
-                  {(item.value === "aggregated" ? aggregatedCount : allCount).toLocaleString(
-                    "nl-BE",
-                  )}
+                  {formatNumber(item.value === "aggregated" ? aggregatedCount : allCount)}
                 </span>
               </ToggleGroupItem>
             </TooltipTrigger>

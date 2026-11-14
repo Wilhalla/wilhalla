@@ -69,4 +69,52 @@ describe("Sveltia GitHub OAuth", () => {
     expect(html).toContain("authorization:github:success");
     expect(html).toContain("gho_token");
   });
+
+  it("never reflects the provider parameter into the page script", async () => {
+    const response = await handleSveltiaGithubAuth(
+      new Request(
+        "https://wilhalla-site.vercel.app/api/cms-auth/auth?provider=%27);alert(document.domain);//&site_id=wilhalla-site.vercel.app",
+      ),
+      env,
+    );
+
+    const html = await response.text();
+
+    expect(html).not.toContain("alert(");
+    expect(html).toContain("UNSUPPORTED_BACKEND");
+  });
+
+  it("encodes a hostile error from the token endpoint as data", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn<typeof globalThis.fetch>(async () =>
+        Response.json({ error: "');alert(1);//</script><script>alert(2)</script>" }),
+      ),
+    );
+
+    const response = await handleSveltiaGithubCallback(
+      new Request("https://wilhalla-site.vercel.app/api/cms-auth/callback?code=c&state=csrf123", {
+        headers: { Cookie: "sveltia-cms-oauth-csrf=github_csrf123" },
+      }),
+      env,
+    );
+
+    const html = await response.text();
+    const script = html.slice(html.indexOf("<script>") + 8, html.lastIndexOf("</script>"));
+
+    expect(script).not.toContain("</script>");
+    expect(() => new Function(script)).not.toThrow();
+    expect(script).toContain(String.raw`\u003c/script>`);
+  });
+
+  it("rejects a callback whose state does not match the cookie", async () => {
+    const response = await handleSveltiaGithubCallback(
+      new Request("https://wilhalla-site.vercel.app/api/cms-auth/callback?code=c&state=other", {
+        headers: { Cookie: "sveltia-cms-oauth-csrf=github_csrf123" },
+      }),
+      env,
+    );
+
+    expect(await response.text()).toContain("CSRF_DETECTED");
+  });
 });

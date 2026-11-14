@@ -22,6 +22,15 @@ types_or = ["ts", "tsx", "javascript", "jsx", "css"]
 stages = ["pre-commit"]
 
 [[repos.hooks]]
+id = "lint"
+name = "Lint (oxlint, capped warnings)"
+language = "system"
+entry = "pnpm run lint"
+types_or = ["ts", "tsx", "javascript", "jsx"]
+stages = ["pre-commit"]
+pass_filenames = false
+
+[[repos.hooks]]
 id = "conventional-commit"
 name = "Conventional Commits subject"
 language = "system"

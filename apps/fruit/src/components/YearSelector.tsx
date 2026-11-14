@@ -1,15 +1,23 @@
 import { Button } from "@wilhalla/ui/components/button";
+import { cn } from "@wilhalla/ui/lib/utils";
 import type { ReactNode } from "react";
-import { yearPickerCountClass, yearPickerItemClass } from "./yearPickerStyles";
+import { displayArchiveYear } from "../lib/archiveDateTime";
+import {
+  yearPickerAsideClass,
+  yearPickerCountClass,
+  yearPickerItemClass,
+  yearPickerScrollClass,
+  yearPickerTitleClass,
+} from "./yearPickerStyles";
 
-export type YearSelectorItem = {
+export interface YearSelectorItem {
   year: string;
   label?: string;
   count: number;
-};
+}
 
-type Props = {
-  items: YearSelectorItem[];
+interface Props {
+  items: readonly YearSelectorItem[];
   activeYear: string;
   title?: string;
   currentLabel?: string;
@@ -20,11 +28,6 @@ type Props = {
   clearLabel?: string;
   formatYear?: (year: string) => string;
   footer?: ReactNode;
-};
-
-function defaultFormatYear(year: string) {
-  if (year === "unknown" || year === "ongedateerd") return "Geen datum";
-  return year;
 }
 
 export default function YearSelector({
@@ -37,26 +40,23 @@ export default function YearSelector({
   onSelect,
   onClear,
   clearLabel = "Alle jaren",
-  formatYear = defaultFormatYear,
+  formatYear = displayArchiveYear,
   footer,
 }: Props) {
   const currentYear = activeYear || items[0]?.year || "";
 
   return (
-    <aside
-      className={`sticky top-16 self-start border-r border-chalk/80 pr-2 md:top-20 md:border-chalk md:pr-6 ${className}`}
-      aria-label={ariaLabel}
-    >
-      <div className="max-h-[calc(100svh-4rem)] overflow-auto py-2 md:max-h-[calc(100vh-5rem)] md:py-5">
+    <aside className={cn(yearPickerAsideClass, className)} aria-label={ariaLabel}>
+      <div className={yearPickerScrollClass}>
         <div className="flex items-center justify-between gap-3">
-          <p className="m-0 text-body text-gravel max-md:sr-only">{title}</p>
+          <p className={yearPickerTitleClass}>{title}</p>
           {onClear && (
             <Button variant="link" size="inline" className="max-md:sr-only" onClick={onClear}>
               {clearLabel}
             </Button>
           )}
         </div>
-        <p className="my-3 text-gravel max-md:sr-only">
+        <p className="my-3 font-sans text-body leading-body text-gravel max-md:sr-only">
           {currentLabel}: <strong className="text-obsidian">{formatYear(currentYear)}</strong>
         </p>
         <nav className="grid gap-1 md:gap-0.5" aria-label={ariaLabel}>

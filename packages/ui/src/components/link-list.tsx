@@ -44,7 +44,7 @@ function LinkListItem({
     <li className="border-b border-chalk">
       <Link
         href={href}
-        className="group flex items-center gap-4 py-4 text-obsidian no-underline transition-colors duration-150 hover:bg-powder/60 focus-visible:bg-powder/60 focus-visible:outline-none md:-mx-3 md:rounded-lg md:px-3"
+        className="group flex items-center gap-4 py-4 text-obsidian no-underline transition-colors duration-hover ease-out hover:bg-powder focus-visible:bg-powder focus-visible:outline-none md:-mx-3 md:rounded-lg md:px-3"
       >
         {media && (
           <span className="size-16 shrink-0 overflow-hidden rounded-lg bg-powder [&>img]:size-full [&>img]:object-cover">
@@ -63,7 +63,7 @@ function LinkListItem({
         {trailing && (
           <span
             aria-hidden="true"
-            className="shrink-0 text-gravel transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:text-obsidian"
+            className="shrink-0 text-gravel transition-[translate,color] duration-hover ease-out motion-safe:group-hover:translate-x-0.5 group-hover:text-obsidian"
           >
             {trailing}
           </span>

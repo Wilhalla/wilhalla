@@ -1,14 +1,33 @@
 ---
+import { PageHeader } from "@wilhalla/ui/components/page-header";
+import { Section, SectionHeader } from "@wilhalla/ui/components/section";
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import DataPageLoaderController from '../../components/data/DataPageLoaderController'
+import DataSourceHeader from '../../components/data/DataSourceHeader'
 import SemanticDataTables from '../../components/data/SemanticDataTables'
 import SemanticPipelineDiagram from '../../components/data/SemanticPipelineDiagram'
+import manifest from '../../data/generated/manifest.json'
 ---
 <BaseLayout
   title="Data · Blogarchief Daniël Willaeys"
   description="Hoe het blogarchief is opgebouwd, met de bestanden die daarbij horen."
 >
-  <DataPageLoaderController client:load />
-  <SemanticPipelineDiagram client:only="react" />
-  <SemanticDataTables client:only="react" />
+  <PageHeader
+    size="page"
+    title="Data"
+    intro="Hoe dit archief uit de oude blogpagina's is opgebouwd, en de bestanden die daarbij horen."
+  />
+  <Section aria-labelledby="pipeline-title">
+    <SectionHeader
+      id="pipeline-title"
+      title="Werkwijze"
+      description="Van de oude blogpagina's naar de onderwerpen, het beeldarchief en het zoeken."
+    />
+    <div class="min-w-0 overflow-x-auto rounded-2xl bg-pure-surface p-6 shadow-subtle-2">
+      <SemanticPipelineDiagram client:idle />
+    </div>
+  </Section>
+  <Section aria-labelledby="sources-title">
+    <DataSourceHeader />
+  </Section>
+  <SemanticDataTables client:load manifest={manifest} />
 </BaseLayout>

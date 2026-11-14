@@ -2,6 +2,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { globSync } from "node:fs";
 import * as cheerio from "cheerio";
+import type { AnyNode } from "domhandler";
 import { repairTextEncoding } from "./text-encoding.ts";
 import { parseSeniorennetDateTime } from "../src/lib/archiveDateTime.ts";
 import { isSpamReaction } from "../src/lib/reactionSpam.ts";
@@ -122,7 +123,7 @@ function transformHref(raw: string, blog: BlogKey) {
   return href;
 }
 
-function sanitizeContent(contentCell: cheerio.Cheerio<any>, blog: BlogKey) {
+function sanitizeContent(contentCell: cheerio.Cheerio<AnyNode>, blog: BlogKey) {
   const $ = cheerio.load(`<main>${contentCell.html() ?? ""}</main>`);
   const main = $("main");
 
@@ -163,8 +164,8 @@ function sanitizeContent(contentCell: cheerio.Cheerio<any>, blog: BlogKey) {
 
   main.find("*").each((_, el) => {
     const node = $(el);
-    const tag = String((el as any).tagName || "").toLowerCase();
-    const attrs = { ...(el as any).attribs };
+    const tag = el.tagName.toLowerCase();
+    const attrs = { ...el.attribs };
     for (const key of Object.keys(attrs)) node.removeAttr(key);
     if (tag === "img") {
       const src = attrs.src ? transformImageSrc(attrs.src, blog) : "";
@@ -213,14 +214,14 @@ function normalizeAuthor(author: string) {
   return clean;
 }
 
-function signature(contentCell: cheerio.Cheerio<any>) {
+function signature(contentCell: cheerio.Cheerio<AnyNode>) {
   const sigText = normalizeSpace(contentCell.find("h1").last().text());
   const match = sigText.match(/(\d{2}-\d{2}-\d{4}),\s*(\d{2}:\d{2})\s+geschreven door\s+(.+)/i);
   if (!match) return { date: "", time: "", author: "" };
   return { date: match[1], time: match[2], author: normalizeAuthor(match[3]) };
 }
 
-function titleFromCell(titleCell: cheerio.Cheerio<any>) {
+function titleFromCell(titleCell: cheerio.Cheerio<AnyNode>) {
   const clone = titleCell.clone();
   clone.find("a, img").remove();
   return normalizeSpace(clone.text()) || "Naamloos bericht";
@@ -349,7 +350,7 @@ for (const blog of ["fruit", "fruit2"] as BlogKey[]) {
   }
 }
 
-const sorted = Array.from(posts.values()).sort((a, b) => {
+const sorted = Array.from(posts.values()).toSorted((a, b) => {
   const date = (b.isoDate || "").localeCompare(a.isoDate || "");
   if (date !== 0) return date;
   return Number(b.id) - Number(a.id);

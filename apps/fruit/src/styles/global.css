@@ -2,13 +2,9 @@
 @import "@wilhalla/ui/tokens.css";
 
 @custom-variant dark (&:is(.dark *));
-/* The atlas fills the screen in fullscreen mode; Tailwind has no built-in variant for it. */
-@custom-variant fullscreen (&:fullscreen);
 
 :root {
   color-scheme: light;
-  --apple-asset-1: url("/apple-assets/apple-1-160.webp");
-  --apple-asset-2: url("/apple-assets/apple-2-160.webp");
 }
 
 @layer base {
@@ -16,18 +12,11 @@
     @apply box-border;
   }
   html {
-    @apply scroll-smooth overflow-x-clip bg-eggshell text-obsidian font-sans;
-    scroll-behavior: smooth;
+    /* Anchors (#reactions, a part of a series) land below the sticky header. */
+    @apply scroll-smooth scroll-pt-navbar overflow-x-clip bg-eggshell text-obsidian font-sans;
   }
   body {
     @apply m-0 min-h-screen overflow-x-clip bg-eggshell text-obsidian font-sans text-body leading-body tracking-ui;
-    scroll-behavior: smooth;
-  }
-  html.mobile-menu-open,
-  body.mobile-menu-open {
-    overflow: hidden;
-    overscroll-behavior: none;
-    touch-action: none;
   }
   main {
     @apply bg-eggshell;
@@ -59,137 +48,6 @@
   }
 }
 
-@layer components {
-  .site-loader {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(1rem, 2vw, 1.5rem);
-    padding: 2rem;
-    background: color-mix(in srgb, var(--color-eggshell) 94%, transparent);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition:
-      opacity 220ms ease,
-      visibility 0s linear 220ms;
-  }
-
-  body.is-loading .site-loader,
-  .site-loader--active {
-    visibility: visible;
-    pointer-events: auto;
-    transition-delay: 0s;
-    animation: site-loader-fade-in 260ms ease-out 420ms both;
-  }
-
-  .site-loader--controlled {
-    animation: none;
-  }
-
-  .site-loader--controlled.site-loader--visible {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transition-delay: 0s;
-  }
-
-  .site-loader--dismissed {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    animation: none !important;
-    transition:
-      opacity 220ms ease,
-      visibility 0s linear 220ms !important;
-  }
-
-  .site-loader__mark {
-    width: clamp(7rem, 10vw, 9.5rem);
-    height: clamp(7rem, 10vw, 9.5rem);
-    flex: 0 0 auto;
-    background: var(--apple-asset-1) center / contain no-repeat;
-    filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.11));
-    animation: apple-loader-breathe 1.25s ease-in-out infinite alternate;
-  }
-
-  .site-loader__text {
-    display: grid;
-    justify-items: center;
-    gap: 4px;
-    color: var(--color-obsidian);
-  }
-
-  .site-loader__text span {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-  }
-
-  .site-loader__text small {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    color: var(--color-gravel);
-    font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-  }
-
-  .site-loader__text small::before {
-    content: "";
-    width: 0.85em;
-    height: 0.85em;
-    flex: 0 0 auto;
-    border: 1.5px solid color-mix(in srgb, var(--color-gravel) 26%, transparent);
-    border-top-color: var(--color-gravel);
-    border-radius: 999px;
-    animation: site-loader-spin 720ms linear infinite;
-  }
-
-  .apple-image {
-    background: transparent;
-    object-fit: contain;
-    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.08));
-  }
-
-  .brand-apple {
-    width: 2.1rem;
-    height: 2.1rem;
-    margin-block: -0.35rem;
-    flex: 0 0 auto;
-    filter: none;
-  }
-
-  @keyframes site-loader-fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes apple-loader-breathe {
-    from {
-      transform: translateY(3px) rotate(-3deg) scale(0.96);
-    }
-    to {
-      transform: translateY(-3px) rotate(3deg) scale(1.03);
-    }
-  }
-
-  @keyframes site-loader-spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -198,10 +56,6 @@
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
-  }
-
-  .site-loader__mark {
-    animation: none !important;
   }
 
   ::view-transition-old(root),
@@ -217,7 +71,7 @@
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation-duration: 140ms;
-    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+    animation-duration: var(--transition-duration-enter);
+    animation-timing-function: var(--ease-enter);
   }
 }

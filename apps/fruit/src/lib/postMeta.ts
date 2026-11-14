@@ -19,6 +19,6 @@ export function postCounts(
 
 /** Title and excerpt styles shared by every list of posts (timeline, archive, related). */
 export const postListTitle =
-  "m-0 font-heading text-heading-sm leading-heading-sm font-normal text-balance text-obsidian md:text-[1.6rem] md:leading-[1.25]";
+  "m-0 font-heading text-heading-sm leading-heading-sm font-normal text-balance text-obsidian md:text-heading-md md:leading-heading-md md:tracking-heading-md";
 export const postListExcerpt =
-  "m-0 mt-2 line-clamp-2 max-w-[66ch] font-sans text-body leading-body text-cinder [overflow-wrap:anywhere]";
+  "m-0 mt-2 line-clamp-2 max-w-prose font-sans text-body leading-body text-cinder wrap-anywhere";

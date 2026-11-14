@@ -1,16 +1,23 @@
 import { describe, expect, it } from "vitest";
 import {
-  activeArchiveTopicFromSearch,
   archiveTopicFilterLabel,
+  archiveUrlCodec,
   filterArchivePostsByTopic,
 } from "./archiveTopicFilter";
+import { searchWithState } from "./urlState";
+
+const topicOf = (search: string) => archiveUrlCodec.parse(new URLSearchParams(search)).topic;
 
 describe("archive topic filtering", () => {
   it("reads the atlas topic query parameter from archive URLs", () => {
-    expect(activeArchiveTopicFromSearch("?category=familie")).toBe("familie");
-    expect(activeArchiveTopicFromSearch("?topic=reizen&category=familie")).toBe("familie");
-    expect(activeArchiveTopicFromSearch("?topic=topic-03")).toBe("topic-03");
-    expect(activeArchiveTopicFromSearch("?year=2008")).toBe("");
+    expect(topicOf("?category=familie")).toBe("familie");
+    expect(topicOf("?topic=reizen&category=familie")).toBe("familie");
+    expect(topicOf("?topic=topic-03")).toBe("topic-03");
+    expect(topicOf("?year=2008")).toBeNull();
+    expect(searchWithState(archiveUrlCodec, { topic: "eten" }, "?topic=reizen")).toBe(
+      "?category=eten",
+    );
+    expect(searchWithState(archiveUrlCodec, { topic: null }, "?category=eten")).toBe("");
   });
 
   it("filters archive posts to posts tagged with the active topic", () => {

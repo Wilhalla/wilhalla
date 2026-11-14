@@ -1,5 +1,5 @@
 import { Button } from "@wilhalla/ui/components/button";
-import { ArrowRight, Download, Mail, Plus } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Download, Mail, Plus } from "lucide-react";
 
 import { Example, Examples, type Story } from "./story";
 
@@ -17,8 +17,20 @@ const InverseExample = () => (
     </Button>
   </div>
 );
+/** Straight on the drawing of the home map (a mid-tone here): no surface of its own. */
+const OverlayExample = () => (
+  <div className="flex w-full flex-wrap items-center gap-3 rounded-2xl bg-gravel p-4">
+    <Button variant="overlay" size="icon-touch" aria-label="Vorige plek">
+      <ChevronLeft strokeWidth={1.5} />
+    </Button>
+    <Button variant="overlay">Samentuin</Button>
+    <Button variant="overlay" size="icon-touch" aria-label="Volgende plek" aria-expanded>
+      <ChevronRight strokeWidth={1.5} />
+    </Button>
+  </div>
+);
 const sizes = ["xs", "sm", "default", "lg"] as const;
-const iconSizes = ["icon-xs", "icon-sm", "icon", "icon-lg"] as const;
+const iconSizes = ["icon-xs", "icon-sm", "icon", "icon-lg", "icon-touch"] as const;
 
 export const buttonStory: Story = {
   id: "button",
@@ -73,6 +85,9 @@ export const buttonStory: Story = {
         ))}
         <Example label='variant="inverse" (on photos and dark overlays)'>
           <InverseExample />
+        </Example>
+        <Example label='variant="overlay" (straight on the home map; second one aria-expanded)'>
+          <OverlayExample />
         </Example>
         <Example label='variant="link" size="inline" (inside running text)'>
           <p className="m-0 text-body text-cinder">

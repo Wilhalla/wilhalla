@@ -1,8 +1,8 @@
-import { siteIdentity } from "@/config/registries";
+import { siteConfig } from "@/config";
 
-export const SITE_NAME = siteIdentity.name;
-
-export const DEFAULT_DESCRIPTION = siteIdentity.defaultDescription;
+const siteIdentity = siteConfig.site;
+const SITE_NAME = siteIdentity.name;
+const DEFAULT_DESCRIPTION = siteIdentity.defaultDescription;
 
 type SeoOptions = {
   title?: string;
@@ -20,11 +20,7 @@ function absoluteUrl(path: string) {
   return new URL(normalizePath(path), baseUrl).toString();
 }
 
-export function routeMeta({
-  title,
-  description = DEFAULT_DESCRIPTION,
-  path = "/",
-}: SeoOptions = {}) {
+function routeMeta({ title, description = DEFAULT_DESCRIPTION, path = "/" }: SeoOptions = {}) {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
   const canonicalUrl = absoluteUrl(path);
   const image = siteIdentity.assets.ogImage;

@@ -1,67 +1,60 @@
 import { Badge } from "@wilhalla/ui/components/badge";
 import { Button } from "@wilhalla/ui/components/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@wilhalla/ui/components/collapsible";
 import { Separator } from "@wilhalla/ui/components/separator";
 import { typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
-import { ArrowRight } from "lucide-react";
-import type { CSSProperties, Key, RefObject } from "react";
-
+import { ArrowRight, ChevronDown } from "lucide-react";
 import galleryGroupsData from "../../data/generated/gallery-groups.json";
+import { defaultGalleryFilters, galleryHref } from "../../lib/galleryFilters";
+import { formatNumber } from "../../lib/format";
 import {
   formatImagePostDateTime,
-  type GalleryImageRecord as ImageRecord,
+  type GalleryImageRecord,
+  imageCaption,
 } from "../../lib/imageGallerySession";
-import GalleryThumbnail from "./GalleryThumbnail";
+import ViewerFilmstrip from "./ViewerFilmstrip";
+import ViewerImageButton from "./ViewerImageButton";
 
-const categoryLabels = new Map(galleryGroupsData.themes.map((theme) => [theme.id, theme.label]));
-
-/** Width of one item in the filmstrip; the virtualizer in GalleryViewerApp uses the same value. */
-export const FILMSTRIP_ITEM_SIZE = 104;
-
-type TimelineVirtualizer = {
-  getTotalSize: () => number;
-  getVirtualItems: () => Array<{ index: number; key: Key; size: number; start: number }>;
-};
-
-type Props = {
-  filtered: ImageRecord[];
+interface ViewerSidebarProps {
+  image: GalleryImageRecord;
+  /** The photos the viewer steps through, and where `image` is among them (-1: not in it). */
+  selection: readonly GalleryImageRecord[];
+  index: number;
+  related: readonly GalleryImageRecord[];
   relatedLoading: boolean;
-  similarImages: ImageRecord[];
-  timelineRef: RefObject<HTMLDivElement | null>;
-  timelineVirtualizer: TimelineVirtualizer;
-  viewerImage: ImageRecord;
-  viewerIndex: number;
   onSelectImage: (imageId: string) => void;
-};
+}
+
+const themeLabels = new Map(galleryGroupsData.themes.map((theme) => [theme.id, theme.label]));
 
 /** About the photo first (what it shows, where it comes from), then where to go next. */
 export default function ViewerSidebar({
-  filtered,
+  image,
+  selection,
+  index,
+  related,
   relatedLoading,
-  similarImages,
-  timelineRef,
-  timelineVirtualizer,
-  viewerImage,
-  viewerIndex,
   onSelectImage,
-}: Props) {
-  const caption = (viewerImage.imageSpecificText ?? []).join(" · ");
+}: ViewerSidebarProps) {
+  const caption = imageCaption(image);
+
   return (
     <aside className="grid content-start gap-6 bg-eggshell p-5 lg:min-h-0 lg:overflow-y-auto lg:overscroll-contain">
       <section className="grid gap-3">
         <p className={typography.eyebrow}>
-          {formatImagePostDateTime(viewerImage)}
-          {typeof viewerImage.imageIndex === "number" &&
-            ` · foto ${viewerImage.imageIndex + 1} in dit bericht`}
+          {formatImagePostDateTime(image)}
+          {image.imageIndex !== undefined && ` · foto ${image.imageIndex + 1} in dit bericht`}
         </p>
-        <h1 className={cn(typography.subsection, "text-balance")}>{viewerImage.postTitle}</h1>
-        {viewerImage.seriesTitle && (
+        <h1 className={cn(typography.subsection, "text-balance")}>{image.postTitle}</h1>
+        {image.seriesTitle && (
           <p className={cn(typography.small, "m-0 text-gravel")}>
-            Uit het verhaal “{viewerImage.seriesTitle}”
+            Uit het verhaal “{image.seriesTitle}”
           </p>
-        )}
-        {viewerImage.visualDescription && (
-          <p className={cn(typography.small, "m-0 text-cinder")}>{viewerImage.visualDescription}</p>
         )}
         {caption && (
           <p className="m-0 font-heading text-body-lg leading-body-lg text-obsidian italic">
@@ -69,19 +62,37 @@ export default function ViewerSidebar({
           </p>
         )}
         <Button asChild className="mt-1 w-fit">
-          <a href={`/posts/${viewerImage.postSlug}/`}>
+          <a href={`/posts/${image.postSlug}/`}>
             Lees het bericht <ArrowRight />
           </a>
         </Button>
+        {image.visualDescription && (
+          // Written by a vision model to derive the tags: kept out of the way of the author's words.
+          <Collapsible key={image.id}>
+            <CollapsibleTrigger asChild>
+              <Button variant="link" size="inline" className="group">
+                Automatische beschrijving
+                <ChevronDown className="transition-transform duration-hover ease-out group-data-[state=open]:rotate-180" />
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <p className={cn(typography.small, "m-0 mt-2 text-cinder")}>
+                {image.visualDescription}
+              </p>
+            </CollapsibleContent>
+          </Collapsible>
+        )}
         <div className="flex flex-wrap gap-1.5" aria-label="Over deze foto">
-          {viewerImage.visualTags.slice(0, 5).map((tag) => (
+          {image.visualTags.slice(0, 5).map((tag) => (
             <Badge asChild variant="outline" key={tag}>
-              <a href={`/gallery/?theme=${encodeURIComponent(tag)}`}>
-                {categoryLabels.get(tag) ?? tag}
+              <a
+                href={galleryHref("grid", { ...defaultGalleryFilters, theme: tag, imageId: null })}
+              >
+                {themeLabels.get(tag) ?? tag}
               </a>
             </Badge>
           ))}
-          {viewerImage.season && <Badge variant="secondary">{viewerImage.season}</Badge>}
+          {image.season && <Badge variant="secondary">{image.season}</Badge>}
         </div>
       </section>
 
@@ -93,52 +104,10 @@ export default function ViewerSidebar({
             In deze selectie
           </h2>
           <span className={cn(typography.small, "text-gravel tabular-nums")}>
-            {viewerIndex >= 0 &&
-              `${(viewerIndex + 1).toLocaleString("nl-BE")} van ${filtered.length.toLocaleString("nl-BE")}`}
+            {index >= 0 && `${formatNumber(index + 1)} van ${formatNumber(selection.length)}`}
           </span>
         </div>
-        <div
-          ref={timelineRef}
-          className="h-20 overflow-x-auto overflow-y-hidden [scrollbar-width:thin]"
-          aria-label="Foto's in de huidige selectie"
-        >
-          <div
-            className="relative h-full w-(--strip-width)"
-            style={{ "--strip-width": `${timelineVirtualizer.getTotalSize()}px` } as CSSProperties}
-          >
-            {timelineVirtualizer.getVirtualItems().map((virtualItem) => {
-              const image = filtered[virtualItem.index];
-              if (!image) return null;
-              const active = image.id === viewerImage.id;
-              return (
-                <button
-                  className="absolute top-0 h-full w-(--item-width) translate-x-(--item-x) overflow-hidden rounded-md bg-powder ring-obsidian ring-offset-2 ring-offset-eggshell transition-opacity duration-150 hover:opacity-90 aria-[current=true]:ring-2"
-                  key={virtualItem.key}
-                  type="button"
-                  onClick={() => onSelectImage(image.id)}
-                  aria-current={active ? "true" : undefined}
-                  aria-label={`${image.postTitle}, ${formatImagePostDateTime(image)}`}
-                  title={image.postTitle}
-                  style={
-                    {
-                      "--item-width": `${virtualItem.size - 8}px`,
-                      "--item-x": `${virtualItem.start}px`,
-                    } as CSSProperties
-                  }
-                >
-                  <GalleryThumbnail
-                    className="size-full object-cover"
-                    image={image}
-                    alt=""
-                    loading="lazy"
-                    fetchPriority="low"
-                    decoding="async"
-                  />
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <ViewerFilmstrip images={selection} activeIndex={index} onSelectImage={onSelectImage} />
       </section>
 
       <Separator />
@@ -147,26 +116,15 @@ export default function ViewerSidebar({
         <h2 id="viewer-related-title" className={typography.eyebrow}>
           Lijkt op deze foto{relatedLoading && " · laden…"}
         </h2>
-        {similarImages.length > 0 ? (
+        {related.length > 0 ? (
           <div className="grid grid-cols-3 gap-1.5">
-            {similarImages.map((image) => (
-              <button
-                className="aspect-square overflow-hidden rounded-md bg-powder transition-opacity duration-150 hover:opacity-90"
-                key={image.id}
-                type="button"
-                onClick={() => onSelectImage(image.id)}
-                aria-label={`${image.postTitle}, ${formatImagePostDateTime(image)}`}
-                title={image.postTitle}
-              >
-                <GalleryThumbnail
-                  className="size-full object-cover"
-                  image={image}
-                  alt=""
-                  loading="lazy"
-                  fetchPriority="low"
-                  decoding="async"
-                />
-              </button>
+            {related.map((item) => (
+              <ViewerImageButton
+                key={item.id}
+                className="aspect-square"
+                image={item}
+                onSelect={onSelectImage}
+              />
             ))}
           </div>
         ) : (

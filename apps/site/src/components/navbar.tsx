@@ -1,147 +1,57 @@
-import { Button, buttonVariants } from "@wilhalla/ui/components/button";
+import { MobileMenu } from "@/components/mobile-menu";
+import { siteConfig } from "@/config";
+import { contactPage, navigationLinks } from "@/navigation";
+import { Link } from "@tanstack/react-router";
+import { Button } from "@wilhalla/ui/components/button";
+import { layout } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
-import { navigationRegistry, siteIdentity } from "@/config/registries";
-import type { NavigationIconName } from "@/types";
-import { Link, useLocation } from "@tanstack/react-router";
-import {
-  CalendarDays,
-  Flower2,
-  HeartPulse,
-  Images,
-  Mail,
-  TentTree,
-  UsersRound,
-  type LucideIcon,
-} from "lucide-react";
-import { useState } from "react";
-import { MobileMenu } from "./mobile-menu";
+import { Mail } from "lucide-react";
 
-const navLinks = navigationRegistry.links;
-
-const navIconByName = {
-  calendar: CalendarDays,
-  flower: Flower2,
-  heart: HeartPulse,
-  images: Images,
-  tent: TentTree,
-  users: UsersRound,
-} satisfies Record<NavigationIconName, LucideIcon>;
-
-export function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const isHome = useLocation().pathname === "/";
-
+/** `overlay` floats the bar over the page (the map) without its own background. */
+export function Navbar({ overlay = false }: { overlay?: boolean }) {
   return (
-    <>
-      <header
-        className={`fixed top-0 left-0 z-50 w-full ${
-          isHome
-            ? "border-transparent bg-transparent"
-            : "border-b border-chalk bg-eggshell/95 backdrop-blur-sm"
-        }`}
-      >
-        <nav className="mx-auto w-[calc(100%-2rem)] max-w-page grid h-12 grid-cols-[1fr_auto_1fr] items-center">
-          <Link
-            to="/"
-            className="group inline-flex items-center gap-2 no-underline"
-            aria-label={`${siteIdentity.name} home`}
-          >
-            <img src={siteIdentity.assets.favicon} alt="" className="h-6 w-6" />
-            <span className="font-waldenburg text-[21px] font-normal leading-none tracking-ui text-obsidian">
-              {siteIdentity.name}
-            </span>
-          </Link>
-
-          <ul className="hidden list-none items-center justify-center gap-1 p-0 m-0 md:flex">
-            {navLinks.map((link) => {
-              const Icon = navIconByName[link.icon];
-
-              return (
-                <li key={link.to}>
-                  <Link
-                    to={link.to as string}
-                    className="rounded-full px-2.5 py-[7px] text-obsidian no-underline transition-colors duration-150 hover:bg-powder data-[status=active]:bg-powder inline-flex items-center gap-2 font-waldenburg text-body-lg font-normal tracking-ui"
-                  >
-                    <Icon className="h-4 w-4 text-slate" strokeWidth={1.5} />
-                    {link.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-
-          <Link
-            to="/contact"
-            className={cn(
-              buttonVariants(),
-              "hidden justify-self-end has-[>svg]:px-4 md:inline-flex font-waldenburg text-body-lg font-normal tracking-ui",
-            )}
-          >
-            <Mail className="h-4 w-4" strokeWidth={1.5} />
-            {navigationRegistry.contactLabel}
-          </Link>
-        </nav>
-      </header>
-
-      <MobileToggle menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <MobileMenu
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        links={navLinks}
-        contactLabel={navigationRegistry.contactLabel}
-      />
-    </>
-  );
-}
-
-function MobileToggle({
-  menuOpen,
-  setMenuOpen,
-}: {
-  menuOpen: boolean;
-  setMenuOpen: (updater: (value: boolean) => boolean) => void;
-}) {
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="fixed top-[0.7rem] right-4 z-[70] md:hidden"
-      onClick={() => setMenuOpen((v) => !v)}
-      aria-label={menuOpen ? "Close menu" : "Open menu"}
+    <header
+      className={cn(
+        "fixed top-0 left-0 z-50 w-full",
+        !overlay && "border-b border-chalk bg-eggshell/95 backdrop-blur-sm",
+      )}
     >
-      <svg
-        aria-hidden="true"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <line
-          x1={menuOpen ? 4 : 3}
-          y1={menuOpen ? 4 : 6}
-          x2={menuOpen ? 20 : 21}
-          y2={menuOpen ? 20 : 6}
-          className="origin-center transition-all duration-300"
-        />
-        <line
-          x1="3"
-          y1="12"
-          x2="21"
-          y2="12"
-          className={`origin-center transition-all duration-300 ${
-            menuOpen ? "opacity-0 scale-x-0" : "opacity-100 scale-x-100"
-          }`}
-        />
-        <line
-          x1={menuOpen ? 4 : 3}
-          y1={menuOpen ? 20 : 18}
-          x2={menuOpen ? 20 : 21}
-          y2={menuOpen ? 4 : 18}
-          className="origin-center transition-all duration-300"
-        />
-      </svg>
-    </Button>
+      <nav className={cn(layout.container, "grid h-12 grid-cols-bar items-center")}>
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 no-underline"
+          aria-label={`${siteConfig.site.name}, naar de kaart`}
+        >
+          <img src={siteConfig.site.assets.favicon} alt="" className="size-6" />
+          <span className="font-waldenburg text-heading-sm leading-none tracking-ui text-obsidian">
+            {siteConfig.site.name}
+          </span>
+        </Link>
+
+        <ul className="m-0 hidden list-none items-center justify-center gap-1 p-0 md:flex">
+          {navigationLinks.map(({ page, Icon }) => (
+            <li key={page.path}>
+              <Button asChild variant="ghost">
+                <Link to={page.to} activeProps={{ "aria-current": "page" }}>
+                  <Icon className="text-slate" strokeWidth={1.5} />
+                  {page.linkLabel}
+                </Link>
+              </Button>
+            </li>
+          ))}
+        </ul>
+
+        <Button asChild className="hidden justify-self-end md:inline-flex">
+          <Link to={contactPage.to}>
+            <Mail strokeWidth={1.5} />
+            {contactPage.linkLabel}
+          </Link>
+        </Button>
+
+        <div className="col-start-3 justify-self-end md:hidden">
+          <MobileMenu />
+        </div>
+      </nav>
+    </header>
   );
 }

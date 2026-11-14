@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { galleryViewerPageUrl } from "./imageGallerySession";
+import { defaultGalleryFilters, galleryHref } from "./galleryFilters";
 
 type PostImageSource = {
   id: string;
@@ -18,15 +18,9 @@ export function galleryImageViewerId(postId: string, imageIndex: number, src: st
 }
 
 export function galleryImageViewerUrl(postId: string, imageIndex: number, src: string) {
-  return galleryViewerPageUrl({
-    query: "",
-    theme: "all",
-    speciesFilter: "all",
-    selectedYear: "",
-    season: "all",
-    peoplePlantsOnly: false,
-    sortNewest: true,
-    viewerId: galleryImageViewerId(postId, imageIndex, src),
+  return galleryHref("viewer", {
+    ...defaultGalleryFilters,
+    imageId: galleryImageViewerId(postId, imageIndex, src),
   });
 }
 

@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
-import {
-  archivePostPartHtml,
-  archivePostPartLabel,
-  buildArchivePostRendering,
-} from "./archivePostRendering";
-import type { Post } from "./postDetails";
+import { archivePostPartHtml, archivePostPartLabel, type Post } from "./archivePostReading";
+import { archivePostSidebarImages } from "./archivePostRendering";
+import { postGalleryImageEntries } from "./galleryImageLinks";
 
 function post(overrides: Partial<Post>): Post {
   return {
@@ -34,7 +31,7 @@ describe("archive post rendering module", () => {
     expect(archivePostPartHtml(post({}))).toBe("<p>Body</p>");
   });
 
-  it("builds one rendering model for single posts and post series", async () => {
+  it("lists the sidebar images of every part of a series, in order", async () => {
     const first = post({ id: "1", slug: "one", images: ["/archive-images/a.jpg"], imageCount: 1 });
     const second = post({
       id: "2",
@@ -44,14 +41,10 @@ describe("archive post rendering module", () => {
       imageCount: 1,
     });
 
-    const single = await buildArchivePostRendering(first);
-    expect(single.isSeries).toBe(false);
-    expect(single.parts.map((part) => part.id)).toEqual(["1"]);
-
-    const series = await buildArchivePostRendering(first, [first, second]);
-    expect(series.isSeries).toBe(true);
-    expect(series.parts.map((part) => part.id)).toEqual(["1", "2"]);
-    expect(series.imageEntries.map((image) => image.src)).toEqual([
+    const images = await archivePostSidebarImages({
+      imageEntries: postGalleryImageEntries([first, second]),
+    });
+    expect(images.map((image) => image.src)).toEqual([
       "/archive-images/a.jpg",
       "/archive-images/b.jpg",
     ]);

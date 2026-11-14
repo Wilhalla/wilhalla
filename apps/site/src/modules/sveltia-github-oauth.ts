@@ -9,32 +9,34 @@ type OAuthEnvironment = Partial<{
   GITHUB_HOSTNAME: string;
 }>;
 
-type OAuthResult =
-  | { provider: string; token: string }
-  | { provider: string; error: string; errorCode?: string };
+type OAuthResult = { token: string } | { error: string; errorCode: string };
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-function safeJson(value: OAuthResult) {
+/** A JavaScript string literal that is safe inside an inline `<script>`. */
+function scriptLiteral(value: string) {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
+/**
+ * The page Sveltia's popup protocol expects. Only the constant provider name and JSON-encoded
+ * literals reach the script: nothing from the request is interpolated as code.
+ */
 function outputHTML(result: OAuthResult) {
-  const provider = result.provider || "unknown";
   const state = "token" in result ? "success" : "error";
+  const handshake = `authorizing:${GITHUB_PROVIDER}`;
+  const message = `authorization:${GITHUB_PROVIDER}:${state}:${JSON.stringify({ provider: GITHUB_PROVIDER, ...result })}`;
 
   return new Response(
     `<!doctype html><html><body><script>
 (() => {
+  const handshake = ${scriptLiteral(handshake)};
   window.addEventListener('message', ({ data, origin }) => {
-    if (data === 'authorizing:${provider}') {
-      window.opener?.postMessage(
-        'authorization:${provider}:${state}:${safeJson(result)}',
-        origin
-      );
+    if (data === handshake) {
+      window.opener?.postMessage(${scriptLiteral(message)}, origin);
     }
   });
-  window.opener?.postMessage('authorizing:${provider}', '*');
+  window.opener?.postMessage(handshake, '*');
 })();
 </script></body></html>`,
     {
@@ -81,6 +83,21 @@ function normalizeDomain(value: string) {
   }
 }
 
+/** GitHub's token endpoint answers `{access_token}` or `{error}`; anything else is neither. */
+function parseTokenResponse(value: unknown) {
+  if (typeof value !== "object" || value === null) {
+    return {};
+  }
+
+  return {
+    token:
+      "access_token" in value && typeof value.access_token === "string"
+        ? value.access_token
+        : undefined,
+    error: "error" in value && typeof value.error === "string" ? value.error : undefined,
+  };
+}
+
 function getCookie(headers: Headers, name: string) {
   return headers
     .get("Cookie")
@@ -100,7 +117,6 @@ export async function handleSveltiaGithubAuth(
 
   if (provider !== GITHUB_PROVIDER) {
     return outputHTML({
-      provider: provider ?? "unknown",
       error: "Your Git backend is not supported by the authenticator.",
       errorCode: "UNSUPPORTED_BACKEND",
     });
@@ -108,7 +124,6 @@ export async function handleSveltiaGithubAuth(
 
   if (!isAllowedDomain(siteId, env.ALLOWED_DOMAINS ?? DEFAULT_ALLOWED_DOMAINS)) {
     return outputHTML({
-      provider,
       error: "Your domain is not allowed to use the authenticator.",
       errorCode: "UNSUPPORTED_DOMAIN",
     });
@@ -118,7 +133,6 @@ export async function handleSveltiaGithubAuth(
 
   if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
     return outputHTML({
-      provider,
       error: "OAuth app client ID or secret is not configured.",
       errorCode: "MISCONFIGURED_CLIENT",
     });
@@ -153,7 +167,6 @@ export async function handleSveltiaGithubCallback(
 
   if (provider !== GITHUB_PROVIDER) {
     return outputHTML({
-      provider: provider ?? "unknown",
       error: "Your Git backend is not supported by the authenticator.",
       errorCode: "UNSUPPORTED_BACKEND",
     });
@@ -161,7 +174,6 @@ export async function handleSveltiaGithubCallback(
 
   if (!code || !state) {
     return outputHTML({
-      provider,
       error: "Failed to receive an authorization code. Please try again later.",
       errorCode: "AUTH_CODE_REQUEST_FAILED",
     });
@@ -169,7 +181,6 @@ export async function handleSveltiaGithubCallback(
 
   if (!csrfToken || state !== csrfToken) {
     return outputHTML({
-      provider,
       error: "Potential CSRF attack detected. Authentication flow aborted.",
       errorCode: "CSRF_DETECTED",
     });
@@ -179,7 +190,6 @@ export async function handleSveltiaGithubCallback(
 
   if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
     return outputHTML({
-      provider,
       error: "OAuth app client ID or secret is not configured.",
       errorCode: "MISCONFIGURED_CLIENT",
     });
@@ -203,31 +213,30 @@ export async function handleSveltiaGithubCallback(
     });
   } catch {
     return outputHTML({
-      provider,
       error: "Failed to request an access token. Please try again later.",
       errorCode: "TOKEN_REQUEST_FAILED",
     });
   }
 
-  let tokenPayload: { access_token?: string; error?: string };
+  let tokenPayload: unknown;
 
   try {
     tokenPayload = await response.json();
   } catch {
     return outputHTML({
-      provider,
       error: "Server responded with malformed data. Please try again later.",
       errorCode: "MALFORMED_RESPONSE",
     });
   }
 
-  if (!tokenPayload.access_token) {
+  const { token, error } = parseTokenResponse(tokenPayload);
+
+  if (!token) {
     return outputHTML({
-      provider,
-      error: tokenPayload.error || "Failed to receive an access token.",
+      error: error || "Failed to receive an access token.",
       errorCode: "TOKEN_REQUEST_FAILED",
     });
   }
 
-  return outputHTML({ provider, token: tokenPayload.access_token });
+  return outputHTML({ token });
 }

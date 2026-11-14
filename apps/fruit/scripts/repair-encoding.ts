@@ -8,7 +8,7 @@ const patterns = [
   "public/generated/*.json",
 ];
 
-const files = Array.from(new Set(patterns.flatMap((pattern) => globSync(pattern)))).sort();
+const files = Array.from(new Set(patterns.flatMap((pattern) => globSync(pattern)))).toSorted();
 let changed = 0;
 
 for (const file of files) {

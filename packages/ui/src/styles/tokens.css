@@ -40,7 +40,8 @@
   --color-powder: #f5f3f1;
   --color-chalk: #e5e5e5;
   --color-fog: #b1b0b0;
-  --color-gravel: #777169;
+  /* Secondary text: 4.6:1 on powder (muted), 5.0:1 on eggshell. Same hue as slate and cinder. */
+  --color-gravel: #736d65;
   --color-slate: #a59f97;
   --color-cinder: #57534d;
   --color-obsidian: #000000;
@@ -49,36 +50,92 @@
   --color-ember: #ff4704;
   --color-voice-spectrum: #3d75d8;
 
-  /* Type scale: text-<step>, leading-<step>, tracking-<step> */
-  --text-caption: 10px;
-  --leading-caption: 1.2;
-  --text-body: 14px;
+  /*
+   * The hand-drawn home map (site): warm paper and pencil ink taken from the drawing, for what
+   * floats over it. A card takes `map-paper` with `map-ink`, or `map-night` with `map-cream`,
+   * whichever contrasts with the hand-lettered label above it (both pairs pass 14:1).
+   */
+  --color-map-paper: #fdf8e9;
+  --color-map-ink: #261b12;
+  --color-map-ink-soft: #3f3225;
+  --color-map-night: #2a2118;
+  --color-map-cream: #fff8dc;
+  /* The haze behind the interaction hint, and the sunlight over a place without an overlay. */
+  --color-map-haze: #faf6ec;
+  --color-map-glow: #fff1a8;
+
+  /*
+   * Subjects of the fruit archive (atlas dots, their legend): one muted earth tone per subject,
+   * all at a similar lightness so none outshouts the others. The canvas reads them by name.
+   */
+  --color-topic-fruit: #8b5a2b;
+  --color-topic-teelt: #567a4b;
+  --color-topic-plantgezondheid: #b7644a;
+  --color-topic-natuur: #6f8052;
+  --color-topic-reizen: #3f6f9f;
+  --color-topic-erfgoed: #8a7c65;
+  --color-topic-familie: #806398;
+  --color-topic-eten: #bd8742;
+  --color-topic-overig: #7c8589;
+
+  /*
+   * Type scale: text-<step>, leading-<step>, tracking-<step>. Sizes in rem so the reader's own
+   * font size applies; tracking in em so it scales with the size. Headings from 32px track -0.02em.
+   */
+  --text-caption: 0.75rem; /* 12px fine print */
+  --leading-caption: 1.33;
+  --text-body: 0.875rem; /* 14px */
   --leading-body: 1.43;
-  --text-body-lg: 16px;
+  --text-body-lg: 1rem; /* 16px */
   --leading-body-lg: 1.5;
-  --text-subheading: 18px;
+  --text-subheading: 1.125rem; /* 18px */
   --leading-subheading: 1.44;
-  --text-heading-sm: 20px;
+  --text-heading-sm: 1.25rem; /* 20px */
   --leading-heading-sm: 1.4;
-  --text-heading: 32px;
+  /* Titles in a list of posts on wide screens (timeline, search results) */
+  --text-heading-md: 1.5rem; /* 24px */
+  --leading-heading-md: 1.25;
+  --tracking-heading-md: -0.01em;
+  --text-heading: 2rem; /* 32px */
   --leading-heading: 1.17;
-  --tracking-heading: -0.64px;
-  --text-heading-lg: 36px;
+  --tracking-heading: -0.02em;
+  --text-heading-lg: 2.25rem; /* 36px */
   --leading-heading-lg: 1.13;
-  --tracking-heading-lg: -0.72px;
-  --text-display: 48px;
+  --tracking-heading-lg: -0.02em;
+  --text-display: 3rem; /* 48px */
   --leading-display: 1.08;
-  --tracking-display: -0.96px;
+  --tracking-display: -0.02em;
   /* Fluid titles: page titles 36 to 48px, section titles 32 to 36px */
-  --text-display-fluid: clamp(2.25rem, 6vw, 48px);
-  --text-heading-lg-fluid: clamp(2rem, 4vw, 36px);
-  /* Small print: labels and chips (11px), monospaced figures (13px) */
-  --text-label: 11px;
-  --text-mono: 13px;
+  --text-display-fluid: clamp(2.25rem, 6vw, 3rem);
+  --text-heading-lg-fluid: clamp(2rem, 4vw, 2.25rem);
+  /* A decorative numeral that fills the page, such as the 404: 128 to 256px */
+  --text-numeral: clamp(8rem, 20vw, 16rem);
+  --leading-numeral: 1;
+  --tracking-numeral: -0.04em;
+  /* Small print: chart labels (11px), monospaced figures (13px) */
+  --text-label: 0.6875rem;
+  --text-mono: 0.8125rem;
   --leading-mono: 1.69;
+  /* Long-form text. `reading`: the site's CMS pages in Inter, 17 to 19px. `prose`: the serif
+     article recipe (`prose` in lib/typography), 20px. */
+  --text-reading: clamp(1.0625rem, 1.2vw, 1.1875rem);
+  --leading-reading: 1.7;
+  --text-prose: 1.25rem;
+  --leading-prose: 1.7;
   /* Letter spacing: interface text, and uppercase labels */
   --tracking-ui: 0.01em;
   --tracking-caps: 0.18em;
+  /*
+   * The home map's explanation card is drawn in the map's own pixels (an SVG foreignObject that
+   * scales with the drawing), so its sizes are map pixels, not rem. The place name in the small-
+   * screen navigator is ordinary interface text.
+   */
+  --text-map-card: 34px;
+  --leading-map-card: 1.28;
+  --text-map-card-link: 26px;
+  --leading-map-card-link: 1;
+  --text-map-place: clamp(1rem, 5vw, 1.625rem);
+  --leading-map-place: 1.25;
 
   /* Radii */
   --radius-sm: 4px;
@@ -89,10 +146,38 @@
   --radius-3xl: 24px;
   --radius-4xl: 30px;
   --radius-image: 18px;
+  /* The explanation card on the home map, in map pixels */
+  --radius-map-card: 34px;
 
   /* Layout: max-w-page, max-w-readable */
   --container-page: 75rem;
   --container-readable: 58ch;
+  /* Measures of long-form text, about 66 to 72 characters a line: max-w-editorial (reading),
+     max-w-prose (prose) */
+  --container-editorial: 60ch;
+  --container-prose: 66ch;
+  /* The page column inside the 16px gutter on each side: w-column (layout.container) */
+  --container-column: calc(100% - 2rem);
+  /* Grid templates: a bar with a centred middle (grid-cols-bar), cards that fill the row at
+     15rem or wider (grid-cols-cards) */
+  --grid-template-columns-bar: 1fr auto 1fr;
+  --grid-template-columns-cards: repeat(auto-fit, minmax(15rem, 1fr));
+  /* A narrow side column (navigation) beside the content: grid-cols-sidebar */
+  --grid-template-columns-sidebar: 12rem minmax(0, 1fr);
+  /* The same on phones, as a rail of short labels such as years: grid-cols-rail */
+  --grid-template-columns-rail: 4.25rem minmax(0, 1fr);
+  /* A 20rem panel after the content (photos beside a post, details beside a photo or map):
+     grid-cols-aside */
+  --grid-template-columns-aside: minmax(0, 1fr) 20rem;
+  /* Two columns, the first wider: a chart beside its figures (grid-cols-split) */
+  --grid-template-columns-split: minmax(0, 3fr) minmax(0, 2fr);
+
+  /* The top navigation bar (h-navbar, top-navbar) and the screen below it (max-h-below-navbar):
+     sticky side columns and tools that fill the screen under the bar. */
+  --spacing-navbar: 3rem;
+  --spacing-below-navbar: calc(100svh - var(--spacing-navbar));
+  /* A map or photo given most of the screen, capped on tall ones: h-stage, min-h-stage */
+  --spacing-stage: min(70svh, 44rem);
 
   /* Hairline elevation */
   --shadow-subtle: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;
@@ -101,6 +186,42 @@
     rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
   --shadow-subtle-4: rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 4px 0px;
   --shadow-subtle-7: rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+  /* Over the home map: a card or sheet floating above the drawing, in the drawing's brown ink */
+  --shadow-map-float: 0 14px 34px rgb(38 27 18 / 0.18);
+  --shadow-map-hint: 0 1px 10px rgb(0 0 0 / 0.04);
+  /* Hand-lettered labels lifted off a map card */
+  --drop-shadow-map-label: 0 2px 3px rgb(0 0 0 / 0.22);
+  /* Light text and icons set straight on an image or the drawing (Button variant="overlay") */
+  --drop-shadow-on-image: 0 1px 3px rgb(0 0 0 / 0.8);
+  --text-shadow-map-emboss: 0 1px 0 rgb(255 255 255 / 0.35);
+
+  /* Safe area at the bottom of a phone screen, never less than 12px (bottom-safe, pb-safe) */
+  --spacing-safe: max(0.75rem, env(safe-area-inset-bottom));
+
+  /*
+   * Motion: one duration per role, exits shorter than entrances, named easings. Use
+   * `transition-<properties> duration-<role> ease-<curve>`, never `transition-all`.
+   */
+  --transition-duration-hover: 150ms; /* pointer feedback: colour, underline, small lifts, press */
+  --transition-duration-enter: 200ms; /* popovers, menus, dialogs, a card fading in */
+  --transition-duration-exit: 150ms; /* the same leaving */
+  --transition-duration-reveal: 400ms; /* larger content arriving: menu links, the map hint */
+  --transition-duration-move: 700ms; /* the map panning and zooming to a place, a slide cross-fading */
+  --transition-duration-glow: 1600ms; /* a painted place lighting up on the map */
+  --transition-delay-reveal: 150ms; /* wait before a reveal so it does not flash on load */
+  /* The same delay for entrances drawn with tw-animate (animate-in … delay-reveal), whose delay-*
+     reads these keys rather than the transition ones. */
+  --animation-delay-reveal: var(--transition-delay-reveal);
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1); /* decelerates into place */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1); /* accelerates away */
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1); /* camera moves: eases in and out */
+}
+
+@theme inline {
+  /* Items that arrive one after another set their place as `--stagger-index`; `delay-stagger`
+     waits 80ms, then 50ms per item. `inline`, because the index resolves on the item itself. */
+  --transition-delay-stagger: calc(80ms + var(--stagger-index, 0) * 50ms);
+  --animation-delay-stagger: calc(80ms + var(--stagger-index, 0) * 50ms);
 }
 
 /* shadcn/ui semantic colors */

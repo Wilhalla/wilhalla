@@ -1,43 +1,52 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { loadGalleryIndexChunks } from "./galleryIndexLoader";
-import type { GalleryImageRecord } from "./imageGallerySession";
+import type { GalleryImageRecord } from "./generatedTypes";
+import { testImage } from "./galleryTestImages";
 
 afterEach(() => vi.unstubAllGlobals());
 
-it("loads year chunks in bounded batches and merges duplicate initial images", async () => {
-  const image = (id: string) => ({ id, src: `/archive-images/${id}.jpg` }) as GalleryImageRecord;
-  const updates: GalleryImageRecord[][] = [];
-  let active = 0;
-  let peakActive = 0;
-
+function stubIndex(years: number, yearFile: (year: number) => unknown) {
+  const requests = { active: 0, peak: 0 };
   vi.stubGlobal("fetch", async (url: string) => {
     if (url.endsWith("image-index-chunks.json")) {
       return Response.json({
-        imageCount: 5,
-        chunks: Array.from({ length: 5 }, (_, index) => ({
-          file: `year-${index}.json`,
+        imageCount: years,
+        chunks: Array.from({ length: years }, (_, year) => ({
+          file: `year-${year}.json`,
           imageCount: 1,
         })),
       });
     }
-
-    active += 1;
-    peakActive = Math.max(peakActive, active);
+    requests.active += 1;
+    requests.peak = Math.max(requests.peak, requests.active);
     await new Promise((resolve) => setTimeout(resolve, 0));
-    active -= 1;
-    const id = Number(url.match(/year-(\d+)/)?.[1]);
-    return Response.json([image(String(id))]);
+    requests.active -= 1;
+    return Response.json(yearFile(Number(url.match(/year-(\d+)/)?.[1])));
   });
+  return requests;
+}
 
-  const complete = await loadGalleryIndexChunks({
-    initialImages: [image("0")],
+it("loads the year files a few at a time and reports the growing list once per batch", async () => {
+  const requests = stubIndex(5, (year) => [testImage(String(year), { caption: "from index" })]);
+  const updates: GalleryImageRecord[][] = [];
+
+  await loadGalleryIndexChunks({
+    seed: [testImage("0", { caption: "from page" })],
     onBatch: (images) => updates.push(images),
     priority: "low",
-    signal: new AbortController().signal,
   });
 
-  expect(complete).toBe(true);
-  expect(peakActive).toBe(4);
+  expect(requests.peak).toBe(4);
   expect(updates).toHaveLength(2);
-  expect(updates.at(-1)?.map((item) => item.id)).toEqual(["0", "1", "2", "3", "4"]);
+  expect(updates.at(-1)?.map((image) => image.id)).toEqual(["0", "1", "2", "3", "4"]);
+  // The index replaces the photo the page was built with.
+  expect(updates.at(-1)?.[0]?.caption).toBe("from index");
+});
+
+it("rejects a year file of the wrong shape instead of passing it on", async () => {
+  stubIndex(1, () => [{ id: "broken" }]);
+
+  await expect(
+    loadGalleryIndexChunks({ seed: [], onBatch: () => undefined, priority: "low" }),
+  ).rejects.toThrow("postSlug");
 });

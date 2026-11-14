@@ -1,8 +1,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import MiniSearch from "minisearch";
-
-// ... existing types
+import {
+  SEARCH_FUZZY,
+  SEARCH_INDEX_FIELDS,
+  SEARCH_STORE_FIELDS,
+  type SearchChunkManifestEntry,
+  type SearchDoc,
+} from "../src/lib/generatedTypes.ts";
 
 type Post = {
   id: string;
@@ -15,29 +20,6 @@ type Post = {
   images: string[];
   imageCount: number;
   topicId: string;
-};
-
-type SearchDoc = {
-  id: string;
-  postId: string;
-  slug: string;
-  url: string;
-  title: string;
-  date: string;
-  isoDate: string;
-  excerpt: string;
-  block: string;
-  blockIndex: number;
-  imageCount: number;
-  topicId: string;
-};
-
-type SearchChunkManifestEntry = {
-  id: string;
-  year: string;
-  file: string;
-  postCount: number;
-  blockCount: number;
 };
 
 const ROOT = process.cwd();
@@ -121,24 +103,12 @@ const DUTCH_STOP_WORDS = new Set([
 const searchOptions = {
   boost: { title: 5, excerpt: 2.5, block: 1 },
   prefix: true,
-  fuzzy: 0.18,
+  fuzzy: SEARCH_FUZZY,
   combineWith: "AND" as const,
 };
 
-const storeFields = [
-  "postId",
-  "slug",
-  "url",
-  "title",
-  "date",
-  "isoDate",
-  "excerpt",
-  "block",
-  "blockIndex",
-  "imageCount",
-  "topicId",
-];
-const fields = ["title", "excerpt", "block"];
+const storeFields = [...SEARCH_STORE_FIELDS];
+const fields = [...SEARCH_INDEX_FIELDS];
 
 function normalizeWhitespace(value: string) {
   return value.replace(/\s+/g, " ").trim();
@@ -241,7 +211,7 @@ for (const doc of docs) {
 }
 
 const chunks: SearchChunkManifestEntry[] = [...docsByYear.entries()]
-  .sort(([a], [b]) => b.localeCompare(a))
+  .toSorted(([a], [b]) => b.localeCompare(a))
   .map(([year, yearDocs]) => ({
     id: year,
     year,
@@ -255,7 +225,7 @@ const manifest = {
   postCount: posts.length,
   blockCount: docs.length,
   algorithm: "Chunked MiniSearch BM25-like full-text index with prefix + fuzzy matching",
-  fuzzy: 0.18,
+  fuzzy: SEARCH_FUZZY,
   contractVersion: 2,
   chunks,
 };

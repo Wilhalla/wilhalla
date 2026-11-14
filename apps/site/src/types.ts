@@ -1,81 +1,64 @@
-export type NavigationIconName = "calendar" | "flower" | "heart" | "images" | "tent" | "users";
-
-export type SocialIconName = "facebook" | "instagram";
-
-export type NavigationLink = {
-  label: string;
-  to: string;
-  icon: NavigationIconName;
-};
-
-export type NavigationLinkConfig = Omit<NavigationLink, "label"> & {
-  contentPath: string;
-};
+import type { LinkProps } from "@tanstack/react-router";
 
 export type SocialLink = {
   label: string;
+  /** What the account is, shown under the label on the contact page. */
+  detail: string;
   href: string;
-  icon: SocialIconName;
+  icon: "facebook" | "instagram";
 };
 
-export type PageLink = {
-  label: string;
-  to: string;
-};
+/** Where a place on the map leads: a route of this site or another website. */
+export type MapLink = { label: string } & (
+  | { to: LinkProps["to"] }
+  | { href: string; newTab?: boolean }
+);
 
-export type PageLinkConfig = Omit<PageLink, "label"> & {
-  contentPath: string;
-};
-
-export type BreadcrumbItemConfig = {
-  contentPath: string;
-  to?: string;
-};
-
-export type PageConfig = {
-  title: string;
-  description: string;
-  intro: string;
-};
-
-export type MapLink = {
-  label: string;
-  to: string;
-  newTab?: boolean;
-};
-
-export type MapHotspotConfig = {
+export interface MapHotspotConfig {
   id: string;
   label: string;
-  route: string;
+  route: LinkProps["to"];
   path: string;
-  labelPosition: { x: number; y: number };
-};
+  labelPosition: MapPoint;
+}
 
-export type MapSentinelExplanation = {
+/** Card with a sentence about a place, positioned in map pixels; shown on wide screens. */
+export interface MapSentinelExplanation {
   text: string;
   x: number;
   y: number;
-  width?: number;
-  height?: number;
-  linkLabel?: string;
-};
+  width: number;
+  /** Ink of the hand-lettered caption shown on the card; the card takes the contrasting tone. */
+  labelInk?: "dark";
+}
 
-export type MapPoint = {
+export interface MapPoint {
   x: number;
   y: number;
-};
+}
 
-export type MapSentinelConfig = {
+/** Where the small-screen map pans and zooms to for a place; x and y are fractions of the map. */
+export interface MapStop {
+  label: string;
+  focus: MapPoint & { zoom: number };
+}
+
+/**
+ * A place on the map: a rectangle (or polygon) in map pixels that reacts to the pointer.
+ * `overlay` and `captions` name images in `public/map-overlays` (`hover/`, `text/`, and for the
+ * captions also `card-labels/`).
+ */
+export interface MapSentinelConfig {
   id: string;
   x1: number;
   y1: number;
   x2: number;
   y2: number;
-  hoverImages: readonly string[];
+  overlay?: string;
+  captions: readonly string[];
   explanation?: MapSentinelExplanation;
   link?: MapLink;
+  stop?: MapStop;
   includeInIntro?: boolean;
-  padding?: number;
   activationPolygon?: readonly MapPoint[];
-};
+}

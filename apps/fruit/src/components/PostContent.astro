@@ -1,12 +1,12 @@
 ---
-import { layout, prose, typography } from "@wilhalla/ui/lib/typography";
+import { layout, media, prose, typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
 import { Image } from 'astro:assets'
 import { ImageIcon, Layers2, MessageCircle } from 'lucide-react'
 import { archiveSmallThumbUrl, archiveThumbUrl } from '../lib/assetUrls'
-import { formatArchiveDate } from '../lib/date'
+import { formatArchiveDate } from '../lib/archiveDateTime'
 import { archivePostPartHtml, archivePostPartLabel, archivePostSidebarImageSizes, archivePostSidebarThumbSizes, type ArchivePostReading } from '../lib/archivePostReading'
-import { buildArchivePostRendering } from '../lib/archivePostRendering'
+import { archivePostSidebarImages } from '../lib/archivePostRendering'
 import LegacyHtmlImages from './LegacyHtmlImages.astro'
 
 type Props = {
@@ -14,11 +14,11 @@ type Props = {
 }
 
 const { reading } = Astro.props
-const { displayPost: post, series } = reading
-const { isSeries, parts, imageEntries, hasImages, sidebarImages } = await buildArchivePostRendering(post, series?.posts)
+const { displayPost: post, isSeries, parts, imageEntries, hasImages } = reading
+const sidebarImages = await archivePostSidebarImages(reading)
 ---
 <!-- One grid for the whole post page: the text column, and the photos beside it on wide screens. -->
-<article class={cn(layout.container, "grid gap-12 pt-10 pb-16 md:pt-14 lg:grid-cols-[minmax(0,1fr)_20rem] xl:gap-16")}>
+<article class={cn(layout.container, "grid gap-12 pt-10 pb-16 md:pt-14 lg:grid-cols-aside xl:gap-16")}>
   <div class="min-w-0">
     <header class="max-w-3xl border-b border-chalk pb-8">
       <p class={typography.eyebrow}>{formatArchiveDate(post)} · {post.time || 'tijd onbekend'} · door {post.author}</p>
@@ -36,14 +36,14 @@ const { isSeries, parts, imageEntries, hasImages, sidebarImages } = await buildA
 
     <!-- A table of contents: the parts all follow below on this page. -->
     {isSeries && (
-      <nav class="max-w-[66ch] pt-8" aria-label="Delen van dit verhaal">
+      <nav class="max-w-prose pt-8" aria-label="Delen van dit verhaal">
         <h2 class={cn(typography.eyebrow, "mb-2")}>In {parts.length} delen</h2>
         <ol class="m-0 list-none p-0">
           {parts.map((part, index) => (
-            <li class="grid grid-cols-[2rem_minmax(0,1fr)_auto] items-baseline gap-x-3 py-1">
-              <span class={cn(typography.small, "text-gravel tabular-nums")}>{index + 1}</span>
-              <a class="truncate font-heading text-body-lg text-obsidian no-underline decoration-fog underline-offset-4 hover:underline" href={`#part-${part.id}`}>{part.title}</a>
-              <span class={cn(typography.small, "text-gravel tabular-nums")}>{formatArchiveDate(part)}</span>
+            <li class="flex items-baseline gap-x-3 py-1">
+              <span class={cn(typography.small, "w-8 shrink-0 text-gravel tabular-nums")}>{index + 1}</span>
+              <a class="min-w-0 flex-1 truncate font-heading text-body-lg text-obsidian no-underline decoration-fog underline-offset-4 hover:underline" href={`#part-${part.id}`}>{part.title}</a>
+              <span class={cn(typography.small, "shrink-0 text-gravel tabular-nums")}>{formatArchiveDate(part)}</span>
             </li>
           ))}
         </ol>
@@ -53,7 +53,7 @@ const { isSeries, parts, imageEntries, hasImages, sidebarImages } = await buildA
     {parts.map((part, index) => (
       <section class="border-b border-chalk py-10 last:border-b-0" id={`part-${part.id}`}>
         {isSeries && (
-          <header class="mb-6 max-w-[66ch]">
+          <header class="mb-6 max-w-prose">
             <p class={typography.eyebrow}>{archivePostPartLabel(index, parts.length)} · {formatArchiveDate(part)} {part.time ? `· ${part.time}` : ''}</p>
             <h2 class={cn(typography.heading, "mt-2 text-balance")}>{part.title}</h2>
           </header>
@@ -67,7 +67,7 @@ const { isSeries, parts, imageEntries, hasImages, sidebarImages } = await buildA
 
   <!-- On phones the photos already sit in the text; this column is for wide screens only. -->
   {hasImages && (
-    <aside class="min-w-0 max-lg:hidden lg:sticky lg:top-20 lg:max-h-[calc(100svh-6rem)] lg:self-start lg:overflow-y-auto" aria-label="Beelden in dit bericht">
+    <aside class="min-w-0 max-lg:hidden lg:sticky lg:top-navbar lg:-mt-6 lg:max-h-below-navbar lg:self-start lg:overflow-y-auto lg:py-6" aria-label="Beelden in dit bericht">
       <div class="mb-4 flex items-baseline justify-between gap-4 border-b border-chalk pb-3">
         <h2 class={typography.subsection}>Foto's</h2>
         <p class={cn(typography.small, "m-0 text-gravel")}>{imageEntries.length.toLocaleString('nl-BE')}</p>
@@ -76,11 +76,13 @@ const { isSeries, parts, imageEntries, hasImages, sidebarImages } = await buildA
         {sidebarImages.map((image, index) => {
           const featured = index === 0
           const imageClass = cn(
-            'h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03] motion-reduce:transition-none',
+            media.image,
+            media.zoom,
+            'size-full',
             featured ? 'aspect-4/3' : 'aspect-square',
           )
           return (
-            <a class={cn('group block overflow-hidden rounded-md bg-powder', featured && 'col-span-3 sm:col-span-2 lg:col-span-3')} href={image.viewerHref} aria-label={`Open foto ${index + 1} in het beeldarchief`}>
+            <a class={cn('group block overflow-hidden rounded-lg', featured && 'col-span-3 sm:col-span-2 lg:col-span-3')} href={image.viewerHref} aria-label={`Open foto ${index + 1} in het beeldarchief`}>
               {image.metadata ? (
                 <Image
                   class={imageClass}

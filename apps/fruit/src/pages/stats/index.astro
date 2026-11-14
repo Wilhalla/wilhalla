@@ -1,13 +1,160 @@
 ---
+import { PageBody } from "@wilhalla/ui/components/page-body";
+import { PageHeader } from "@wilhalla/ui/components/page-header";
+import { SectionHeader } from "@wilhalla/ui/components/section";
+import { Separator } from "@wilhalla/ui/components/separator";
+import { typography } from "@wilhalla/ui/lib/typography";
+import { cn } from "@wilhalla/ui/lib/utils";
+import { Sparkles } from 'lucide-react'
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import StatsDashboard from '../../components/stats/StatsDashboard'
+import BusiestDays from '../../components/stats/BusiestDays'
+import ChartBlock from '../../components/stats/ChartBlock'
+import LengthLineChart from '../../components/stats/LengthLineChart'
+import PostsBarChart from '../../components/stats/PostsBarChart'
+import RankingTable from '../../components/stats/RankingTable'
+import StatsKpis from '../../components/stats/StatsKpis'
+import StatsRecords from '../../components/stats/StatsRecords'
+import TopicBarChart from '../../components/stats/TopicBarChart'
+import TopicDetails from '../../components/stats/TopicDetails'
+import TopicSeasonHeatmap from '../../components/stats/TopicSeasonHeatmap'
+import ValueBarChart from '../../components/stats/ValueBarChart'
+import WeekHeatmap from '../../components/stats/WeekHeatmap'
+import YearAreaChart from '../../components/stats/YearAreaChart'
 import { buildArchiveStatsData } from '../../lib/archiveStats'
+import { formatDay, formatNumber } from '../../lib/format'
 
+// Only the charts are islands; the figures, tables and heatmaps are plain HTML.
 const stats = buildArchiveStatsData()
+const { totals, highlights } = stats
+const weekdayTotals = stats.byWeekday.map((day) => ({ label: day.label, value: day.posts }))
 ---
 <BaseLayout
   title="Statistieken · Blogarchief Daniël Willaeys"
   description="Cijfers over de berichten, foto's en reacties in het blogarchief van Daniël Willaeys."
 >
-  <StatsDashboard stats={stats} client:load />
+  <PageHeader
+    size="page"
+    title="Statistieken"
+    intro="Wanneer en hoeveel er geschreven werd, met hoeveel foto's en reacties."
+    meta={`${formatDay(totals.firstDate)} tot ${formatDay(totals.lastDate)} · ${formatNumber(totals.activeDays)} actieve dagen · mediaan ${formatNumber(totals.medianChars)} tekens per bericht`}
+  />
+  <PageBody>
+    <StatsKpis totals={totals} />
+
+    <Separator className="my-10" />
+
+    <TopicSeasonHeatmap data={stats.topicCalendar} />
+
+    <section class="mt-10 grid gap-8 lg:grid-cols-split">
+      <ChartBlock title="Per jaar" description="Berichten, foto's en reacties per jaar.">
+        <YearAreaChart client:visible data={stats.byYear} />
+      </ChartBlock>
+      <div class="grid content-start gap-6">
+        <StatsRecords consistency={stats.consistency} highlights={highlights} />
+      </div>
+    </section>
+
+    <section class="mt-10 grid gap-8 lg:grid-cols-2">
+      <ChartBlock title="Per maand" description="Berichten per maand, alle jaren samen.">
+        <PostsBarChart client:visible data={stats.byMonth} size="large" />
+      </ChartBlock>
+      <ChartBlock title="Drukste dagen" description="Dagen waarop veel berichten tegelijk verschenen.">
+        <BusiestDays days={stats.consistency.busiestDays} />
+      </ChartBlock>
+    </section>
+
+    <Separator className="my-10" />
+
+    <section>
+      <SectionHeader
+        title="Per bericht"
+        description="Hoe lang de berichten zijn, en hoeveel foto's en reacties ze hebben."
+      />
+      <div class="grid gap-6 lg:grid-cols-3">
+        <ChartBlock title="Tekens per bericht" description="Aantal tekens per bericht.">
+          <PostsBarChart client:visible data={stats.distributions.length} size="small" />
+        </ChartBlock>
+        <ChartBlock title="Foto's per bericht" description="Aantal foto's per bericht.">
+          <PostsBarChart client:visible data={stats.distributions.images} size="small" />
+        </ChartBlock>
+        <ChartBlock title="Reacties per bericht" description="Aantal reacties per bericht.">
+          <PostsBarChart client:visible data={stats.distributions.reactions} size="small" />
+        </ChartBlock>
+      </div>
+    </section>
+
+    <section class="mt-10">
+      <SectionHeader title="Gemiddelden" description="Gemiddelden per jaar, onderwerp en weekdag." />
+      <div class="grid gap-6 lg:grid-cols-2">
+        <ChartBlock
+          title="Berichten per schrijfdag"
+          description="Gemiddeld aantal berichten op een dag waarop er geschreven werd."
+        >
+          <ValueBarChart client:visible data={highlights.tempoYears} height={280} labelWidth={48} />
+        </ChartBlock>
+        <ChartBlock title="Foto's per bericht, per jaar" description="Gemiddeld aantal foto's per bericht.">
+          <ValueBarChart client:visible data={highlights.visualYears} height={280} labelWidth={48} />
+        </ChartBlock>
+        <ChartBlock
+          title="Reacties per onderwerp"
+          description="Reacties per 100 berichten, volgens de primaire categorie van elk bericht."
+        >
+          <ValueBarChart client:visible data={highlights.discussionTopics} height={320} labelWidth={150} />
+        </ChartBlock>
+        <ChartBlock title="Per weekdag" description="Berichten per dag van de week.">
+          <ValueBarChart client:visible data={weekdayTotals} height={220} labelWidth={36} format="number" />
+        </ChartBlock>
+      </div>
+    </section>
+
+    <section class="mt-10 grid gap-x-8 gap-y-10 lg:grid-cols-3">
+      <RankingTable
+        title="Langste berichten"
+        description="Aantal tekens, zonder de reacties."
+        posts={stats.top.longest}
+        metric="charCount"
+      />
+      <RankingTable
+        title="Meeste foto's"
+        description="De berichten met de meeste foto's."
+        posts={stats.top.imageRich}
+        metric="imageCount"
+      />
+      <RankingTable
+        title="Meeste reacties"
+        description="De berichten met de meeste reacties."
+        posts={stats.top.mostDiscussed}
+        metric="reactionCount"
+      />
+    </section>
+
+    <Separator className="my-10" />
+
+    <section class="grid gap-8 lg:grid-cols-split">
+      <ChartBlock title="Berichten per onderwerp" description="Elk bericht telt bij zijn belangrijkste onderwerp.">
+        <TopicBarChart client:visible data={stats.topics} />
+      </ChartBlock>
+      <TopicDetails topics={stats.topics} />
+    </section>
+
+    <section class="mt-10 grid gap-8 lg:grid-cols-2">
+      <ChartBlock title="Lengte per jaar" description="Gemiddeld aantal tekens per bericht.">
+        <LengthLineChart client:visible data={stats.byYear} />
+      </ChartBlock>
+      <ChartBlock
+        title="Per weekdag en uur"
+        description="Hoe donkerder, hoe meer berichten op dat uur. Berichten zonder uur tellen niet mee."
+      >
+        <WeekHeatmap data={stats.weekdayHour} />
+      </ChartBlock>
+    </section>
+
+    <div class={cn(typography.small, "mt-14 flex items-center gap-3 border-t border-chalk pt-5 text-gravel")}>
+      <Sparkles className="size-4" aria-hidden="true" />
+      <span>
+        Gebaseerd op gegenereerde archiefdata; tekstlengte telt auteurstekst en knipt zichtbare
+        reacties waar mogelijk weg.
+      </span>
+    </div>
+  </PageBody>
 </BaseLayout>

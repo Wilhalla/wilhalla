@@ -1,3 +1,4 @@
+import { PageBody } from "@wilhalla/ui/components/page-body";
 import { PageBreadcrumb } from "@wilhalla/ui/components/page-breadcrumb";
 import { PageHeader } from "@wilhalla/ui/components/page-header";
 import { SectionDivider } from "@wilhalla/ui/components/section-divider";
@@ -24,6 +25,28 @@ export const pageHeaderStory: Story = {
       <Example label="title only, long title">
         <Frame>
           <PageHeader title="Kinetic Chain Release en Veerkracht in Beweging" />
+        </Frame>
+      </Example>
+    </Examples>
+  ),
+};
+
+export const pageBodyStory: Story = {
+  id: "page-body",
+  title: "PageBody",
+  source: "@wilhalla/ui/components/page-body",
+  description:
+    "The page column under a PageHeader, with the standard space above and below and no hairline of its own.",
+  render: () => (
+    <Examples wide>
+      <Example label="under a header">
+        <Frame>
+          <PageHeader title="Yoga" intro={intro} />
+          <PageBody>
+            <p className="m-0 font-sans text-body-lg leading-body-lg text-cinder">
+              De inhoud van de pagina begint hier.
+            </p>
+          </PageBody>
         </Frame>
       </Example>
     </Examples>

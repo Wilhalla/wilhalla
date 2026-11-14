@@ -1,39 +1,38 @@
-import { buttonVariants } from "@wilhalla/ui/components/button";
+import { Button } from "@wilhalla/ui/components/button";
+import { typography } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
-import { locationRegistry } from "@/config/registries";
+import { siteConfig } from "@/config";
 import { ExternalLink, MapPin } from "lucide-react";
+
+const location = siteConfig.location;
 
 export function GoogleMapsEmbed() {
   return (
     <section aria-labelledby="location-map-title">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <h3
-            id="location-map-title"
-            className="font-sans text-body-lg leading-body-lg tracking-ui m-0 text-obsidian"
-          >
+          <h3 id="location-map-title" className={cn(typography.body, "m-0 text-obsidian")}>
             Vind ons
           </h3>
-          <p className="font-sans text-body leading-body tracking-ui mt-2 mb-0 inline-flex items-center gap-2 text-gravel">
-            <MapPin className="h-4 w-4 shrink-0 text-slate" strokeWidth={1.5} />
-            {locationRegistry.label}
+          <p
+            className={cn(typography.small, "mt-2 mb-0 inline-flex items-center gap-2 text-gravel")}
+          >
+            <MapPin className="size-4 shrink-0 text-slate" strokeWidth={1.5} />
+            {location.label}
           </p>
         </div>
-        <a
-          href={locationRegistry.googleMapsUrl}
-          target="_blank"
-          rel="noreferrer"
-          className={cn(buttonVariants({ variant: "outline" }), "h-9 px-3 text-mono")}
-        >
-          Route
-          <ExternalLink className="h-3.5 w-3.5" strokeWidth={1.5} />
-        </a>
+        <Button asChild variant="outline" size="sm">
+          <a href={location.googleMapsUrl} target="_blank" rel="noreferrer">
+            Route
+            <ExternalLink strokeWidth={1.5} />
+          </a>
+        </Button>
       </div>
       <div className="overflow-hidden rounded-2xl border border-chalk bg-powder shadow-subtle-2">
         <iframe
-          title={locationRegistry.iframeTitle}
-          src={locationRegistry.googleMapsEmbedUrl}
-          className="block h-72 w-full border-0 grayscale-[0.15] md:h-[260px]"
+          title={location.iframeTitle}
+          src={location.googleMapsEmbedUrl}
+          className="block h-72 w-full border-0 grayscale-15 md:h-65"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen

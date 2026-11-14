@@ -2,9 +2,6 @@
   "name": "@wilhalla/site",
   "private": true,
   "type": "module",
-  "imports": {
-    "#/*": "./src/*"
-  },
   "scripts": {
     "dev": "vite dev --port 3000",
     "build": "vite build",
@@ -18,25 +15,23 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "catalog:",
-    "@tanstack/react-devtools": "catalog:",
-    "@tanstack/react-query": "catalog:",
     "@tanstack/react-router": "catalog:",
-    "@tanstack/react-router-devtools": "catalog:",
     "@tanstack/react-start": "catalog:",
-    "@tanstack/router-core": "catalog:",
     "@vercel/analytics": "catalog:",
     "@wilhalla/ui": "workspace:*",
     "lucide-react": "catalog:",
     "nitro": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-error-boundary": "catalog:",
     "tailwindcss": "catalog:"
   },
   "devDependencies": {
+    "@babel/core": "catalog:",
     "@content-collections/core": "catalog:",
     "@content-collections/markdown": "catalog:",
     "@content-collections/vite": "catalog:",
-    "@tanstack/devtools-vite": "catalog:",
+    "@rolldown/plugin-babel": "catalog:",
     "@testing-library/dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/node": "catalog:",

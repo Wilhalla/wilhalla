@@ -2,6 +2,7 @@
 import { PageHeader } from "@wilhalla/ui/components/page-header";
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import ArchiveVirtualList from '../../components/ArchiveVirtualList'
+import { formatNumber } from '../../lib/format'
 import { archiveStats } from '../../lib/postIndex'
 ---
 <BaseLayout title="Alle berichten · Blogarchief Daniël Willaeys">
@@ -9,7 +10,7 @@ import { archiveStats } from '../../lib/postIndex'
     size="page"
     title="Alle berichten"
     intro="Elk bericht uit het blog, van het nieuwste naar het oudste. Kies een jaar of een onderwerp om te filteren."
-    meta={`${archiveStats.postCount.toLocaleString('nl-BE')} berichten`}
+    meta={`${formatNumber(archiveStats.postCount)} berichten`}
   />
   <ArchiveVirtualList client:load />
 </BaseLayout>

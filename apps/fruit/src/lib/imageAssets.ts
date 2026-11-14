@@ -8,7 +8,3 @@ export async function imageMetadata(assetPath: string): Promise<ImageMetadata | 
   const key = assetPath.replace("/archive-images/", "/src/assets/archive-images/");
   return (await imageModules[key]?.())?.default;
 }
-
-export async function canOptimize(assetPath: string) {
-  return Boolean(await imageMetadata(assetPath));
-}

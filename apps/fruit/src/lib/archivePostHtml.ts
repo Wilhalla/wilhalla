@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import type { AnyNode } from "domhandler";
 
 function normalizeToken(token: string) {
   return token
@@ -29,7 +30,10 @@ function escapeHtml(value: string) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-function hasOnlyElementAndWhitespaceChildren($: cheerio.CheerioAPI, block: cheerio.Cheerio<any>) {
+function hasOnlyElementAndWhitespaceChildren(
+  $: cheerio.CheerioAPI,
+  block: cheerio.Cheerio<AnyNode>,
+) {
   const children = block.contents().toArray();
   return (
     children.length > 0 &&
@@ -39,7 +43,7 @@ function hasOnlyElementAndWhitespaceChildren($: cheerio.CheerioAPI, block: cheer
   );
 }
 
-function isTransparentLeadingContainer($: cheerio.CheerioAPI, block: cheerio.Cheerio<any>) {
+function isTransparentLeadingContainer($: cheerio.CheerioAPI, block: cheerio.Cheerio<AnyNode>) {
   const tag = String(block.prop("tagName") ?? "").toLowerCase();
   return (
     ["article", "div", "section"].includes(tag) &&
@@ -50,8 +54,8 @@ function isTransparentLeadingContainer($: cheerio.CheerioAPI, block: cheerio.Che
 
 function firstElementChild(
   $: cheerio.CheerioAPI,
-  root: cheerio.Cheerio<any>,
-): cheerio.Cheerio<any> | undefined {
+  root: cheerio.Cheerio<AnyNode>,
+): cheerio.Cheerio<AnyNode> | undefined {
   for (const child of root.contents().toArray()) {
     if (child.type === "text" && $(child).text().trim() === "") continue;
     if (child.type === "tag") {
@@ -65,18 +69,18 @@ function firstElementChild(
   return undefined;
 }
 
-function blockText(block: cheerio.Cheerio<any>) {
+function blockText(block: cheerio.Cheerio<AnyNode>) {
   const clone = block.clone();
   clone.find("br").replaceWith(" ");
   return clone.text().replace(/\s+/g, " ").trim();
 }
 
-function isTitleLikeBlock(block: cheerio.Cheerio<any>) {
+function isTitleLikeBlock(block: cheerio.Cheerio<AnyNode>) {
   const tag = String(block.prop("tagName") ?? "").toLowerCase();
   return /^h[1-6]$/.test(tag) || block.find("strong,b,em").length > 0;
 }
 
-function isSupportedLeadingBlock(block: cheerio.Cheerio<any>) {
+function isSupportedLeadingBlock(block: cheerio.Cheerio<AnyNode>) {
   const tag = String(block.prop("tagName") ?? "").toLowerCase();
   return tag === "p" || tag === "div" || /^h[1-6]$/.test(tag);
 }

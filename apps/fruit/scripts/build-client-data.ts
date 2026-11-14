@@ -6,6 +6,13 @@ import mapPointsData from "../src/data/generated/map-points.json" with { type: "
 import topicsData from "../src/data/generated/topics.json" with { type: "json" };
 import { buildArchiveSeries } from "../src/lib/archiveSeries.ts";
 import { sortArchiveChronologically } from "../src/lib/archiveDateTime.ts";
+import type {
+  ArchiveClientPayload,
+  ArchiveClientPost,
+  ArchiveClientTopic,
+  MapPoint,
+} from "../src/lib/generatedTypes.ts";
+import { pointsByPostId } from "../src/lib/postCategories.ts";
 
 type PostSummary = {
   id: string;
@@ -22,34 +29,7 @@ type PostSummary = {
   seriesPostCount?: number;
 };
 
-type ArchiveClientPost = Pick<
-  PostSummary,
-  | "id"
-  | "slug"
-  | "title"
-  | "date"
-  | "isoDate"
-  | "imageCount"
-  | "reactionCount"
-  | "isSeries"
-  | "seriesPostCount"
-> & {
-  topicIds: string[];
-};
-
-type MapPoint = {
-  id: string;
-  topicId?: string;
-  postIds?: string[];
-  categoryIds?: string[];
-};
-
-type TopicRecord = {
-  id: string;
-  label?: string;
-  generatedLabel?: string;
-  postCount?: number;
-};
+type StoryPoint = Pick<MapPoint, "id" | "postIds" | "categoryIds"> & { topicId?: string };
 
 const ROOT = process.cwd();
 const OUT_DIRS = [path.join(ROOT, "public/generated"), path.join(ROOT, "src/data/generated")];
@@ -65,26 +45,19 @@ const postSeries = (
     }>;
   }
 ).series;
-const mapPoints = mapPointsData as MapPoint[];
-const topics = topicsData as TopicRecord[];
+const storyByPostId = pointsByPostId<StoryPoint>(mapPointsData);
+const topics: Partial<ArchiveClientTopic>[] = topicsData;
 const archiveSeries = buildArchiveSeries(postIndex, postSeries);
-const categoryIdsByPostId = new Map(
-  mapPoints.flatMap((point) =>
-    (point.postIds?.length ? point.postIds : [point.id]).map(
-      (postId) =>
-        [
-          postId,
-          point.categoryIds?.length ? point.categoryIds : point.topicId ? [point.topicId] : [],
-        ] as const,
-    ),
-  ),
-);
+
+function categoryIdsOf(postId: string) {
+  const story = storyByPostId.get(postId);
+  if (!story) return [];
+  return story.categoryIds?.length ? story.categoryIds : story.topicId ? [story.topicId] : [];
+}
 
 function topicIdsFor(post: PostSummary) {
   const postIds = post.seriesPostIds?.length ? post.seriesPostIds : [post.id];
-  return Array.from(
-    new Set(postIds.flatMap((postId) => categoryIdsByPostId.get(postId) ?? [])),
-  ).sort();
+  return Array.from(new Set(postIds.flatMap(categoryIdsOf))).toSorted();
 }
 
 function slim(post: PostSummary): ArchiveClientPost {
@@ -102,16 +75,19 @@ function slim(post: PostSummary): ArchiveClientPost {
   };
 }
 
-const payload = {
-  generatedAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+const content: ArchiveClientPayload = {
   topics: topics.map((topic) => ({
-    id: topic.id,
+    id: topic.id ?? "",
     label: topic.label || "",
     generatedLabel: topic.generatedLabel || "",
     postCount: topic.postCount || 0,
   })),
   aggregated: sortArchiveChronologically(archiveSeries.aggregated).map(slim),
   all: sortArchiveChronologically(archiveSeries.all).map(slim),
+};
+const payload = {
+  generatedAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+  ...content,
 };
 
 for (const outDir of OUT_DIRS) {

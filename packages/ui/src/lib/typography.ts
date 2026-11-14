@@ -16,6 +16,8 @@ export const typography = {
     "m-0 font-heading text-heading leading-heading font-light tracking-heading text-obsidian",
   /** Intro under a page or section title. */
   intro: "font-sans text-body-lg leading-body-lg tracking-ui text-cinder",
+  /** Serif tagline under a title that stands on its own: the contact card, the home map. */
+  lead: "m-0 font-heading text-heading-sm leading-heading-sm font-normal text-cinder",
   /** Short line under a section title. */
   kicker: "mt-4 max-w-readable font-sans text-body-lg leading-body-lg tracking-ui text-gravel",
   /** Running text. */
@@ -32,7 +34,17 @@ export const typography = {
 
 export const layout = {
   /** Page column: up to max-w-page wide with a 16px gutter on each side. */
-  container: "mx-auto w-[calc(100%-2rem)] max-w-page",
+  container: "mx-auto w-column max-w-page",
+} as const;
+
+/**
+ * Photos, treated as in the site's gallery. `image` on the `<img>`: a paper placeholder while it
+ * loads and a hairline edge in black at 10%. `zoom` on the `<img>` inside a link (`group`) whose
+ * box clips it (`overflow-hidden` and the same radius): the photo grows slightly on hover.
+ */
+export const media = {
+  image: "bg-powder object-cover outline outline-1 -outline-offset-1 outline-obsidian/10",
+  zoom: "transition-transform duration-reveal ease-out motion-safe:group-hover:scale-101",
 } as const;
 
 /**
@@ -43,7 +55,7 @@ export const layout = {
  * (needs `lang="nl"` on the page); the base layer wraps paragraphs `pretty` and headings `balance`.
  */
 export const prose = [
-  "max-w-[66ch] font-heading text-[1.25rem] leading-[1.7] text-obsidian hyphens-auto",
+  "max-w-prose font-heading text-prose leading-prose text-obsidian hyphens-auto",
   // Paragraphs: shadcn `leading-7 [&:not(:first-child)]:mt-6`, scaled to the larger serif.
   "[&_:is(p,ul,ol,blockquote,figure,table)]:my-0 [&_:is(p,ul,ol,blockquote,figure,table):not(:first-child)]:mt-6",
   // Headings: shadcn `scroll-m-20 … tracking-tight`, h2 with a rule under it.
@@ -59,6 +71,6 @@ export const prose = [
   // Tables: shadcn borders, padding and striped rows; scrolls sideways when wider than the text.
   "[&_table]:block [&_table]:w-full [&_table]:max-w-full [&_table]:overflow-x-auto [&_table]:font-sans [&_table]:text-body [&_tr]:border-t [&_tr]:border-chalk [&_tr:nth-child(even)]:bg-muted",
   "[&_:is(td,th)]:border [&_:is(td,th)]:border-chalk [&_:is(td,th)]:px-4 [&_:is(td,th)]:py-2 [&_:is(td,th)]:text-left [&_th]:font-semibold [&_:is(td,th)[align=center]]:text-center [&_:is(td,th)[align=right]]:text-right",
-  // Inline code: shadcn `bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold`.
-  "[&_code]:rounded [&_code]:bg-muted [&_code]:px-[0.3rem] [&_code]:py-[0.2rem] [&_code]:font-mono [&_code]:text-mono",
+  // Inline code: shadcn `bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold`, on the spacing scale.
+  "[&_code]:rounded [&_code]:bg-muted [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-mono",
 ].join(" ");

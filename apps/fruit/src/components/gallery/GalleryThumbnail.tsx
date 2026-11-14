@@ -1,34 +1,26 @@
-import type { ImgHTMLAttributes } from "react";
+import { useState, type ComponentProps } from "react";
 import {
+  imageAlt,
   imageFullSrc,
   imageThumbSrc,
   type GalleryImageRecord,
 } from "../../lib/imageGallerySession";
 
-type GalleryThumbnailImage = Pick<
-  GalleryImageRecord,
-  "src" | "caption" | "postTitle" | "visualDescription"
->;
-
-type Props = Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & {
-  image: GalleryThumbnailImage;
+type GalleryThumbnailProps = Omit<ComponentProps<"img">, "src" | "onError"> & {
+  image: Pick<GalleryImageRecord, "src" | "caption" | "postTitle" | "visualDescription">;
 };
 
-export default function GalleryThumbnail({ image, alt, onError, ...props }: Props) {
-  const fallbackSrc = imageFullSrc(image);
+/** The small version of a photo; when that file is missing it shows the full photo, once. */
+export default function GalleryThumbnail({ image, alt, ...props }: GalleryThumbnailProps) {
+  const [thumbFailed, setThumbFailed] = useState(false);
 
   return (
     <img
+      decoding="async"
       {...props}
-      src={imageThumbSrc(image)}
-      data-fallback-src={fallbackSrc}
-      alt={alt ?? (image.visualDescription || image.caption || image.postTitle)}
-      onError={(event) => {
-        event.currentTarget.onerror = null;
-        event.currentTarget.srcset = "";
-        event.currentTarget.src = event.currentTarget.dataset.fallbackSrc || image.src;
-        onError?.(event);
-      }}
+      src={thumbFailed ? imageFullSrc(image) : imageThumbSrc(image)}
+      alt={alt ?? imageAlt(image)}
+      onError={() => setThumbFailed(true)}
     />
   );
 }

@@ -1,20 +1,9 @@
+import { ensureTrailingSlash, envString, withScheme } from "./sitePaths";
+
 export const siteName = "Blogarchief Daniël Willaeys";
 export const defaultDescription =
   "Bewaarde berichten, foto’s en reacties uit het blogarchief van Daniël Willaeys.";
 export const defaultSocialImage = "/og-default.png";
-
-function envString(value: unknown) {
-  return typeof value === "string" ? value.trim() : "";
-}
-
-function withScheme(value: string) {
-  if (!value) return "";
-  return /^https?:\/\//i.test(value) ? value : `https://${value}`;
-}
-
-function ensureTrailingSlash(value: string) {
-  return value.endsWith("/") ? value : `${value}/`;
-}
 
 function normalizeBasePath(basePath: string) {
   if (!basePath || basePath === "/") return "";

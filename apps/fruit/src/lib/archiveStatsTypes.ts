@@ -105,8 +105,26 @@ export type TopicCalendarData = {
   topics: TopicCalendarRow[];
 };
 
+/** One bar of a ranked bar chart. */
+export type BarDatum = {
+  label: string;
+  value: number;
+  detail?: string;
+};
+
+/** Rankings and records derived from the yearly and topic figures. */
+export type StatsHighlights = {
+  mostActiveYear: YearStat | undefined;
+  mostVisualYear: YearStat | undefined;
+  /** Posts per day written, per year. */
+  tempoYears: BarDatum[];
+  /** Images per post, per year. */
+  visualYears: BarDatum[];
+  /** Reactions per 100 posts, per topic. */
+  discussionTopics: BarDatum[];
+};
+
 export type ArchiveStatsData = {
-  generatedAt: string;
   totals: {
     posts: number;
     images: number;
@@ -139,12 +157,12 @@ export type ArchiveStatsData = {
     longest: RankPost[];
     imageRich: RankPost[];
     mostDiscussed: RankPost[];
-    quietLongreads: RankPost[];
   };
   consistency: {
     longestStreak: { start: string; end: string; days: number };
     longestGap: { start: string; end: string; days: number };
     busiestDays: CalendarBurst[];
   };
+  highlights: StatsHighlights;
   topicCalendar: TopicCalendarData;
 };

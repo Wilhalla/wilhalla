@@ -92,13 +92,32 @@ export function archiveDayLabel(value: string | ArchiveDatetimeInput) {
   return date ? archiveDayFormatter.format(date) : "—";
 }
 
+/** "08 april 2020" for an ISO date; the value itself when it is not a date. */
+export function formatLongDate(value: string) {
+  const date = archiveDate(value);
+  return date ? archiveDateFormatter.format(date) : value;
+}
+
 export function formatArchiveDate(post: ArchiveDatetimeInput) {
   const date = archiveDate(post);
   if (!date) return post.date ?? post.isoDate;
   return archiveDateFormatter.format(date);
 }
 
-export function seasonForMonth(month: number | null | undefined) {
+export const SEASONS = ["lente", "zomer", "herfst", "winter"] as const;
+export type Season = (typeof SEASONS)[number];
+export const SEASON_LABELS: Record<Season, string> = {
+  lente: "Lente",
+  zomer: "Zomer",
+  herfst: "Herfst",
+  winter: "Winter",
+};
+
+export function isSeason(value: string | null): value is Season {
+  return SEASONS.some((season) => season === value);
+}
+
+export function seasonForMonth(month: number | null | undefined): Season {
   if (month === 3 || month === 4 || month === 5) return "lente";
   if (month === 6 || month === 7 || month === 8) return "zomer";
   if (month === 9 || month === 10 || month === 11) return "herfst";
@@ -106,7 +125,7 @@ export function seasonForMonth(month: number | null | undefined) {
 }
 
 export function sortArchiveChronologically<T extends ArchiveDatetimeInput>(items: readonly T[]) {
-  return [...items].sort((a, b) => {
+  return items.toSorted((a, b) => {
     const aTime = archiveTimestamp(a);
     const bTime = archiveTimestamp(b);
     if (!Number.isFinite(aTime) && !Number.isFinite(bTime))

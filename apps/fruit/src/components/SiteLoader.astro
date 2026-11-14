@@ -1,4 +1,8 @@
 ---
+import { Spinner } from "@wilhalla/ui/components/spinner";
+import { typography } from "@wilhalla/ui/lib/typography";
+import { cn } from "@wilhalla/ui/lib/utils";
+
 interface Props {
   id: string
   label: string
@@ -7,10 +11,18 @@ interface Props {
 
 const { id, label, message } = Astro.props
 ---
-<div id={id} class="site-loader site-loader--active" role="status" aria-live="polite" aria-label={label}>
-  <div class="site-loader__mark" aria-hidden="true"></div>
-  <div class="site-loader__text">
-    <span>Blogarchief Daniël Willaeys</span>
-    <small>{message}</small>
-  </div>
+<!-- Fills the screen under the header while the page works; fades in late so a quick one never flashes. -->
+<div
+  id={id}
+  class="grid min-h-below-navbar animate-in place-content-center justify-items-center gap-4 p-8 text-center delay-reveal duration-reveal ease-enter fill-mode-both fade-in"
+  role="status"
+  aria-live="polite"
+  aria-label={label}
+>
+  <img class="size-28 bg-transparent object-contain" src="/apple-assets/apple-1-160.webp" alt="" aria-hidden="true" />
+  <p class={typography.subsection}>Blogarchief Daniël Willaeys</p>
+  <p class={cn(typography.small, "m-0 inline-flex items-center gap-2 text-gravel")}>
+    <Spinner aria-hidden="true" />
+    {message}
+  </p>
 </div>

@@ -1,75 +1,35 @@
-import { interactiveMapRegistry } from "@/config/registries";
-import { ArrowLeftRight, SquareMousePointer } from "lucide-react";
-import type { ReactNode } from "react";
+import { siteConfig } from "@/config";
+import { cn } from "@wilhalla/ui/lib/utils";
+import { SquareMousePointer } from "lucide-react";
 
-type MapInteractionHintProps = {
-  mobileDismissed: boolean;
-  desktopDismissed: boolean;
-};
+const { eyebrow, message } = siteConfig.map.hint;
 
-function HintCard({
-  className,
-  eyebrow,
-  message,
-  icon,
-}: {
-  className: string;
-  eyebrow: string;
-  message: string;
-  icon: ReactNode;
-}) {
+/** Tells mouse users that the map reacts; fades in shortly after load and out when `visible` ends. */
+export function MapInteractionHint({ visible }: { visible: boolean }) {
   return (
     <div
-      className={`pointer-events-none absolute z-20 transition-all duration-500 ease-out ${className}`}
+      className={cn(
+        "pointer-events-none absolute top-24 left-1/2 z-20 w-88 -translate-x-1/2 px-6 py-5 text-center transition-opacity max-lg:hidden starting:opacity-0",
+        visible ? "delay-reveal duration-reveal ease-enter" : "opacity-0 duration-exit ease-exit",
+      )}
     >
-      <div className="relative px-6 py-5 text-center">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(250,246,236,0.78)_0%,rgba(250,246,236,0.52)_28%,rgba(250,246,236,0.22)_54%,rgba(250,246,236,0)_76%)] blur-2xl"
-        />
-        <div className="relative">
-          <div className="mb-3 flex justify-center text-black/34">
-            <div className="flex h-9 w-9 items-center animate-bounce justify-center rounded-full border border-black/8 bg-white/18 shadow-[0_1px_10px_rgba(0,0,0,0.04)]">
-              {icon}
-            </div>
-          </div>
-          <div className="font-sans text-body leading-none tracking-ui mb-2 flex items-center justify-center gap-2 text-black/42">
-            <span className="inline-block h-px w-7 bg-current/30" />
-            <span>{eyebrow}</span>
-            <span className="inline-block h-px w-7 bg-current/30" />
-          </div>
-          <p
-            className="font-sans text-body leading-body tracking-ui m-0 max-w-[26rem] text-black/62"
-            style={{ textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}
-          >
-            {message}
-          </p>
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 rounded-full bg-radial from-map-haze/80 via-map-haze/30 via-40% to-map-haze/0 to-75% blur-2xl"
+      />
+      <div className="relative">
+        <div className="mx-auto mb-3 flex size-9 animate-bounce items-center justify-center rounded-full border border-map-ink/10 bg-pure-surface/20 text-gravel shadow-map-hint motion-reduce:animate-none">
+          <SquareMousePointer className="size-4" strokeWidth={1.5} />
         </div>
+        <div className="mb-2 flex items-center justify-center gap-2 font-sans text-body leading-none tracking-ui text-cinder">
+          <span className="inline-block h-px w-7 bg-current/30" />
+          <span>{eyebrow}</span>
+          <span className="inline-block h-px w-7 bg-current/30" />
+        </div>
+        <p className="m-0 font-sans text-body leading-body tracking-ui text-map-ink-soft text-shadow-map-emboss">
+          {message}
+        </p>
       </div>
     </div>
-  );
-}
-
-export function MapInteractionHint({ mobileDismissed, desktopDismissed }: MapInteractionHintProps) {
-  return (
-    <>
-      <HintCard
-        className={`left-1/2 top-24 w-[min(88vw,22rem)] -translate-x-1/2 lg:hidden ${
-          mobileDismissed ? "opacity-0" : "opacity-100"
-        }`}
-        eyebrow={interactiveMapRegistry.hints.mobile.eyebrow}
-        message={interactiveMapRegistry.hints.mobile.message}
-        icon={<ArrowLeftRight className="h-4 w-4" strokeWidth={1.5} />}
-      />
-
-      <HintCard
-        className={`left-1/2 top-24 hidden w-[22rem] -translate-x-1/2 lg:block ${
-          desktopDismissed ? "opacity-0" : "opacity-100"
-        }`}
-        eyebrow={interactiveMapRegistry.hints.desktop.eyebrow}
-        message={interactiveMapRegistry.hints.desktop.message}
-        icon={<SquareMousePointer className="h-4 w-4" strokeWidth={1.5} />}
-      />
-    </>
   );
 }

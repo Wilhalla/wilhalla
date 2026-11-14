@@ -27,7 +27,7 @@ function collectImagePaths() {
         images.add(`/archive-images/${match[1]}/${match[2]}`);
     }
   }
-  return Array.from(images).sort();
+  return Array.from(images).toSorted();
 }
 
 try {

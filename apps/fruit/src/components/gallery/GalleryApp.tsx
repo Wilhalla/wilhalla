@@ -1,193 +1,132 @@
 import { layout } from "@wilhalla/ui/lib/typography";
 import { cn } from "@wilhalla/ui/lib/utils";
-import { useMemo, useRef } from "react";
-import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import YearSelector from "../YearSelector";
-import { GalleryFilterControls, GalleryHeader } from "./GalleryControls";
-import GalleryVirtualFeed from "./GalleryVirtualFeed";
+import { useCallback } from "react";
+import { useGalleryIndex } from "../../hooks/useGalleryIndex";
+import { useLoadable } from "../../hooks/useLoadable";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { speciesByImageStore } from "../../lib/galleryData";
 import {
-  useDismissGalleryHydrationLoader,
-  useActiveGalleryYear,
-  useGalleryData,
-  useGalleryFilters,
-  useGalleryReturnPoint,
-  useGallerySpeciesTags,
-  useGalleryUrlState,
-  useGracefulLoader,
-  useResponsiveGalleryColumns,
-} from "./galleryClientHooks";
+  galleryUrlCodec,
+  hasActiveGalleryFilters,
+  type GalleryFilters,
+} from "../../lib/galleryFilters";
+import { startGalleryGrid } from "../../lib/galleryGrid";
+import { requestGalleryIndex } from "../../lib/galleryIndex";
 import {
-  buildImageGallerySession,
-  galleryViewerPageUrl,
-  imageShowsPeople,
-  imageShowsPlants,
+  buildGalleryRows,
+  filterGalleryImages,
+  needsSpeciesTags,
   type GalleryGroups,
-  type GalleryImageRecord as ImageRecord,
+  type GalleryImageRecord,
+  type SpeciesByImage,
 } from "../../lib/imageGallerySession";
+import { updateUrlState, useUrlState } from "../../lib/urlState";
+import LoadError from "../LoadError";
+import YearVirtualList from "../YearVirtualList";
+import GalleryFilterControls from "./GalleryFilterControls";
+import GalleryHeader from "./GalleryHeader";
+import GalleryImageRow from "./GalleryImageRow";
+import GalleryMonthHeading from "./GalleryMonthHeading";
+import GalleryYearHeading from "./GalleryYearHeading";
 
-type Props = {
-  initialImages?: ImageRecord[];
-  initialGroups?: GalleryGroups;
-};
+interface GalleryAppProps {
+  /** The newest photos, built into the page; the rest of the index loads after it. */
+  initialImages: GalleryImageRecord[];
+  groups: GalleryGroups;
+}
 
-export default function GalleryApp({ initialImages, initialGroups }: Props) {
-  const galleryFeedRef = useRef<HTMLElement>(null);
-  const { filters, hasActiveFilters, replaceFilters, resetFilters, setFilter } =
-    useGalleryFilters();
-  const { query, selectedYear, theme, speciesFilter, season, sortNewest } = filters;
-  const { images, groups, initialDataLoading, fullIndexLoaded } = useGalleryData(
-    initialImages,
-    initialGroups,
-    true,
+const noSpecies: SpeciesByImage = new Map();
+/** Row heights in pixels, as the row components set them (`h-26`, `h-18.5`, `h-37.5` up to `lg:h-55`). */
+const ROW_HEIGHT = { year: 104, month: 74, images: { 2: 150, 4: 190, 5: 220 } } as const;
+
+/** The image archive: every photo by year and month, filtered through the URL. */
+export default function GalleryApp({ initialImages, groups }: GalleryAppProps) {
+  const filters = useUrlState(galleryUrlCodec);
+  const index = useGalleryIndex(initialImages);
+  const species = useLoadable(speciesByImageStore);
+  const wide = useMediaQuery("(min-width: 64rem)");
+  const medium = useMediaQuery("(min-width: 48rem)");
+  const columns = wide ? 5 : medium ? 4 : 2;
+
+  const filtered = filterGalleryImages(
+    index.images,
+    filters,
+    species.status === "ready" ? species.value : noSpecies,
   );
-  const { speciesByImage, speciesTagsLoading } = useGallerySpeciesTags({ query, speciesFilter });
-  const columns = useResponsiveGalleryColumns();
+  const rows = buildGalleryRows(filtered, columns);
 
-  useDismissGalleryHydrationLoader(initialDataLoading);
+  // A ref callback runs again whenever its identity changes, so this one must not change.
+  const start = useCallback(() => startGalleryGrid(initialImages), [initialImages]);
 
-  const gallerySession = useMemo(
-    () =>
-      buildImageGallerySession({
-        images,
-        filters,
-        speciesByImage,
-        groups,
-        columns,
-      }),
-    [images, filters, speciesByImage, groups, columns],
-  );
-
-  const {
-    filtered,
-    rows: galleryRows,
-    highPriorityThumbnailIds,
-    eagerThumbnailIds,
-  } = gallerySession;
-  const peopleCount = filtered.filter(imageShowsPeople).length;
-  const plantCount = filtered.filter(imageShowsPlants).length;
-
-  const galleryVirtualizer = useWindowVirtualizer({
-    count: galleryRows.length,
-    estimateSize: (index) => {
-      const row = galleryRows[index];
-      if (!row) return 220;
-      if (row.type === "year") return 104;
-      if (row.type === "month") return 74;
-      return columns >= 5 ? 220 : columns >= 4 ? 190 : 150;
-    },
-    overscan: 8,
-    scrollMargin: galleryFeedRef.current?.offsetTop ?? 0,
-    getItemKey: (index) => galleryRows[index]?.key ?? index,
-  });
-
-  const virtualItems = galleryVirtualizer.getVirtualItems();
-  const { activeYear, setActiveYear } = useActiveGalleryYear(
-    initialGroups?.years?.[0]?.id ?? "",
-    groups,
-    galleryRows,
-    virtualItems,
-  );
-  const rememberGalleryReturnPoint = useGalleryReturnPoint(
-    !initialDataLoading && fullIndexLoaded,
-    galleryRows,
-  );
-
-  useGalleryUrlState(filters, replaceFilters);
-
-  function jumpToYear(year: string) {
-    if (selectedYear && selectedYear !== year) setFilter("selectedYear", "");
-    setActiveYear(year);
-
-    const index = galleryRows.findIndex((row) => row.year === year);
-    if (index >= 0) {
-      galleryVirtualizer.scrollToIndex(index, { align: "start", behavior: "smooth" });
-      return;
-    }
-
-    setFilter("selectedYear", year);
-    galleryFeedRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  function viewerHref(imageId: string) {
-    return galleryViewerPageUrl({ ...filters, viewerId: imageId });
-  }
-
-  const supplementalLoader = useGracefulLoader(speciesTagsLoading);
+  const setFilters = (change: Partial<GalleryFilters>) => {
+    if (needsSpeciesTags({ ...filters, ...change })) speciesByImageStore.request();
+    updateUrlState(galleryUrlCodec, (current) => ({ ...current, ...change }));
+  };
 
   return (
-    <section className="relative z-10 bg-eggshell pb-20 text-obsidian">
-      {supplementalLoader.shouldRender && (
-        <div
-          className={`site-loader site-loader--controlled${supplementalLoader.isVisible ? " site-loader--visible" : ""}`}
-          role="status"
-          aria-live="polite"
-          aria-label="Beeldarchief laden"
-        >
-          <div className="site-loader__mark" aria-hidden="true"></div>
-          <div className="site-loader__text">
-            <span>Blogarchief Daniël Willaeys</span>
-            <small>beeldarchief laden</small>
-          </div>
-        </div>
-      )}
-
+    <section ref={start} className="relative z-10 bg-eggshell pb-20 text-obsidian">
       <GalleryHeader
-        filteredCount={filtered.length}
-        peopleCount={peopleCount}
-        plantCount={plantCount}
-        sortNewest={sortNewest}
-        onSortNewestChange={(nextSortNewest) => setFilter("sortNewest", nextSortNewest)}
+        images={filtered}
+        loading={index.status === "loading" || species.status === "loading"}
+        sortNewest={filters.sortNewest}
+        onSortNewestChange={(sortNewest) => setFilters({ sortNewest })}
       />
-
-      <div
-        className={cn(
-          layout.container,
-          "grid min-w-0 grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-4 pt-8 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8",
-        )}
+      <YearVirtualList
+        className={cn(layout.container, "grid-cols-rail gap-4 pt-8 md:grid-cols-sidebar md:gap-8")}
+        items={rows}
+        years={groups.years.map((group) => ({
+          year: group.id,
+          label: group.label,
+          count: group.count,
+          firstIndex: rows.findIndex((row) => row.year === group.id),
+        }))}
+        itemKey={(row) => row.key}
+        yearOf={(row) => row.year}
+        estimateSize={(rowIndex) => {
+          const type = rows[rowIndex]?.type ?? "images";
+          return type === "images" ? ROW_HEIGHT.images[columns] : ROW_HEIGHT[type];
+        }}
+        overscan={8}
+        label="Foto's"
+        yearsLabel="Galerie jaren"
+        selector={{
+          currentLabel: "Actief",
+          clearLabel: "Alle",
+          onClear: () => setFilters({ year: null }),
+        }}
+        onSelectMissingYear={(year) => setFilters({ year })}
+        header={
+          <>
+            <GalleryFilterControls
+              filters={filters}
+              themes={groups.themes}
+              hasActiveFilters={hasActiveGalleryFilters(filters)}
+              onChange={setFilters}
+            />
+            {index.status === "error" && (
+              <LoadError
+                className="py-5"
+                title="Niet alle foto's zijn geladen."
+                error={index.message}
+                onRetry={() => requestGalleryIndex(initialImages, "low")}
+              />
+            )}
+          </>
+        }
       >
-        <YearSelector
-          items={groups.years.map((item) => ({
-            year: item.id,
-            label: item.label,
-            count: item.count,
-          }))}
-          activeYear={activeYear}
-          currentLabel="Actief"
-          ariaLabel="Galerie jaren"
-          className="min-w-0"
-          onSelect={jumpToYear}
-          onClear={() => setFilter("selectedYear", "")}
-          clearLabel="Alle"
-        />
-
-        <main className="min-w-0 overflow-visible">
-          <GalleryFilterControls
-            groups={groups}
-            hasActiveFilters={hasActiveFilters}
-            query={query}
-            season={season}
-            theme={theme}
-            onQueryChange={(nextQuery) => setFilter("query", nextQuery)}
-            onReset={resetFilters}
-            onSeasonChange={(nextSeason) => setFilter("season", nextSeason)}
-            onThemeChange={(nextTheme) => setFilter("theme", nextTheme)}
-          />
-
-          <GalleryVirtualFeed
-            columns={columns}
-            eagerThumbnailIds={eagerThumbnailIds}
-            feedRef={galleryFeedRef}
-            groups={groups}
-            highPriorityThumbnailIds={highPriorityThumbnailIds}
-            rows={galleryRows}
-            scrollMargin={galleryVirtualizer.options.scrollMargin}
-            totalSize={galleryVirtualizer.getTotalSize()}
-            virtualItems={virtualItems}
-            viewerHref={viewerHref}
-            onRememberReturnPoint={rememberGalleryReturnPoint}
-          />
-        </main>
-      </div>
+        {(row) =>
+          row.type === "year" ? (
+            <GalleryYearHeading
+              year={row.year}
+              count={groups.years.find((group) => group.id === row.year)?.count}
+            />
+          ) : row.type === "month" ? (
+            <GalleryMonthHeading label={row.label} count={row.count} />
+          ) : (
+            <GalleryImageRow images={row.images} offset={row.offset} filters={filters} />
+          )
+        }
+      </YearVirtualList>
     </section>
   );
 }

@@ -22,17 +22,20 @@
     "react/react-in-jsx-scope": "off",
     "import/no-unassigned-import": "off",
     "react/button-has-type": "error",
-    "react/set-state-in-effect": "warn",
-    "react/refs": "warn",
-    "react/purity": "warn",
-    "react/immutability": "warn",
+    "react/set-state-in-effect": "error",
+    "react/refs": "error",
+    "react/purity": "error",
+    "react/immutability": "error",
+    "typescript/ban-ts-comment": "error",
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-assertion": "error",
     "react/incompatible-library": "warn",
     "jsx-a11y/prefer-tag-over-role": "warn",
     "jsx-a11y/label-has-associated-control": "warn",
     "jsx-a11y/no-noninteractive-element-interactions": "warn",
     "jsx-a11y/no-autofocus": "warn",
     "jsx-a11y/click-events-have-key-events": "warn",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "error",
     "shadcn/no-restyle": [
       "warn",
       {
@@ -110,12 +113,20 @@
     },
     {
       "files": [
-        "apps/site/src/components/map/**",
-        "apps/site/src/components/hand-drawn-bg.tsx"
+        "apps/site/src/components/map/**"
       ],
       "rules": {
         "shadcn/no-arbitrary-values": "off",
         "shadcn/no-inline-styles": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.test.ts",
+        "**/*.test.tsx"
+      ],
+      "rules": {
+        "typescript/no-non-null-assertion": "off"
       }
     }
   ]

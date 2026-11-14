@@ -9,6 +9,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@wilhalla/ui/components/command";
+import { MobileMenu } from "@wilhalla/ui/components/mobile-menu";
 import {
   Dialog,
   DialogClose,
@@ -50,14 +51,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@wilhalla/ui/components/tooltip";
-import { Shuffle } from "lucide-react";
+import { CalendarDays, Shuffle, UsersRound } from "lucide-react";
 
 import { Example, Examples, type Story } from "./story";
 
 export const overlayStory: Story = {
   id: "overlays",
   title: "Dialog · Sheet · Popover · Tooltip · DropdownMenu",
-  source: "@wilhalla/ui/components/{dialog,sheet,popover,tooltip,dropdown-menu}",
+  source: "@wilhalla/ui/components/{dialog,sheet,mobile-menu,popover,tooltip,dropdown-menu}",
   description: "Click or hover the triggers; Escape closes. These open in a portal over the page.",
   render: () => (
     <Examples>
@@ -77,6 +78,30 @@ export const overlayStory: Story = {
               </DialogClose>
               <Button>Kopieer link</Button>
             </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </Example>
+      <Example label="MobileMenu">
+        <MobileMenu
+          brand="Wilhalla"
+          items={[
+            { href: "#overlays", label: "Over ons", icon: <UsersRound strokeWidth={1.3} /> },
+            { href: "#overlays", label: "Agenda", icon: <CalendarDays strokeWidth={1.3} /> },
+          ]}
+        >
+          <Button>Contact</Button>
+        </MobileMenu>
+      </Example>
+      <Example label="Dialog (screen)">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Open diashow</Button>
+          </DialogTrigger>
+          <DialogContent variant="screen">
+            <DialogHeader className="m-auto">
+              <DialogTitle>Diashow</DialogTitle>
+              <DialogDescription>Vult het scherm in zwart; Escape sluit.</DialogDescription>
+            </DialogHeader>
           </DialogContent>
         </Dialog>
       </Example>
