@@ -1,4 +1,5 @@
 import { CalendarDay } from "@/components/agenda/calendar-day";
+import { MonthDayList } from "@/components/agenda/month-day-list";
 import { siteConfig } from "@/config";
 import {
   type Agenda,
@@ -27,70 +28,65 @@ const monthLink = {
 
 export function MonthCalendar({ agenda, month }: { agenda: Agenda; month: Month }) {
   return (
-    <div className="overflow-hidden rounded-2xl bg-card shadow-subtle-7 md:rounded-3xl">
-      <div className="flex flex-col gap-5 border-b border-chalk px-4 py-4 md:px-6">
-        <Button asChild variant="outline" className="self-end">
-          <a href={labels.calendarGoogleUrl} target="_blank" rel="noreferrer">
-            {labels.openInGoogleLabel}
-          </a>
-        </Button>
-
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-2">
-            <Button asChild variant="outline">
-              <Link {...monthLink} search={{ maand: monthOf(agenda.today) }}>
-                {labels.todayLabel}
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="icon">
-              <Link
-                {...monthLink}
-                search={{ maand: addMonths(month, -1) }}
-                aria-label={labels.previousMonthLabel}
-              >
-                <ChevronLeft />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="icon">
-              <Link
-                {...monthLink}
-                search={{ maand: addMonths(month, 1) }}
-                aria-label={labels.nextMonthLabel}
-              >
-                <ChevronRight />
-              </Link>
-            </Button>
-          </div>
-          <h3 className={typography.heading}>{formatMonth(month)}</h3>
+    <section aria-labelledby="agenda-month">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+        <h2 id="agenda-month" className={typography.subsection}>
+          {formatMonth(month)}
+        </h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline" size="icon">
+            <Link
+              {...monthLink}
+              search={{ maand: addMonths(month, -1) }}
+              aria-label={labels.previousMonthLabel}
+            >
+              <ChevronLeft />
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link {...monthLink} search={{ maand: monthOf(agenda.today) }}>
+              {labels.todayLabel}
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="icon">
+            <Link
+              {...monthLink}
+              search={{ maand: addMonths(month, 1) }}
+              aria-label={labels.nextMonthLabel}
+            >
+              <ChevronRight />
+            </Link>
+          </Button>
+          <Button asChild variant="ghost">
+            <a href={labels.calendarGoogleUrl} target="_blank" rel="noreferrer">
+              <img src="/icons/google-calendar.svg" alt="" className="size-4" />
+              {labels.openInGoogleLabel}
+            </a>
+          </Button>
         </div>
       </div>
 
-      <div className="bg-powder p-2 md:p-4">
-        <div className="overflow-x-auto overscroll-x-contain rounded-lg bg-card shadow-subtle">
-          <div className="grid min-w-205 grid-cols-7">
-            {labels.weekdays.map((weekday) => (
-              <div
-                key={weekday}
-                className={cn(
-                  typography.small,
-                  "border-b border-chalk bg-eggshell px-2 py-3 text-center text-gravel",
-                )}
-              >
-                {weekday}
-              </div>
-            ))}
-            {monthGridDays(month).map((day) => (
-              <CalendarDay
-                key={day}
-                day={day}
-                events={eventsOn(agenda.events, day)}
-                today={day === agenda.today}
-                outsideMonth={monthOf(day) !== month}
-              />
-            ))}
+      <MonthDayList agenda={agenda} month={month} />
+
+      <div className="hidden grid-cols-7 border-t border-l border-chalk md:grid">
+        {labels.weekdays.map((weekday) => (
+          <div
+            key={weekday}
+            className={cn(typography.caption, "border-r border-b border-chalk px-2 py-1.5")}
+          >
+            {weekday}
           </div>
-        </div>
+        ))}
+        {monthGridDays(month).map((day) => (
+          <CalendarDay
+            key={day}
+            day={day}
+            events={eventsOn(agenda.events, day)}
+            today={day === agenda.today}
+            outsideMonth={monthOf(day) !== month}
+          />
+        ))}
       </div>
-    </div>
+    </section>
   );
 }

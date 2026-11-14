@@ -1,6 +1,5 @@
 import { MonthCalendar } from "@/components/agenda/month-calendar";
 import { UpcomingEvents } from "@/components/agenda/upcoming-events";
-import { MarkdownContent } from "@/components/markdown-content";
 import { getPage } from "@/content/pages";
 import { initialMonth, upcomingEvents } from "@/modules/agenda-calendar";
 import { getRouteApi } from "@tanstack/react-router";
@@ -18,8 +17,7 @@ export function AgendaPage() {
     <>
       <PageHeader title={page.title} intro={page.intro} />
       <PageBody>
-        <MarkdownContent html={page.html} />
-        <div className="mt-12 flex flex-col gap-6">
+        <div className="flex flex-col gap-12">
           <UpcomingEvents events={upcomingEvents(agenda)} />
           <MonthCalendar agenda={agenda} month={maand ?? initialMonth(agenda)} />
         </div>

@@ -436,6 +436,11 @@ export function formatMonth(month: Month) {
   return formatDay(`${month}-01`, { month: "long", year: "numeric" });
 }
 
+/** "za 14": a day inside a month that is already named. */
+export function formatDayLabel(day: Day) {
+  return formatDay(day, { weekday: "short", day: "numeric" });
+}
+
 export function formatEventDate({ firstDay, startTime }: AgendaEvent) {
   const date = formatDay(firstDay, { weekday: "short", day: "numeric", month: "long" });
 

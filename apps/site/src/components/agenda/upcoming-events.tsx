@@ -8,35 +8,39 @@ const labels = siteConfig.agenda;
 
 export function UpcomingEvents({ events }: { events: AgendaEvent[] }) {
   return (
-    <aside className="flex flex-col overflow-hidden rounded-2xl bg-card shadow-subtle-7 lg:flex-row">
-      <div className="border-b border-chalk px-5 py-4 lg:w-70 lg:shrink-0 lg:border-r lg:border-b-0 lg:px-6 lg:py-5">
-        <p className={typography.eyebrow}>{labels.upcomingEyebrow}</p>
-        <h2 className={cn(typography.heading, "mt-1")}>{labels.upcomingTitle}</h2>
-      </div>
+    <section aria-labelledby="agenda-upcoming">
+      <h2 id="agenda-upcoming" className={cn(typography.subsection, "mb-4")}>
+        {labels.upcomingTitle}
+      </h2>
       {events.length > 0 ? (
-        <div className="grid min-w-0 flex-1 gap-3 p-4 md:grid-cols-cards md:p-5">
+        <ul className="m-0 list-none divide-y divide-chalk border-y border-chalk p-0">
           {events.slice(0, labels.maxUpcomingEvents).map((event) => (
-            <article key={event.id} className="rounded-2xl border border-chalk bg-eggshell p-4">
-              <p className={typography.eyebrow}>{formatEventDate(event)}</p>
-              <h3 className={cn(typography.body, "m-0 mt-2 text-obsidian")}>{event.title}</h3>
-              {event.location && (
-                <p className={cn(typography.small, "m-0 mt-2 text-gravel")}>{event.location}</p>
-              )}
+            <li
+              key={event.id}
+              className="flex flex-col gap-x-6 gap-y-1 py-4 md:flex-row md:items-baseline"
+            >
+              <span className={cn(typography.small, "shrink-0 text-gravel tabular-nums md:w-56")}>
+                {formatEventDate(event)}
+              </span>
+              <div className="min-w-0 flex-1">
+                <h3 className={cn(typography.body, "m-0 text-obsidian")}>{event.title}</h3>
+                {event.location && (
+                  <p className={cn(typography.small, "m-0 text-gravel")}>{event.location}</p>
+                )}
+              </div>
               {event.url && (
-                <Button asChild variant="outline" className="mt-4">
+                <Button asChild variant="link" size="inline" className="self-start md:self-auto">
                   <a href={event.url} target="_blank" rel="noreferrer">
                     {labels.moreInfoLabel}
                   </a>
                 </Button>
               )}
-            </article>
+            </li>
           ))}
-        </div>
+        </ul>
       ) : (
-        <p className={cn(typography.small, "m-0 min-w-0 flex-1 p-5 text-gravel")}>
-          {labels.noUpcomingEventsText}
-        </p>
+        <p className={cn(typography.small, "m-0 text-gravel")}>{labels.noUpcomingEventsText}</p>
       )}
-    </aside>
+    </section>
   );
 }
