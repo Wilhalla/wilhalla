@@ -21,7 +21,7 @@ An app's own `AGENTS.md` adds app-specific rules; it can tighten these rules, ne
 | `apps/<app>/` | One directory per product. Components inside keep their names.                |
 | `packages/`   | Shared TypeScript packages: `@wilhalla/ui` (theme + shadcn/ui components).    |
 | `infra/`      | Infrastructure that is not an app (empty for now).                            |
-| `tools/`      | Repo tooling: CI check script, git hooks, the one-time migration script.      |
+| `tools/`      | Repo tooling: CI check script, React Compiler check, git hooks.               |
 | `docs/`       | How the monorepo works (`monorepo.md`).                                       |
 
 | App          | What                                                      | Stack                    | Deploys to |
@@ -49,8 +49,8 @@ Each app's justfile keeps the standard recipes `setup`, `dev`, `test`, `check`, 
 - One pnpm workspace (`pnpm-workspace.yaml`), one `pnpm-lock.yaml`. **Every** external version
   lives in the workspace catalog; packages declare `"react": "catalog:"`. Upgrading a version in
   the catalog upgrades every app that uses it, in one commit; `just check` shows what broke.
-- A deliberate second major goes in a named catalog (`catalog:astro` keeps Vite 7 for Astro 6).
-  Pay it down by moving the app to the default version and deleting the named entry.
+- A deliberate second major would go in a named catalog; there is none today. If one is added,
+  pay it down by moving the app to the default version and deleting the named entry.
 - Add a dependency: put its version in the catalog, then `pnpm --filter @wilhalla/<app> add
   <dep>@catalog:`. Never run `npm`, `yarn`, `bun` or `nub` installs here.
 - Node and pnpm are pinned in `package.json#devEngines` (pnpm downloads them). Do not add a

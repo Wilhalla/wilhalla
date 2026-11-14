@@ -29,9 +29,8 @@ version is installed once.
 
 Exceptions are explicit:
 
-- **Named catalogs** for a second major an app cannot leave yet. `catalogs.astro` holds Vite 7,
-  because Astro 6 bundles Vite 7 and `@tailwindcss/vite` in `apps/fruit` must resolve the same
-  Vite as Astro (with the site's Vite 8 it fails with `Missing field tsconfigPaths`).
+- **Named catalogs** for a second major an app cannot leave yet. There is none today: both apps
+  run the same Vite.
 - **Exact pins** in the catalog (`@tanstack/react-start`, `nitro`, `recharts`) are deliberate;
   the TanStack packages move together, with `@tanstack/start-server-core` held by an override.
 - `trustPolicyExclude` lists the few old releases that lost npm provenance but are known good.
