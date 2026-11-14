@@ -27,7 +27,7 @@ An app's own `AGENTS.md` adds app-specific rules; it can tighten these rules, ne
 | App          | What                                                      | Stack                    | Deploys to |
 | ------------ | --------------------------------------------------------- | ------------------------ | ---------- |
 | `apps/site`  | Public website www.wilhalla.be, with Sveltia CMS          | TanStack Start, Vite     | Vercel     |
-| `apps/fruit` | Seniorennet fruit blog archive (fruit.janpeterdhalle.com) | Astro (static)           | Vercel     |
+| `apps/fruit` | Seniorennet fruit blog archive (fruit.wilhalla.be) | Astro (static)           | Vercel     |
 | `apps/playground` | Every `@wilhalla/ui` component in all variants and states | Vite, React     | local only |
 
 ## Commands

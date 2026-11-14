@@ -10,7 +10,7 @@ const siteUrl =
   process.env.SITE_URL ||
   (deploymentHost
     ? `https://${deploymentHost.replace(/^https?:\/\//i, "")}`
-    : "https://fruit.janpeterdhalle.com");
+    : "https://fruit.wilhalla.be");
 
 export default defineConfig({
   // The "Atlas" page was renamed; keep old links working.

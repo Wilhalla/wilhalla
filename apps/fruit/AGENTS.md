@@ -1,6 +1,6 @@
 # Seniorennet fruit archive (`apps/fruit`)
 
-Static Astro site that preserves Daniël Willaeys' Seniorennet fruit blog (fruit.janpeterdhalle.com).
+Static Astro site that preserves Daniël Willaeys' Seniorennet fruit blog (fruit.wilhalla.be).
 The root `AGENTS.md` applies; this file only adds what is specific to the archive.
 
 ## Commands
