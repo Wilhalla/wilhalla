@@ -202,7 +202,7 @@
    * Motion: one duration per role, exits shorter than entrances, named easings. Use
    * `transition-<properties> duration-<role> ease-<curve>`, never `transition-all`.
    */
-  --transition-duration-hover: 150ms; /* pointer feedback: colour, underline, small lifts, press */
+  --transition-duration-hover: 150ms; /* pointer feedback: colour and underline; controls do not move on hover or press */
   --transition-duration-enter: 200ms; /* popovers, menus, dialogs, a card fading in */
   --transition-duration-exit: 150ms; /* the same leaving */
   --transition-duration-reveal: 400ms; /* larger content arriving: menu links, the map hint */

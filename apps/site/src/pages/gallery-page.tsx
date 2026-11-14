@@ -24,7 +24,7 @@ export function GalleryPage() {
               <li key={image.image} className="mb-4 list-none break-inside-avoid">
                 <a
                   href={image.image}
-                  className="group block overflow-hidden rounded-image no-underline transition-transform duration-hover ease-out motion-safe:hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-obsidian"
+                  className="group block overflow-hidden rounded-image no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-obsidian"
                   aria-label={`Open foto ${index + 1} groot: ${alt}`}
                 >
                   <img
