@@ -20,7 +20,7 @@ export default function SiteMobileMenu() {
             src="/apple-assets/apple-1-96.webp"
             alt=""
           />
-          Daniël Willaeys
+          Daniel Willaeys
         </>
       }
       items={items}

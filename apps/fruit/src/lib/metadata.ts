@@ -1,8 +1,8 @@
 import { ensureTrailingSlash, envString, withScheme } from "./sitePaths";
 
-export const siteName = "Blogarchief Daniël Willaeys";
+export const siteName = "Blogarchief Daniel Willaeys";
 export const defaultDescription =
-  "Bewaarde berichten, foto’s en reacties uit het blogarchief van Daniël Willaeys.";
+  "Bewaarde berichten, foto’s en reacties uit het blogarchief van Daniel Willaeys.";
 export const defaultSocialImage = "/og-default.png";
 
 function normalizeBasePath(basePath: string) {
